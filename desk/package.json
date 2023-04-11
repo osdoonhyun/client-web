@@ -6,19 +6,40 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "generate": "graphql-codegen"
   },
   "dependencies": {
-    "next": "13.3.0",
+    "@apollo/client": "^3.7.11",
+    "@chakra-ui/react": "^2.5.5",
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
+    "@hookform/resolvers": "^3.0.1",
+    "apollo-upload-client": "^17.0.0",
+    "dompurify": "^3.0.1",
+    "dotenv": "^16.0.3",
+    "framer-motion": "^10.11.4",
+    "graphql": "^16.6.0",
+    "graphql-request": "^5.2.0",
+    "next": "12.3.0",
+    "prettier": "^2.8.7",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-quill": "^2.0.0",
+    "recoil": "^0.7.7",
+    "yup": "^1.0.2"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^3.3.0",
+    "@graphql-codegen/typescript": "^3.0.3",
+    "@types/apollo-upload-client": "^17.0.2",
+    "@types/dompurify": "^3.0.1",
     "@types/node": "18.15.11",
-    "@types/react": "18.0.34",
+    "@types/react": "^18.0.34",
     "@types/react-dom": "18.0.11",
     "eslint": "8.38.0",
     "eslint-config-next": "13.3.0",
-    "typescript": "5.0.4"
+    "eslint-config-prettier": "^8.8.0",
+    "typescript": "^5.0.4"
   }
 }
