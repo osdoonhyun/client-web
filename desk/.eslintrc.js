@@ -1,20 +1,20 @@
 module.exports = {
   env: {
     browser: true,
-    es2021: true
+    es2021: true,
   },
   extends: [
     'plugin:react/recommended',
     'plugin:@next/next/recommended',
     // "standard-with-typescript",
-    'prettier'
+    'prettier',
   ],
   overrides: [],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     project: '**/tsconfig.json',
     ecmaVersion: 'latest',
-    sourceType: 'module'
+    sourceType: 'module',
   },
   plugins: ['react'],
   ignorePatterns: ['src/commons/types/generated/types.ts'],
@@ -29,8 +29,7 @@ module.exports = {
     'no-new-object': 'error',
     'no-var': 'error',
     'no-array-constructor': 'error',
-    'array-bracket-spacing': ['error', 'never'],
-    'comma-spacing': ['error', {before: false, after: true}],
-    'key-spacing': ['error', {beforeColon: false}]
-  }
+    'comma-spacing': ['error', { before: false, after: true }],
+    'key-spacing': ['error', { beforeColon: false }],
+  },
 }
