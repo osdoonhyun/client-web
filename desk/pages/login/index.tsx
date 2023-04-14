@@ -1,7 +1,5 @@
-export default function Login() {
-	return (
-		<div>
-			hello
-		</div>
-	)
+import LoginContainer from "@/src/components/units/logIn/Login.container";
+
+export default function LoginPage() {
+	return <LoginContainer />
 }
