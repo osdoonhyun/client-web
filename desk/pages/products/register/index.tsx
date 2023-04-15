@@ -1,4 +1,4 @@
-import ProductRegister from '@/src/components/units/boards/register/Register.container'
+import ProductRegister from '@/src/components/units/products/register/Register.container'
 
 export default function ProductRegisterPage() {
   return <ProductRegister />
