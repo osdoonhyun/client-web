@@ -46,6 +46,7 @@ export default function FileUpload(props: FileUploadProps) {
             src={imageUrl ?? ''}
             width={props.width}
             height={props.width}
+            borderRadius={'10px'}
             objectFit="cover"
             cursor={'pointer'}
             onClick={onClickUpload}
@@ -56,6 +57,7 @@ export default function FileUpload(props: FileUploadProps) {
             h={props.height}
             bgColor="dGray.light"
             boxShadow="base"
+            borderRadius={'10px'}
             cursor={'pointer'}
             onClick={onClickUpload}>
             <UploadOutlined style={{ fontSize: 30 }} />
@@ -86,9 +88,10 @@ export default function FileUpload(props: FileUploadProps) {
         type="file"
         accept="image/png, image/jpeg, image/jpg"
         ref={fileRef}
-        display={'none'}
+        hidden={true}
         onChange={onChangeFile}
       />
+      {props.children}
     </>
   )
 }
