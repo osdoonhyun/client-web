@@ -1,11 +1,8 @@
 import { UseFormReturn } from 'react-hook-form'
 import * as yup from 'yup'
 
-export type ProductRegisterInputForm = {
-  title: string | undefined
-  deskIntroduce: string | undefined
-  deskRecommendItem: string | undefined
-  hashTag: string | undefined
+export type ProductRegisterProps = {
+  isEdit: boolean
 }
 
 export type ProductRegisterUIProps = {
@@ -13,6 +10,13 @@ export type ProductRegisterUIProps = {
   useForm: UseFormReturn<ProductRegisterInputForm, any>
   onChangeFileUrls: (fileUrl: string, index: number) => void
   onClickSubmit: (data: ProductRegisterInputForm) => void
+}
+
+export type ProductRegisterInputForm = {
+  title: string | undefined
+  deskIntroduce: string | undefined
+  deskRecommendItem: string | undefined
+  hashTag: string | undefined
 }
 
 export const productRegisterSchema = yup.object({
