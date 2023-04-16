@@ -1,10 +1,12 @@
-import ProductRegisterUI from './Register.presenter'
+import { yupResolver } from '@hookform/resolvers/yup'
 import { useCallback } from 'react'
 import { useForm } from 'react-hook-form'
-import { ProductRegisterInputForm } from './Register.types'
+import ProductRegisterUI from './Register.presenter'
+import { ProductRegisterInputForm, productRegisterSchema } from './Register.types'
 
 export default function ProductRegister() {
   const useFormReturn = useForm<ProductRegisterInputForm>({
+    resolver: yupResolver(productRegisterSchema),
     mode: 'onSubmit',
     defaultValues: {
       title: '',

@@ -1,4 +1,5 @@
 import { UseFormReturn } from 'react-hook-form'
+import * as yup from 'yup'
 
 export type ProductRegisterInputForm = {
   title: string | undefined
@@ -8,7 +9,16 @@ export type ProductRegisterInputForm = {
 }
 
 export type ProductRegisterUIProps = {
+  isEdit: boolean
   useForm: UseFormReturn<ProductRegisterInputForm, any>
   onChangeFileUrls: (fileUrl: string, index: number) => void
   onClickSubmit: (data: ProductRegisterInputForm) => void
 }
+
+export const productRegisterSchema = yup.object({
+  title: yup.string().required('제목을 입력해주세요.'),
+  deskIntroduce: yup
+    .string()
+    .max(500, '최대 500자까지 입력 가능합니다.')
+    .required('책상을 자랑해주세요.'),
+})

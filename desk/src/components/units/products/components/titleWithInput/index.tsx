@@ -8,7 +8,7 @@ export default function TitleWithInput(props: TitleWithInputProps) {
       <Text fontSize={16} fontWeight={700} color={'dGray.dark'} mb="8px">
         {props.title}
         {props.isRequired && (
-          <span style={{ color: 'dPrimary', fontSize: '14px' }}>{' *'}</span>
+          <span style={{ color: '#666CFF', fontSize: '14px' }}>{' *'}</span>
         )}
       </Text>
       {props.type === 'input' ? (
