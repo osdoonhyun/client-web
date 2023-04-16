@@ -8,9 +8,9 @@ export type ImageUploadProps = {
 
 function ImageUpload(props: ImageUploadProps) {
   return (
-    <Flex flexDirection={'column'}>
+    <Flex flexDirection={'column'} ml={'-10px'}>
       <Box>
-        <Text fontSize={16} fontWeight={500} ml={'10px'}>
+        <Text fontSize={16} fontWeight={700} color={'dGray.dark'} mb="8px" ml={'10px'}>
           {}님의 책상 사진을 업로드 해주세요.
         </Text>
       </Box>
