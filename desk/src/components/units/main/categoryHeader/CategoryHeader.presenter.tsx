@@ -1,8 +1,5 @@
 import { Container, Text } from '@chakra-ui/react'
-
-type CategoryHeaderUIProps = {
-  categoryTitle: string
-}
+import { CategoryHeaderUIProps } from './CategoryHeader.types'
 
 export default function CategoryHeaderUI({ categoryTitle }: CategoryHeaderUIProps) {
   return (
