@@ -13,9 +13,14 @@ import { ReactNode } from 'react'
 const Logo = (props: any) => {
   return (
     <>
-      <Text as="b" fontSize="30px" color="dPimary">
+      <Text as="b" fontSize="30px" color="dPrimary">
         dechaive
-        <Text as="b" fontSize="50px" color="dPimary" marginLeft="5px" marginBottom="50px">
+        <Text
+          as="b"
+          fontSize="50px"
+          color="dPrimary"
+          marginLeft="5px"
+          marginBottom="50px">
           .
         </Text>
       </Text>

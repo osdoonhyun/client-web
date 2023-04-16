@@ -30,8 +30,8 @@ export default function UserUI() {
               <Button
                 alignItems="center"
                 textAlign="center"
-                color="dPimary"
-                borderColor="dPimary"
+                color="dPrimary"
+                borderColor="dPrimary"
                 variant="outline"
                 w="96px"
                 h="16px"
@@ -51,7 +51,7 @@ export default function UserUI() {
               </Link>
             </Flex>
             <Tabs mt="auto" colorScheme="purple">
-              {/* colorScheme 속성에 dPimary가 적용 안됨 */}
+              {/* colorScheme 속성에 dPrimary가 적용 안됨 */}
               <TabList>
                 <Tab w="160px" h="28px" py="25px" fontSize="18px" fontWeight="700">
                   게시물
@@ -78,7 +78,7 @@ export default function UserUI() {
               mt="28px"
               w="126px"
               h="48px"
-              bg="dPimary"
+              bg="dPrimary"
               color="white"
               fontSize="18px"
               fontWeight="600">

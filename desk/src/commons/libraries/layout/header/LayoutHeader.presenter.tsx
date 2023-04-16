@@ -23,12 +23,12 @@ const Logo = (props: any) => {
   return (
     <>
       <Box mb={4} ml={5}>
-        <Text as="b" fontSize="30px" color="dPimary">
+        <Text as="b" fontSize="30px" color="dPrimary">
           dechaive
           <Text
             as="b"
             fontSize="50px"
-            color="dPimary"
+            color="dPrimary"
             marginLeft="5px"
             marginBottom="50px">
             .
