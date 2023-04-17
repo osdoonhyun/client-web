@@ -3,6 +3,7 @@ import LayoutFooter from '@/src/commons/libraries/layout/footer/LayoutFooter.con
 import Best from '@/src/components/units/main/best/Best.container'
 import Recent from '@/src/components/units/main/recent/Recent.container'
 import Youtube from '@/src/components/units/main/youtube/Youtube.container'
+import ProductsRegisterButton from '@/src/components/units/main/productsRegisterButton'
 
 export default function MainPage() {
   return (
@@ -11,6 +12,7 @@ export default function MainPage() {
       <Best />
       <Recent />
       <Youtube />
+      <ProductsRegisterButton />
       <LayoutFooter />
     </>
   )
