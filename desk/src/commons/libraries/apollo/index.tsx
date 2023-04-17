@@ -1,6 +1,7 @@
 import { ApolloClient, ApolloLink, ApolloProvider, InMemoryCache } from '@apollo/client'
 import { createUploadLink } from 'apollo-upload-client'
 import { ReactNode } from 'react'
+import * as process from "process";
 
 type ApolloSettingProps = {
   children: ReactNode
@@ -10,7 +11,7 @@ const cache = new InMemoryCache()
 
 export default function ApolloSetting(props: ApolloSettingProps) {
   const uploadLink = createUploadLink({
-    uri: '',
+    uri: process.env.NEXT_PUBLIC_APOLLO_URI,
     headers: {},
     credentials: 'include',
   })
