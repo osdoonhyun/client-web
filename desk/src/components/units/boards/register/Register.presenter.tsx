@@ -4,11 +4,11 @@ import ImageUpload from '../components/imageUpload'
 import ItemLinkInput from '../components/itemLinkInput'
 import JobGroupInput from '../components/jobGroupInput'
 import TitleWithInput from '../components/titleWithInput'
-import { ProductRegisterUIProps } from './Register.types'
+import { BoardsRegisterUIProps } from './Register.types'
 
 const MIN_ITEMS_COUNT = 2
 
-export default function ProductRegisterUI(props: ProductRegisterUIProps) {
+export default function BoardsRegisterUI(props: BoardsRegisterUIProps) {
   return (
     <Flex
       maxW={'900px'}
