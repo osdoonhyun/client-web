@@ -12,12 +12,16 @@ import {
   Tabs,
   TabList,
   Tab,
+  useBoolean,
 } from '@chakra-ui/react'
+import { MdFavoriteBorder, MdFavorite } from 'react-icons/md'
 
 export default function UserUI() {
+  const [like, setLike] = useBoolean()
+
   return (
     <Box h="900px">
-      <Box mx="auto" w="810px" h="900px">
+      <Box mx="auto" maxW="900px" w="810px" h="900px">
         <Flex mt="100px" justify="space-between">
           <Flex direction="column">
             <Flex mt="auto" ml="15px" justify="space-between" align="center">
@@ -33,10 +37,10 @@ export default function UserUI() {
                 color="dPrimary"
                 borderColor="dPrimary"
                 variant="outline"
-                w="96px"
+                w="105px"
                 h="16px"
                 ml="25px"
-                p="11px"
+                py="11px"
                 fontSize="12px"
                 fontWeight="600">
                 프로필 수정하기
@@ -99,36 +103,102 @@ export default function UserUI() {
         </Flex>
 
         <SimpleGrid mt="33px" columns={3} spacing="30px">
-          <Image
-            src="https://bit.ly/dan-abramov"
-            alt="Dan Abramov"
-            bg="dGray"
-            borderRadius="10px"
-          />
-          <Image
-            src="https://bit.ly/dan-abramov"
-            alt="Dan Abramov"
-            bg="dGray"
-            borderRadius="10px"
-          />
-          <Image
-            src="https://bit.ly/dan-abramov"
-            alt="Dan Abramov"
-            bg="dGray"
-            borderRadius="10px"
-          />
-          <Image
-            src="https://bit.ly/dan-abramov"
-            alt="Dan Abramov"
-            bg="dGray"
-            borderRadius="10px"
-          />
-          <Image
-            src="https://bit.ly/dan-abramov"
-            alt="Dan Abramov"
-            bg="dGray"
-            borderRadius="10px"
-          />
+          <Box pos="relative">
+            <Image
+              src="https://bit.ly/dan-abramov"
+              alt="Dan Abramov"
+              bg="dGray"
+              borderRadius="10px"
+            />
+            <Box
+              pos="absolute"
+              zIndex="2"
+              top="88%"
+              left="88%"
+              _hover={
+                like
+                  ? undefined
+                  : {
+                      color: 'dGray.medium',
+                    }
+              }
+              color={like ? 'dRed.400' : '#fff'}
+              onClick={setLike.toggle}>
+              {like ? <MdFavorite size="20px" /> : <MdFavoriteBorder size="20px" />}
+            </Box>
+          </Box>
+          <Box pos="relative">
+            <Image
+              src="https://bit.ly/dan-abramov"
+              alt="Dan Abramov"
+              bg="dGray"
+              borderRadius="10px"
+            />
+            <Box
+              pos="absolute"
+              zIndex="2"
+              top="88%"
+              left="88%"
+              _hover={
+                like
+                  ? undefined
+                  : {
+                      color: 'dGray.medium',
+                    }
+              }
+              color={like ? 'dRed.400' : '#fff'}
+              onClick={setLike.toggle}>
+              {like ? <MdFavorite size="20px" /> : <MdFavoriteBorder size="20px" />}
+            </Box>
+          </Box>
+          <Box pos="relative">
+            <Image
+              src="https://bit.ly/dan-abramov"
+              alt="Dan Abramov"
+              bg="dGray"
+              borderRadius="10px"
+            />
+            <Box
+              pos="absolute"
+              zIndex="2"
+              top="88%"
+              left="88%"
+              _hover={
+                like
+                  ? undefined
+                  : {
+                      color: 'dGray.medium',
+                    }
+              }
+              color={like ? 'dRed.400' : '#fff'}
+              onClick={setLike.toggle}>
+              {like ? <MdFavorite size="20px" /> : <MdFavoriteBorder size="20px" />}
+            </Box>
+          </Box>
+          <Box pos="relative">
+            <Image
+              src="https://bit.ly/dan-abramov"
+              alt="Dan Abramov"
+              bg="dGray"
+              borderRadius="10px"
+            />
+            <Box
+              pos="absolute"
+              zIndex="2"
+              top="88%"
+              left="88%"
+              _hover={
+                like
+                  ? undefined
+                  : {
+                      color: 'dGray.medium',
+                    }
+              }
+              color={like ? 'dRed.400' : '#fff'}
+              onClick={setLike.toggle}>
+              {like ? <MdFavorite size="20px" /> : <MdFavoriteBorder size="20px" />}
+            </Box>
+          </Box>
         </SimpleGrid>
       </Box>
     </Box>
