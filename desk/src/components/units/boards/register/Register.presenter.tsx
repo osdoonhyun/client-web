@@ -5,13 +5,14 @@ import ItemLinkInput from '../components/itemLinkInput'
 import JobGroupInput from '../components/jobGroupInput'
 import TitleWithInput from '../components/titleWithInput'
 import { BoardsRegisterUIProps } from './Register.types'
+import { maxWidth } from '@/src/commons/libraries/layout'
 
 const MIN_ITEMS_COUNT = 2
 
 export default function BoardsRegisterUI(props: BoardsRegisterUIProps) {
   return (
     <Flex
-      maxW={'900px'}
+      maxW={maxWidth.lg}
       direction={'column'}
       justify={'flex-start'}
       align={'stretch'}
