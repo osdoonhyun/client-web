@@ -13,8 +13,12 @@ import {
   TabList,
   Tab,
   useBoolean,
+  Icon,
 } from '@chakra-ui/react'
 import { MdFavoriteBorder, MdFavorite } from 'react-icons/md'
+import { GoPencil } from 'react-icons/go'
+import { BsLink45Deg, BsColumnsGap } from 'react-icons/bs'
+import { GiLaptop } from 'react-icons/gi'
 
 export default function UserUI() {
   const [like, setLike] = useBoolean()
@@ -37,12 +41,15 @@ export default function UserUI() {
                 color="dPrimary"
                 borderColor="dPrimary"
                 variant="outline"
-                w="105px"
+                w="108px"
                 h="16px"
                 ml="25px"
                 py="11px"
                 fontSize="12px"
                 fontWeight="600">
+                <span style={{ padding: '0 2px' }}>
+                  <GoPencil color="dPrimary" />
+                </span>
                 프로필 수정하기
               </Button>
             </Flex>
@@ -50,8 +57,18 @@ export default function UserUI() {
               <Text mb="23px" fontSize="16px" alignItems="center" fontWeight="600">
                 한 줄 소개 :{' '}
               </Text>
-              <Link href="https://chakra-ui.com" isExternal>
-                링크 아이콘 sns link
+
+              <Link href="https://www.example.com" isExternal>
+                <Flex alignItems="center" justifyContent="flex-start">
+                  <Icon as={BsLink45Deg} mr={1} />
+                  <Text>sns 링크로 이동하기</Text>
+                </Flex>
+              </Link>
+              <Link href="https://www.example.com" isExternal>
+                <Flex alignItems="center" justifyContent="flex-start">
+                  <Icon as={BsLink45Deg} mr={1} />
+                  <Text>https://naver.com</Text>
+                </Flex>
               </Link>
             </Flex>
             <Tabs mt="auto" colorScheme="purple">
@@ -95,10 +112,10 @@ export default function UserUI() {
 
         <Flex mt="39px" h="50px">
           <Center width="50%" bg="dGray.medium">
-            게시글
+            <GiLaptop size="45%" /> <BsColumnsGap size="45%" />
           </Center>
           <Center width="50%" bg="dGray.light">
-            좋아요
+            <MdFavoriteBorder size="45%" />
           </Center>
         </Flex>
 
