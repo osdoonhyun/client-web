@@ -1,11 +1,13 @@
-import CaptionCarousel from '../components/carousel'
+import Carousel from '@/src/components/ui/carousel'
 import ProfileHeader from '../components/profileHeader'
+import TagWithCountState from '../components/tagWithCountState'
 
 export default function BoardDetailUI() {
   return (
     <>
       <ProfileHeader />
-      <CaptionCarousel />
+      <Carousel />
+      <TagWithCountState />
     </>
   )
 }
