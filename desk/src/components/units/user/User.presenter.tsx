@@ -20,9 +20,7 @@ import { GoPencil } from 'react-icons/go'
 import { BsLink45Deg, BsColumnsGap } from 'react-icons/bs'
 import { GiLaptop } from 'react-icons/gi'
 
-export default function UserUI() {
-  const [like, setLike] = useBoolean()
-
+export default function UserUI(props: any) {
   return (
     <Box h="900px">
       <Box mx="auto" maxW="900px" w="810px" h="900px">
@@ -109,13 +107,20 @@ export default function UserUI() {
         </Flex>
 
         {/* 게시글, 팔로우, 팔로워 분리 예정 */}
-
         <Flex mt="39px" h="50px">
-          <Center width="50%" bg="dGray.medium">
-            <GiLaptop size="45%" /> <BsColumnsGap size="45%" />
+          <Center
+            width="50%"
+            color={props.showUserPosts ? 'dGray.dark' : 'dGray.medium'}
+            bg={props.showUserPosts ? 'dGray.medium' : 'dGray.light'}>
+            {/* TODO:게시글 버튼 뭐가 나을까요? */}
+            <GiLaptop size="45%" onClick={props.onClickShowUserPosts} />{' '}
+            <BsColumnsGap size="45%" />
           </Center>
-          <Center width="50%" bg="dGray.light">
-            <MdFavoriteBorder size="45%" />
+          <Center
+            width="50%"
+            color={props.showLikedPosts ? 'dGray.dark' : 'dGray.medium'}
+            bg={props.showLikedPosts ? 'dGray.medium' : 'dGray.light'}>
+            <MdFavoriteBorder onClick={props.onClickShowLikedPosts} size="45%" />
           </Center>
         </Flex>
 
@@ -133,15 +138,19 @@ export default function UserUI() {
               top="88%"
               left="88%"
               _hover={
-                like
+                props.isLiked
                   ? undefined
                   : {
                       color: 'dGray.medium',
                     }
               }
-              color={like ? 'dRed.400' : '#fff'}
-              onClick={setLike.toggle}>
-              {like ? <MdFavorite size="20px" /> : <MdFavoriteBorder size="20px" />}
+              color={props.isLiked ? 'dRed.400' : '#fff'}
+              onClick={props.setIsLiked.toggle}>
+              {props.isLiked ? (
+                <MdFavorite size="20px" />
+              ) : (
+                <MdFavoriteBorder size="20px" />
+              )}
             </Box>
           </Box>
           <Box pos="relative">
@@ -157,63 +166,19 @@ export default function UserUI() {
               top="88%"
               left="88%"
               _hover={
-                like
+                props.isLiked
                   ? undefined
                   : {
                       color: 'dGray.medium',
                     }
               }
-              color={like ? 'dRed.400' : '#fff'}
-              onClick={setLike.toggle}>
-              {like ? <MdFavorite size="20px" /> : <MdFavoriteBorder size="20px" />}
-            </Box>
-          </Box>
-          <Box pos="relative">
-            <Image
-              src="https://bit.ly/dan-abramov"
-              alt="Dan Abramov"
-              bg="dGray"
-              borderRadius="10px"
-            />
-            <Box
-              pos="absolute"
-              zIndex="2"
-              top="88%"
-              left="88%"
-              _hover={
-                like
-                  ? undefined
-                  : {
-                      color: 'dGray.medium',
-                    }
-              }
-              color={like ? 'dRed.400' : '#fff'}
-              onClick={setLike.toggle}>
-              {like ? <MdFavorite size="20px" /> : <MdFavoriteBorder size="20px" />}
-            </Box>
-          </Box>
-          <Box pos="relative">
-            <Image
-              src="https://bit.ly/dan-abramov"
-              alt="Dan Abramov"
-              bg="dGray"
-              borderRadius="10px"
-            />
-            <Box
-              pos="absolute"
-              zIndex="2"
-              top="88%"
-              left="88%"
-              _hover={
-                like
-                  ? undefined
-                  : {
-                      color: 'dGray.medium',
-                    }
-              }
-              color={like ? 'dRed.400' : '#fff'}
-              onClick={setLike.toggle}>
-              {like ? <MdFavorite size="20px" /> : <MdFavoriteBorder size="20px" />}
+              color={props.isLiked ? 'dRed.400' : '#fff'}
+              onClick={props.setIsLiked.toggle}>
+              {props.isLiked ? (
+                <MdFavorite size="20px" />
+              ) : (
+                <MdFavoriteBorder size="20px" />
+              )}
             </Box>
           </Box>
         </SimpleGrid>
