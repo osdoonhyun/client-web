@@ -19,8 +19,9 @@ import { MdFavoriteBorder, MdFavorite } from 'react-icons/md'
 import { GoPencil } from 'react-icons/go'
 import { BsLink45Deg, BsColumnsGap } from 'react-icons/bs'
 import { GiLaptop } from 'react-icons/gi'
+import { UserUIProps } from './User.types'
 
-export default function UserUI(props: any) {
+export default function UserUI(props: UserUIProps) {
   return (
     <Box h="900px">
       <Box mx="auto" maxW="900px" w="810px" h="900px">
