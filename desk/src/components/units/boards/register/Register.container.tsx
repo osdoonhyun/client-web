@@ -1,16 +1,16 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useCallback } from 'react'
 import { useForm } from 'react-hook-form'
-import ProductRegisterUI from './Register.presenter'
+import BoardsRegisterUI from './Register.presenter'
 import {
-  ProductRegisterInputForm,
-  ProductRegisterProps,
-  productRegisterSchema,
+  BoardsRegisterInputForm,
+  BoardsRegisterProps,
+  boardsRegisterSchema,
 } from './Register.types'
 
-export default function ProductRegister(props: ProductRegisterProps) {
-  const useFormReturn = useForm<ProductRegisterInputForm>({
-    resolver: yupResolver(productRegisterSchema),
+export default function BoardsRegister(props: BoardsRegisterProps) {
+  const useFormReturn = useForm<BoardsRegisterInputForm>({
+    resolver: yupResolver(boardsRegisterSchema),
     mode: 'onSubmit',
     defaultValues: {
       title: '',
@@ -22,12 +22,12 @@ export default function ProductRegister(props: ProductRegisterProps) {
     console.log(fileUrl)
   }, [])
 
-  const onClickSubmit = useCallback((data: ProductRegisterInputForm) => {
+  const onClickSubmit = useCallback((data: BoardsRegisterInputForm) => {
     console.log(data)
   }, [])
 
   return (
-    <ProductRegisterUI
+    <BoardsRegisterUI
       isEdit={props.isEdit}
       onChangeFileUrls={onChangeFileUrls}
       useForm={useFormReturn}

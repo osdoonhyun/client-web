@@ -1,25 +1,25 @@
 import { UseFormReturn } from 'react-hook-form'
 import * as yup from 'yup'
 
-export type ProductRegisterProps = {
+export type BoardsRegisterProps = {
   isEdit: boolean
 }
 
-export type ProductRegisterUIProps = {
+export type BoardsRegisterUIProps = {
   isEdit: boolean
-  useForm: UseFormReturn<ProductRegisterInputForm, any>
+  useForm: UseFormReturn<BoardsRegisterInputForm, any>
   onChangeFileUrls: (fileUrl: string, index: number) => void
-  onClickSubmit: (data: ProductRegisterInputForm) => void
+  onClickSubmit: (data: BoardsRegisterInputForm) => void
 }
 
-export type ProductRegisterInputForm = {
+export type BoardsRegisterInputForm = {
   title: string | undefined
   deskIntroduce: string | undefined
   deskRecommendItem: string | undefined
   hashTag: string | undefined
 }
 
-export const productRegisterSchema = yup.object({
+export const boardsRegisterSchema = yup.object({
   title: yup.string().required('제목을 입력해주세요.'),
   deskIntroduce: yup
     .string()
