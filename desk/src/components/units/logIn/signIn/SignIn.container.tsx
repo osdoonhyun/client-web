@@ -1,5 +1,5 @@
-import SignInPresenter from "./SignIn.presenter";
+import SignInUi from "./SignIn.presenter";
 
-export default function SignInContainer() {
-	return <SignInPresenter />
+export default function SignIn() {
+	return <SignInUi />
 }

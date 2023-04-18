@@ -20,10 +20,6 @@ import OnClickBtLink from "@/src/components/units/logIn/signIn/atoms/OnClickBtLi
 import {useMutation} from "@apollo/client";
 import {AUTH_EMAIL, CREATE_USER, MATCH_AUTH_NUMBER} from "@/src/components/units/logIn/queries/mutation";
 
-type Props = {
-
-}
-
 export default function SignUpForm() {
 	const [errMsg, setErrMsg] = useState({
 		errText: '',
@@ -31,9 +27,9 @@ export default function SignUpForm() {
 		isEmail: false,
 		verificationText: '',
 		verificationColor: '',
-		isVerify: false,
-		isSubmitBt: false,
-		myPass: ''
+		isVerified: false,
+		isSubmitButton: false,
+		myPassword: ''
 	})
 	const [showPassword, setShowPassword] = useState(false);
 	
@@ -42,7 +38,7 @@ export default function SignUpForm() {
 	const [matchAuthNumber] = useMutation(MATCH_AUTH_NUMBER)
 	const router: NextRouter = useRouter()
 	const myEmail = useRef(null)
-	const myPass = useRef(null)
+	const myPassword = useRef(null)
 	const myAuthNumber = useRef(null)
 	
 	const onClickCertification = async () => {
@@ -51,10 +47,10 @@ export default function SignUpForm() {
 				email: myEmail.current.value
 			}
 		}).then(() => {
-			const msg = '인증할 이메일 확인 후 인증번호 6자리를 입력 해 주세요'
+			const msg = '인증할 이메일 확인 후 인증번호 6자리를 입력해 주세요'
 			setErrMsg({...errMsg, errText: msg, errColor: 'green', isEmail: true})
 		}).catch(() => {
-			const msg = '이미 사용중인 이메일 입니다.'
+			const msg = '이미 사용중인 이메일입니다.'
 			setErrMsg({...errMsg, errText: msg, errColor: 'red'})
 			return
 		})
@@ -70,11 +66,11 @@ export default function SignUpForm() {
 			}
 		})
 			.then(() => {
-				const msg = '인증번호가 일치 합니다.'
-				setErrMsg({...errMsg, verificationText: msg, verificationColor: 'green', isVerify: true})
+				const msg = '인증번호가 일치합니다.'
+				setErrMsg({...errMsg, verificationText: msg, verificationColor: 'green', isVerified: true})
 			})
 			.catch(() => {
-				const msg = '인증번호가 일치 하지 않습니다.'
+				const msg = '인증번호가 일치하지 않습니다.'
 				setErrMsg({...errMsg, verificationText: msg, verificationColor: 'red'})
 			})
 	}
@@ -84,13 +80,13 @@ export default function SignUpForm() {
 			variables: {
 				createUserInput: {
 					email: myEmail.current.value,
-					password: myPass.current.value,
+					password: myPassword.current.value,
 				}
 			}
 		}).then(() => {
 			router.push('/')
 		}).catch(() => {
-			const errMsg = '이미 사용중인 이메일 입니다.'
+			const errMsg = '이미 사용중인 이메일입니다.'
 			setErrMsg({...errMsg, errText: errMsg, errColor: 'red'})
 			return
 		})
@@ -102,9 +98,9 @@ export default function SignUpForm() {
 	const onChangeMyPass = async (e) => {
 		console.log(e.currentTarget.value)
 		if (e.currentTarget.value.length > 7) {
-			setErrMsg({...errMsg, isSubmitBt: true})
+			setErrMsg({...errMsg, isSubmitButton: true})
 		} else {
-			setErrMsg({...errMsg, isSubmitBt: false})
+			setErrMsg({...errMsg, isSubmitButton: false})
 		}
 	}
 	
@@ -121,7 +117,7 @@ export default function SignUpForm() {
 						회원가입
 					</Heading>
 					<Text fontSize={'lg'} color={'gray.600'}>
-						당신의 책상을 자랑하십시요 <Link color={'blue.400'} id={'deca'} onClick={(e) => {OnClickBtLink(e,  router)}}>데카이브</Link> ✌️
+						당신의 책상을 자랑하십시오 <Link color={'blue.400'} id={'deca'} onClick={(e) => {OnClickBtLink(e,  router)}}>데카이브</Link> ✌️
 					</Text>
 				</Stack>
 				<Box
@@ -133,7 +129,7 @@ export default function SignUpForm() {
 							<FormControl id="email" isRequired>
 								<FormLabel>이메일</FormLabel>
 								<Flex gap={4}>
-									<Input ref={myEmail} type="email" placeholder={'이메일을 입력 해 주세요'}/>
+									<Input ref={myEmail} type="email" placeholder={'이메일을 입력해 주세요'}/>
 									<Button
 										onClick={onClickCertification}
 										loadingText="Submitting"
@@ -171,7 +167,7 @@ export default function SignUpForm() {
 							<FormControl id="password" isRequired>
 								<FormLabel>비밀번호</FormLabel>
 								<InputGroup>
-									<Input ref={myPass} onChange={onChangeMyPass} type={showPassword ? 'text' : 'password'} isReadOnly={!errMsg.isVerify} placeholder={'숫자인증 후 비밀번호 입력 가능'}/>
+									<Input ref={myPassword} onChange={onChangeMyPass} type={showPassword ? 'text' : 'password'} isReadOnly={!errMsg.isVerified} placeholder={'숫자인증 후 비밀번호 입력 가능'}/>
 									<InputRightElement h={'full'}>
 										<Button
 											variant={'ghost'}
@@ -189,7 +185,7 @@ export default function SignUpForm() {
 									loadingText="Submitting"
 									size="lg"
 									bg={'blue.400'}
-									isDisabled={!errMsg.isSubmitBt}
+									isDisabled={!errMsg.isSubmitButton}
 									color={'white'}
 									_hover={{
 										bg: 'blue.500',

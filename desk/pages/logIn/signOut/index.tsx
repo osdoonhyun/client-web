@@ -1,5 +1,5 @@
-import SignOutContainer from "@/src/components/units/logIn/signOut/SignOut.container";
+import SignOut from "@/src/components/units/logIn/signOut/SignOut.container";
 
-export default function LogOutPage() {
-	return <SignOutContainer />
+export default function SignOutPage() {
+	return <SignOut />
 }

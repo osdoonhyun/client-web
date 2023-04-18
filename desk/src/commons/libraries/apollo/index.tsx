@@ -1,7 +1,6 @@
 import { ApolloClient, ApolloLink, ApolloProvider, InMemoryCache } from '@apollo/client'
 import { createUploadLink } from 'apollo-upload-client'
 import { ReactNode } from 'react'
-import * as process from "process";
 
 type ApolloSettingProps = {
   children: ReactNode

@@ -25,7 +25,7 @@ export default function LoginForm() {
 	const [myToken, setMyToken] = useRecoilState(MyToken)
 	const [login] = useMutation(LOGIN)
 	const myEmail = useRef(null)
-	const myPass = useRef(null)
+	const myPassword = useRef(null)
 	const [err, setErr] = useState({
 		errEmail: '',
 		errPass: ''
@@ -36,7 +36,7 @@ export default function LoginForm() {
 			variables: {
 				loginInput: {
 					email: myEmail.current?.value,
-					password: myPass.current?.value,
+					password: myPassword.current?.value,
 				}
 			}
 		}).then((result) => {
@@ -79,14 +79,14 @@ export default function LoginForm() {
 							<FormLabel>이메일</FormLabel>
 							<Input type="email"
 							       ref={myEmail}
-								placeholder={'이메일 주소를 입력 해 주세요'}/>
+								placeholder={'이메일 주소를 입력해 주세요'}/>
 							<Text p={4} color={'red'}>{err.errEmail}</Text>
 						</FormControl>
 						<FormControl id="password">
 							<FormLabel>비밀번호</FormLabel>
 							<Input type="password"
-							       ref={myPass}
-								placeholder={'비밀번호를 입력 해 주세요'}/>
+							       ref={myPassword}
+								placeholder={'비밀번호를 입력해 주세요'}/>
 							<Text p={4} color={'red'}>{err.errPass}</Text>
 						</FormControl>
 						<Stack spacing={5}>
@@ -95,7 +95,7 @@ export default function LoginForm() {
 								align={'start'}
 								justify={'space-between'}>
 								<Checkbox>저장하기</Checkbox>
-								<Link color={'blue.400'}>비번찾기</Link>
+								<Link color={'blue.400'}>비밀번호를 잊어버리셨나요?</Link>
 							</Stack>
 							<Button
 								onClick={onClickLoginSubmit}
@@ -107,7 +107,7 @@ export default function LoginForm() {
 								로그인
 							</Button>
 								<Button
-									name='btMemberInvite'
+									name='buttonJoinMember'
 									onClick={(e) => {OnClickBtLink(e,  router)}}
 									bg={'white'}
 									border={'1px'}

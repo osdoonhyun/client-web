@@ -1,7 +1,7 @@
 import {Wrap, WrapItem, Grid, GridItem} from '@chakra-ui/react'
 import LoginForm from "@/src/components/units/logIn/signIn/atoms/LoginForm";
 
-export default function SignInPresenter() {
+export default function SignInUi() {
 	return (
 		<Wrap justify={'center'}>
 			<WrapItem bg={'red.100'} w={'500px'}>
