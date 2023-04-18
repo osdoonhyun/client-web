@@ -4,9 +4,11 @@ import UserUI from './User.presenter'
 
 export default function User() {
   const [isLiked, setIsLiked] = useBoolean()
-  //TODO: 가독성이 좋아서 이렇게 했는데, 하나의 state로 하는게 나을까요?
+
   const [showUserPosts, setShowUserPosts] = useState(true)
   const [showLikedPosts, setShowLikedPosts] = useState(false)
+  // API 받은 후 수정 계획
+  const [isMyPage, setIsMyPage] = useState(true)
 
   const onClickShowUserPosts = () => {
     setShowUserPosts(true)
@@ -19,6 +21,7 @@ export default function User() {
   }
   return (
     <UserUI
+      isMyPage={isMyPage}
       isLiked={isLiked}
       setIsLiked={setIsLiked}
       showUserPosts={showUserPosts}

@@ -3,23 +3,18 @@ import {
   Badge,
   Box,
   Button,
-  Center,
   Flex,
   Image,
   Link,
   SimpleGrid,
   Text,
-  Tabs,
-  TabList,
-  Tab,
-  useBoolean,
   Icon,
 } from '@chakra-ui/react'
 import { MdFavoriteBorder, MdFavorite } from 'react-icons/md'
 import { GoPencil } from 'react-icons/go'
-import { BsLink45Deg, BsColumnsGap } from 'react-icons/bs'
-import { AiOutlineLaptop } from 'react-icons/ai'
+import { BsLink45Deg } from 'react-icons/bs'
 import { UserUIProps } from './User.types'
+import NavigationTab from './components/tabs'
 
 export default function UserUI(props: UserUIProps) {
   return (
@@ -98,20 +93,7 @@ export default function UserUI(props: UserUIProps) {
         </Flex>
 
         {/* 게시글, 팔로우, 팔로워 분리 예정 */}
-        {/* TODO: Tab List를 map형식으로 리팩토링 가능 */}
-        <Tabs mt="auto" colorScheme="purple">
-          <TabList color="dGray.medium">
-            <Tab w={1 / 3} h="28px" py="25px" fontSize="22px" fontWeight="700">
-              <Icon as={BsColumnsGap} mr={1} />
-            </Tab>
-            <Tab w={1 / 3} h="28px" py="25px" fontSize="22px" fontWeight="700">
-              <Icon as={AiOutlineLaptop} mr={1} />
-            </Tab>
-            <Tab w={1 / 3} h="28px" py="25px" fontSize="22px" fontWeight="700">
-              <Icon as={MdFavoriteBorder} mr={1} />
-            </Tab>
-          </TabList>
-        </Tabs>
+        <NavigationTab isMyPage={props.isMyPage} />
 
         <SimpleGrid mt="33px" columns={3} spacing="30px">
           <Box pos="relative">
