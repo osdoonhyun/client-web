@@ -1,4 +1,4 @@
-import { Box, Center, Flex, Spinner, Text, useColorModeValue } from '@chakra-ui/react'
+import { Box, Center, Flex, Text, useColorModeValue } from '@chakra-ui/react'
 import CategoryHeader from '../categoryHeader/CategoryHeader.container'
 import YoutubeImageStyle from '@/src/components/ui/YoutubeImageStyle'
 import { TYoutube } from '@/src/commons/types/generated/types'
@@ -8,16 +8,15 @@ export type YoutubeUIProps = {
   youtubeData: TYoutube[]
 }
 
-export default function YoutubeUI({ youtubeData }: YoutubeUIProps) {
+export default function YoutubeUI(props: YoutubeUIProps) {
   const categoryTitle = '유튜브'
-  const isMoreVisible = false
 
   return (
     <>
-      <CategoryHeader categoryTitle={categoryTitle} isMoreVisible={isMoreVisible} />
+      <CategoryHeader categoryTitle={categoryTitle} isMoreVisible={false} />
       <Center>
         <Flex m={2} pl={'2px'} pr={'2px'} maxWidth="1080px" overflowX="auto">
-          {youtubeData.map((youtube: TYoutube, index: number) => (
+          {props.youtubeData.map((youtube: TYoutube, index: number) => (
             <Box key={youtube.videoUrl} m={2} flexShrink={0}>
               <YoutubeImageStyle src={youtube.thumbnailUrl} alt={youtube.videoUrl} />
               <Flex
