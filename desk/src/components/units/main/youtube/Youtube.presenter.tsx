@@ -13,7 +13,7 @@ export default function YoutubeUI(props: YoutubeUIProps) {
 
   return (
     <>
-      <CategoryHeader categoryTitle={categoryTitle} isMoreVisible={false} />
+      <CategoryHeader categoryTitle={categoryTitle} moreButtonHidden={false} />
       <Center>
         <Flex m={2} pl={'2px'} pr={'2px'} maxWidth="1080px" overflowX="auto">
           {props.youtubeData.map((youtube: TYoutube, index: number) => (

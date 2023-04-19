@@ -3,11 +3,14 @@ import { CategoryHeaderUIProps } from './CategoryHeader.types'
 
 export default function CategoryHeader({
   categoryTitle,
-  isMoreVisible,
+  moreButtonHidden,
 }: CategoryHeaderUIProps) {
   return (
     <>
-      <CategoryHeaderUI categoryTitle={categoryTitle} isMoreVisible={isMoreVisible} />
+      <CategoryHeaderUI
+        categoryTitle={categoryTitle}
+        moreButtonHidden={moreButtonHidden}
+      />
     </>
   )
 }
