@@ -6,7 +6,7 @@ export default function LayoutHeader() {
   const router = useRouter()
 
   const onClickMoveToUser: MouseEventHandler<HTMLButtonElement> = event => {
-    router.push('./user')
+    router.push('/user')
   }
 
   return <LayoutHeaderUI onClickMoveToUser={onClickMoveToUser} />

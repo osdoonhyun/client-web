@@ -10,7 +10,7 @@ export default function Logo(props: LogoProps) {
   const router = useRouter()
 
   const onClickMoveToMain: MouseEventHandler<HTMLDivElement> = event => {
-    router.push('./main')
+    router.push('/main')
   }
   return (
     <Box mb={4} ml={5}>
