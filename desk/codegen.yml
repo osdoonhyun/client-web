@@ -1,7 +1,5 @@
-# schema:
+schema: https://mobomobo.shop/graphql
 generates:
   ./src/commons/types/generated/types.ts:
     plugins:
       - typescript
-    config:
-      typesPrefix: I
