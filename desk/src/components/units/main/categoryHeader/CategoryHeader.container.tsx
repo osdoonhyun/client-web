@@ -1,15 +1,12 @@
 import CategoryHeaderUI from './CategoryHeader.presenter'
 import { CategoryHeaderUIProps } from './CategoryHeader.types'
 
-export default function CategoryHeader({
-  categoryTitle,
-  moreButtonHidden,
-}: CategoryHeaderUIProps) {
+export default function CategoryHeader(props: CategoryHeaderUIProps) {
   return (
     <>
       <CategoryHeaderUI
-        categoryTitle={categoryTitle}
-        moreButtonHidden={moreButtonHidden}
+        categoryTitle={props.categoryTitle}
+        moreButtonHidden={props.moreButtonHidden}
       />
     </>
   )
