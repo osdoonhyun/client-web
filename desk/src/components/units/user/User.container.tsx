@@ -24,7 +24,7 @@ export default function User() {
     <UserUI
       isMyPage={isMyPage}
       isLiked={isLiked}
-      setIsLiked={toggleIsLiked}
+      toggleIsLiked={toggleIsLiked}
       showUserPosts={showUserPosts}
       showLikedPosts={showLikedPosts}
       onClickShowUserPosts={onClickShowUserPosts}

@@ -1,7 +1,7 @@
 export type UserUIProps = {
   isMyPage: boolean
   isLiked: boolean
-  setIsLiked: () => void
+  toggleIsLiked: () => void
   showUserPosts: boolean
   showLikedPosts: boolean
   onClickShowUserPosts: () => void

@@ -144,7 +144,7 @@ export default function UserUI(props: UserUIProps) {
                     }
               }
               color={props.isLiked ? 'dRed.400' : '#fff'}
-              onClick={props.setIsLiked.toggle}>
+              onClick={props.toggleIsLiked}>
               {props.isLiked ? (
                 <MdFavorite size="20px" />
               ) : (
