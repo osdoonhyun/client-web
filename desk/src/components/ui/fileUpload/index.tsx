@@ -1,4 +1,4 @@
-import { UploadOutlined } from '@ant-design/icons'
+import { FiUpload } from 'react-icons/fi'
 import { Avatar, Center, Image, Input } from '@chakra-ui/react'
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { FileUploadProps } from './types'
@@ -60,7 +60,7 @@ export default function FileUpload(props: FileUploadProps) {
             borderRadius={'10px'}
             cursor={'pointer'}
             onClick={onClickUpload}>
-            <UploadOutlined style={{ fontSize: 30 }} />
+            <FiUpload style={{ fontSize: 30 }} />
           </Center>
         )
       ) : imageUrl ? ( // Profile Type
