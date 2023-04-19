@@ -2,6 +2,7 @@ import { UploadOutlined } from '@ant-design/icons'
 import { Avatar, Center, Image, Input } from '@chakra-ui/react'
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { FileUploadProps } from './types'
+import { AiOutlineUpload } from 'react-icons/ai'
 
 const EMPTY_PROFILE_URL = 'https://bit.ly/broken-link'
 
@@ -60,7 +61,7 @@ export default function FileUpload(props: FileUploadProps) {
             borderRadius={'10px'}
             cursor={'pointer'}
             onClick={onClickUpload}>
-            <UploadOutlined style={{ fontSize: 30 }} />
+            <AiOutlineUpload fontSize={30} />
           </Center>
         )
       ) : imageUrl ? ( // Profile Type
