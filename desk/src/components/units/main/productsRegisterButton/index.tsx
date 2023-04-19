@@ -1,6 +1,19 @@
+import styled from '@emotion/styled'
 import { useRouter } from 'next/router'
 import { Button, Container } from '@chakra-ui/react'
-import { BsPencilSquare } from 'react-icons/bs'
+import { BsPencil } from 'react-icons/bs'
+
+const StyledButton = styled(Button)`
+  position: fixed;
+  bottom: 70px;
+  right: 70px;
+
+  @media only screen and (max-width: 768px) {
+    bottom: 7%;
+    right: 50%;
+    transform: translate(50%, 50%);
+  }
+`
 
 export default function ProductsRegisterButton() {
   const router = useRouter()
@@ -9,17 +22,17 @@ export default function ProductsRegisterButton() {
   }
 
   return (
-    <>
-      <Container maxW="1550px" display="flex" justifyContent="end">
-        <Button
-          onClick={onClickMoveToProductsRegister}
-          leftIcon={<BsPencilSquare />}
-          bg="dPrimary"
-          color="white"
-          _hover={{ bg: '#575ce0' }}>
-          내 책상 자랑하기
-        </Button>
-      </Container>
-    </>
+    <Container display="flex" justifyContent="end">
+      <StyledButton
+        onClick={onClickMoveToProductsRegister}
+        bg="dPrimary"
+        color="white"
+        width="55px"
+        height="55px"
+        borderRadius="full"
+        _hover={{ bg: 'dPrimaryHover.dark' }}>
+        <BsPencil size={25} />
+      </StyledButton>
+    </Container>
   )
 }
