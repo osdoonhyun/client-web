@@ -3,31 +3,26 @@ import {
   Badge,
   Box,
   Button,
-  Center,
   Flex,
   Image,
   Link,
   SimpleGrid,
   Text,
-  Tabs,
-  TabList,
-  Tab,
-  useBoolean,
   Icon,
 } from '@chakra-ui/react'
 import { MdFavoriteBorder, MdFavorite } from 'react-icons/md'
 import { GoPencil } from 'react-icons/go'
-import { BsLink45Deg, BsColumnsGap } from 'react-icons/bs'
-import { GiLaptop } from 'react-icons/gi'
+import { BsLink45Deg } from 'react-icons/bs'
 import { UserUIProps } from './User.types'
+import NavigationTab from './components/tabs'
 
 export default function UserUI(props: UserUIProps) {
   return (
     <Box h="900px">
       <Box mx="auto" maxW="900px" w="810px" h="900px">
         <Flex mt="100px" justify="space-between">
-          <Flex direction="column">
-            <Flex mt="auto" ml="15px" justify="space-between" align="center">
+          <Flex direction="column" pos="relative">
+            <Flex ml="15px" justify="space-between" align="center">
               <Text fontSize="24px" fontWeight="700" alignContent="center">
                 책상주인 : 닉네임
                 <Badge mx="3" textTransform="uppercase" alignItems="center">
@@ -70,30 +65,20 @@ export default function UserUI(props: UserUIProps) {
                 </Flex>
               </Link>
             </Flex>
-            <Tabs mt="auto" colorScheme="purple">
-              {/* colorScheme 속성에 dPrimary가 적용 안됨 */}
-              <TabList>
-                <Tab w="160px" h="28px" py="25px" fontSize="18px" fontWeight="700">
-                  게시물
-                </Tab>
-                <Tab w="160px" h="28px" py="25px" fontSize="18px" fontWeight="700">
-                  팔로워
-                </Tab>
-                <Tab w="160px" h="28px" py="25px" fontSize="18px" fontWeight="700">
-                  팔로우
-                </Tab>
-              </TabList>
-            </Tabs>
+
+            <Flex position="absolute" bottom="20px" ml="50px" gap="25px">
+              <Button>팔로워 36</Button>
+              <Button>팔로우 136</Button>
+            </Flex>
           </Flex>
           <Flex mr="34px" direction="column" justify="center" align="center">
-            <Image
+            <Avatar
               borderRadius="full"
               objectFit="cover"
               background="gray.300"
               boxSize="170px"
               src=""
             />
-            {/* <Avatar name="" size="170px" src="" />  아바타로 할지 이미지로 할지 추후 결정 */}
             <Button
               mt="28px"
               w="126px"
@@ -108,22 +93,7 @@ export default function UserUI(props: UserUIProps) {
         </Flex>
 
         {/* 게시글, 팔로우, 팔로워 분리 예정 */}
-        <Flex mt="39px" h="50px">
-          <Center
-            width="50%"
-            color={props.showUserPosts ? 'dGray.dark' : 'dGray.medium'}
-            bg={props.showUserPosts ? 'dGray.medium' : 'dGray.light'}>
-            {/* TODO:게시글 버튼 뭐가 나을까요? */}
-            <GiLaptop size="45%" onClick={props.onClickShowUserPosts} />{' '}
-            <BsColumnsGap size="45%" />
-          </Center>
-          <Center
-            width="50%"
-            color={props.showLikedPosts ? 'dGray.dark' : 'dGray.medium'}
-            bg={props.showLikedPosts ? 'dGray.medium' : 'dGray.light'}>
-            <MdFavoriteBorder onClick={props.onClickShowLikedPosts} size="45%" />
-          </Center>
-        </Flex>
+        <NavigationTab isMyPage={props.isMyPage} />
 
         <SimpleGrid mt="33px" columns={3} spacing="30px">
           <Box pos="relative">
@@ -146,7 +116,7 @@ export default function UserUI(props: UserUIProps) {
                     }
               }
               color={props.isLiked ? 'dRed.400' : '#fff'}
-              onClick={props.setIsLiked.toggle}>
+              onClick={props.toggleIsLiked}>
               {props.isLiked ? (
                 <MdFavorite size="20px" />
               ) : (
@@ -174,7 +144,7 @@ export default function UserUI(props: UserUIProps) {
                     }
               }
               color={props.isLiked ? 'dRed.400' : '#fff'}
-              onClick={props.setIsLiked.toggle}>
+              onClick={props.toggleIsLiked}>
               {props.isLiked ? (
                 <MdFavorite size="20px" />
               ) : (
