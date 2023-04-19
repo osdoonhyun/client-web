@@ -8,12 +8,10 @@ import ProductsRegisterButton from '@/src/components/units/main/productsRegister
 export default function MainPage() {
   return (
     <>
-      <LayoutHeader />
       <Best />
       <Recent />
       <Youtube />
       <ProductsRegisterButton />
-      <LayoutFooter />
     </>
   )
 }
