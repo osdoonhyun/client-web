@@ -3,24 +3,26 @@ import {
   Badge,
   Box,
   Button,
-  Center,
   Flex,
   Image,
   Link,
   SimpleGrid,
   Text,
-  Tabs,
-  TabList,
-  Tab,
+  Icon,
 } from '@chakra-ui/react'
+import { MdFavoriteBorder, MdFavorite } from 'react-icons/md'
+import { GoPencil } from 'react-icons/go'
+import { BsLink45Deg } from 'react-icons/bs'
+import { UserUIProps } from './User.types'
+import NavigationTab from './components/tabs'
 
-export default function UserUI() {
+export default function UserUI(props: UserUIProps) {
   return (
     <Box h="900px">
-      <Box mx="auto" w="810px" h="900px">
+      <Box mx="auto" maxW="900px" w="810px" h="900px">
         <Flex mt="100px" justify="space-between">
-          <Flex direction="column">
-            <Flex mt="auto" ml="15px" justify="space-between" align="center">
+          <Flex direction="column" pos="relative">
+            <Flex ml="15px" justify="space-between" align="center">
               <Text fontSize="24px" fontWeight="700" alignContent="center">
                 책상주인 : 닉네임
                 <Badge mx="3" textTransform="uppercase" alignItems="center">
@@ -33,12 +35,15 @@ export default function UserUI() {
                 color="dPrimary"
                 borderColor="dPrimary"
                 variant="outline"
-                w="96px"
+                w="108px"
                 h="16px"
                 ml="25px"
-                p="11px"
+                py="11px"
                 fontSize="12px"
                 fontWeight="600">
+                <span style={{ padding: '0 2px' }}>
+                  <GoPencil color="dPrimary" />
+                </span>
                 프로필 수정하기
               </Button>
             </Flex>
@@ -46,34 +51,34 @@ export default function UserUI() {
               <Text mb="23px" fontSize="16px" alignItems="center" fontWeight="600">
                 한 줄 소개 :{' '}
               </Text>
-              <Link href="https://chakra-ui.com" isExternal>
-                링크 아이콘 sns link
+
+              <Link href="https://www.example.com" isExternal>
+                <Flex alignItems="center" justifyContent="flex-start">
+                  <Icon as={BsLink45Deg} mr={1} />
+                  <Text>sns 링크로 이동하기</Text>
+                </Flex>
+              </Link>
+              <Link href="https://www.example.com" isExternal>
+                <Flex alignItems="center" justifyContent="flex-start">
+                  <Icon as={BsLink45Deg} mr={1} />
+                  <Text>https://naver.com</Text>
+                </Flex>
               </Link>
             </Flex>
-            <Tabs mt="auto" colorScheme="purple">
-              {/* colorScheme 속성에 dPrimary가 적용 안됨 */}
-              <TabList>
-                <Tab w="160px" h="28px" py="25px" fontSize="18px" fontWeight="700">
-                  게시물
-                </Tab>
-                <Tab w="160px" h="28px" py="25px" fontSize="18px" fontWeight="700">
-                  팔로워
-                </Tab>
-                <Tab w="160px" h="28px" py="25px" fontSize="18px" fontWeight="700">
-                  팔로우
-                </Tab>
-              </TabList>
-            </Tabs>
+
+            <Flex position="absolute" bottom="20px" ml="50px" gap="25px">
+              <Button>팔로워 36</Button>
+              <Button>팔로우 136</Button>
+            </Flex>
           </Flex>
           <Flex mr="34px" direction="column" justify="center" align="center">
-            <Image
+            <Avatar
               borderRadius="full"
               objectFit="cover"
               background="gray.300"
               boxSize="170px"
               src=""
             />
-            {/* <Avatar name="" size="170px" src="" />  아바타로 할지 이미지로 할지 추후 결정 */}
             <Button
               mt="28px"
               w="126px"
@@ -88,47 +93,65 @@ export default function UserUI() {
         </Flex>
 
         {/* 게시글, 팔로우, 팔로워 분리 예정 */}
-
-        <Flex mt="39px" h="50px">
-          <Center width="50%" bg="dGray.medium">
-            게시글
-          </Center>
-          <Center width="50%" bg="dGray.light">
-            좋아요
-          </Center>
-        </Flex>
+        <NavigationTab isMyPage={props.isMyPage} />
 
         <SimpleGrid mt="33px" columns={3} spacing="30px">
-          <Image
-            src="https://bit.ly/dan-abramov"
-            alt="Dan Abramov"
-            bg="dGray"
-            borderRadius="10px"
-          />
-          <Image
-            src="https://bit.ly/dan-abramov"
-            alt="Dan Abramov"
-            bg="dGray"
-            borderRadius="10px"
-          />
-          <Image
-            src="https://bit.ly/dan-abramov"
-            alt="Dan Abramov"
-            bg="dGray"
-            borderRadius="10px"
-          />
-          <Image
-            src="https://bit.ly/dan-abramov"
-            alt="Dan Abramov"
-            bg="dGray"
-            borderRadius="10px"
-          />
-          <Image
-            src="https://bit.ly/dan-abramov"
-            alt="Dan Abramov"
-            bg="dGray"
-            borderRadius="10px"
-          />
+          <Box pos="relative">
+            <Image
+              src="https://bit.ly/dan-abramov"
+              alt="Dan Abramov"
+              bg="dGray"
+              borderRadius="10px"
+            />
+            <Box
+              pos="absolute"
+              zIndex="2"
+              top="88%"
+              left="88%"
+              _hover={
+                props.isLiked
+                  ? undefined
+                  : {
+                      color: 'dGray.medium',
+                    }
+              }
+              color={props.isLiked ? 'dRed.400' : '#fff'}
+              onClick={props.toggleIsLiked}>
+              {props.isLiked ? (
+                <MdFavorite size="20px" />
+              ) : (
+                <MdFavoriteBorder size="20px" />
+              )}
+            </Box>
+          </Box>
+          <Box pos="relative">
+            <Image
+              src="https://bit.ly/dan-abramov"
+              alt="Dan Abramov"
+              bg="dGray"
+              borderRadius="10px"
+            />
+            <Box
+              pos="absolute"
+              zIndex="2"
+              top="88%"
+              left="88%"
+              _hover={
+                props.isLiked
+                  ? undefined
+                  : {
+                      color: 'dGray.medium',
+                    }
+              }
+              color={props.isLiked ? 'dRed.400' : '#fff'}
+              onClick={props.toggleIsLiked}>
+              {props.isLiked ? (
+                <MdFavorite size="20px" />
+              ) : (
+                <MdFavoriteBorder size="20px" />
+              )}
+            </Box>
+          </Box>
         </SimpleGrid>
       </Box>
     </Box>

@@ -10,7 +10,6 @@
     "generate": "graphql-codegen"
   },
   "dependencies": {
-    "@ant-design/icons": "^5.0.1",
     "@apollo/client": "^3.7.11",
     "@chakra-ui/icons": "^2.0.18",
     "@chakra-ui/react": "^2.5.5",
@@ -31,7 +30,9 @@
     "react-hook-form": "^7.43.9",
     "react-icons": "^4.8.0",
     "react-quill": "^2.0.0",
+    "react-slick": "^0.29.0",
     "recoil": "^0.7.7",
+    "recoil-persist": "^4.2.0",
     "yup": "^1.0.2"
   },
   "devDependencies": {
@@ -42,6 +43,7 @@
     "@types/node": "18.15.11",
     "@types/react": "^18.0.34",
     "@types/react-dom": "18.0.11",
+    "@types/react-slick": "^0.23.10",
     "eslint": "8.38.0",
     "eslint-config-next": "13.3.0",
     "eslint-config-prettier": "^8.8.0",
