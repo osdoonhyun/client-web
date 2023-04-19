@@ -1,7 +1,6 @@
 import { ReactNode } from 'react'
 import {
   Box,
-  Text,
   Flex,
   Avatar,
   Link,
@@ -18,26 +17,8 @@ import {
   Center,
 } from '@chakra-ui/react'
 import { MoonIcon, SunIcon } from '@chakra-ui/icons'
-
-const Logo = (props: any) => {
-  return (
-    <>
-      <Box mb={4} ml={5}>
-        <Text as="b" fontSize="30px" color="dPrimary">
-          dechaive
-          <Text
-            as="b"
-            fontSize="50px"
-            color="dPrimary"
-            marginLeft="5px"
-            marginBottom="50px">
-            .
-          </Text>
-        </Text>
-      </Box>
-    </>
-  )
-}
+import { LayoutHeaderUIProps } from './LayoutHeader.types'
+import Logo from '@/src/components/ui/logo'
 
 const NavLink = ({ children }: { children: ReactNode }) => (
   <Link
@@ -53,21 +34,20 @@ const NavLink = ({ children }: { children: ReactNode }) => (
   </Link>
 )
 
-export default function LayoutHeaderUI() {
+export default function LayoutHeaderUI(props: LayoutHeaderUIProps) {
   const { colorMode, toggleColorMode } = useColorMode()
   const { isOpen, onOpen, onClose } = useDisclosure()
+
   return (
     <>
       <Box bg={useColorModeValue('dGray.light', 'gray.900')} px={4}>
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
           <Logo />
-
           <Flex alignItems={'center'}>
             <Stack direction={'row'} spacing={4}>
               <Button onClick={toggleColorMode}>
                 {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
               </Button>
-
               <Menu>
                 <MenuButton
                   as={Button}
@@ -95,7 +75,7 @@ export default function LayoutHeaderUI() {
                   </Center>
                   <br />
                   <MenuDivider />
-                  <MenuItem>마이페이지</MenuItem>
+                  <MenuItem onClick={props.onClickMoveToUser}>마이페이지</MenuItem>
                   <MenuItem>로그아웃</MenuItem>
                 </MenuList>
               </Menu>

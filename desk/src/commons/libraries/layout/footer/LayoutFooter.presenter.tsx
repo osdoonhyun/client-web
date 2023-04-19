@@ -65,7 +65,7 @@ export default function LayoutFooterUI() {
       bg={useColorModeValue('white', 'gray.900')}
       color={useColorModeValue('gray.700', 'gray.200')}
       mb={2}
-      mt={20}>
+      mt={100}>
       <Container
         as={Stack}
         maxW={'8xl'}
@@ -75,7 +75,7 @@ export default function LayoutFooterUI() {
         justify={{ base: 'center', md: 'space-between' }}
         align={{ base: 'center', md: 'center' }}>
         <Logo />
-        <Text color={useColorModeValue('dGray.dark', 'gray.200')}>
+        <Text color={useColorModeValue('dGray.dark', 'dGray.light')}>
           © 2023 dechaive. All rights reserved
         </Text>
         <Stack direction={'row'} spacing={6}>
