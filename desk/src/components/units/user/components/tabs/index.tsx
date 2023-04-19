@@ -2,12 +2,9 @@ import { Tabs, TabList, Tab, Icon } from '@chakra-ui/react'
 import { MdFavoriteBorder } from 'react-icons/md'
 import { BsColumnsGap } from 'react-icons/bs'
 import { AiOutlineLaptop } from 'react-icons/ai'
+import { NavigationTabsProps } from './Tabs.types'
 
-type NavigationProps = {
-  isMyPage: boolean
-}
-
-export default function NavigationTab(props: NavigationProps) {
+export default function NavigationTabs(props: NavigationTabsProps) {
   const MY_PAGE_TAB = [BsColumnsGap, AiOutlineLaptop, MdFavoriteBorder]
   const OTHERS_PAGE_TAB = [BsColumnsGap, AiOutlineLaptop]
 
