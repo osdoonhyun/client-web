@@ -12,195 +12,195 @@ export type Scalars = {
   Float: number;
 };
 
-export type Board = {
+export type TBoard = {
   __typename?: 'Board';
-  comments?: Maybe<Comment>;
+  comments?: Maybe<TComment>;
   description: Scalars['String'];
-  hashtags?: Maybe<Array<Hashtag>>;
+  hashtags?: Maybe<Array<THashtag>>;
   id: Scalars['String'];
-  likers?: Maybe<Array<User>>;
-  products: Array<Product>;
+  likers?: Maybe<Array<TUser>>;
+  products: Array<TProduct>;
   recommend?: Maybe<Scalars['String']>;
   title: Scalars['String'];
-  viewers?: Maybe<Array<User>>;
-  writer: User;
+  viewers?: Maybe<Array<TUser>>;
+  writer: TUser;
 };
 
-export type Comment = {
+export type TComment = {
   __typename?: 'Comment';
-  board: Board;
+  board: TBoard;
   content: Scalars['String'];
   id: Scalars['String'];
   user: Scalars['String'];
 };
 
-export type CreateBoardInput = {
-  createProductInputs: Array<CreateProductInput>;
+export type TCreateBoardInput = {
+  createProductInputs: Array<TCreateProductInput>;
   description: Scalars['String'];
   hashtags: Array<Scalars['String']>;
   recommend?: InputMaybe<Scalars['String']>;
   title: Scalars['String'];
 };
 
-export type CreateProductInput = {
+export type TCreateProductInput = {
   name: Scalars['String'];
   url: Scalars['String'];
 };
 
-export type CreateUserInput = {
+export type TCreateUserInput = {
   email: Scalars['String'];
   password: Scalars['String'];
 };
 
-export type Following = {
+export type TFollowing = {
   __typename?: 'Following';
   followingid: Scalars['String'];
   id: Scalars['String'];
-  users: Array<User>;
+  users: Array<TUser>;
 };
 
-export type Hashtag = {
+export type THashtag = {
   __typename?: 'Hashtag';
-  boards: Array<Board>;
+  boards: Array<TBoard>;
   hashtag: Scalars['String'];
   id: Scalars['String'];
 };
 
-export type LoginInput = {
+export type TLoginInput = {
   email: Scalars['String'];
   password: Scalars['String'];
 };
 
-export type MatchAuthInput = {
+export type TMatchAuthInput = {
   authNumber: Scalars['String'];
   email: Scalars['String'];
 };
 
-export type Mutation = {
+export type TMutation = {
   __typename?: 'Mutation';
   authEmail: Scalars['Boolean'];
-  createBoard: Board;
-  createUser: User;
+  createBoard: TBoard;
+  createUser: TUser;
   deleteUser: Scalars['Boolean'];
   logOut: Scalars['String'];
   login: Scalars['String'];
   matchAuthNumber: Scalars['Boolean'];
   resetUserPassword: Scalars['Boolean'];
   restoreAccessToken: Scalars['String'];
-  updateBoard: Board;
+  updateBoard: TBoard;
   updateFollowing: Scalars['Boolean'];
-  updateUser: User;
+  updateUser: TUser;
 };
 
 
-export type MutationAuthEmailArgs = {
+export type TMutationAuthEmailArgs = {
   email: Scalars['String'];
 };
 
 
-export type MutationCreateBoardArgs = {
-  createBoardInput: CreateBoardInput;
+export type TMutationCreateBoardArgs = {
+  createBoardInput: TCreateBoardInput;
 };
 
 
-export type MutationCreateUserArgs = {
-  createUserInput: CreateUserInput;
+export type TMutationCreateUserArgs = {
+  createUserInput: TCreateUserInput;
 };
 
 
-export type MutationLoginArgs = {
-  loginInput: LoginInput;
+export type TMutationLoginArgs = {
+  loginInput: TLoginInput;
 };
 
 
-export type MutationMatchAuthNumberArgs = {
-  matchAuthInput: MatchAuthInput;
+export type TMutationMatchAuthNumberArgs = {
+  matchAuthInput: TMatchAuthInput;
 };
 
 
-export type MutationResetUserPasswordArgs = {
-  resetPasswordInput: ResetPasswordInput;
+export type TMutationResetUserPasswordArgs = {
+  resetPasswordInput: TResetPasswordInput;
 };
 
 
-export type MutationUpdateBoardArgs = {
+export type TMutationUpdateBoardArgs = {
   boardId: Scalars['String'];
-  updateBoardInput: UpdateBoardInput;
+  updateBoardInput: TUpdateBoardInput;
 };
 
 
-export type MutationUpdateFollowingArgs = {
+export type TMutationUpdateFollowingArgs = {
   followingid: Scalars['String'];
 };
 
 
-export type MutationUpdateUserArgs = {
-  updateUserInput: UpdateUserInput;
+export type TMutationUpdateUserArgs = {
+  updateUserInput: TUpdateUserInput;
 };
 
-export type Product = {
+export type TProduct = {
   __typename?: 'Product';
-  board: Board;
+  board: TBoard;
   id: Scalars['String'];
   name: Scalars['String'];
   picture?: Maybe<Scalars['String']>;
   url: Scalars['String'];
 };
 
-export type Query = {
+export type TQuery = {
   __typename?: 'Query';
   fetchBoard: Scalars['String'];
-  fetchFollowings: Array<User>;
-  fetchYoutube: Array<Youtube>;
+  fetchFollowings: Array<TUser>;
+  fetchYoutube: Array<TYoutube>;
 };
 
 
-export type QueryFetchFollowingsArgs = {
+export type TQueryFetchFollowingsArgs = {
   userid: Scalars['String'];
 };
 
-export type ResetPasswordInput = {
+export type TResetPasswordInput = {
   email: Scalars['String'];
   password: Scalars['String'];
 };
 
-export type SnsAccount = {
+export type TSnsAccount = {
   __typename?: 'SnsAccount';
   id: Scalars['String'];
   sns: Scalars['String'];
-  user: User;
+  user: TUser;
 };
 
-export type UpdateBoardInput = {
+export type TUpdateBoardInput = {
   description: Scalars['String'];
   hashtags: Array<Scalars['String']>;
   recommend?: InputMaybe<Scalars['String']>;
   title: Scalars['String'];
-  updateProductInputs: Array<CreateProductInput>;
+  updateProductInputs: Array<TCreateProductInput>;
 };
 
-export type UpdateUserInput = {
+export type TUpdateUserInput = {
   intro?: InputMaybe<Scalars['String']>;
   nickName?: InputMaybe<Scalars['String']>;
   picture?: InputMaybe<Scalars['String']>;
   snsAccount?: InputMaybe<Scalars['String']>;
 };
 
-export type User = {
+export type TUser = {
   __typename?: 'User';
-  boards?: Maybe<Array<Board>>;
+  boards?: Maybe<Array<TBoard>>;
   email: Scalars['String'];
-  followings: Array<Following>;
+  followings: Array<TFollowing>;
   id: Scalars['String'];
   intro?: Maybe<Scalars['String']>;
-  like?: Maybe<Array<Board>>;
+  like?: Maybe<Array<TBoard>>;
   nickName: Scalars['String'];
   picture?: Maybe<Scalars['String']>;
-  snsAccounts?: Maybe<Array<SnsAccount>>;
-  view?: Maybe<Array<Board>>;
+  snsAccounts?: Maybe<Array<TSnsAccount>>;
+  view?: Maybe<Array<TBoard>>;
 };
 
-export type Youtube = {
+export type TYoutube = {
   __typename?: 'Youtube';
   thumbnailUrl: Scalars['String'];
   videoUrl: Scalars['String'];

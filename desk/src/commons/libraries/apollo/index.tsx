@@ -10,7 +10,7 @@ const cache = new InMemoryCache()
 
 export default function ApolloSetting(props: ApolloSettingProps) {
   const uploadLink = createUploadLink({
-    uri: '',
+    // uri: 'https://mobomobo.shop/graphql',
     headers: {},
     credentials: 'include',
   })

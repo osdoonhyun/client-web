@@ -3,3 +3,5 @@ generates:
   ./src/commons/types/generated/types.ts:
     plugins:
       - typescript
+    config:
+      typesPrefix: T
