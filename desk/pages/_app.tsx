@@ -1,3 +1,4 @@
+import Layout from '@/src/commons/libraries/layout'
 import type { AppProps } from 'next/app'
 import { RecoilRoot } from 'recoil'
 import ApolloSetting from 'src/commons/libraries/apollo'
@@ -8,7 +9,9 @@ function MyApp({ Component, pageProps }: AppProps) {
     <RecoilRoot>
       <ApolloSetting>
         <ChakraUISetting>
-          <Component {...pageProps} />
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
         </ChakraUISetting>
       </ApolloSetting>
     </RecoilRoot>
