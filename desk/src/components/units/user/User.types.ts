@@ -6,4 +6,5 @@ export type UserUIProps = {
   showLikedPosts: boolean
   onClickShowUserPosts: () => void
   onClickShowLikedPosts: () => void
+  onClickMoveToAccountEdit: () => void
 }
