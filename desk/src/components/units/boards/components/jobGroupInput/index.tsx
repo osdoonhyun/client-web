@@ -1,6 +1,7 @@
 import { HStack, Input, Select, Text, VStack } from '@chakra-ui/react'
 import { ChangeEvent, useEffect, useState } from 'react'
 import { JobGroupInputProps, JobGroupItemType } from './types'
+import { Select as SelectTags } from 'antd'
 
 const EX_JOB_ITEMS = [
   {
@@ -32,9 +33,8 @@ export default function JobGroupInput(props: JobGroupInputProps) {
     setJobItem(item => ({ ...item, group }))
     setJobDetailPlaceholder(placeholderOfJobGroup(group))
   }
-  const onChangeJobDetail = (event: ChangeEvent<HTMLInputElement>) => {
-    const { value: detail } = event.target
-    setJobItem(item => ({ ...item, detail }))
+  const onChangeJobDetail = (value: string) => {
+    setJobItem(item => ({ ...item, value }))
   }
 
   const placeholderOfJobGroup = (group: string) => {
@@ -54,14 +54,14 @@ export default function JobGroupInput(props: JobGroupInputProps) {
             </option>
           ))}
         </Select>
-        <Input
+        <SelectTags
+          mode="tags"
+          style={{ width: '100%' }}
+          size="large"
           placeholder={jobDetailPlaceholder}
-          value={props.value}
-          defaultValue={props.defaultValue}
+          maxTagCount={1}
           onChange={onChangeJobDetail}
-          size="md"
-          color={'dBlack'}
-          focusBorderColor="dPrimary"
+          options={props.options}
         />
       </HStack>
     </VStack>
