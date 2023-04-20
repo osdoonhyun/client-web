@@ -10,8 +10,25 @@ import {
 	Avatar,
 	Center,
 } from '@chakra-ui/react';
+import {useMutation} from "@apollo/client";
+import {LOGOUT} from "@/src/components/units/auth/queries/mutation";
+import {useRecoilState} from "recoil";
+import {MyToken} from "@/src/commons/store/atom";
+import {useRouter} from "next/router";
 
-export default function LogoutForm(): JSX.Element {
+export default function LogoutForm() {
+	const router = useRouter()
+	const [myToken, setMyToken] = useRecoilState(MyToken)
+	const [logout] = useMutation(LOGOUT)
+	
+	async function onClickLogOut() {
+		// await logout()
+		// 	.then(() => {
+		// 		setMyToken('')
+		// 		router.push('/')
+		// 	})
+	}
+	
 	return (
 		<Flex
 			align={'center'}
@@ -30,23 +47,13 @@ export default function LogoutForm(): JSX.Element {
 					로그아웃
 				</Heading>
 				<FormControl id="userName">
-					{/*<FormLabel>User Icon</FormLabel>*/}
 					<Stack direction={['column', 'row']} spacing={6}>
 						<Center>
 							<Avatar size="xl" src="https://bit.ly/sage-adebayo">
-								{/*<AvatarBadge*/}
-								{/*	as={IconButton}*/}
-								{/*	size="sm"*/}
-								{/*	rounded="full"*/}
-								{/*	top="-10px"*/}
-								{/*	colorScheme="red"*/}
-								{/*	aria-label="remove Image"*/}
-								{/*	icon={<SmallCloseIcon />}*/}
-								{/*/>*/}
 							</Avatar>
 						</Center>
 						<Center w="full">
-							<Button w="full">로그아웃</Button>
+							<Button w="full" onClick={onClickLogOut}>로그아웃</Button>
 						</Center>
 					</Stack>
 				</FormControl>
@@ -68,26 +75,6 @@ export default function LogoutForm(): JSX.Element {
 						type="email"
 					/>
 				</FormControl>
-				{/*<Stack spacing={6} direction={['column', 'row']}>*/}
-				{/*	<Button*/}
-				{/*		bg={'red.400'}*/}
-				{/*		color={'white'}*/}
-				{/*		w="full"*/}
-				{/*		_hover={{*/}
-				{/*			bg: 'red.500',*/}
-				{/*		}}>*/}
-				{/*		취소*/}
-				{/*	</Button>*/}
-				{/*	<Button*/}
-				{/*		bg={'blue.400'}*/}
-				{/*		color={'white'}*/}
-				{/*		w="full"*/}
-				{/*		_hover={{*/}
-				{/*			bg: 'blue.500',*/}
-				{/*		}}>*/}
-				{/*		로그아웃*/}
-				{/*	</Button>*/}
-				{/*</Stack>*/}
 			</Stack>
 		</Flex>
 	);

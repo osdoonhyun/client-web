@@ -9,7 +9,7 @@ import {
 import Login from "@/src/components/units/auth/login/Login.container";
 
 export default function LoginIsOpen() {
-	const { isOpen, onOpen, onClose } = useDisclosure()
+	const { isOpen, onOpen, onClose } = useDisclosure({ defaultIsOpen: true })
 	
 	return (
 		<Box>
