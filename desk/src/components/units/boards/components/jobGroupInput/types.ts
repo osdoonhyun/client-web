@@ -10,5 +10,5 @@ export type JobGroupInputProps = {
 
 export type JobGroupItemType = {
   group: string
-  detail: string
+  detail?: string | undefined
 }

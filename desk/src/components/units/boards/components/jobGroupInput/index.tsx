@@ -18,7 +18,7 @@ const EX_JOB_ITEMS = [
 export default function JobGroupInput(props: JobGroupInputProps) {
   const [jobItem, setJobItem] = useState<JobGroupItemType>({
     group: '',
-    detail: '',
+    detail: undefined,
   })
   const [jobDetailPlaceholder, setJobDetailPlaceholder] = useState(
     'ex) 프론트엔드 개발자, 교수, 고등학생 ...',
@@ -33,8 +33,8 @@ export default function JobGroupInput(props: JobGroupInputProps) {
     setJobItem(item => ({ ...item, group }))
     setJobDetailPlaceholder(placeholderOfJobGroup(group))
   }
-  const onChangeJobDetail = (value: string) => {
-    setJobItem(item => ({ ...item, value }))
+  const onChangeJobDetail = (detail: string) => {
+    setJobItem(item => ({ ...item, detail: detail?.[0] }))
   }
 
   const placeholderOfJobGroup = (group: string) => {
@@ -58,6 +58,7 @@ export default function JobGroupInput(props: JobGroupInputProps) {
           mode="tags"
           style={{ width: '100%' }}
           size="large"
+          value={jobItem.detail}
           placeholder={jobDetailPlaceholder}
           maxTagCount={1}
           onChange={onChangeJobDetail}

@@ -103,7 +103,7 @@ export default function BoardsRegisterUI(props: BoardsRegisterUIProps) {
                 type="input"
                 isRequired={false}
                 title="해시태그를 입력해주세요. ex) 학생데스크셋업, 개발자데스크셋업..."
-                value={value || ''}
+                value={value || []}
                 options={[
                   { value: '데스크셋업', label: '데스크셋업' },
                   { value: 'IT 개발자', label: 'IT 개발자' },
@@ -115,9 +115,12 @@ export default function BoardsRegisterUI(props: BoardsRegisterUIProps) {
           />
         </Box>
         <Box mt={'57px'}>
-          <JobGroupInput
-            title="직군을 선택해주세요."
-            onItem={item => console.log('# 직군 아이템', item)}
+          <Controller
+            name="jobGroup"
+            control={props.useForm.control}
+            render={({ field: { onChange, value } }) => (
+              <JobGroupInput title="직군을 선택해주세요." onItem={onChange} />
+            )}
           />
         </Box>
         <Center mt={'80px'} mb={'80px'}>

@@ -4,7 +4,7 @@ export type TitleWithInputTagsProps = {
   type: 'input' | 'textarea'
   isRequired: boolean
   title: string
-  value: string
+  value: string[]
   defaultValue?: string
   placeholder?: string
   options?: SelectProps['options']
