@@ -14,9 +14,9 @@ import {
 } from '@chakra-ui/react';
 import {useRouter} from "next/router";
 import {useRef, useState} from "react";
-import OnClickBtLink from "@/src/components/units/logIn/signIn/atoms/OnClickBtLink";
+import OnClickBtLink from "@/src/components/units/auth/login/atoms/OnClickBtLink";
 import {useMutation} from "@apollo/client";
-import {LOGIN} from "@/src/components/units/logIn/queries/mutation";
+import {LOGIN} from "@/src/components/units/auth/queries/mutation";
 import {MyToken} from "@/src/commons/store/atom";
 import {useRecoilState} from "recoil";
 
@@ -24,19 +24,21 @@ export default function LoginForm() {
 	const router = useRouter()
 	const [myToken, setMyToken] = useRecoilState(MyToken)
 	const [login] = useMutation(LOGIN)
-	const myEmail = useRef(null)
-	const myPassword = useRef(null)
+	const myEmail = useRef<HTMLInputElement | null>(null)
+	const myPassword = useRef<HTMLInputElement | null>(null)
 	const [err, setErr] = useState({
 		errEmail: '',
 		errPass: ''
 	})
 	
 	async function onClickLoginSubmit() {
+		if (!myEmail.current || !myPassword.current) return
+		
 		await login({
 			variables: {
 				loginInput: {
-					email: myEmail.current?.value,
-					password: myPassword.current?.value,
+					email: myEmail.current.value,
+					password: myPassword.current.value,
 				}
 			}
 		}).then((result) => {
@@ -57,15 +59,14 @@ export default function LoginForm() {
 	
 	return (
 		<Flex
-			minH={'100vh'}
 			align={'center'}
 			justify={'center'}
-			bg={useColorModeValue('white', 'gray.800')}
+			bg={useColorModeValue('white', 'gray.700')}
 		>
 			<Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
 				<Stack align={'center'}>
 					<Heading fontSize={'4xl'}>로그인</Heading>
-					<Text fontSize={'lg'} color={'gray.600'}>
+					<Text fontSize={'lg'} color={useColorModeValue('gray.800', 'gray.300')}>
 						당신의 책상을 자랑하라! <Link color={'blue.400'} id={'deca'} onClick={(e) => {OnClickBtLink(e,  router)}}>데카이브</Link> ✌️
 					</Text>
 				</Stack>
@@ -99,7 +100,7 @@ export default function LoginForm() {
 							</Stack>
 							<Button
 								onClick={onClickLoginSubmit}
-								bg={'blue.400'}
+								bg={useColorModeValue('blue.400', 'blue.600')}
 								color={'white'}
 								_hover={{
 									bg: 'blue.500',
@@ -109,12 +110,12 @@ export default function LoginForm() {
 								<Button
 									name='buttonJoinMember'
 									onClick={(e) => {OnClickBtLink(e,  router)}}
-									bg={'white'}
+									bg={useColorModeValue('white', 'gray.600')}
 									border={'1px'}
 									borderColor={'blue.500'}
 									// color={'white'}
 									_hover={{
-										bg: 'blue.100',
+										bg: 'blue.200',
 									}}>
 										회원가입
 								</Button>

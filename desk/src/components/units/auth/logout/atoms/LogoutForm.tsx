@@ -11,13 +11,12 @@ import {
 	Center,
 } from '@chakra-ui/react';
 
-export default function LogOutForm(): JSX.Element {
+export default function LogoutForm(): JSX.Element {
 	return (
 		<Flex
-			minH={'100vh'}
 			align={'center'}
 			justify={'center'}
-			bg={useColorModeValue('gray.50', 'gray.800')}>
+		>
 			<Stack
 				spacing={4}
 				w={'full'}
