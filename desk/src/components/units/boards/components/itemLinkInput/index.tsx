@@ -2,6 +2,7 @@ import { AddIcon, MinusIcon } from '@chakra-ui/icons'
 import { Button, Flex, Input, Text, VStack } from '@chakra-ui/react'
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { ItemLinkInputProps, ItemLinkType } from './types'
+import ErrorMessage from '@/src/components/ui/errorMessage'
 
 const INIT_DEFAULT_ITEMS: ItemLinkType[] = [
   {
@@ -54,19 +55,24 @@ export default function ItemLinkInput(props: ItemLinkInputProps) {
 
   return (
     <VStack align={'stretch'}>
-      <Text fontSize={16} fontWeight={700} color={'dGray.dark'} mb="px">
+      <Text fontSize={16} fontWeight={700} color={'dGray.dark'} mb="8px">
         {props.title}
+        {props.isRequired && (
+          <span style={{ color: '#666CFF', fontSize: '14px' }}>{' *'}</span>
+        )}
       </Text>
       {items.map(item => (
         <Flex key={item.id} direction={'row'} justify={'space-between'} align={'center'}>
           <Input
             id={`${item.id}`}
+            name="name"
             placeholder="상품명을 입력해주세요."
             width={'36%'}
             onChange={onChangeName}
           />
           <Input
             id={`${item.id}`}
+            name="link"
             placeholder="상품의 구매처 링크를 입력해주세요. 구매한 사이트가 아니어도 괜찮습니다."
             ml={'20px'}
             mr={'20px'}
@@ -89,6 +95,7 @@ export default function ItemLinkInput(props: ItemLinkInputProps) {
           )}
         </Flex>
       ))}
+      <ErrorMessage message={props.errorMessage} />
     </VStack>
   )
 }
