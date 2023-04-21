@@ -25,3 +25,9 @@ export const LOGIN = gql`
   	login(loginInput: $loginInput)
 	}
 `
+
+export const LOGOUT = gql`
+	mutation {
+		logOut
+	}
+`

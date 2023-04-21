@@ -1,11 +1,11 @@
 import {Grid, Wrap} from "@chakra-ui/react";
-import LogOutForm from "./atoms/LogOutForm";
+import LogoutForm from "./atoms/LogoutForm";
 
-export default function SignOutUi() {
+export default function LogoutUI() {
 	return (
 		<Wrap>
 			<Grid w={'100%'}>
-				<LogOutForm />
+				<LogoutForm />
 			</Grid>
 		</Wrap>
 	)
