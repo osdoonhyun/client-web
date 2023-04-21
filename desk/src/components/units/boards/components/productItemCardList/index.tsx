@@ -7,13 +7,18 @@ import {
   Stack,
   Text,
   VStack,
+  useColorModeValue,
 } from '@chakra-ui/react'
 import { ProductItemCardProps } from './types'
 
 export default function ProductItemCardList(props: ProductItemCardProps) {
   return (
     <VStack align={'flex-start'}>
-      <Text fontSize={18} fontWeight={800} color={'dGray.dark'} pt={'10px'}>
+      <Text
+        fontSize={18}
+        fontWeight={800}
+        color={useColorModeValue('dGray.dark', 'dGray.medium')}
+        pt={'10px'}>
         {props.title}
       </Text>
       <Flex justify={'flex-start'} align={'center'} wrap={'wrap'}>
