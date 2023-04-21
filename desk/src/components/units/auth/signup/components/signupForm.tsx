@@ -23,6 +23,7 @@ import { PinInput, PinInputField } from '@chakra-ui/react'
 import {
 	errMsg,
 } from "@/src/components/units/auth/Auth.types";
+import Login from "@/src/components/units/auth/login/Login.container";
 
 export default function SignupForm() {
 	const [errMsg, setErrMsg] = useState<errMsg>({
@@ -44,6 +45,7 @@ export default function SignupForm() {
 	const myEmail = useRef<HTMLInputElement>(null)
 	const myPassword = useRef<HTMLInputElement>(null)
 	const [pinNumber, setPinNumber] = useState<string | undefined>(undefined)
+	const [authType, setAuthType] = useState('authSignup')
 	
 	const onChangePinNumber = (props: SetStateAction<string | undefined>): void => {
 		setPinNumber(props)
@@ -110,119 +112,125 @@ export default function SignupForm() {
 	}
 	
 	return (
-		<Flex
-			align={'center'}
-			justify={'center'}
-			// bg={useColorModeValue('gray.50', 'gray.800')}
-		>
-			<Stack spacing={8} mx={'auto'} maxW={'lg'}>
-				<Stack align={'center'}>
-					<Heading fontSize={'4xl'} textAlign={'center'} pt={6}>
-						회원가입
-					</Heading>
-					<Text fontSize={'lg'} color={'gray.600'}>
-						당신의 책상을 자랑하십시오 <Link color={'blue.400'} id={'deca'} onClick={(e) => {OnClickBtLink(e,  router)}}>데카이브</Link> ✌️
-					</Text>
-				</Stack>
-				<Box
-					rounded={'lg'}
-					bg={useColorModeValue('white', 'gray.700')}
-					boxShadow={'lg'}
-					p={8}>
-						<Stack spacing={4}>
-							<FormControl id="email" isRequired>
-								<FormLabel>이메일</FormLabel>
-								<Flex gap={4}>
-									<Input ref={myEmail} type="email" autoFocus={true} placeholder={'이메일을 입력해 주세요'}/>
-									<Button
-										onClick={onClickCertification}
-										loadingText="Submitting"
-										size="md"
-										px={6}
-										disabled
-										bg={'dPrimary'}
-										color={'white'}
-										_hover={
-											useColorModeValue(
-												{bg: 'blue.500'},
-												{bg: 'dPrimaryHover.dark'}
-											)}
-									>
-										인증번호 받기
-									</Button>
-								</Flex>
-								<Text color={errMsg.errColor} p={4}>{errMsg.errText}</Text>
-							</FormControl>
-							<FormControl id="email" isRequired>
-								<FormLabel>인증번호</FormLabel>
-								<Flex gap={1.5}>
-									{/*<Input ref={myAuthNumber} type="text" isReadOnly={!errMsg.isEmail} placeholder={'인증번호 받기 클릭 후 인증 가능'} />*/}
-									<PinInput onChange={onChangePinNumber}>
-										<PinInputField />
-										<PinInputField />
-										<PinInputField />
-										<PinInputField />
-										<PinInputField />
-										<PinInputField />
-									</PinInput>
-									<Button
-										onClick={onClickMatchAuthNumber}
-										loadingText="Submitting"
-										size="md"
-										bg={'dPrimary'}
-										isDisabled={!errMsg.isEmail}
-										color={'white'}
-										_hover={
-											useColorModeValue(
-												{bg: 'blue.500'},
-												{bg: 'dPrimaryHover.dark'}
-											)}
-									>
-										인증하기
-									</Button>
-								</Flex>
-								<Text color={errMsg.verificationColor} p={4}>{errMsg.verificationText}</Text>
-							</FormControl>
-							<FormControl id="password" isRequired>
-								<FormLabel>비밀번호</FormLabel>
-								<InputGroup>
-									<Input ref={myPassword} onChange={onChangeMyPassword} type={showPassword ? 'text' : 'password'} isReadOnly={!errMsg.isVerified} placeholder={'숫자인증 후 비밀번호 입력 가능'}/>
-									<InputRightElement h={'full'}>
+		<>
+			{authType === 'authSignup' &&
+			<Flex
+				align={'center'}
+				justify={'center'}
+			>
+				<Stack spacing={8} mx={'auto'} maxW={'lg'} bg={useColorModeValue('white', 'gray.700')}>
+					<Stack align={'center'}>
+						<Heading fontSize={'4xl'} textAlign={'center'} pt={6}>
+							회원가입
+						</Heading>
+						<Text fontSize={'lg'} color={'gray.600'}>
+							당신의 책상을 자랑하십시오 <Link color={'dPrimary'} id={'deca'} onClick={(e) => {OnClickBtLink(e,  router)}}>데카이브</Link> ✌️
+						</Text>
+					</Stack>
+					<Box
+						rounded={'lg'}
+						bg={useColorModeValue('white', 'gray.700')}
+						boxShadow={'lg'}
+						p={8}>
+							<Stack spacing={4}>
+								<FormControl id="email" isRequired>
+									<FormLabel>이메일</FormLabel>
+									<Flex gap={4}>
+										<Input ref={myEmail} focusBorderColor={'dPrimary'} type="email" autoFocus={true} placeholder={'이메일을 입력해 주세요'}/>
 										<Button
-											variant={'ghost'}
-											onClick={() =>
-												setShowPassword((showPassword) => !showPassword)
-											}>
-											{showPassword ? <ViewIcon /> : <ViewOffIcon />}
+											onClick={onClickCertification}
+											loadingText="Submitting"
+											size="md"
+											px={6}
+											disabled
+											bg={'dPrimary'}
+											color={'white'}
+											_hover={
+												useColorModeValue(
+													{bg: 'dPrimaryHover.dark'},
+													{bg: 'dPrimaryHover.dark'}
+												)}
+										>
+											인증번호 받기
 										</Button>
-									</InputRightElement>
-								</InputGroup>
-							</FormControl>
-							<Stack spacing={10} pt={2}>
-								<Button
-									onClick={onClickSubmit}
-									loadingText="Submitting"
-									size="lg"
-									bg={'dPrimary'}
-									isDisabled={!errMsg.isSubmitButton}
-									color={'white'}
-									_hover={
-										useColorModeValue(
-											{bg: 'blue.500'},
-											{bg: 'dPrimaryHover.dark'}
-										)}
-								>
-									회원가입
-								</Button>
+									</Flex>
+									<Text color={errMsg.errColor} p={4}>{errMsg.errText}</Text>
+								</FormControl>
+								<FormControl id="email" isRequired>
+									<FormLabel>인증번호</FormLabel>
+									<Flex gap={1.5}>
+										{/*<Input ref={myAuthNumber} type="text" isReadOnly={!errMsg.isEmail} placeholder={'인증번호 받기 클릭 후 인증 가능'} />*/}
+										<PinInput focusBorderColor={'dPrimary'} onChange={onChangePinNumber}>
+											<PinInputField />
+											<PinInputField />
+											<PinInputField />
+											<PinInputField />
+											<PinInputField />
+											<PinInputField />
+										</PinInput>
+										<Button
+											onClick={onClickMatchAuthNumber}
+											loadingText="Submitting"
+											size="md"
+											bg={'dPrimary'}
+											isDisabled={!errMsg.isEmail}
+											color={'white'}
+											_hover={
+												useColorModeValue(
+													{bg: 'dPrimaryHover.dark'},
+													{bg: 'dPrimaryHover.dark'}
+												)}
+										>
+											인증하기
+										</Button>
+									</Flex>
+									<Text color={errMsg.verificationColor} p={4}>{errMsg.verificationText}</Text>
+								</FormControl>
+								<FormControl id="password" isRequired>
+									<FormLabel>비밀번호</FormLabel>
+									<InputGroup>
+										<Input focusBorderColor={'dPrimary'} ref={myPassword} onChange={onChangeMyPassword} type={showPassword ? 'text' : 'password'} isReadOnly={!errMsg.isVerified} placeholder={'숫자인증 후 비밀번호 입력 가능'}/>
+										<InputRightElement h={'full'}>
+											<Button
+												variant={'ghost'}
+												onClick={() =>
+													setShowPassword((showPassword) => !showPassword)
+												}>
+												{showPassword ? <ViewIcon /> : <ViewOffIcon />}
+											</Button>
+										</InputRightElement>
+									</InputGroup>
+								</FormControl>
+								<Stack spacing={10} pt={2}>
+									<Button
+										onClick={onClickSubmit}
+										loadingText="Submitting"
+										size="lg"
+										bg={'dPrimary'}
+										isDisabled={!errMsg.isSubmitButton}
+										color={'white'}
+										_hover={
+											useColorModeValue(
+												{bg: 'dPrimaryHover.dark'},
+												{bg: 'dPrimaryHover.dark'}
+											)}
+									>
+										회원가입
+									</Button>
+								</Stack>
+								<Stack pt={6}>
+									<Text align={'center'}>
+										이미 회원이신가요? <Link color={'dPrimary'} id={'linkLogIn'} onClick={() => {setAuthType('authLogin')}}>로그인</Link>
+									</Text>
+								</Stack>
 							</Stack>
-							<Stack pt={6}>
-								<Text align={'center'}>
-									이미 회원이신가요? <Link color={'blue.400'} id={'linkLogIn'} onClick={(e) => {OnClickBtLink(e,  router)}}>로그인</Link>
-								</Text>
-							</Stack>
-						</Stack>
-				</Box>
-			</Stack>
-		</Flex>
+					</Box>
+				</Stack>
+			</Flex>
+			}
+			{authType === 'authLogin' &&
+				<Login />
+			}
+		</>
 	);
 }

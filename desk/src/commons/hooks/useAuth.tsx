@@ -8,7 +8,6 @@ import SignupIsOpen from "@/src/components/units/auth/signup/Signup.isOpen";
 import SignoutIsOpen from "@/src/components/units/auth/signout/Signout.isOpen";
 
 export function useAuth() {
-	const router: NextRouter = useRouter()
 	const [myToken, setMyToken] = useRecoilState(MyToken)
 	const [isLoggedIn, setIsLoggedIn] = useState(false)
 	
@@ -22,9 +21,9 @@ export function useAuth() {
 	
 	return {
 		isLoggedIn,
-		login: () => <LoginIsOpen />,
-		logout: () => <LogoutIsOpen />,
-		signup: () => <SignupIsOpen />,
-		signout: () => <SignoutIsOpen />,
+		Login: () => <LoginIsOpen />,
+		Logout: () => <LogoutIsOpen />,
+		Signup: () => <SignupIsOpen />,
+		Signout: () => <SignoutIsOpen />,
 	}
 }

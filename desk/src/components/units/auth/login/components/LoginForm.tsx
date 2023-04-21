@@ -19,6 +19,7 @@ import {useMutation} from "@apollo/client";
 import {LOGIN} from "@/src/components/units/auth/queries/mutation";
 import {MyToken} from "@/src/commons/store/atom";
 import {useRecoilState} from "recoil";
+import SignupForm from "@/src/components/units/auth/signup/components/signupForm";
 
 export default function LoginForm() {
 	const router = useRouter()
@@ -30,6 +31,7 @@ export default function LoginForm() {
 		errEmail: '',
 		errPass: ''
 	})
+	const [authType, setAuthType] = useState('authLogin')
 	
 	async function onClickLoginSubmit() {
 		if (!myEmail.current || !myPassword.current) {
@@ -60,78 +62,89 @@ export default function LoginForm() {
 	}
 	
 	return (
-		<Flex
-			align={'center'}
-			justify={'center'}
-			bg={useColorModeValue('white', 'gray.700')}
-		>
-			<Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
-				<Stack align={'center'}>
-					<Heading fontSize={'4xl'}>로그인</Heading>
-					<Text fontSize={'lg'} color={useColorModeValue('gray.800', 'gray.300')}>
-						당신의 책상을 자랑하라! <Link color={'dPrimary'} id={'deca'} onClick={(e) => {OnClickBtLink(e,  router)}}>데카이브</Link> ✌️
-					</Text>
-				</Stack>
-				<Box
-					rounded={'lg'}
-					bg={useColorModeValue('white', 'gray.700')}
-					boxShadow={'lg'}
-					p={8}>
-					<Stack spacing={4}>
-						<FormControl id="email">
-							<FormLabel>이메일</FormLabel>
-							<Input type="email"
-							       ref={myEmail}
-							       autoFocus={true}
-								placeholder={'이메일 주소를 입력해 주세요'}/>
-							<Text p={4} color={'red'}>{err.errEmail}</Text>
-						</FormControl>
-						<FormControl id="password">
-							<FormLabel>비밀번호</FormLabel>
-							<Input type="password"
-							       ref={myPassword}
-								placeholder={'비밀번호를 입력해 주세요'}/>
-							<Text p={4} color={'red'}>{err.errPass}</Text>
-						</FormControl>
-						<Stack spacing={5}>
-							<Stack
-								direction={{ base: 'column', sm: 'row' }}
-								align={'start'}
-								justify={'space-between'}>
-								<Checkbox>저장하기</Checkbox>
-								<Link color={useColorModeValue('blue.400', 'dPrimaryHover.transparency')}>비밀번호를 잊어버리셨나요?</Link>
-							</Stack>
-							<Button
-								onClick={onClickLoginSubmit}
-								bg={useColorModeValue('blue.400', 'dPrimary')}
-								color={'white'}
-								_hover={
-									useColorModeValue(
-										{bg: 'blue.500'},
-										{bg: 'dPrimaryHover.dark'}
-									)}
-							>
-								로그인
-							</Button>
+		<>
+		{authType === 'authLogin' &&
+			<Flex
+				align={'center'}
+				justify={'center'}
+				bg={useColorModeValue('white', 'gray.700')}
+			>
+				<Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
+					<Stack align={'center'}>
+						<Heading fontSize={'4xl'}>로그인</Heading>
+						<Text fontSize={'lg'} color={useColorModeValue('gray.800', 'gray.300')}>
+							당신의 책상을 자랑하라! <Link color={'dPrimary'} id={'deca'} onClick={(e) => {
+							OnClickBtLink(e, router)
+						}}>데카이브</Link> ✌️
+						</Text>
+					</Stack>
+					<Box
+						rounded={'lg'}
+						bg={useColorModeValue('white', 'gray.700')}
+						boxShadow={'lg'}
+						p={8}>
+						<Stack spacing={4}>
+							<FormControl id="email">
+								<FormLabel>이메일</FormLabel>
+								<Input type="email"
+								       ref={myEmail}
+								       autoFocus={true}
+								       focusBorderColor={'dPrimary'}
+								       placeholder={'이메일 주소를 입력해 주세요'}/>
+								<Text p={4} color={'red'}>{err.errEmail}</Text>
+							</FormControl>
+							<FormControl id="password">
+								<FormLabel>비밀번호</FormLabel>
+								<Input type="password"
+								       ref={myPassword}
+								       focusBorderColor={'dPrimary'}
+								       placeholder={'비밀번호를 입력해 주세요'}/>
+								<Text p={4} color={'red'}>{err.errPass}</Text>
+							</FormControl>
+							<Stack spacing={5}>
+								<Stack
+									direction={{base: 'column', sm: 'row'}}
+									align={'start'}
+									justify={'space-between'}>
+									<Checkbox>저장하기</Checkbox>
+									<Link color={useColorModeValue('dPrimary', 'dPrimaryHover.transparency')}>비밀번호를 잊어버리셨나요?</Link>
+								</Stack>
+								<Button
+									onClick={onClickLoginSubmit}
+									bg={useColorModeValue('dPrimary', 'dPrimary')}
+									color={'white'}
+									_hover={
+										useColorModeValue(
+											{bg: 'dPrimaryHover.dark'},
+											{bg: 'dPrimaryHover.dark'}
+										)}
+								>
+									로그인
+								</Button>
 								<Button
 									name='buttonJoinMember'
-									onClick={(e) => {OnClickBtLink(e, router)}}
+									onClick={() => {setAuthType('authSignup')}}
 									bg={useColorModeValue('gray.200', 'gray.600')}
 									border={'0px'}
 									borderColor={'dPrimary'}
 									// color={'white'}
 									_hover={
 										useColorModeValue(
-											{bg: 'gray.100'},
-											{bg: 'gray.700'}
+											{bg: 'gray.300'},
+											{bg: 'gray.500'}
 										)}
 								>
-										회원가입
+									회원가입
 								</Button>
+							</Stack>
 						</Stack>
-					</Stack>
-				</Box>
-			</Stack>
-		</Flex>
+					</Box>
+				</Stack>
+			</Flex>
+		}
+		{authType === 'authSignup' &&
+			<SignupForm />
+		}
+	</>
 	);
 }
