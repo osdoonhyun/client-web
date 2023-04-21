@@ -18,13 +18,3 @@ export const MyNickName = atom({
 	key: 'myNickName',
 	default: '',
 })
-
-export const IsOn = atom({
-	key: `isOn/${uuid()}`,
-	default: 0,
-})
-
-export const IsOn2 = atom({
-	key: `isOn2/${uuid()}`,
-	default: 0,
-})
