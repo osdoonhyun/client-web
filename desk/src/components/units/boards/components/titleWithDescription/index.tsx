@@ -7,7 +7,7 @@ export default function TitleWithDescription(props: TitleWithDescriptionProps) {
       <Text
         fontSize={18}
         fontWeight={800}
-        color={useColorModeValue('dGray.dark', 'dGray.light')}
+        color={useColorModeValue('dGray.dark', 'dGray.medium')}
         pt={'10px'}>
         {props.title}
       </Text>
