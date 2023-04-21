@@ -10,11 +10,11 @@ import SignoutIsOpen from "@/src/components/units/auth/signout/Signout.isOpen";
 import {useAuth} from "@/src/commons/hooks/useAuth";
 
 export default function LoginPage() {
-	const {isLogged, login, logout, signup, signout} = useAuth()
+	const {isLoggedIn, login, logout, signup, signout} = useAuth()
 	return (
 		<Flex justify={"center"} minH={'100vh'} align={'center'}>
 			<VStack>
-				{!isLogged ?
+				{!isLoggedIn ?
 				<>
 					<SignupIsOpen />
 					<LoginIsOpen />

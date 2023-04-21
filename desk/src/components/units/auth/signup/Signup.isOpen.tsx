@@ -9,7 +9,7 @@ import {
 import Signup from "@/src/components/units/auth/signup/Signup.container";
 
 export default function SignupIsOpen() {
-	const { isOpen, onOpen, onClose } = useDisclosure()
+	const { isOpen, onOpen, onClose } = useDisclosure({ defaultIsOpen: false })
 	
 	return (
 		<Box>

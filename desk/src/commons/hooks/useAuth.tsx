@@ -10,18 +10,18 @@ import SignoutIsOpen from "@/src/components/units/auth/signout/Signout.isOpen";
 export function useAuth() {
 	const router: NextRouter = useRouter()
 	const [myToken, setMyToken] = useRecoilState(MyToken)
-	const [isLogged, setIsLogged] = useState(false)
+	const [isLoggedIn, setIsLoggedIn] = useState(false)
 	
 	useEffect(() => {
 		if (!myToken) {
-			setIsLogged(false)
+			setIsLoggedIn(false)
 			return
 		}
-		setIsLogged(true)
+		setIsLoggedIn(true)
 	}, [myToken])
 	
 	return {
-		isLogged,
+		isLoggedIn,
 		login: () => <LoginIsOpen />,
 		logout: () => <LogoutIsOpen />,
 		signup: () => <SignupIsOpen />,

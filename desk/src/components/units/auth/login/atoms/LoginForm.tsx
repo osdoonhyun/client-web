@@ -32,7 +32,9 @@ export default function LoginForm() {
 	})
 	
 	async function onClickLoginSubmit() {
-		if (!myEmail.current || !myPassword.current) return
+		if (!myEmail.current || !myPassword.current) {
+			return
+		}
 		
 		await login({
 			variables: {
@@ -67,7 +69,7 @@ export default function LoginForm() {
 				<Stack align={'center'}>
 					<Heading fontSize={'4xl'}>로그인</Heading>
 					<Text fontSize={'lg'} color={useColorModeValue('gray.800', 'gray.300')}>
-						당신의 책상을 자랑하라! <Link color={'blue.400'} id={'deca'} onClick={(e) => {OnClickBtLink(e,  router)}}>데카이브</Link> ✌️
+						당신의 책상을 자랑하라! <Link color={'dPrimary'} id={'deca'} onClick={(e) => {OnClickBtLink(e,  router)}}>데카이브</Link> ✌️
 					</Text>
 				</Stack>
 				<Box
@@ -96,27 +98,33 @@ export default function LoginForm() {
 								align={'start'}
 								justify={'space-between'}>
 								<Checkbox>저장하기</Checkbox>
-								<Link color={'blue.400'}>비밀번호를 잊어버리셨나요?</Link>
+								<Link color={useColorModeValue('blue.400', 'dPrimaryHover.transparency')}>비밀번호를 잊어버리셨나요?</Link>
 							</Stack>
 							<Button
 								onClick={onClickLoginSubmit}
-								bg={useColorModeValue('blue.400', 'blue.600')}
+								bg={useColorModeValue('blue.400', 'dPrimary')}
 								color={'white'}
-								_hover={{
-									bg: 'blue.500',
-								}}>
+								_hover={
+									useColorModeValue(
+										{bg: 'blue.500'},
+										{bg: 'dPrimaryHover.dark'}
+									)}
+							>
 								로그인
 							</Button>
 								<Button
 									name='buttonJoinMember'
-									onClick={(e) => {OnClickBtLink(e,  router)}}
+									onClick={(e) => {OnClickBtLink(e, router)}}
 									bg={useColorModeValue('white', 'gray.600')}
 									border={'1px'}
-									borderColor={'blue.500'}
+									borderColor={'dPrimary'}
 									// color={'white'}
-									_hover={{
-										bg: 'blue.200',
-									}}>
+									_hover={
+										useColorModeValue(
+											{bg: 'gray.100'},
+											{bg: 'gray.700'}
+										)}
+								>
 										회원가입
 								</Button>
 						</Stack>

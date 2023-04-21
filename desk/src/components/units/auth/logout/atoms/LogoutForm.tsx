@@ -21,7 +21,7 @@ export default function LogoutForm() {
 	const [myToken, setMyToken] = useRecoilState(MyToken)
 	const [logout] = useMutation(LOGOUT)
 	
-	async function onClickLogOut() {
+	async function onClickLogout() {
 		// await logout()
 		// 	.then(() => {
 		// 		setMyToken('')
@@ -53,7 +53,7 @@ export default function LogoutForm() {
 							</Avatar>
 						</Center>
 						<Center w="full">
-							<Button w="full" onClick={onClickLogOut}>로그아웃</Button>
+							<Button w="full" onClick={onClickLogout}>로그아웃</Button>
 						</Center>
 					</Stack>
 				</FormControl>

@@ -22,7 +22,7 @@ import {AUTH_EMAIL, CREATE_USER, MATCH_AUTH_NUMBER} from "@/src/components/units
 import { PinInput, PinInputField } from '@chakra-ui/react'
 import {
 	errMsg,
-} from "@/src/components/units/auth/signup/Signup.types";
+} from "@/src/components/units/auth/Auth.types";
 
 export default function SignupForm() {
 	const [errMsg, setErrMsg] = useState<errMsg>({
@@ -101,7 +101,7 @@ export default function SignupForm() {
 		})
 	}
 	
-	const onChangeMyPass = async (e: ChangeEvent<HTMLInputElement>) => {
+	const onChangeMyPassword = async (e: ChangeEvent<HTMLInputElement>) => {
 		if (e.currentTarget.value.length > 7) {
 			setErrMsg({...errMsg, isSubmitButton: true})
 		} else {
@@ -140,11 +140,14 @@ export default function SignupForm() {
 										size="md"
 										px={6}
 										disabled
-										bg={'blue.400'}
+										bg={'dPrimary'}
 										color={'white'}
-										_hover={{
-											bg: 'blue.500',
-										}}>
+										_hover={
+											useColorModeValue(
+												{bg: 'blue.500'},
+												{bg: 'dPrimaryHover.dark'}
+											)}
+									>
 										인증번호 받기
 									</Button>
 								</Flex>
@@ -166,12 +169,15 @@ export default function SignupForm() {
 										onClick={onClickMatchAuthNumber}
 										loadingText="Submitting"
 										size="md"
-										bg={'blue.400'}
+										bg={'dPrimary'}
 										isDisabled={!errMsg.isEmail}
 										color={'white'}
-										_hover={{
-											bg: 'blue.500',
-										}}>
+										_hover={
+											useColorModeValue(
+												{bg: 'blue.500'},
+												{bg: 'dPrimaryHover.dark'}
+											)}
+									>
 										인증하기
 									</Button>
 								</Flex>
@@ -180,7 +186,7 @@ export default function SignupForm() {
 							<FormControl id="password" isRequired>
 								<FormLabel>비밀번호</FormLabel>
 								<InputGroup>
-									<Input ref={myPassword} onChange={onChangeMyPass} type={showPassword ? 'text' : 'password'} isReadOnly={!errMsg.isVerified} placeholder={'숫자인증 후 비밀번호 입력 가능'}/>
+									<Input ref={myPassword} onChange={onChangeMyPassword} type={showPassword ? 'text' : 'password'} isReadOnly={!errMsg.isVerified} placeholder={'숫자인증 후 비밀번호 입력 가능'}/>
 									<InputRightElement h={'full'}>
 										<Button
 											variant={'ghost'}
@@ -197,12 +203,15 @@ export default function SignupForm() {
 									onClick={onClickSubmit}
 									loadingText="Submitting"
 									size="lg"
-									bg={'blue.400'}
+									bg={'dPrimary'}
 									isDisabled={!errMsg.isSubmitButton}
 									color={'white'}
-									_hover={{
-										bg: 'blue.500',
-									}}>
+									_hover={
+										useColorModeValue(
+											{bg: 'blue.500'},
+											{bg: 'dPrimaryHover.dark'}
+										)}
+								>
 									회원가입
 								</Button>
 							</Stack>

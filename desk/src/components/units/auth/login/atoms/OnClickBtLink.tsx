@@ -7,6 +7,6 @@ export default function OnClickBtLink(e: React.MouseEvent, router: NextRouter) {
 	} else if ((e.currentTarget as HTMLButtonElement).id === 'deca') {
 		return void router.push('/')
 	} else if ((e.currentTarget as HTMLButtonElement).id === 'linkLogIn') {
-		return void router.push('/auth/auth')
+		return void router.push('/auth/login')
 	}
 }
