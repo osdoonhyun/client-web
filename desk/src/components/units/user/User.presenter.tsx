@@ -40,7 +40,8 @@ export default function UserUI(props: UserUIProps) {
                 ml="25px"
                 py="11px"
                 fontSize="12px"
-                fontWeight="600">
+                fontWeight="600"
+                onClick={props.onClickMoveToAccountEdit}>
                 <span style={{ padding: '0 2px' }}>
                   <GoPencil color="dPrimary" />
                 </span>
