@@ -1,8 +1,10 @@
 import { useBoolean } from '@chakra-ui/react'
 import { useCallback, useState } from 'react'
+import { useRouter } from 'next/router'
 import UserUI from './User.presenter'
 
 export default function User() {
+  const router = useRouter()
   const [isLiked, { toggle: toggleIsLiked }] = useBoolean()
 
   const [showUserPosts, setShowUserPosts] = useState(true)
@@ -20,6 +22,10 @@ export default function User() {
     setShowLikedPosts(true)
   }, [])
 
+  const onClickMoveToAccountEdit = () => {
+    router.push('/accountEdit')
+  }
+
   return (
     <UserUI
       isMyPage={isMyPage}
@@ -29,6 +35,7 @@ export default function User() {
       showLikedPosts={showLikedPosts}
       onClickShowUserPosts={onClickShowUserPosts}
       onClickShowLikedPosts={onClickShowLikedPosts}
+      onClickMoveToAccountEdit={onClickMoveToAccountEdit}
     />
   )
 }

@@ -1,4 +1,3 @@
-import { UploadOutlined } from '@ant-design/icons'
 import { Avatar, Center, Image, Input } from '@chakra-ui/react'
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { FileUploadProps } from './types'
@@ -46,7 +45,7 @@ export default function FileUpload(props: FileUploadProps) {
           <Image
             src={imageUrl ?? ''}
             width={props.width}
-            height={props.width}
+            height={props.height}
             borderRadius={'10px'}
             objectFit="cover"
             cursor={'pointer'}
@@ -61,14 +60,14 @@ export default function FileUpload(props: FileUploadProps) {
             borderRadius={'10px'}
             cursor={'pointer'}
             onClick={onClickUpload}>
-            <AiOutlineUpload fontSize={30} />
+            <AiOutlineUpload style={{ fontSize: 30 }} />
           </Center>
         )
       ) : imageUrl ? ( // Profile Type
         <Image
           src={imageUrl ?? EMPTY_PROFILE_URL}
           width={props.width}
-          height={props.width}
+          height={props.height}
           objectFit="cover"
           borderRadius="full"
           cursor={'pointer'}
