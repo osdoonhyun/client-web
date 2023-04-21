@@ -14,7 +14,7 @@ import {
 } from '@chakra-ui/react';
 import {useRouter} from "next/router";
 import {useRef, useState} from "react";
-import OnClickBtLink from "@/src/components/units/auth/login/atoms/OnClickBtLink";
+import OnClickBtLink from "@/src/components/units/auth/login/components/OnClickBtLink";
 import {useMutation} from "@apollo/client";
 import {LOGIN} from "@/src/components/units/auth/queries/mutation";
 import {MyToken} from "@/src/commons/store/atom";
@@ -82,6 +82,7 @@ export default function LoginForm() {
 							<FormLabel>이메일</FormLabel>
 							<Input type="email"
 							       ref={myEmail}
+							       autoFocus={true}
 								placeholder={'이메일 주소를 입력해 주세요'}/>
 							<Text p={4} color={'red'}>{err.errEmail}</Text>
 						</FormControl>
@@ -115,8 +116,8 @@ export default function LoginForm() {
 								<Button
 									name='buttonJoinMember'
 									onClick={(e) => {OnClickBtLink(e, router)}}
-									bg={useColorModeValue('white', 'gray.600')}
-									border={'1px'}
+									bg={useColorModeValue('gray.200', 'gray.600')}
+									border={'0px'}
 									borderColor={'dPrimary'}
 									// color={'white'}
 									_hover={

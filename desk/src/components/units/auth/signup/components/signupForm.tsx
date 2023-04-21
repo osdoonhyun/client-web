@@ -16,7 +16,7 @@ import {
 import {ChangeEvent, SetStateAction, useRef, useState} from 'react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import {NextRouter, useRouter} from "next/router";
-import OnClickBtLink from "@/src/components/units/auth/login/atoms/OnClickBtLink";
+import OnClickBtLink from "@/src/components/units/auth/login/components/OnClickBtLink";
 import {useMutation} from "@apollo/client";
 import {AUTH_EMAIL, CREATE_USER, MATCH_AUTH_NUMBER} from "@/src/components/units/auth/queries/mutation";
 import { PinInput, PinInputField } from '@chakra-ui/react'
@@ -133,7 +133,7 @@ export default function SignupForm() {
 							<FormControl id="email" isRequired>
 								<FormLabel>이메일</FormLabel>
 								<Flex gap={4}>
-									<Input ref={myEmail} type="email" placeholder={'이메일을 입력해 주세요'}/>
+									<Input ref={myEmail} type="email" autoFocus={true} placeholder={'이메일을 입력해 주세요'}/>
 									<Button
 										onClick={onClickCertification}
 										loadingText="Submitting"
