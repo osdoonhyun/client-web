@@ -1,9 +1,9 @@
 import { Center } from '@chakra-ui/react'
 import MainImageStyle from '@/src/components/ui/mainImageStyle'
-import CategoryHeader from '../categoryHeader/CategoryHeader.container'
+import CategoryHeader from '../../components/categoryHeader/CategoryHeader.container'
 
-export default function RecentUI() {
-  const categoryTitle = '최근 게시물'
+export default function FollowingUI() {
+  const categoryTitle = 'Following'
 
   return (
     <>

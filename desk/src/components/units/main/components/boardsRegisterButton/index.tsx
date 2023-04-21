@@ -15,16 +15,16 @@ const StyledButton = styled(Button)`
   }
 `
 
-export default function ProductsRegisterButton() {
+export default function boardsRegisterButton() {
   const router = useRouter()
-  const onClickMoveToProductsRegister = () => {
+  const onClickMoveToBoardsRegister = () => {
     router.push('/boards/register')
   }
 
   return (
     <Container display="flex" justifyContent="end">
       <StyledButton
-        onClick={onClickMoveToProductsRegister}
+        onClick={onClickMoveToBoardsRegister}
         bg="dPrimary"
         color="white"
         width="55px"

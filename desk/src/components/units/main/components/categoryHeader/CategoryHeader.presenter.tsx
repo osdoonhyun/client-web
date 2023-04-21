@@ -1,10 +1,7 @@
 import { Container, Text, useColorModeValue } from '@chakra-ui/react'
 import { CategoryHeaderUIProps } from './CategoryHeader.types'
 
-export default function CategoryHeaderUI({
-  categoryTitle,
-  isMoreVisible,
-}: CategoryHeaderUIProps) {
+export default function CategoryHeaderUI(props: CategoryHeaderUIProps) {
   return (
     <>
       <Container
@@ -15,8 +12,8 @@ export default function CategoryHeaderUI({
         mt="30px"
         color={useColorModeValue('dGray.dark', 'dGray.light')}
         fontWeight="600">
-        <Text>{categoryTitle}</Text>
-        {isMoreVisible && <Text>더보기 {`>`}</Text>}
+        <Text>{props.categoryTitle}</Text>
+        {props.moreButtonHidden && <Text>더보기 {`>`}</Text>}
       </Container>
     </>
   )
