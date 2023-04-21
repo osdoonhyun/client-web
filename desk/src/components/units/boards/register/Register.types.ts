@@ -1,5 +1,7 @@
 import { UseFormReturn } from 'react-hook-form'
 import * as yup from 'yup'
+import { ItemLinkType } from '../components/itemLinkInput/types'
+import { JobGroupItemType } from '../components/jobGroupInput/types'
 
 export type BoardsRegisterProps = {
   isEdit: boolean
@@ -15,8 +17,10 @@ export type BoardsRegisterUIProps = {
 export type BoardsRegisterInputForm = {
   title: string | undefined
   deskIntroduce: string | undefined
+  usingItems: [ItemLinkType]
   deskRecommendItem: string | undefined
-  hashTag: string | undefined
+  hashTag: string[] | undefined
+  jobGroup: JobGroupItemType
 }
 
 export const boardsRegisterSchema = yup.object({
@@ -25,4 +29,12 @@ export const boardsRegisterSchema = yup.object({
     .string()
     .max(500, '최대 500자까지 입력 가능합니다.')
     .required('책상을 자랑해주세요.'),
+  usingItems: yup.array().of(
+    yup
+      .object({
+        name: yup.string().required('상품명을 입력해주세요.'),
+        link: yup.string().required('링크를 입력해주세요.'),
+      })
+      .required('사용하시는 장비를 자랑해주세요.'),
+  ),
 })

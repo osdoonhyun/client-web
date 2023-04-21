@@ -18,7 +18,7 @@ const StyledButton = styled(Button)`
 export default function ProductsRegisterButton() {
   const router = useRouter()
   const onClickMoveToProductsRegister = () => {
-    router.push('/products/register')
+    router.push('/boards/register')
   }
 
   return (
