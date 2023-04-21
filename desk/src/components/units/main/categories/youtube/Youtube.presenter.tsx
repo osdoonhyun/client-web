@@ -1,6 +1,6 @@
 import { Box, Center, Flex, Text, useColorModeValue } from '@chakra-ui/react'
-import CategoryHeader from '../categoryHeader/CategoryHeader.container'
-import YoutubeImageStyle from '@/src/components/ui/YoutubeImageStyle'
+import CategoryHeader from '../../components/categoryHeader/CategoryHeader.container'
+import YoutubeImageStyle from '@/src/components/units/main/components/YoutubeImageStyle'
 import { TYoutube } from '@/src/commons/types/generated/types'
 import { FiEye } from 'react-icons/fi'
 
@@ -15,7 +15,7 @@ export default function YoutubeUI(props: YoutubeUIProps) {
     <>
       <CategoryHeader categoryTitle={categoryTitle} moreButtonHidden={false} />
       <Center>
-        <Flex m={2} pl={'2px'} pr={'2px'} maxWidth="1080px" overflowX="auto">
+        <Flex m="2" pl="2px" pr="2px" maxWidth="1080px" overflowX="auto">
           {props.youtubeData.map((youtube: TYoutube, index: number) => (
             <Box key={youtube.videoUrl} m={2} flexShrink={0}>
               <YoutubeImageStyle src={youtube.thumbnailUrl} alt={youtube.videoUrl} />
