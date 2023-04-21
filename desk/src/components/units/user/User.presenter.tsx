@@ -103,75 +103,8 @@ export default function UserUI(props: UserUIProps) {
           showLikedPosts={props.showLikedPosts}
           isLiked={props.isLiked}
           toggleIsLiked={props.toggleIsLiked}
-          onClickShowUserPosts={props.onClickShowUserPosts}
-          onClickShowUserProductPosts={props.onClickShowUserProductPosts}
-          onClickShowLikedPosts={props.onClickShowLikedPosts}
           onClickTab={props.onClickTab}
         />
-
-        {/* <SimpleGrid mt="33px" columns={3} spacing="30px">
-          <ProductItem />
-          <ProductItem />
-          <ProductItem />
-          <ProductItem />
-          <ProductItem /> */}
-        {/* <Box pos="relative">
-            <Image
-              src="https://bit.ly/dan-abramov"
-              alt="Dan Abramov"
-              bg="dGray"
-              borderRadius="10px"
-            />
-            <Box
-              pos="absolute"
-              zIndex="2"
-              top="88%"
-              left="88%"
-              _hover={
-                props.isLiked
-                  ? undefined
-                  : {
-                      color: 'dGray.medium',
-                    }
-              }
-              color={props.isLiked ? 'dRed.400' : '#fff'}
-              onClick={props.toggleIsLiked}>
-              {props.isLiked ? (
-                <MdFavorite size="20px" />
-              ) : (
-                <MdFavoriteBorder size="20px" />
-              )}
-            </Box>
-          </Box>
-          <Box pos="relative">
-            <Image
-              src="https://bit.ly/dan-abramov"
-              alt="Dan Abramov"
-              bg="dGray"
-              borderRadius="10px"
-            />
-            <Box
-              pos="absolute"
-              zIndex="2"
-              top="88%"
-              left="88%"
-              _hover={
-                props.isLiked
-                  ? undefined
-                  : {
-                      color: 'dGray.medium',
-                    }
-              }
-              color={props.isLiked ? 'dRed.400' : '#fff'}
-              onClick={props.toggleIsLiked}>
-              {props.isLiked ? (
-                <MdFavorite size="20px" />
-              ) : (
-                <MdFavoriteBorder size="20px" />
-              )}
-            </Box>
-          </Box> */}
-        {/* </SimpleGrid> */}
       </Box>
     </Box>
   )

@@ -54,6 +54,7 @@ export default function User() {
       isLiked={isLiked}
       toggleIsLiked={toggleIsLiked}
       showUserPosts={showUserPosts}
+      onClickMoveToAccountEdit={onClickMoveToAccountEdit}
       showUserProductPosts={showUserProductPosts}
       showLikedPosts={showLikedPosts}
       onClickTab={onClickTab}
