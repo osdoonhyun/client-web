@@ -3,7 +3,7 @@ export type UserUIProps = {
   isLiked: boolean
   toggleIsLiked: () => void
   showUserPosts: boolean
+  showUserProductPosts: boolean
   showLikedPosts: boolean
-  onClickShowUserPosts: () => void
-  onClickShowLikedPosts: () => void
+  onClickTab: (id: number) => void
 }

@@ -15,6 +15,7 @@ import { GoPencil } from 'react-icons/go'
 import { BsLink45Deg } from 'react-icons/bs'
 import { UserUIProps } from './User.types'
 import NavigationTab from './components/tabs'
+import ProductItem from './components/productItem'
 
 export default function UserUI(props: UserUIProps) {
   return (
@@ -93,10 +94,27 @@ export default function UserUI(props: UserUIProps) {
         </Flex>
 
         {/* 게시글, 팔로우, 팔로워 분리 예정 */}
-        <NavigationTab isMyPage={props.isMyPage} />
+        {/* TODO:props drilling 최적화 예정 */}
+        <NavigationTab
+          isMyPage={props.isMyPage}
+          showUserPosts={props.showUserPosts}
+          showUserProductPosts={props.showUserProductPosts}
+          showLikedPosts={props.showLikedPosts}
+          isLiked={props.isLiked}
+          toggleIsLiked={props.toggleIsLiked}
+          onClickShowUserPosts={props.onClickShowUserPosts}
+          onClickShowUserProductPosts={props.onClickShowUserProductPosts}
+          onClickShowLikedPosts={props.onClickShowLikedPosts}
+          onClickTab={props.onClickTab}
+        />
 
-        <SimpleGrid mt="33px" columns={3} spacing="30px">
-          <Box pos="relative">
+        {/* <SimpleGrid mt="33px" columns={3} spacing="30px">
+          <ProductItem />
+          <ProductItem />
+          <ProductItem />
+          <ProductItem />
+          <ProductItem /> */}
+        {/* <Box pos="relative">
             <Image
               src="https://bit.ly/dan-abramov"
               alt="Dan Abramov"
@@ -151,8 +169,8 @@ export default function UserUI(props: UserUIProps) {
                 <MdFavoriteBorder size="20px" />
               )}
             </Box>
-          </Box>
-        </SimpleGrid>
+          </Box> */}
+        {/* </SimpleGrid> */}
       </Box>
     </Box>
   )
