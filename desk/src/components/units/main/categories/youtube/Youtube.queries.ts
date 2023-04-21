@@ -5,7 +5,7 @@ export const FETCH_YOUTUBE = gql`
     fetchYoutube {
       videoUrl
       thumbnailUrl
-      # views
+      views
     }
   }
 `
