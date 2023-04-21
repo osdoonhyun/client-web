@@ -1,12 +1,21 @@
-import { Box, Center, Flex, Text, useColorModeValue } from '@chakra-ui/react'
-import CategoryHeader from '../../components/categoryHeader/CategoryHeader.container'
-import YoutubeImageStyle from '@/src/components/units/main/components/YoutubeImageStyle'
+import {
+  Box,
+  Center,
+  Flex,
+  Text,
+  useColorModeValue,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalCloseButton,
+  ModalBody,
+} from '@chakra-ui/react'
 import { TYoutube } from '@/src/commons/types/generated/types'
+import { YoutubeUIProps } from './Youtube.types'
 import { FiEye } from 'react-icons/fi'
-
-export type YoutubeUIProps = {
-  youtubeData: TYoutube[]
-}
+import CategoryHeader from '../../components/categoryHeader/CategoryHeader.container'
+import YoutubeImageStyle from '@/src/components/units/main/components/youtubeImageStyle'
+import ReactPlayer from 'react-player'
 
 export default function YoutubeUI(props: YoutubeUIProps) {
   const categoryTitle = '유튜브'
@@ -17,7 +26,12 @@ export default function YoutubeUI(props: YoutubeUIProps) {
       <Center>
         <Flex m="2" pl="2px" pr="2px" maxWidth="1080px" overflowX="auto">
           {props.youtubeData.map((youtube: TYoutube, index: number) => (
-            <Box key={youtube.videoUrl} m={2} flexShrink={0}>
+            <Box
+              key={youtube.videoUrl}
+              m="2"
+              flexShrink="0"
+              cursor="pointer"
+              onClick={() => props.onClickSelectedVideo(youtube.videoUrl)}>
               <YoutubeImageStyle src={youtube.thumbnailUrl} alt={youtube.videoUrl} />
               <Flex
                 justifyContent="end"
@@ -32,6 +46,22 @@ export default function YoutubeUI(props: YoutubeUIProps) {
           ))}
         </Flex>
       </Center>
+      <Modal isOpen={!!props.selectedVideo} onClose={props.onClickCloseModal} size="4xl">
+        <ModalOverlay />
+        <ModalContent bg={'#000000d1'} borderRadius="10" p="10px">
+          <ModalCloseButton />
+          <ModalBody>
+            <ReactPlayer
+              url={props.selectedVideo}
+              width="100%"
+              height="450px"
+              controls={true}
+              muted={false}
+              playing={true}
+            />
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </>
   )
 }
