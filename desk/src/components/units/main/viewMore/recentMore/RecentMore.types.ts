@@ -1,0 +1,3 @@
+type RecentMoreUIProps = {
+  onLoadMore: () => void
+}
