@@ -1,5 +1,6 @@
-import { Container, Text, useColorModeValue } from '@chakra-ui/react'
+import { Container, Text, useColorModeValue, Box } from '@chakra-ui/react'
 import { CategoryHeaderUIProps } from './CategoryHeader.types'
+import Link from 'next/link'
 
 export default function CategoryHeaderUI(props: CategoryHeaderUIProps) {
   return (
@@ -13,7 +14,13 @@ export default function CategoryHeaderUI(props: CategoryHeaderUIProps) {
         color={useColorModeValue('dGray.dark', 'dGray.light')}
         fontWeight="600">
         <Text>{props.categoryTitle}</Text>
-        {props.moreButtonHidden && <Text>더보기 {`>`}</Text>}
+        {props.moreButtonHidden && (
+          <Link href={props.moreButtonLink || '#'}>
+            <Box as="a" cursor="pointer">
+              더보기 {`>`}
+            </Box>
+          </Link>
+        )}
       </Container>
     </>
   )
