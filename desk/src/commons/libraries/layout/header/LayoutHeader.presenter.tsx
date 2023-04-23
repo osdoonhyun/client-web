@@ -76,7 +76,7 @@ export default function LayoutHeaderUI(props: LayoutHeaderUIProps) {
                   <br />
                   <MenuDivider />
                   <MenuItem onClick={props.onClickMoveToUser}>마이페이지</MenuItem>
-                  <MenuItem>로그아웃</MenuItem>
+                  <MenuItem onClick={props.onClickMoveToLogin}>로그인</MenuItem>
                 </MenuList>
               </Menu>
             </Stack>
