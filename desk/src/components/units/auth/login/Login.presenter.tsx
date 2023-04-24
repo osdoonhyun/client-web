@@ -1,5 +1,5 @@
 import {Wrap, WrapItem, Grid, GridItem} from '@chakra-ui/react'
-import LoginForm from "@/src/components/units/auth/login/atoms/LoginForm";
+import LoginForm from "@/src/components/units/auth/login/components/LoginForm";
 
 export default function LoginUI() {
 	return (
