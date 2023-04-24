@@ -55,17 +55,28 @@ export default function BoardsRegister(props: BoardsRegisterProps) {
 
   const onClickSubmit = async (data: BoardsRegisterInputForm) => {
     // 대표사진
-    console.log(files)
     if (!files[0]?.size) {
-      toast({ title: '에러', description: '대표사진을 등록해주세요.', status: 'error' })
+      toast({
+        title: '에러',
+        description: '대표사진을 등록해주세요.',
+        status: 'error',
+        position: 'top',
+      })
       return
     }
 
     // 필수
     // if (!data.title && !data.deskIntroduce && !data.usingItems) {
-    //   toast({ title: '에러', description: '정보를 입력해주세요.', status: 'error' })
+    //   toast({
+    //     title: '에러',
+    //     description: '정보를 입력해주세요.',
+    //     status: 'error',
+    //     position: 'top',
+    //   })
     //   return
     // }
+
+    // setIsLoading(true)
 
     // await uploadFile({
     //   variables: {
@@ -94,8 +105,17 @@ export default function BoardsRegister(props: BoardsRegisterProps) {
     //       toast({ title: '에러', description: `${error.message}`, status: 'error' })
     //     }
     //   })
+    //   .finally(() => {
+    //     setIsLoading(false)
+    //   })
 
-    // 테스트용
+    // 테스트용 사용됨.
+    onClickTestSubmit(data)
+  }
+
+  const onClickTestSubmit = async (data: BoardsRegisterInputForm) => {
+    setIsLoading(true)
+
     await uploadFile({
       variables: {
         files: files.filter(file => file !== null),
@@ -131,6 +151,9 @@ export default function BoardsRegister(props: BoardsRegisterProps) {
         if (error instanceof Error) {
           toast({ title: '에러', description: `${error.message}`, status: 'error' })
         }
+      })
+      .finally(() => {
+        setIsLoading(false)
       })
   }
 
