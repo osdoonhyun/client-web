@@ -24,7 +24,7 @@ export const LoginSchema = yup
 			.max(13, '비밀번호는 13자리 이하여야 합니다.')
 	})
 
-export type useFormProps = {
+export type AuthFormProps = {
 	email: string
 	password: string
 }

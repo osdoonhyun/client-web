@@ -23,7 +23,7 @@ import SignupForm from "@/src/components/units/auth/signup/components/signupForm
 import {Cookies} from "react-cookie";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
-import {LoginSchema, useFormProps} from "@/src/components/units/auth/Auth.types";
+import {LoginSchema, AuthFormProps} from "@/src/components/units/auth/Auth.types";
 
 const cookies = new Cookies()
 
@@ -41,12 +41,12 @@ export default function LoginForm() {
 		register,
 		handleSubmit,
 		formState: { errors },
-	} = useForm<useFormProps>({
+	} = useForm<AuthFormProps>({
 		resolver: yupResolver(LoginSchema),
 		mode: "onSubmit",
 	})
 	
-	async function onClickLoginSubmit(data: useFormProps) {
+	async function onClickLoginSubmit(data: AuthFormProps) {
 		await login({
 			variables: {
 				loginInput: {

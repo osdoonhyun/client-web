@@ -21,7 +21,7 @@ import {useMutation} from "@apollo/client";
 import {AUTH_EMAIL, CREATE_USER, MATCH_AUTH_NUMBER} from "@/src/components/units/auth/queries/mutation";
 import { PinInput, PinInputField } from '@chakra-ui/react'
 import {
-	errMsg, LoginSchema, useFormProps,
+	AuthFormProps, errMsg, LoginSchema,
 } from "@/src/components/units/auth/Auth.types";
 import Login from "@/src/components/units/auth/login/Login.container";
 import {useForm} from "react-hook-form";
@@ -51,7 +51,7 @@ export default function SignupForm() {
 		register,
 		handleSubmit,
 		formState: { errors },
-	} = useForm<useFormProps>({
+	} = useForm<AuthFormProps>({
 		resolver: yupResolver(LoginSchema),
 		mode: "onChange",
 	})
@@ -96,7 +96,7 @@ export default function SignupForm() {
 			})
 	}
 	
-	const onClickSubmit = async (data: useFormProps) => {
+	const onClickSubmit = async (data: AuthFormProps) => {
 		await createUser({
 			variables: {
 				createUserInput: {
