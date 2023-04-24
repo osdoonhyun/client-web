@@ -1,5 +1,5 @@
 import {Grid, Wrap} from "@chakra-ui/react";
-import LogoutForm from "./atoms/LogoutForm";
+import LogoutForm from "@/src/components/units/auth/logout/components/LogoutForm";
 
 export default function LogoutUI() {
 	return (

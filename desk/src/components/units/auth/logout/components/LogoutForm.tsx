@@ -14,14 +14,15 @@ import {useMutation} from "@apollo/client";
 import {LOGOUT} from "@/src/components/units/auth/queries/mutation";
 import {useRecoilState} from "recoil";
 import {MyToken} from "@/src/commons/store/atom";
-import {useRouter} from "next/router";
 
 export default function LogoutForm() {
-	const router = useRouter()
-	const [myToken, setMyToken] = useRecoilState(MyToken)
+	const [_, setMyToken] = useRecoilState(MyToken)
+	// 기능구현중
 	const [logout] = useMutation(LOGOUT)
 	
+	// 로그아웃 기능 구현중...
 	async function onClickLogout() {
+		setMyToken('')
 		// await logout()
 		// 	.then(() => {
 		// 		setMyToken('')
