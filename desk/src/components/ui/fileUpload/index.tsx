@@ -34,7 +34,7 @@ export default function FileUpload(props: FileUploadProps) {
     setFakeImageURL(file)
   }
 
-  const setFakeImageURL = (file: File) => {
+  const setFakeImageURL = async (file: File) => {
     const fileReader = new FileReader()
     fileReader.readAsDataURL(file)
     fileReader.onload = data => {
