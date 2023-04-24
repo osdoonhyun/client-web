@@ -1,7 +1,6 @@
 import { UseFormReturn } from 'react-hook-form'
 import * as yup from 'yup'
 import { ItemLinkType } from '../components/itemLinkInput/types'
-import { JobGroupItemType } from '../components/jobGroupInput/types'
 
 export type BoardsRegisterProps = {
   isEdit: boolean
@@ -21,7 +20,6 @@ export type BoardsRegisterInputForm = {
   usingItems: [ItemLinkType]
   deskRecommendItem: string | undefined
   hashTag: string[] | undefined
-  jobGroup: JobGroupItemType
 }
 
 export const boardsRegisterSchema = yup.object({

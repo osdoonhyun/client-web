@@ -3,7 +3,6 @@ import { Box, Button, Center, Flex } from '@chakra-ui/react'
 import { Controller } from 'react-hook-form'
 import ImageUpload from '../components/imageUpload'
 import ItemLinkInput from '../components/itemLinkInput'
-import JobGroupInput from '../components/jobGroupInput'
 import TitleWithInput from '../components/titleWithInput'
 import TitleWithInputTags from '../components/titleWithInputTags'
 import { BoardsRegisterUIProps } from './Register.types'
@@ -114,15 +113,6 @@ export default function BoardsRegisterUI(props: BoardsRegisterUIProps) {
                 ]}
                 onChangeInputTags={onChange}
               />
-            )}
-          />
-        </Box>
-        <Box mt={'57px'}>
-          <Controller
-            name="jobGroup"
-            control={props.useForm.control}
-            render={({ field: { onChange, value } }) => (
-              <JobGroupInput title="직군을 선택해주세요." onItem={onChange} />
             )}
           />
         </Box>
