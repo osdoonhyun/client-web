@@ -27,6 +27,7 @@ export default function TitleWithInput(props: TitleWithInputProps) {
             size="md"
             focusBorderColor="dPrimary"
             maxLength={props.maxLength}
+            placeholder={`${props.maxLength}자까지 입력 가능합니다.`}
             _placeholder={{ color: 'dGray.medium' }}
           />
           <ErrorMessage message={props.errorMessage} />
@@ -45,6 +46,7 @@ export default function TitleWithInput(props: TitleWithInputProps) {
             resize={'none'}
             focusBorderColor="dPrimary"
             maxLength={props.maxLength}
+            placeholder={`${props.maxLength}자까지 입력 가능합니다.`}
             _placeholder={{ color: 'dGray.medium' }}
           />
           <ErrorMessage message={props.errorMessage} />

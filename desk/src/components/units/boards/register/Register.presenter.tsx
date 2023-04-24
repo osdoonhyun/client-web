@@ -34,7 +34,7 @@ export default function BoardsRegisterUI(props: BoardsRegisterUIProps) {
                 isRequired={true}
                 title="제목을 입력해주세요."
                 value={value || ''}
-                maxLength={50}
+                maxLength={100}
                 onChangeInput={onChange}
                 errorMessage={errors.title?.message}
               />
