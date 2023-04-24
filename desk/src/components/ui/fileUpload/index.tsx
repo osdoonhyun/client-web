@@ -87,7 +87,7 @@ export default function FileUpload(props: FileUploadProps) {
       <Input
         type="file"
         accept="image/png, image/jpeg, image/jpg"
-        ref={fileRef}
+        ref={props.type === 'file' ? fileRef : props.fileUploadRef}
         hidden={true}
         onChange={onChangeFile}
       />

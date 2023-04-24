@@ -98,24 +98,30 @@ export default function AccountEdit() {
     )
   }
 
+  const fileUploadRef = useRef<HTMLInputElement>(null)
+
+  const onClickUploadButton = () => {
+    fileUploadRef.current?.click()
+  }
+
   return (
     <Box maxW="776px" m={'120px auto 0'} p={'0 20px 0'}>
       <Flex direction="column" justify={'space-between'} gap="25px">
         <Flex>
           <Box w="40%">
             <Center w="80%">
-              {/* FileUpload, 업로드 버튼 추가 작업 남음 */}
               <FileUpload
                 type="profile"
                 width="125px"
                 height="125px"
                 fileUrl=""
                 onChangeFileUrls={onChangeFileUrls}
+                fileUploadRef={fileUploadRef}
               />
             </Center>
           </Box>
           <Box w="60%" ml="55px" my={'auto'}>
-            <Button>이미지 업로드</Button>
+            <Button onClick={onClickUploadButton}>이미지 업로드</Button>
           </Box>
         </Flex>
         <Divider border="1px" borderColor="#bababa" />
