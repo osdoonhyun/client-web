@@ -20,6 +20,7 @@ import { UPLOAD_FILE } from '@/src/components/ui/fileUpload/quries'
 
 export default function BoardsRegister(props: BoardsRegisterProps) {
   const toast = useToast()
+  const [isLoading, setIsLoading] = useState(false)
   const [files, setFiles] = useState<(File | null)[]>([null, null, null, null, null])
   const useFormReturn = useForm<BoardsRegisterInputForm>({
     resolver: yupResolver(boardsRegisterSchema),
@@ -136,6 +137,7 @@ export default function BoardsRegister(props: BoardsRegisterProps) {
   return (
     <BoardsRegisterUI
       isEdit={props.isEdit}
+      isLoading={isLoading}
       onChangeFile={onChangeFile}
       onChangeFileUrl={onChangeFileUrl}
       useForm={useFormReturn}

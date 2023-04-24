@@ -117,7 +117,14 @@ export default function BoardsRegisterUI(props: BoardsRegisterUIProps) {
           />
         </Box>
         <Center mt={'80px'} mb={'80px'}>
-          <Button type="submit" w={'40%'} h={'48px'} bgColor={'dPrimary'} color={'white'}>
+          <Button
+            type="submit"
+            w={'40%'}
+            h={'48px'}
+            bgColor={'dPrimary'}
+            color={'white'}
+            isLoading={props.isLoading}
+            loadingText={`${props.isEdit ? '수정' : '등록'} 중...`}>
             {props.isEdit ? '수정하기' : '등록하기'}
           </Button>
         </Center>
