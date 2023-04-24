@@ -1,4 +1,4 @@
-import { Flex, HStack, Text } from '@chakra-ui/react'
+import { Flex, HStack, Text, useColorModeValue } from '@chakra-ui/react'
 import { AiOutlineComment, AiOutlineEye, AiOutlineHeart, IconName } from 'react-icons/ai'
 
 export default function TagWithCountState() {
@@ -13,7 +13,11 @@ export default function TagWithCountState() {
 
         <HStack>
           {makeTags.map((tag, index) => (
-            <Text key={index} fontSize={14} fontWeight={600} color={'dBlack'}>
+            <Text
+              key={index}
+              fontSize={14}
+              fontWeight={600}
+              color={useColorModeValue('dGray.dark', 'dGray.medium')}>
               {tag}
             </Text>
           ))}
@@ -21,19 +25,28 @@ export default function TagWithCountState() {
         <HStack spacing={6}>
           <HStack>
             <AiOutlineHeart />
-            <Text fontSize={14} fontWeight={600} color={'rgba(35, 35, 35, 0.7)'}>
+            <Text
+              fontSize={14}
+              fontWeight={600}
+              color={useColorModeValue('dGray.dark', 'dGray.medium')}>
               좋아요수
             </Text>
           </HStack>
           <HStack>
             <AiOutlineEye />
-            <Text fontSize={14} fontWeight={600} color={'rgba(35, 35, 35, 0.7)'}>
+            <Text
+              fontSize={14}
+              fontWeight={600}
+              color={useColorModeValue('dGray.dark', 'dGray.medium')}>
               조회수
             </Text>
           </HStack>
           <HStack>
             <AiOutlineComment />
-            <Text fontSize={14} fontWeight={600} color={'rgba(35, 35, 35, 0.7)'}>
+            <Text
+              fontSize={14}
+              fontWeight={600}
+              color={useColorModeValue('dGray.dark', 'dGray.medium')}>
               댓글수
             </Text>
           </HStack>
