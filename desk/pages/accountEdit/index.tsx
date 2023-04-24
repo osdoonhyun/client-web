@@ -64,7 +64,7 @@ export default function AccountEdit() {
     )
   }
 
-  const onChangeFileUrls = useCallback((fileUrl: string, index: number) => {
+  const onChangeFileUrl = useCallback((fileUrl: string, index: number) => {
     console.log(fileUrl)
   }, [])
 
@@ -110,7 +110,7 @@ export default function AccountEdit() {
                 width="125px"
                 height="125px"
                 fileUrl=""
-                onChangeFileUrls={onChangeFileUrls}
+                onChangeFileUrl={onChangeFileUrl}
               />
             </Center>
           </Box>

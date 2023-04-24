@@ -10,7 +10,8 @@ export type BoardsRegisterProps = {
 export type BoardsRegisterUIProps = {
   isEdit: boolean
   useForm: UseFormReturn<BoardsRegisterInputForm, any>
-  onChangeFileUrls: (fileUrl: string, index: number) => void
+  onChangeFile: (file: File, index: number) => void
+  onChangeFileUrl: (fileUrl: string, index: number) => void
   onClickSubmit: (data: BoardsRegisterInputForm) => void
 }
 

@@ -3,7 +3,8 @@ import { AspectRatio, Badge, Box, Flex, Text, useColorModeValue } from '@chakra-
 import { memo } from 'react'
 
 export type ImageUploadProps = {
-  onChangeFileUrls: (fileUrl: string, index: number) => void
+  onChangeFile: (file: File, index: number) => void
+  onChangeFileUrl: (fileUrl: string, index: number) => void
 }
 
 function ImageUpload(props: ImageUploadProps) {
@@ -23,11 +24,13 @@ function ImageUpload(props: ImageUploadProps) {
         <AspectRatio w={{ base: '100%', md: '50%' }} ratio={1}>
           <Box p={'10px'}>
             <FileUpload
+              index={0}
               type="file"
               width={'100%'}
               height={'100%'}
               fileUrl=""
-              onChangeFileUrls={props.onChangeFileUrls}>
+              onChangeFile={props.onChangeFile}
+              onChangeFileUrl={props.onChangeFileUrl}>
               <Badge
                 bgColor={'dPrimary'}
                 color={'white'}
@@ -44,44 +47,52 @@ function ImageUpload(props: ImageUploadProps) {
             <AspectRatio width={'50%'} ratio={1}>
               <Box p={'10px'}>
                 <FileUpload
+                  index={1}
                   type="file"
                   width={'100%'}
                   height={'100%'}
                   fileUrl=""
-                  onChangeFileUrls={props.onChangeFileUrls}
+                  onChangeFile={props.onChangeFile}
+                  onChangeFileUrl={props.onChangeFileUrl}
                 />
               </Box>
             </AspectRatio>
             <AspectRatio width={'50%'} ratio={1}>
               <Box p={'10px'}>
                 <FileUpload
+                  index={2}
                   type="file"
                   width={'100%'}
                   height={'100%'}
                   fileUrl=""
-                  onChangeFileUrls={props.onChangeFileUrls}
+                  onChangeFile={props.onChangeFile}
+                  onChangeFileUrl={props.onChangeFileUrl}
                 />
               </Box>
             </AspectRatio>
             <AspectRatio width={'50%'} ratio={1}>
               <Box p={'10px'}>
                 <FileUpload
+                  index={3}
                   type="file"
                   width={'100%'}
                   height={'100%'}
                   fileUrl=""
-                  onChangeFileUrls={props.onChangeFileUrls}
+                  onChangeFile={props.onChangeFile}
+                  onChangeFileUrl={props.onChangeFileUrl}
                 />
               </Box>
             </AspectRatio>
             <AspectRatio width={'50%'} ratio={1}>
               <Box p={'10px'}>
                 <FileUpload
+                  index={4}
                   type="file"
                   width={'100%'}
                   height={'100%'}
                   fileUrl=""
-                  onChangeFileUrls={props.onChangeFileUrls}
+                  onChangeFile={props.onChangeFile}
+                  onChangeFileUrl={props.onChangeFileUrl}
                 />
               </Box>
             </AspectRatio>

@@ -20,7 +20,10 @@ export default function BoardsRegisterUI(props: BoardsRegisterUIProps) {
       margin={'0 auto'}>
       <form onSubmit={props.useForm.handleSubmit(props.onClickSubmit)}>
         <Box mt={140}>
-          <ImageUpload onChangeFileUrls={props.onChangeFileUrls} />
+          <ImageUpload
+            onChangeFile={props.onChangeFile}
+            onChangeFileUrl={props.onChangeFileUrl}
+          />
         </Box>
         <Box mt={'57px'}>
           <Controller
