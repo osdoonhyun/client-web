@@ -14,12 +14,12 @@ export const MyToken = atom({
 	effects_UNSTABLE: [session],
 })
 
-export const IsOn = atom({
-	key: `isOn`,
+export const AuthModalType = atom({
+	key: `authModalType`,
 	default: "",
 })
 
-export const IsOn2 = atom({
-	key: `isOn2`,
+export const AuthModalToggle = atom({
+	key: `authModalToggle`,
 	default: 0,
 })

@@ -7,19 +7,19 @@ import {
 } from "@chakra-ui/react";
 import Login from "@/src/components/units/auth/login/Login.container";
 import {useRecoilState} from "recoil";
-import {IsOn, IsOn2} from "@/src/commons/store/atom";
+import {AuthModalType, AuthModalToggle} from "@/src/commons/store/atom";
 import {useEffect} from "react";
 
 export default function LoginIsOpen() {
 	const { isOpen, onOpen, onClose } = useDisclosure({ defaultIsOpen: false })
-	const [on] = useRecoilState(IsOn)
-	const [on2] = useRecoilState(IsOn2)
+	const [authModalType] = useRecoilState(AuthModalType)
+	const [authModalToggle] = useRecoilState(AuthModalToggle)
 	
 	useEffect(() => {
-		if (on === "LOGIN") {
+		if (authModalType === "LOGIN") {
 			onOpen()
 		}
-	}, [on, on2]);
+	}, [authModalType, authModalToggle]);
 
 	return (
 		<Box>
