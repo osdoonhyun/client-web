@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {useRecoilState} from "recoil";
-import {IsOn, IsOn2, MyToken} from "@/src/commons/store/atom";
+import {AuthModalType, AuthModalToggle, MyToken} from "@/src/commons/store/atom";
 import LoginIsOpen from "@/src/components/units/auth/login/Login.isOpen";
 import LogoutIsOpen from "@/src/components/units/auth/logout/Logout.isOpen";
 import SignupIsOpen from "@/src/components/units/auth/signup/Signup.isOpen";
@@ -8,8 +8,8 @@ import SignoutIsOpen from "@/src/components/units/auth/signout/Signout.isOpen";
 
 export function useAuth() {
 	const [myToken] = useRecoilState(MyToken)
-	const [_, setOn] = useRecoilState(IsOn)
-	const [__, setOn2] = useRecoilState(IsOn2)
+	const [_, setAuthModalType] = useRecoilState(AuthModalType)
+	const [__, setAuthModalToggle] = useRecoilState(AuthModalToggle)
 	const [isLoggedIn, setIsLoggedIn] = useState(false)
 	
 	useEffect(() => {
@@ -21,22 +21,22 @@ export function useAuth() {
 	}, [myToken])
 	
 	function loginModalOpen() {
-		setOn("LOGIN")
-		setOn2((prev) => prev + 1)
+		setAuthModalType("LOGIN")
+		setAuthModalToggle((prev) => prev + 1)
 	}
 	function signupModalOpen() {
-		setOn("SIGNUP")
-		setOn2((prev) => prev + 1)
+		setAuthModalType("SIGNUP")
+		setAuthModalToggle((prev) => prev + 1)
 	}
 	
 	function logoutModalOpen() {
-		setOn("LOGOUT")
-		setOn2((prev) => prev + 1)
+		setAuthModalType("LOGOUT")
+		setAuthModalToggle((prev) => prev + 1)
 	}
 	
 	function signoutModalOpen() {
-		setOn("SIGNOUT")
-		setOn2((prev) => prev + 1)
+		setAuthModalType("SIGNOUT")
+		setAuthModalToggle((prev) => prev + 1)
 	}
 	
 	return {
