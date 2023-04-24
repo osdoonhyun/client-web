@@ -11,6 +11,7 @@ import {
 	Center,
 } from '@chakra-ui/react';
 
+// 테스트를 위해 만든 <회원탈퇴> 페이지 입니다.
 export default function SignoutForm(): JSX.Element {
 	return (
 		<Flex
@@ -30,19 +31,9 @@ export default function SignoutForm(): JSX.Element {
 					회원탈퇴
 				</Heading>
 				<FormControl id="userName">
-					{/*<FormLabel>User Icon</FormLabel>*/}
 					<Stack direction={['column', 'row']} spacing={6}>
 						<Center>
 							<Avatar size="xl" src="https://bit.ly/sage-adebayo">
-								{/*<AvatarBadge*/}
-								{/*	as={IconButton}*/}
-								{/*	size="sm"*/}
-								{/*	rounded="full"*/}
-								{/*	top="-10px"*/}
-								{/*	colorScheme="red"*/}
-								{/*	aria-label="remove Image"*/}
-								{/*	icon={<SmallCloseIcon />}*/}
-								{/*/>*/}
 							</Avatar>
 						</Center>
 						<Center w="full">
@@ -68,26 +59,6 @@ export default function SignoutForm(): JSX.Element {
 						type="email"
 					/>
 				</FormControl>
-				{/*<Stack spacing={6} direction={['column', 'row']}>*/}
-				{/*	<Button*/}
-				{/*		bg={'red.400'}*/}
-				{/*		color={'white'}*/}
-				{/*		w="full"*/}
-				{/*		_hover={{*/}
-				{/*			bg: 'red.500',*/}
-				{/*		}}>*/}
-				{/*		취소*/}
-				{/*	</Button>*/}
-				{/*	<Button*/}
-				{/*		bg={'blue.400'}*/}
-				{/*		color={'white'}*/}
-				{/*		w="full"*/}
-				{/*		_hover={{*/}
-				{/*			bg: 'blue.500',*/}
-				{/*		}}>*/}
-				{/*		로그아웃*/}
-				{/*	</Button>*/}
-				{/*</Stack>*/}
 			</Stack>
 		</Flex>
 	);

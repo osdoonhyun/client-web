@@ -1,5 +1,4 @@
 import {
-	Button,
 	Modal,
 	ModalOverlay,
 	ModalContent,
@@ -11,20 +10,13 @@ import {useRecoilState} from "recoil";
 import {IsOn, IsOn2} from "@/src/commons/store/atom";
 import {useEffect} from "react";
 
-type LogoutIsOpenProps = {
-	onOpen ?: () => void
-	isOpen : boolean
-	onClose: () => void
-}
-
-
 export default function LogoutIsOpen() {
 	const { isOpen, onOpen, onClose } = useDisclosure({ defaultIsOpen: false })
-	const [on, setOn] = useRecoilState(IsOn)
-	const [on2, setOn2] = useRecoilState(IsOn2)
+	const [on] = useRecoilState(IsOn)
+	const [on2] = useRecoilState(IsOn2)
 	
 	useEffect(() => {
-		if (on === 1) {
+		if (on === "LOGOUT") {
 			onOpen()
 		}
 	}, [on, on2]);

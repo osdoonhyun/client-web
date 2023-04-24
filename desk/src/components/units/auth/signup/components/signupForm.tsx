@@ -11,9 +11,9 @@ import {
 	Heading,
 	Text,
 	useColorModeValue,
-	Link,
+	Link, FormErrorMessage,
 } from '@chakra-ui/react';
-import {ChangeEvent, SetStateAction, useRef, useState} from 'react';
+import {SetStateAction, useState} from 'react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import {NextRouter, useRouter} from "next/router";
 import OnClickBtLink from "@/src/components/units/auth/login/components/OnClickBtLink";
@@ -21,9 +21,11 @@ import {useMutation} from "@apollo/client";
 import {AUTH_EMAIL, CREATE_USER, MATCH_AUTH_NUMBER} from "@/src/components/units/auth/queries/mutation";
 import { PinInput, PinInputField } from '@chakra-ui/react'
 import {
-	errMsg,
+	errMsg, LoginSchema, useFormProps,
 } from "@/src/components/units/auth/Auth.types";
 import Login from "@/src/components/units/auth/login/Login.container";
+import {useForm} from "react-hook-form";
+import {yupResolver} from "@hookform/resolvers/yup";
 
 export default function SignupForm() {
 	const [errMsg, setErrMsg] = useState<errMsg>({
@@ -42,20 +44,27 @@ export default function SignupForm() {
 	const [authEmail] = useMutation(AUTH_EMAIL)
 	const [matchAuthNumber] = useMutation(MATCH_AUTH_NUMBER)
 	const router: NextRouter = useRouter()
-	const myEmail = useRef<HTMLInputElement>(null)
-	const myPassword = useRef<HTMLInputElement>(null)
 	const [pinNumber, setPinNumber] = useState<string | undefined>(undefined)
 	const [authType, setAuthType] = useState('authSignup')
+	const {
+		getValues,
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm<useFormProps>({
+		resolver: yupResolver(LoginSchema),
+		mode: "onChange",
+	})
 	
 	const onChangePinNumber = (props: SetStateAction<string | undefined>): void => {
 		setPinNumber(props)
 	}
 	
 	const onClickCertification = async () => {
-		console.log(myEmail.current?.value)
+		const data = getValues()
 		await authEmail({
 			variables: {
-				email: myEmail.current?.value
+				email: data.email
 			}
 		}).then(() => {
 			const msg = '인증할 이메일 확인 후 인증번호 6자리를 입력해 주세요'
@@ -68,10 +77,11 @@ export default function SignupForm() {
 	}
 	
 	const onClickMatchAuthNumber = async () => {
+		const data = getValues()
 		await matchAuthNumber({
 			variables: {
 				matchAuthInput: {
-					email: myEmail.current?.value,
+					email: data.email,
 					authNumber: pinNumber
 				}
 			}
@@ -86,29 +96,21 @@ export default function SignupForm() {
 			})
 	}
 	
-	const onClickSubmit = async () => {
+	const onClickSubmit = async (data: useFormProps) => {
 		await createUser({
 			variables: {
 				createUserInput: {
-					email: myEmail.current?.value,
-					password: pinNumber,
+					email: data.email,
+					password: data.password,
 				}
 			}
 		}).then(() => {
-			router.push('/')
+			setAuthType('authLogin')
 		}).catch(() => {
 			const errorMsg: string = '이미 사용중인 이메일입니다.'
 			setErrMsg({...errMsg, errText: errorMsg, errColor: 'red'})
 			return
 		})
-	}
-	
-	const onChangeMyPassword = async (e: ChangeEvent<HTMLInputElement>) => {
-		if (e.currentTarget.value.length > 7) {
-			setErrMsg({...errMsg, isSubmitButton: true})
-		} else {
-			setErrMsg({...errMsg, isSubmitButton: false})
-		}
 	}
 	
 	return (
@@ -132,11 +134,18 @@ export default function SignupForm() {
 						bg={useColorModeValue('white', 'gray.700')}
 						boxShadow={'lg'}
 						p={8}>
+						<form onSubmit={handleSubmit(onClickSubmit)}>
 							<Stack spacing={4}>
-								<FormControl id="email" isRequired>
+								<FormControl id="email" isInvalid={!!errors.email}>
 									<FormLabel>이메일</FormLabel>
 									<Flex gap={4}>
-										<Input ref={myEmail} focusBorderColor={'dPrimary'} type="email" autoFocus={true} placeholder={'이메일을 입력해 주세요'}/>
+										<Input
+											focusBorderColor={'dPrimary'}
+											type="email"
+											autoFocus={true}
+											placeholder={'이메일을 입력해 주세요'}
+											{...register('email')}
+										/>
 										<Button
 											onClick={onClickCertification}
 											loadingText="Submitting"
@@ -155,12 +164,15 @@ export default function SignupForm() {
 										</Button>
 									</Flex>
 									<Text color={errMsg.errColor} p={4}>{errMsg.errText}</Text>
+									<FormErrorMessage>{errors.email && errors.email.message}</FormErrorMessage>
 								</FormControl>
-								<FormControl id="email" isRequired>
+								<FormControl id="certificationNumber">
 									<FormLabel>인증번호</FormLabel>
 									<Flex gap={1.5}>
-										{/*<Input ref={myAuthNumber} type="text" isReadOnly={!errMsg.isEmail} placeholder={'인증번호 받기 클릭 후 인증 가능'} />*/}
-										<PinInput focusBorderColor={'dPrimary'} onChange={onChangePinNumber}>
+										<PinInput
+											focusBorderColor={'dPrimary'}
+											onChange={onChangePinNumber}
+										>
 											<PinInputField />
 											<PinInputField />
 											<PinInputField />
@@ -186,10 +198,16 @@ export default function SignupForm() {
 									</Flex>
 									<Text color={errMsg.verificationColor} p={4}>{errMsg.verificationText}</Text>
 								</FormControl>
-								<FormControl id="password" isRequired>
+								<FormControl id="password" isInvalid={!!errors.password}>
 									<FormLabel>비밀번호</FormLabel>
 									<InputGroup>
-										<Input focusBorderColor={'dPrimary'} ref={myPassword} onChange={onChangeMyPassword} type={showPassword ? 'text' : 'password'} isReadOnly={!errMsg.isVerified} placeholder={'숫자인증 후 비밀번호 입력 가능'}/>
+										<Input
+											focusBorderColor={'dPrimary'}
+											type={showPassword ? 'text' : 'password'}
+											isReadOnly={!errMsg.isVerified}
+											placeholder={'숫자인증 후 비밀번호 입력 가능'}
+											{...register('password')}
+										/>
 										<InputRightElement h={'full'}>
 											<Button
 												variant={'ghost'}
@@ -200,14 +218,15 @@ export default function SignupForm() {
 											</Button>
 										</InputRightElement>
 									</InputGroup>
+									<FormErrorMessage>{errors.password && errors.password.message}</FormErrorMessage>
 								</FormControl>
 								<Stack spacing={10} pt={2}>
 									<Button
-										onClick={onClickSubmit}
+										type={"submit"}
 										loadingText="Submitting"
 										size="lg"
 										bg={'dPrimary'}
-										isDisabled={!errMsg.isSubmitButton}
+										isDisabled={!!errors.password}
 										color={'white'}
 										_hover={
 											useColorModeValue(
@@ -224,6 +243,7 @@ export default function SignupForm() {
 									</Text>
 								</Stack>
 							</Stack>
+						</form>
 					</Box>
 				</Stack>
 			</Flex>

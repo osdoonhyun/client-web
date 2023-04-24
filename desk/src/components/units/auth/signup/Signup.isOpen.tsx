@@ -1,5 +1,4 @@
 import {
-	Button,
 	Modal,
 	ModalOverlay,
 	ModalContent,
@@ -11,20 +10,15 @@ import {useRecoilState} from "recoil";
 import {IsOn, IsOn2} from "@/src/commons/store/atom";
 import {useEffect} from "react";
 
-type SignupIsOpenProps = {
-	onOpen ?: () => void
-	isOpen : boolean
-	onClose: () => void
-}
-
-
 export default function SignupIsOpen() {
 	const { isOpen, onOpen, onClose } = useDisclosure({ defaultIsOpen: false })
-	const [on, setOn] = useRecoilState(IsOn)
-	const [on2, setOn2] = useRecoilState(IsOn2)
+	// 현재 바라보고 있는 상태값 로그인인지, 회원가입인지
+	const [on] = useRecoilState(IsOn)
+	// 계속 쌓이는 숫자값, useEffect가 상태값 변경에 따라 작동되게 하기 위해서
+	const [on2] = useRecoilState(IsOn2)
 	
 	useEffect(() => {
-		if (on === 2) {
+		if (on === "SIGNUP") {
 			onOpen()
 		}
 	}, [on, on2]);
