@@ -17,7 +17,7 @@ export default function Layout(props: LayoutProps) {
   return (
     <>
       <LayoutHeader />
-      <div style={{ height: '1080px' }}>{props.children}</div>
+      <div style={{ height: '100%' }}>{props.children}</div>
       <LayoutFooter />
     </>
   )

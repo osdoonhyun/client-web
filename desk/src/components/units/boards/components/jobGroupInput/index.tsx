@@ -1,4 +1,4 @@
-import { HStack, Input, Select, Text, VStack } from '@chakra-ui/react'
+import { HStack, Input, Select, Text, VStack, useColorModeValue } from '@chakra-ui/react'
 import { ChangeEvent, useEffect, useState } from 'react'
 import { JobGroupInputProps, JobGroupItemType } from './types'
 import { Select as SelectTags } from 'antd'
@@ -43,11 +43,21 @@ export default function JobGroupInput(props: JobGroupInputProps) {
 
   return (
     <VStack align={'stretch'}>
-      <Text fontSize={16} fontWeight={700} color={'dGray.dark'} mb="px">
+      <Text
+        fontSize={16}
+        fontWeight={700}
+        color={useColorModeValue('dGray.dark', 'dGray.medium')}
+        mb="px">
         {props.title}
       </Text>
       <HStack align={'stretch'}>
-        <Select placeholder="직군" width={'36%'} onChange={onChangeJobGroup}>
+        <Select
+          bgColor={'white'}
+          color={'black'}
+          placeholder="직군"
+          width={'36%'}
+          onChange={onChangeJobGroup}
+          _placeholder={{ color: 'dGray.medium' }}>
           {EX_JOB_ITEMS.map((item, index) => (
             <option key={index} value={item.group}>
               {item.group}

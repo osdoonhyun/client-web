@@ -1,6 +1,6 @@
 import { maxWidth } from '@/src/commons/libraries/layout'
 import Carousel from '@/src/components/ui/carousel'
-import { Box, Center, HStack, Text } from '@chakra-ui/react'
+import { Box, Center, HStack, Text, useColorModeValue } from '@chakra-ui/react'
 import { FaQuoteLeft, FaQuoteRight } from 'react-icons/fa'
 import ProductItemCardList from '../components/productItemCardList'
 import ProfileHeader from '../components/profileHeader'
@@ -17,7 +17,11 @@ export default function BoardDetailUI() {
       <Center>
         <HStack>
           <FaQuoteLeft size={12} color="#BABABA" />
-          <Text fontSize={22} fontWeight={800} color={'dBlack'} pt={'10px'}>
+          <Text
+            fontSize={22}
+            fontWeight={800}
+            color={useColorModeValue('dGray.dark', 'dGray.medium')}
+            pt={'10px'}>
             제목이 들어감
           </Text>
           <FaQuoteRight size={12} color="#BABABA" />
