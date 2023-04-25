@@ -22,21 +22,21 @@ export function useAuth() {
 	
 	function loginModalOpen() {
 		setAuthModalType("LOGIN")
-		setAuthModalToggle((prev) => prev + 1)
+		setAuthModalToggle((prev) => !prev)
 	}
 	function signupModalOpen() {
 		setAuthModalType("SIGNUP")
-		setAuthModalToggle((prev) => prev + 1)
+		setAuthModalToggle((prev) => !prev)
 	}
 	
 	function logoutModalOpen() {
 		setAuthModalType("LOGOUT")
-		setAuthModalToggle((prev) => prev + 1)
+		setAuthModalToggle((prev) => !prev)
 	}
 	
 	function signoutModalOpen() {
 		setAuthModalType("SIGNOUT")
-		setAuthModalToggle((prev) => prev + 1)
+		setAuthModalToggle((prev) => !prev)
 	}
 	
 	return {

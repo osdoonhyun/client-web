@@ -21,5 +21,5 @@ export const AuthModalType = atom({
 
 export const AuthModalToggle = atom({
 	key: `authModalToggle`,
-	default: 0,
+	default: false,
 })
