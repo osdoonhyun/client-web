@@ -34,11 +34,23 @@ export default function YoutubeUI(props: YoutubeUIProps) {
               onClick={() => props.onClickSelectedVideo(youtube.videoUrl)}>
               <YoutubeImageStyle src={youtube.thumbnailUrl} alt={youtube.videoUrl} />
               <Flex
-                justifyContent="end"
+                justifyContent="center"
                 alignItems="center"
-                pr="3px"
-                color={useColorModeValue('dGray.dark', 'dGray.light')}
+                fontSize="13pt"
+                fontWeight="700"
+                color={useColorModeValue('dGray.dark', 'dGray.light')}>
+                <Box>
+                  {youtube.title.substring(0, 30)}
+                  {youtube.title.length > 30 ? '...' : ''}
+                </Box>
+              </Flex>
+              <Flex
+                justifyContent="center"
+                alignItems="center"
+                pr="5px"
+                color={useColorModeValue('#8e9193', 'dGray.light')}
                 fontWeight="500">
+                <br />
                 <FiEye />
                 <Text ml="5px">{youtube.views} views</Text>
               </Flex>
