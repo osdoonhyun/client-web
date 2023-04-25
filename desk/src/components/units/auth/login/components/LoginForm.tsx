@@ -14,7 +14,6 @@ import {
 } from '@chakra-ui/react';
 import {useRouter} from "next/router";
 import {useState} from "react";
-import OnClickBtLink from "@/src/components/units/auth/login/components/OnClickBtLink";
 import {useMutation} from "@apollo/client";
 import {LOGIN} from "@/src/components/units/auth/queries/mutation";
 import {MyToken} from "@/src/commons/store/atom";
@@ -28,7 +27,6 @@ import {LoginSchema, AuthFormProps} from "@/src/components/units/auth/Auth.types
 const cookies = new Cookies()
 
 export default function LoginForm() {
-	const router = useRouter()
 	const [_, setMyToken] = useRecoilState(MyToken)
 	const [login] = useMutation(LOGIN)
 	const [err, setErr] = useState({
@@ -88,15 +86,12 @@ export default function LoginForm() {
 					<Stack align={'center'}>
 						<Heading fontSize={'4xl'}>로그인</Heading>
 						<Text fontSize={'lg'} color={useColorModeValue('gray.800', 'gray.300')}>
-							당신의 책상을 자랑하라! <Link color={'dPrimary'} id={'deca'} onClick={(e) => {
-							OnClickBtLink(e, router)
-						}}>데카이브</Link> ✌️
+							당신의 책상을 자랑하라! <Link style={{color: 'dPrimary'}} href={'/'}>데카이브</Link> ✌️
 						</Text>
 					</Stack>
 					<Box
 						rounded={'lg'}
 						bg={useColorModeValue('white', 'gray.700')}
-						boxShadow={'lg'}
 						p={8}>
 						<Stack spacing={4}>
 							<form onSubmit={handleSubmit(onClickLoginSubmit)}>

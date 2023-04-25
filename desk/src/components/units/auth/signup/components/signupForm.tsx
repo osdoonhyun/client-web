@@ -11,12 +11,12 @@ import {
 	Heading,
 	Text,
 	useColorModeValue,
-	Link, FormErrorMessage,
+	FormErrorMessage,
 } from '@chakra-ui/react';
+
 import {SetStateAction, useState} from 'react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import {NextRouter, useRouter} from "next/router";
-import OnClickBtLink from "@/src/components/units/auth/login/components/OnClickBtLink";
 import {useMutation} from "@apollo/client";
 import {AUTH_EMAIL, CREATE_USER, MATCH_AUTH_NUMBER} from "@/src/components/units/auth/queries/mutation";
 import { PinInput, PinInputField } from '@chakra-ui/react'
@@ -26,6 +26,7 @@ import {
 import Login from "@/src/components/units/auth/login/Login.container";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
+import Link from "next/link";
 
 export default function SignupForm() {
 	const [errMsg, setErrMsg] = useState<errMsg>({
@@ -43,7 +44,6 @@ export default function SignupForm() {
 	const [createUser] = useMutation(CREATE_USER)
 	const [authEmail] = useMutation(AUTH_EMAIL)
 	const [matchAuthNumber] = useMutation(MATCH_AUTH_NUMBER)
-	const router: NextRouter = useRouter()
 	const [pinNumber, setPinNumber] = useState<string | undefined>(undefined)
 	const [authType, setAuthType] = useState('authSignup')
 	const {
@@ -120,19 +120,18 @@ export default function SignupForm() {
 				align={'center'}
 				justify={'center'}
 			>
-				<Stack spacing={8} mx={'auto'} maxW={'lg'} bg={useColorModeValue('white', 'gray.700')}>
+				<Stack spacing={0} mx={'auto'} maxW={'lg'} bg={useColorModeValue('white', 'gray.700')}>
 					<Stack align={'center'}>
 						<Heading fontSize={'4xl'} textAlign={'center'} pt={6}>
 							회원가입
 						</Heading>
 						<Text fontSize={'lg'} color={'gray.600'}>
-							당신의 책상을 자랑하십시오 <Link color={'dPrimary'} id={'deca'} onClick={(e) => {OnClickBtLink(e,  router)}}>데카이브</Link> ✌️
+							당신의 책상을 자랑하십시오 <Link style={{color: 'dPrimary'}} href={'/'}>데카이브</Link> ✌️
 						</Text>
 					</Stack>
 					<Box
 						rounded={'lg'}
 						bg={useColorModeValue('white', 'gray.700')}
-						boxShadow={'lg'}
 						p={8}>
 						<form onSubmit={handleSubmit(onClickSubmit)}>
 							<Stack spacing={4}>
@@ -238,8 +237,8 @@ export default function SignupForm() {
 									</Button>
 								</Stack>
 								<Stack pt={6}>
-									<Text align={'center'}>
-										이미 회원이신가요? <Link color={'dPrimary'} id={'linkLogIn'} onClick={() => {setAuthType('authLogin')}}>로그인</Link>
+									<Text align={'center'} style={{color: 'dPrimary', cursor: 'pointer'}} onClick={() => {setAuthType('authLogin')}}>
+										이미 회원이신가요? 로그인
 									</Text>
 								</Stack>
 							</Stack>
