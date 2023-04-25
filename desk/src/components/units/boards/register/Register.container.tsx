@@ -54,6 +54,7 @@ export default function BoardsRegister(props: BoardsRegisterProps) {
   }, [])
 
   const onClickSubmit = async (data: BoardsRegisterInputForm) => {
+    console.log(data)
     // 대표사진
     if (!files[0]?.size) {
       toast({
