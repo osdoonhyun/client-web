@@ -16,7 +16,6 @@ import {
 
 import {SetStateAction, useState} from 'react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
-import {NextRouter, useRouter} from "next/router";
 import {useMutation} from "@apollo/client";
 import {AUTH_EMAIL, CREATE_USER, MATCH_AUTH_NUMBER} from "@/src/components/units/auth/queries/mutation";
 import { PinInput, PinInputField } from '@chakra-ui/react'

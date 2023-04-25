@@ -12,7 +12,6 @@ import {
 	Link,
 	useColorModeValue
 } from '@chakra-ui/react';
-import {useRouter} from "next/router";
 import {useState} from "react";
 import {useMutation} from "@apollo/client";
 import {LOGIN} from "@/src/components/units/auth/queries/mutation";
