@@ -62,7 +62,7 @@ export default function ItemLinkInput(props: ItemLinkInputProps) {
       <Text
         fontSize={16}
         fontWeight={700}
-        color={useColorModeValue('dGray.dark', 'dGray.medium')}
+        color={useColorModeValue('dGray.dark', 'dGray.light')}
         mb="8px">
         {props.title}
         {props.isRequired && (
@@ -75,8 +75,8 @@ export default function ItemLinkInput(props: ItemLinkInputProps) {
             id={`${item.id}`}
             name="name"
             placeholder="상품명을 입력해주세요."
-            bgColor={'white'}
-            color={'black'}
+            bgColor={useColorModeValue('dGray.light', '#bababa1e')}
+            color={useColorModeValue('dBlack', 'dGray.light')}
             width={'25%'}
             onChange={onChangeName}
             _placeholder={{ color: 'dGray.medium' }}
@@ -85,8 +85,8 @@ export default function ItemLinkInput(props: ItemLinkInputProps) {
             id={`${item.id}`}
             name="link"
             placeholder="상품의 구매처 링크를 입력해주세요. 구매한 사이트가 아니어도 괜찮습니다."
-            bgColor={'white'}
-            color={'black'}
+            bgColor={useColorModeValue('dGray.light', '#bababa1e')}
+            color={useColorModeValue('dBlack', 'dGray.light')}
             width={'65%'}
             onChange={onChangeLink}
             _placeholder={{ color: 'dGray.medium' }}
@@ -96,7 +96,7 @@ export default function ItemLinkInput(props: ItemLinkInputProps) {
               <Button
                 w={'40px'}
                 h={'40px'}
-                bgColor={useColorModeValue('dGray.light', 'dGray.medium')}
+                bgColor={useColorModeValue('dGray.light', '#bababa1e')}
                 onClick={addItem}>
                 <AddIcon boxSize={3} />
               </Button>
@@ -105,7 +105,7 @@ export default function ItemLinkInput(props: ItemLinkInputProps) {
                 w={'40px'}
                 h={'40px'}
                 backgroundColor={'clear'}
-                bgColor={useColorModeValue('dGray.light', 'dGray.medium')}
+                bgColor={useColorModeValue('dGray.light', '#bababa1e')}
                 onClick={deleteItem(item.id)}>
                 <MinusIcon boxSize={3} />
               </Button>
@@ -118,7 +118,7 @@ export default function ItemLinkInput(props: ItemLinkInputProps) {
                 w={'40px'}
                 h={'40px'}
                 backgroundColor={'clear'}
-                bgColor={useColorModeValue('dGray.light', 'dGray.medium')}
+                bgColor={useColorModeValue('dGray.light', '#bababa1e')}
                 onClick={deleteItem(item.id)}>
                 <MinusIcon boxSize={3} />
               </Button>

@@ -1,4 +1,4 @@
-import { Avatar, Center, Image, Input } from '@chakra-ui/react'
+import { Avatar, Center, Image, Input, useColorModeValue } from '@chakra-ui/react'
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { AiOutlineUpload } from 'react-icons/ai'
 import { FileUploadProps } from './types'

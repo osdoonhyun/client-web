@@ -8,7 +8,7 @@ export default function TitleWithInput(props: TitleWithInputProps) {
       <Text
         fontSize={16}
         fontWeight={700}
-        color={useColorModeValue('dGray.dark', 'dGray.medium')}
+        color={useColorModeValue('dGray.dark', 'dGray.light')}
         mb="8px">
         {props.title}
         {props.isRequired && (
@@ -18,8 +18,8 @@ export default function TitleWithInput(props: TitleWithInputProps) {
       {props.type === 'input' ? (
         <>
           <Input
-            bgColor={'white'}
-            color={'black'}
+            bgColor={useColorModeValue('dGray.light', '#bababa1e')}
+            color={useColorModeValue('dBlack', 'dGray.light')}
             value={props.value}
             defaultValue={props.defaultValue}
             onChange={props.onChangeInput}
@@ -35,8 +35,8 @@ export default function TitleWithInput(props: TitleWithInputProps) {
       ) : (
         <>
           <Textarea
-            bgColor={'white'}
-            color={'black'}
+            bgColor={useColorModeValue('dGray.light', '#bababa1e')}
+            color={useColorModeValue('dBlack', 'dGray.light')}
             value={props.value}
             defaultValue={props.defaultValue}
             onChange={props.onChangeInput}
