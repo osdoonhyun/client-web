@@ -37,7 +37,8 @@ export type MyJob = {
 const ErrorLog = {
 	NOT_EMAIL: "올바르지 않은 이메일 형식입니다.",
 	ALREADY_USED_EMAIL: "이미 사용중인 이메일입니다.",
-	
+	NOT_JOINED_MEMBER: "등록되지 않은 회원 입니다.",
+	NOT_MATCH_PASSWORD: "비밀번호가 일치하지 않습니다."
 }
 Object.freeze(ErrorLog)
 
@@ -46,5 +47,9 @@ export function errorMessage(err: string) {
 		return ErrorLog.NOT_EMAIL
 	} else if (err.includes('이미 사용중인')) {
 		return ErrorLog.ALREADY_USED_EMAIL
+	} else if (err.includes('등록되지 않은')) {
+		return ErrorLog.NOT_JOINED_MEMBER
+	} else if (err.includes('비밀번호가 일치')) {
+		return ErrorLog.NOT_MATCH_PASSWORD
 	}
 }

@@ -169,8 +169,8 @@ export default function SignupForm() {
 											<Text align={'center'} width={'150px'} color={'red'}>직군선택필수</Text>
 										}
 									</Flex>
-									<Text color={errMsg.errColor} p={4}>{errMsg.errText}</Text>
 									<FormErrorMessage>{errors.email && errors.email.message}</FormErrorMessage>
+									<Text color={errMsg.errColor} pb={4}>{errMsg.errText}</Text>
 								</FormControl>
 								<FormControl id="certificationNumber">
 									<FormLabel>인증번호</FormLabel>
@@ -202,7 +202,7 @@ export default function SignupForm() {
 											인증하기
 										</Button>
 									</Flex>
-									<Text color={errMsg.verificationColor} p={4}>{errMsg.verificationText}</Text>
+									<Text color={errMsg.verificationColor} pb={4}>{errMsg.verificationText}</Text>
 								</FormControl>
 								<FormControl id="password" isInvalid={!!errors.password}>
 									<FormLabel>비밀번호</FormLabel>
