@@ -27,6 +27,7 @@ import Login from "@/src/components/units/auth/login/Login.container";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import NextLink from "next/link";
+import MyJobSelect from "@/src/components/units/auth/signup/components/MyJobSelect";
 
 export default function SignupForm() {
 	const [errMsg, setErrMsg] = useState<errMsg>({
@@ -40,7 +41,7 @@ export default function SignupForm() {
 		myPassword: ''
 	})
 	const [showPassword, setShowPassword] = useState(false);
-	
+	const [myJob, setMyJob] = useState('')
 	const [createUser] = useMutation(CREATE_USER)
 	const [authEmail] = useMutation(AUTH_EMAIL)
 	const [matchAuthNumber] = useMutation(MATCH_AUTH_NUMBER)
@@ -135,6 +136,7 @@ export default function SignupForm() {
 						p={8}>
 						<form onSubmit={handleSubmit(onClickSubmit)}>
 							<Stack spacing={4}>
+								<MyJobSelect setMyJob={setMyJob} myJob={myJob} />
 								<FormControl id="email" isInvalid={!!errors.email}>
 									<FormLabel>이메일</FormLabel>
 									<Flex gap={4}>
@@ -145,6 +147,7 @@ export default function SignupForm() {
 											placeholder={'이메일을 입력해 주세요'}
 											{...register('email')}
 										/>
+										{myJob ?
 										<Button
 											onClick={onClickCertification}
 											loadingText="Submitting"
@@ -161,6 +164,9 @@ export default function SignupForm() {
 										>
 											인증번호 받기
 										</Button>
+											:
+											<Text align={'center'} width={'150px'} color={'red'}>직군선택필수</Text>
+										}
 									</Flex>
 									<Text color={errMsg.errColor} p={4}>{errMsg.errText}</Text>
 									<FormErrorMessage>{errors.email && errors.email.message}</FormErrorMessage>

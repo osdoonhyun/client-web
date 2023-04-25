@@ -21,10 +21,15 @@ export const LoginSchema = yup
 			.string()
 			.required('필수 입력값 입니다.')
 			.min(6, '비밀번호는 6자리 이상이어야 합니다.')
-			.max(13, '비밀번호는 13자리 이하여야 합니다.')
+			.max(13, '비밀번호는 13자리 이하여야 합니다.'),
 	})
 
 export type AuthFormProps = {
 	email: string
 	password: string
+}
+
+export type MyJob = {
+	myJob: string
+	setMyJob: (myJob: string) => void
 }
