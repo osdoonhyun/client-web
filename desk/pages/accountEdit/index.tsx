@@ -70,6 +70,9 @@ export default function AccountEdit() {
   const onChangeFileUrl = useCallback((fileUrl: string, index: number) => {
     console.log(fileUrl)
   }, [])
+  const onChangeFile = useCallback((file: File, index: number) => {
+    console.log(file)
+  }, [])
 
   // sns 계정 추가하기
   const nextId = useRef(SnsLinkCount.MIN)
@@ -113,7 +116,8 @@ export default function AccountEdit() {
                 width="125px"
                 height="125px"
                 fileUrl=""
-                onChangeFileUrls={onChangeFileUrls}
+                onChangeFile={onChangeFile}
+                onChangeFileUrl={onChangeFileUrl}
                 fileUploadRef={fileUploadRef}
               />
             </Center>
