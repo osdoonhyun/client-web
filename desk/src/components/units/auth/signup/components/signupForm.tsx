@@ -21,7 +21,7 @@ import {useMutation} from "@apollo/client";
 import {AUTH_EMAIL, CREATE_USER, MATCH_AUTH_NUMBER} from "@/src/components/units/auth/queries/mutation";
 import { PinInput, PinInputField } from '@chakra-ui/react'
 import {
-	AuthFormProps, errMsg, LoginSchema,
+	AuthFormProps, errMsg, errorMessage, LoginSchema,
 } from "@/src/components/units/auth/Auth.types";
 import Login from "@/src/components/units/auth/login/Login.container";
 import {useForm} from "react-hook-form";
@@ -70,9 +70,9 @@ export default function SignupForm() {
 		}).then(() => {
 			const msg = '인증할 이메일 확인 후 인증번호 6자리를 입력해 주세요'
 			setErrMsg({...errMsg, errText: msg, errColor: 'green', isEmail: true})
-		}).catch(() => {
-			const msg = '이미 사용중인 이메일입니다.'
-			setErrMsg({...errMsg, errText: msg, errColor: 'red'})
+		}).catch((err) => {
+			const msg: string|undefined = errorMessage(err.message)
+			setErrMsg({...errMsg, errText: msg || '', errColor: 'red'})
 			return
 		})
 	}
@@ -103,6 +103,7 @@ export default function SignupForm() {
 				createUserInput: {
 					email: data.email,
 					password: data.password,
+					jobGroup: myJob
 				}
 			}
 		}).then(() => {

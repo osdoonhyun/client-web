@@ -33,3 +33,18 @@ export type MyJob = {
 	myJob: string
 	setMyJob: (myJob: string) => void
 }
+
+const ErrorLog = {
+	NOT_EMAIL: "올바르지 않은 이메일 형식입니다.",
+	ALREADY_USED_EMAIL: "이미 사용중인 이메일입니다.",
+	
+}
+Object.freeze(ErrorLog)
+
+export function errorMessage(err: string) {
+	if (err.includes('올바르지 않은')) {
+		return ErrorLog.NOT_EMAIL
+	} else if (err.includes('이미 사용중인')) {
+		return ErrorLog.ALREADY_USED_EMAIL
+	}
+}

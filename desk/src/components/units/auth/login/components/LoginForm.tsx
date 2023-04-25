@@ -11,10 +11,10 @@ import {
 	Text,
 	useColorModeValue, Link
 } from '@chakra-ui/react';
-import {useState} from "react";
+import React, {useState} from "react";
 import {useMutation} from "@apollo/client";
 import {LOGIN} from "@/src/components/units/auth/queries/mutation";
-import {AuthModalType, MyToken} from "@/src/commons/store/atom";
+import {AuthModalType, MyEmailSave, MyToken} from "@/src/commons/store/atom";
 import {useRecoilState} from "recoil";
 import SignupForm from "@/src/components/units/auth/signup/components/signupForm";
 import {Cookies} from "react-cookie";
@@ -34,9 +34,11 @@ export default function LoginForm() {
 		errPass: ''
 	})
 	const [authType, setAuthType] = useState('authLogin')
+	const [___, setMyEmailSave] = useRecoilState(MyEmailSave)
 	const [__, setAuthModalType] = useRecoilState(AuthModalType)
 	const router = useRouter()
 	const {
+		getValues,
 		register,
 		handleSubmit,
 		formState: { errors },
@@ -75,6 +77,15 @@ export default function LoginForm() {
 			setErr({...err, errEmail: errMail, errPass: errPass})
 			console.log('error 입니다.')
 		})
+	}
+	
+	const onChangeMyEmailSave = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const data = getValues()
+		if (e.target.checked) {
+			setMyEmailSave(data.email)
+		} else {
+			setMyEmailSave('')
+		}
 	}
 	
 	return (
@@ -123,7 +134,7 @@ export default function LoginForm() {
 										direction={{base: 'column', sm: 'row'}}
 										align={'start'}
 										justify={'space-between'}>
-										<Checkbox>저장하기</Checkbox>
+										<Checkbox onChange={onChangeMyEmailSave}>저장하기</Checkbox>
 										<Link as={NextLink} color={useColorModeValue('dPrimary', 'dPrimaryHover.transparency')} href={'/'}>비밀번호를 잊어버리셨나요?</Link>
 									</Stack>
 									

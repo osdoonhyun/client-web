@@ -7,6 +7,15 @@ const {persistAtom: session} = recoilPersist({
 	key: `atomSession`,
 	storage: sessionStorage,
 })
+const {persistAtom: local} = recoilPersist({
+	key: `atomLocal`
+})
+
+export const MyEmailSave = atom({
+	key: `myEmailSave`,
+	default: '',
+	effects_UNSTABLE: [local],
+})
 
 export const MyToken = atom({
 	key: `myToken`,
