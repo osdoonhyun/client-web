@@ -63,12 +63,17 @@ export default function FileUpload(props: FileUploadProps) {
           <Center
             w={props.width}
             h={props.height}
-            bgColor="dGray.light"
+            bgColor={useColorModeValue('dGray.light', '#bababa1e')}
             boxShadow="base"
             borderRadius={'10px'}
+            border="solid 1px"
+            borderColor={useColorModeValue('dGray.light', '#bababa89')}
             cursor={'pointer'}
             onClick={onClickUpload}>
-            <AiOutlineUpload fontSize={30} color={'#242424'} />
+            <AiOutlineUpload
+              fontSize={30}
+              color={useColorModeValue('dGray.medium', 'dGray.light')}
+            />
           </Center>
         )
       ) : imageUrl ? ( // Profile Type

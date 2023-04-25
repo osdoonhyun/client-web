@@ -14,7 +14,7 @@ function ImageUpload(props: ImageUploadProps) {
         <Text
           fontSize={16}
           fontWeight={700}
-          color={useColorModeValue('dGray.dark', 'dGray.medium')}
+          color={useColorModeValue('dGray.dark', 'dGray.light')}
           mb="8px"
           ml={'10px'}>
           {}님의 책상 사진을 업로드 해주세요.
