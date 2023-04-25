@@ -9,5 +9,6 @@ export type FileUploadProps = {
   height?: number | string
   onChangeFile: (file: File, index: number) => void
   onChangeFileUrl: (fileUrl: string, index: number) => void
+  fileUploadRef?: React.RefObject<HTMLInputElement>
   children?: ReactNode
 }
