@@ -15,13 +15,14 @@ import {
 import {useState} from "react";
 import {useMutation} from "@apollo/client";
 import {LOGIN} from "@/src/components/units/auth/queries/mutation";
-import {MyToken} from "@/src/commons/store/atom";
+import {AuthModalType, MyToken} from "@/src/commons/store/atom";
 import {useRecoilState} from "recoil";
 import SignupForm from "@/src/components/units/auth/signup/components/signupForm";
 import {Cookies} from "react-cookie";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {LoginSchema, AuthFormProps} from "@/src/components/units/auth/Auth.types";
+import {useRouter} from "next/router";
 
 const cookies = new Cookies()
 
@@ -33,7 +34,8 @@ export default function LoginForm() {
 		errPass: ''
 	})
 	const [authType, setAuthType] = useState('authLogin')
-	
+	const [__, setAuthModalType] = useRecoilState(AuthModalType)
+	const router = useRouter()
 	const {
 		register,
 		handleSubmit,
@@ -58,6 +60,8 @@ export default function LoginForm() {
 				secure: true,
 				sameSite: "none",
 			})
+			setAuthModalType('AFTER_AUTH')
+			router.push('/')
 			
 		}).catch((err) => {
 			let errMail = ''

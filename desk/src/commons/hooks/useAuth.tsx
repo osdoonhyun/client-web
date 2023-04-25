@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {useRecoilState} from "recoil";
 import {AuthModalType, AuthModalToggle, MyToken} from "@/src/commons/store/atom";
 import LoginIsOpen from "@/src/components/units/auth/login/Login.isOpen";
@@ -39,12 +39,28 @@ export function useAuth() {
 		setAuthModalToggle((prev) => !prev)
 	}
 	
+	const login = useCallback(() => {
+		return <LoginIsOpen />
+	}, [])
+	
+	const signup = useCallback(() => {
+		return <SignupIsOpen />
+	}, [])
+	
+	const logout = useCallback(() => {
+		return <LogoutIsOpen />
+	}, [])
+	
+	const signout = useCallback(() => {
+		return <SignoutIsOpen />
+	}, [])
+	
 	return {
 		isLoggedIn,
-		Login: () => <LoginIsOpen />,
-		Signup: () => <SignupIsOpen />,
-		Logout: () => <LogoutIsOpen />,
-		Signout: () => <SignoutIsOpen />,
+		Login: login,
+		Signup: signup,
+		Logout: logout,
+		Signout: signout,
 		loginModalOpen,
 		signupModalOpen,
 		logoutModalOpen,
