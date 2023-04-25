@@ -12,6 +12,7 @@ import {
 	Text,
 	useColorModeValue,
 	FormErrorMessage,
+	Link,
 } from '@chakra-ui/react';
 
 import {SetStateAction, useState} from 'react';
@@ -25,7 +26,7 @@ import {
 import Login from "@/src/components/units/auth/login/Login.container";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
-import Link from "next/link";
+import NextLink from "next/link";
 
 export default function SignupForm() {
 	const [errMsg, setErrMsg] = useState<errMsg>({
@@ -124,8 +125,8 @@ export default function SignupForm() {
 						<Heading fontSize={'4xl'} textAlign={'center'} pt={6}>
 							회원가입
 						</Heading>
-						<Text fontSize={'lg'} color={'gray.600'}>
-							당신의 책상을 자랑하십시오 <Link style={{color: 'dPrimary'}} href={'/'}>데카이브</Link> ✌️
+						<Text fontSize={'lg'} color={useColorModeValue('gray.800', 'gray.300')}>
+							당신의 책상을 자랑하십시오 <Link as={NextLink} color={useColorModeValue('dPrimary', 'dPrimaryHover.transparency')} href={'/'}>데카이브</Link> ✌️
 						</Text>
 					</Stack>
 					<Box
@@ -236,8 +237,8 @@ export default function SignupForm() {
 									</Button>
 								</Stack>
 								<Stack pt={6}>
-									<Text align={'center'} style={{color: 'dPrimary', cursor: 'pointer'}} onClick={() => {setAuthType('authLogin')}}>
-										이미 회원이신가요? 로그인
+									<Text align={'center'} style={{color: 'dPrimary', }}>
+										이미 회원이신가요? <Link color={useColorModeValue('dPrimary', 'dPrimaryHover.transparency')} onClick={() => {setAuthType('authLogin')}}>로그인</Link>
 									</Text>
 								</Stack>
 							</Stack>

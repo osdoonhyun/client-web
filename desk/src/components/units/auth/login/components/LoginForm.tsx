@@ -9,8 +9,7 @@ import {
 	Button,
 	Heading,
 	Text,
-	Link,
-	useColorModeValue
+	useColorModeValue, Link
 } from '@chakra-ui/react';
 import {useState} from "react";
 import {useMutation} from "@apollo/client";
@@ -23,6 +22,7 @@ import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {LoginSchema, AuthFormProps} from "@/src/components/units/auth/Auth.types";
 import {useRouter} from "next/router";
+import NextLink from "next/link";
 
 const cookies = new Cookies()
 
@@ -89,7 +89,7 @@ export default function LoginForm() {
 					<Stack align={'center'}>
 						<Heading fontSize={'4xl'}>로그인</Heading>
 						<Text fontSize={'lg'} color={useColorModeValue('gray.800', 'gray.300')}>
-							당신의 책상을 자랑하라! <Link style={{color: 'dPrimary'}} href={'/'}>데카이브</Link> ✌️
+							당신의 책상을 자랑하라! <Link as={NextLink} color={useColorModeValue('dPrimary', 'dPrimaryHover.transparency')} href={'/'}>데카이브</Link> ✌️
 						</Text>
 					</Stack>
 					<Box
@@ -124,7 +124,7 @@ export default function LoginForm() {
 										align={'start'}
 										justify={'space-between'}>
 										<Checkbox>저장하기</Checkbox>
-										<Link color={useColorModeValue('dPrimary', 'dPrimaryHover.transparency')}>비밀번호를 잊어버리셨나요?</Link>
+										<Link as={NextLink} color={useColorModeValue('dPrimary', 'dPrimaryHover.transparency')} href={'/'}>비밀번호를 잊어버리셨나요?</Link>
 									</Stack>
 									
 									<Button
