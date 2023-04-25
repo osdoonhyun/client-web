@@ -3,7 +3,7 @@ import CategoryHeader from '../../components/categoryHeader/CategoryHeader.conta
 import MainBoardSlider from '../../components/mainBoardSlider'
 
 export default function BestUI() {
-  const categoryTitle = 'Best'
+  const categoryTitle = '🏆 인기 게시물 TOP 10 🏆'
 
   // api 연결 예정 - UI 테스트를 위한 이미지값
   const images = [

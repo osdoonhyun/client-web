@@ -11,12 +11,13 @@ export default function CategoryHeaderUI(props: CategoryHeaderUIProps) {
         justifyContent="space-between"
         alignContent="center"
         mt="30px"
-        color={useColorModeValue('dGray.dark', 'dGray.light')}
-        fontWeight="600">
+        fontSize="14pt"
+        fontWeight="700"
+        color={useColorModeValue('dGray.dark', 'dGray.light')}>
         <Text>{props.categoryTitle}</Text>
         {props.moreButtonHidden && (
           <Link href={props.moreButtonLink || '#'}>
-            <Box as="a" cursor="pointer">
+            <Box as="a" cursor="pointer" fontSize="12pt" mt="5px">
               더보기 {`>`}
             </Box>
           </Link>
