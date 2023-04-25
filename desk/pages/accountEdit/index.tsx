@@ -30,12 +30,15 @@ type ItemLinkType = {
 
 const SNS_ACCOUNT_LINKS: ItemLinkType[] = [
   {
-    id: 0,
+    id: 1,
     link: '',
   },
 ]
 
-const MAX_COUNT = 3
+const SnsLinkCount = {
+  MAX: 3,
+  MIN: 1,
+}
 
 export default function AccountEdit() {
   function EditableControls() {
@@ -69,16 +72,11 @@ export default function AccountEdit() {
   }, [])
 
   // sns 계정 추가하기
-  // const nextId = useRef(MAX_COUNT)
-  const nextId = useRef(0)
+  const nextId = useRef(SnsLinkCount.MIN)
   const [snsLinks, setSnsLinks] = useState<ItemLinkType[]>(SNS_ACCOUNT_LINKS)
 
-  // useEffect(()=> {
-
-  // })
-
   const addSnsLink = () => {
-    if (MAX_COUNT <= snsLinks.length) {
+    if (SnsLinkCount.MAX <= snsLinks.length) {
       return
     }
 
@@ -87,10 +85,6 @@ export default function AccountEdit() {
   }
 
   const deleteSnsLink = (id: number) => () => {
-    // if (MAX_COUNT >= snsLinks.length) {
-    //   return
-    // }
-
     setSnsLinks(links => links.filter(link => link.id !== id))
   }
 
@@ -224,7 +218,7 @@ export default function AccountEdit() {
                       </Link>
                     </Flex>
                     {link.id === nextId.current ? ( // 추가 될 링크
-                      snsLinks.length >= 3 ? (
+                      snsLinks.length >= SnsLinkCount.MAX ? (
                         <Button
                           id={`${link.id}`}
                           w={'40px'}
@@ -243,7 +237,7 @@ export default function AccountEdit() {
                           <AddIcon boxSize={3} />
                         </Button>
                       )
-                    ) : snsLinks.length <= 1 ? ( // 기존 링크
+                    ) : snsLinks.length <= SnsLinkCount.MIN ? ( // 기존 링크
                       <Button
                         w={'40px'}
                         h={'40px'}
