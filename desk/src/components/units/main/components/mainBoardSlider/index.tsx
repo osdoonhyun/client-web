@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Box, IconButton, useColorModeValue } from '@chakra-ui/react'
+import { Box, Center, IconButton, useMediaQuery } from '@chakra-ui/react'
 import { IoIosArrowDropleftCircle, IoIosArrowDroprightCircle } from 'react-icons/io'
 import { MainBoardSliderProps } from './types'
 import MainImageStyle from '@/src/components/ui/mainImageStyle'
@@ -10,9 +10,12 @@ import 'slick-carousel/slick/slick-theme.css'
 export default function MainBoardSlider({ images }: MainBoardSliderProps) {
   const [slider, setSlider] = useState<Slider | null>(null)
   const [arrowVisible, setArrowVisible] = useState(true)
+  const [isMobile] = useMediaQuery('(max-width: 767px)')
+  const arrowSize = isMobile ? '30px' : '50px'
 
   const PrevArrow = (props: CustomArrowProps) => {
     const { onClick, className } = props
+
     return (
       <IconButton
         css={{ '&:hover, &:focus': { background: 'none', color: '#666bffd2' } }}
@@ -21,17 +24,19 @@ export default function MainBoardSlider({ images }: MainBoardSliderProps) {
         position="absolute"
         zIndex={2}
         top="40%"
-        left="-3"
+        left="0"
         onClick={onClick}
-        color={useColorModeValue('#2323237b', '#f8f8f89a')}
+        color="#f8f8f8c8"
         display={arrowVisible ? 'block' : 'none'}>
-        <IoIosArrowDropleftCircle size="30px" />
+        <IoIosArrowDropleftCircle size={arrowSize} />
       </IconButton>
     )
   }
 
   const NextArrow = (props: CustomArrowProps) => {
     const { onClick, className } = props
+    const arrowRightPosition = isMobile ? '-8px' : '0'
+
     return (
       <IconButton
         css={{ '&:hover, &:focus': { background: 'none', color: '#666bffd2' } }}
@@ -40,11 +45,11 @@ export default function MainBoardSlider({ images }: MainBoardSliderProps) {
         position="absolute"
         zIndex={2}
         top="40%"
-        right="-4"
+        right={arrowRightPosition}
         onClick={onClick}
-        color={useColorModeValue('#2323237b', '#f8f8f89a')}
+        color="#f8f8f8c8"
         display={arrowVisible ? 'block' : 'none'}>
-        <IoIosArrowDroprightCircle size="30px" />
+        <IoIosArrowDroprightCircle size={arrowSize} />
       </IconButton>
     )
   }
@@ -59,16 +64,28 @@ export default function MainBoardSlider({ images }: MainBoardSliderProps) {
     afterChange: () => setArrowVisible(true),
     prevArrow: <PrevArrow />,
     nextArrow: <NextArrow />,
+    responsive: [
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          // arrows: false,
+        },
+      },
+    ],
   }
 
   return (
     <>
-      <Box position="relative" width="full" overflow="hidden">
+      <Box position="relative" w="full" h="260" overflow="hidden">
         <Box width={{ base: '100%', md: '80%', lg: '1080px' }} mx="auto">
           <Slider {...settings} ref={slider => setSlider(slider)}>
             {images.map((src, index) => (
-              <Box key={index} p={2}>
-                <MainImageStyle src={src} alt={`Image ${index}`} />
+              <Box key={index} p={1}>
+                <Center>
+                  <MainImageStyle src={src} alt={`Image ${index}`} />
+                </Center>
               </Box>
             ))}
           </Slider>
