@@ -3,7 +3,6 @@ import { Box, Button, Center, Flex } from '@chakra-ui/react'
 import { Controller } from 'react-hook-form'
 import ImageUpload from '../components/imageUpload'
 import ItemLinkInput from '../components/itemLinkInput'
-import JobGroupInput from '../components/jobGroupInput'
 import TitleWithInput from '../components/titleWithInput'
 import TitleWithInputTags from '../components/titleWithInputTags'
 import { BoardsRegisterUIProps } from './Register.types'
@@ -18,10 +17,13 @@ export default function BoardsRegisterUI(props: BoardsRegisterUIProps) {
       justify={'flex-start'}
       align={'stretch'}
       margin={'0 auto'}>
+      <Box mt={140}>
+        <ImageUpload
+          onChangeFile={props.onChangeFile}
+          onChangeFileUrl={props.onChangeFileUrl}
+        />
+      </Box>
       <form onSubmit={props.useForm.handleSubmit(props.onClickSubmit)}>
-        <Box mt={140}>
-          <ImageUpload onChangeFileUrls={props.onChangeFileUrls} />
-        </Box>
         <Box mt={'57px'}>
           <Controller
             name="title"
@@ -32,7 +34,7 @@ export default function BoardsRegisterUI(props: BoardsRegisterUIProps) {
                 isRequired={true}
                 title="제목을 입력해주세요."
                 value={value || ''}
-                maxLength={50}
+                maxLength={100}
                 onChangeInput={onChange}
                 errorMessage={errors.title?.message}
               />
@@ -104,27 +106,21 @@ export default function BoardsRegisterUI(props: BoardsRegisterUIProps) {
                 isRequired={false}
                 title="해시태그를 입력해주세요. ex) 학생데스크셋업, 개발자데스크셋업..."
                 value={value || []}
-                options={[
-                  { value: '데스크셋업', label: '데스크셋업' },
-                  { value: 'IT 개발자', label: 'IT 개발자' },
-                  { value: '개발자 데스크셋업', label: '개발자 데스크셋업' },
-                ]}
+                defaultValue={value || []}
                 onChangeInputTags={onChange}
               />
             )}
           />
         </Box>
-        <Box mt={'57px'}>
-          <Controller
-            name="jobGroup"
-            control={props.useForm.control}
-            render={({ field: { onChange, value } }) => (
-              <JobGroupInput title="직군을 선택해주세요." onItem={onChange} />
-            )}
-          />
-        </Box>
-        <Center mt={'80px'} mb={'80px'}>
-          <Button type="submit" w={'40%'} h={'48px'} bgColor={'dPrimary'} color={'white'}>
+        <Center mt={'180px'} mb={'50px'}>
+          <Button
+            type="submit"
+            w={'40%'}
+            h={'48px'}
+            bgColor={'dPrimary'}
+            color={'white'}
+            isLoading={props.isLoading}
+            loadingText={`${props.isEdit ? '수정' : '등록'} 중...`}>
             {props.isEdit ? '수정하기' : '등록하기'}
           </Button>
         </Center>

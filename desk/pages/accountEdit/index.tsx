@@ -67,7 +67,7 @@ export default function AccountEdit() {
     )
   }
 
-  const onChangeFileUrls = useCallback((fileUrl: string, index: number) => {
+  const onChangeFileUrl = useCallback((fileUrl: string, index: number) => {
     console.log(fileUrl)
   }, [])
 

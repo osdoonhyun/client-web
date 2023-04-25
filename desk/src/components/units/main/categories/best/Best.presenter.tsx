@@ -1,20 +1,27 @@
 import { Center } from '@chakra-ui/react'
-import MainImageStyle from '@/src/components/ui/mainImageStyle'
 import CategoryHeader from '../../components/categoryHeader/CategoryHeader.container'
+import MainBoardSlider from '../../components/mainBoardSlider'
 
 export default function BestUI() {
   const categoryTitle = 'Best'
+
+  // api 연결 예정 - UI 테스트를 위한 이미지값
+  const images = [
+    '/test1.jpeg',
+    '/test1.jpeg',
+    '/test1.jpeg',
+    '/test1.jpeg',
+    '/test1.jpeg',
+    '/test1.jpeg',
+    '/test1.jpeg',
+    '/test1.jpeg',
+  ]
 
   return (
     <>
       <CategoryHeader categoryTitle={categoryTitle} moreButtonHidden={false} />
       <Center m={2}>
-        {/* 이미지 UI 구성을 위한 임시 Key값. 추후 api 연결 시 수정 예정 */}
-        {[1, 1, 1, 1].map(num => (
-          <Center key={num} m={'10px'}>
-            <MainImageStyle src={`/test${num}.jpeg`} alt={`test image${num}`} />
-          </Center>
-        ))}
+        <MainBoardSlider images={images} />
       </Center>
     </>
   )
