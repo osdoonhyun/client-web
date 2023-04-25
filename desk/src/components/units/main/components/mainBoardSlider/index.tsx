@@ -10,8 +10,19 @@ import 'slick-carousel/slick/slick-theme.css'
 export default function MainBoardSlider({ images }: MainBoardSliderProps) {
   const [slider, setSlider] = useState<Slider | null>(null)
   const [arrowVisible, setArrowVisible] = useState(true)
+  const [currentSlide, setCurrentSlide] = useState(0)
+
   const [isMobile] = useMediaQuery('(max-width: 767px)')
-  const arrowSize = isMobile ? '30px' : '50px'
+
+  const onClickPrev = () => {
+    const moveBy = isMobile ? 2 : 4
+    slider?.slickGoTo(currentSlide - moveBy)
+  }
+
+  const onClickNext = () => {
+    const moveBy = isMobile ? 2 : 4
+    slider?.slickGoTo(currentSlide + moveBy)
+  }
 
   const PrevArrow = (props: CustomArrowProps) => {
     const { onClick, className } = props
@@ -24,11 +35,11 @@ export default function MainBoardSlider({ images }: MainBoardSliderProps) {
         position="absolute"
         zIndex={2}
         top="40%"
-        left="0"
-        onClick={onClick}
+        left="2"
+        onClick={onClickPrev}
         color="#f8f8f8c8"
         display={arrowVisible ? 'block' : 'none'}>
-        <IoIosArrowDropleftCircle size={arrowSize} />
+        <IoIosArrowDropleftCircle size="50px" />
       </IconButton>
     )
   }
@@ -46,10 +57,10 @@ export default function MainBoardSlider({ images }: MainBoardSliderProps) {
         zIndex={2}
         top="40%"
         right={arrowRightPosition}
-        onClick={onClick}
+        onClick={onClickNext}
         color="#f8f8f8c8"
         display={arrowVisible ? 'block' : 'none'}>
-        <IoIosArrowDroprightCircle size={arrowSize} />
+        <IoIosArrowDroprightCircle size="50px" />
       </IconButton>
     )
   }
@@ -58,19 +69,26 @@ export default function MainBoardSlider({ images }: MainBoardSliderProps) {
     dots: false,
     infinite: true,
     speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 4,
-    beforeChange: () => setArrowVisible(false),
+    slidesToShow: 4.15,
+    slidesToScroll: isMobile ? 2 : 4,
+    beforeChange: (oldIndex: number, newIndex: number) => {
+      setCurrentSlide(newIndex)
+      setArrowVisible(false)
+    },
     afterChange: () => setArrowVisible(true),
     prevArrow: <PrevArrow />,
     nextArrow: <NextArrow />,
+    centerMode: true,
+    centerPadding: '2rem',
     responsive: [
       {
         breakpoint: 768,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: 2.2,
           slidesToScroll: 2,
-          // arrows: false,
+          arrows: false,
+          centerMode: true,
+          centerPadding: '2rem',
         },
       },
     ],
@@ -79,11 +97,11 @@ export default function MainBoardSlider({ images }: MainBoardSliderProps) {
   return (
     <>
       <Box position="relative" w="full" h="260" overflow="hidden">
-        <Box width={{ base: '100%', md: '80%', lg: '1080px' }} mx="auto">
+        <Box width={{ base: '100%', md: '80%', lg: '1090px' }} mx="auto">
           <Slider {...settings} ref={slider => setSlider(slider)}>
             {images.map((src, index) => (
               <Box key={index} p={1}>
-                <Center>
+                <Center pl="5px">
                   <MainImageStyle src={src} alt={`Image ${index}`} />
                 </Center>
               </Box>

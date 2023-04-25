@@ -6,7 +6,7 @@ export default function CategoryHeaderUI(props: CategoryHeaderUIProps) {
   return (
     <>
       <Container
-        maxW="1090px"
+        maxW="1110px"
         display="flex"
         justifyContent="space-between"
         alignContent="center"
