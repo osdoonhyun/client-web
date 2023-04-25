@@ -1,17 +1,24 @@
 import { Avatar, Center, Image, Input, useColorModeValue } from '@chakra-ui/react'
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
-import { FileUploadProps } from './types'
 import { AiOutlineUpload } from 'react-icons/ai'
+import { FileUploadProps } from './types'
 
 const EMPTY_PROFILE_URL = 'https://bit.ly/broken-link'
 
 export default function FileUpload(props: FileUploadProps) {
   const fileRef = useRef<HTMLInputElement>(null)
   const [imageUrl, setImageUrl] = useState<string | null>(props.fileUrl)
+  const [fileData, setFileData] = useState<File>()
 
   useEffect(() => {
     setImageUrl(props.fileUrl)
   }, [])
+
+  useEffect(() => {
+    if (fileData) {
+      props.onChangeFile(fileData, props.index ?? 0)
+    }
+  }, [fileData])
 
   const onClickUpload = () => {
     fileRef.current?.click()
@@ -23,17 +30,18 @@ export default function FileUpload(props: FileUploadProps) {
       return
     }
 
+    setFileData(file)
     setFakeImageURL(file)
   }
 
-  const setFakeImageURL = (file: File) => {
+  const setFakeImageURL = async (file: File) => {
     const fileReader = new FileReader()
     fileReader.readAsDataURL(file)
     fileReader.onload = data => {
       const url = data.target?.result
       if (typeof url === 'string') {
         setImageUrl(url)
-        props.onChangeFileUrls(url, props.index ?? 0)
+        props.onChangeFileUrl(url, props.index ?? 0)
       }
     }
   }
@@ -92,7 +100,7 @@ export default function FileUpload(props: FileUploadProps) {
       <Input
         type="file"
         accept="image/png, image/jpeg, image/jpg"
-        ref={fileRef}
+        ref={props.type === 'file' ? fileRef : props.fileUploadRef}
         hidden={true}
         onChange={onChangeFile}
       />

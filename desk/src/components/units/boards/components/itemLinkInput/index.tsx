@@ -1,8 +1,8 @@
+import ErrorMessage from '@/src/components/ui/errorMessage'
 import { AddIcon, MinusIcon } from '@chakra-ui/icons'
-import { Button, Flex, Input, Text, VStack, useColorModeValue } from '@chakra-ui/react'
+import { Button, HStack, Input, Text, VStack, useColorModeValue } from '@chakra-ui/react'
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { ItemLinkInputProps, ItemLinkType } from './types'
-import ErrorMessage from '@/src/components/ui/errorMessage'
 
 const INIT_DEFAULT_ITEMS: ItemLinkType[] = [
   {
@@ -53,27 +53,31 @@ export default function ItemLinkInput(props: ItemLinkInputProps) {
     )
   }
 
+  const isLastItem = (array: ItemLinkType[], findItem: ItemLinkType) => {
+    return findItem.id === Math.max(...array.map(item => item.id))
+  }
+
   return (
     <VStack align={'stretch'}>
       <Text
         fontSize={16}
         fontWeight={700}
-        color={useColorModeValue('dGray.dark', 'dGray.medium')}
+        color={useColorModeValue('dGray.dark', 'dGray.light')}
         mb="8px">
         {props.title}
         {props.isRequired && (
           <span style={{ color: '#666CFF', fontSize: '14px' }}>{' *'}</span>
         )}
       </Text>
-      {items.map(item => (
-        <Flex key={item.id} direction={'row'} justify={'space-between'} align={'center'}>
+      {items.map((item, _, array) => (
+        <HStack key={item.id} spacing={'10px'}>
           <Input
             id={`${item.id}`}
             name="name"
             placeholder="상품명을 입력해주세요."
-            bgColor={'white'}
-            color={'black'}
-            width={'36%'}
+            bgColor={useColorModeValue('dGray.light', '#bababa1e')}
+            color={useColorModeValue('dBlack', 'dGray.light')}
+            width={'25%'}
             onChange={onChangeName}
             _placeholder={{ color: 'dGray.medium' }}
           />
@@ -81,33 +85,46 @@ export default function ItemLinkInput(props: ItemLinkInputProps) {
             id={`${item.id}`}
             name="link"
             placeholder="상품의 구매처 링크를 입력해주세요. 구매한 사이트가 아니어도 괜찮습니다."
-            bgColor={'white'}
-            color={'black'}
-            ml={'20px'}
-            mr={'20px'}
+            bgColor={useColorModeValue('dGray.light', '#bababa1e')}
+            color={useColorModeValue('dBlack', 'dGray.light')}
+            width={'65%'}
             onChange={onChangeLink}
             _placeholder={{ color: 'dGray.medium' }}
           />
-          {item.id === nextId.current ? (
-            <Button
-              w={'40px'}
-              h={'40px'}
-              bgColor={useColorModeValue('dGray.light', 'dGray.medium')}
-              onClick={addItem}>
-              <AddIcon boxSize={3} />
-            </Button>
+          {isLastItem(array, item) ? (
+            <HStack spacing={'6px'}>
+              <Button
+                w={'40px'}
+                h={'40px'}
+                bgColor={useColorModeValue('dGray.light', '#bababa1e')}
+                onClick={addItem}>
+                <AddIcon boxSize={3} />
+              </Button>
+              <Button
+                id={`${item.id}`}
+                w={'40px'}
+                h={'40px'}
+                backgroundColor={'clear'}
+                bgColor={useColorModeValue('dGray.light', '#bababa1e')}
+                onClick={deleteItem(item.id)}>
+                <MinusIcon boxSize={3} />
+              </Button>
+            </HStack>
           ) : (
-            <Button
-              id={`${item.id}`}
-              w={'40px'}
-              h={'40px'}
-              backgroundColor={'clear'}
-              bgColor={useColorModeValue('dGray.light', 'dGray.medium')}
-              onClick={deleteItem(item.id)}>
-              <MinusIcon boxSize={3} />
-            </Button>
+            <HStack spacing={'6px'}>
+              <Button colorScheme="clear" />
+              <Button
+                id={`${item.id}`}
+                w={'40px'}
+                h={'40px'}
+                backgroundColor={'clear'}
+                bgColor={useColorModeValue('dGray.light', '#bababa1e')}
+                onClick={deleteItem(item.id)}>
+                <MinusIcon boxSize={3} />
+              </Button>
+            </HStack>
           )}
-        </Flex>
+        </HStack>
       ))}
       <ErrorMessage message={props.errorMessage} />
     </VStack>
