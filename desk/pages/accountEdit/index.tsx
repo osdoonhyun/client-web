@@ -30,7 +30,7 @@ type ItemLinkType = {
 
 const SNS_ACCOUNT_LINKS: ItemLinkType[] = [
   {
-    id: 1,
+    id: 0,
     link: '',
   },
 ]
@@ -70,7 +70,7 @@ export default function AccountEdit() {
 
   // sns 계정 추가하기
   // const nextId = useRef(MAX_COUNT)
-  const nextId = useRef(1)
+  const nextId = useRef(0)
   const [snsLinks, setSnsLinks] = useState<ItemLinkType[]>(SNS_ACCOUNT_LINKS)
 
   // useEffect(()=> {
@@ -78,15 +78,18 @@ export default function AccountEdit() {
   // })
 
   const addSnsLink = () => {
-    nextId.current += 1
+    if (MAX_COUNT <= snsLinks.length) {
+      return
+    }
 
+    nextId.current += 1
     setSnsLinks(prev => [...prev, { id: nextId.current, link: '' }])
   }
 
   const deleteSnsLink = (id: number) => () => {
-    if (MAX_COUNT >= snsLinks.length) {
-      return
-    }
+    // if (MAX_COUNT >= snsLinks.length) {
+    //   return
+    // }
 
     setSnsLinks(links => links.filter(link => link.id !== id))
   }
@@ -98,6 +101,7 @@ export default function AccountEdit() {
     )
   }
 
+  // 프로필 이미지 버튼
   const fileUploadRef = useRef<HTMLInputElement>(null)
 
   const onClickUploadButton = () => {
@@ -198,35 +202,29 @@ export default function AccountEdit() {
           </Box>
           <Box w="60%" ml="55px">
             {/* <Link href="https://www.example.com" isExternal> */}
-            <Link>
-              <Flex direction="column" alignItems="stretch" justifyContent="flex-start">
-                {/* <Text fontSize="16px">sns 링크로 이동하기</Text> */}
-                {/* SNS 계정 추가하기 */}
-                <VStack align="stretch">
-                  {snsLinks.map(link => (
-                    <Flex
-                      key={link.id}
-                      direction="row"
-                      justifyContent="space-between"
-                      align="center">
-                      <Flex align="center">
-                        <Icon size="16px" as={BsLink45Deg} mr={1} />
+            <Flex direction="column" alignItems="stretch" justifyContent="flex-start">
+              {/* <Text fontSize="16px">sns 링크로 이동하기</Text> */}
+              {/* SNS 계정 추가하기 */}
+              <VStack align="stretch">
+                {snsLinks.map(link => (
+                  <Flex
+                    key={link.id}
+                    direction="row"
+                    justifyContent="space-between"
+                    align="center">
+                    <Flex align="center">
+                      <Icon size="16px" as={BsLink45Deg} mr={1} />
+                      <Link>
                         <Input
                           id={`${link.id}`}
                           variant="unstyled"
                           placeholder="SNS 계정 추가 (최대 3개)"
                           onChange={onChangeLink}
                         />
-                      </Flex>
-                      {link.id === nextId.current ? (
-                        <Button
-                          w={'40px'}
-                          h={'40px'}
-                          bgColor={'dGray.light'}
-                          onClick={addSnsLink}>
-                          <AddIcon boxSize={3} />
-                        </Button>
-                      ) : (
+                      </Link>
+                    </Flex>
+                    {link.id === nextId.current ? ( // 추가 될 링크
+                      snsLinks.length >= 3 ? (
                         <Button
                           id={`${link.id}`}
                           w={'40px'}
@@ -236,12 +234,38 @@ export default function AccountEdit() {
                           onClick={deleteSnsLink(link.id)}>
                           <MinusIcon boxSize={3} />
                         </Button>
-                      )}
-                    </Flex>
-                  ))}
-                </VStack>
-              </Flex>
-            </Link>
+                      ) : (
+                        <Button
+                          w={'40px'}
+                          h={'40px'}
+                          bgColor={'dGray.light'}
+                          onClick={addSnsLink}>
+                          <AddIcon boxSize={3} />
+                        </Button>
+                      )
+                    ) : snsLinks.length <= 1 ? ( // 기존 링크
+                      <Button
+                        w={'40px'}
+                        h={'40px'}
+                        bgColor={'dGray.light'}
+                        onClick={addSnsLink}>
+                        <AddIcon boxSize={3} />
+                      </Button>
+                    ) : (
+                      <Button
+                        id={`${link.id}`}
+                        w={'40px'}
+                        h={'40px'}
+                        backgroundColor={'clear'}
+                        bgColor={'dGray.light'}
+                        onClick={deleteSnsLink(link.id)}>
+                        <MinusIcon boxSize={3} />
+                      </Button>
+                    )}
+                  </Flex>
+                ))}
+              </VStack>
+            </Flex>
           </Box>
         </Flex>
         <Divider border="1px" borderColor="#bababa" />
