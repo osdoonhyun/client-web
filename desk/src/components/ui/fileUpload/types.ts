@@ -3,8 +3,7 @@ import { ReactNode } from 'react'
 export type FileUploadProps = {
   index?: number
   type: 'file' | 'profile'
-  fileUrl: string | null
-  defaultFileUrl?: string
+  fileUrl: string | undefined
   width?: number | string
   height?: number | string
   onChangeFile: (file: File, index: number) => void
