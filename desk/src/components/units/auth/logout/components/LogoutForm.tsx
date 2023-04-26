@@ -13,10 +13,13 @@ import {
 import {useMutation} from "@apollo/client";
 import {LOGOUT} from "@/src/components/units/auth/queries/mutation";
 import {useRecoilState} from "recoil";
-import {MyToken} from "@/src/commons/store/atom";
+import {AuthModalType, MyToken} from "@/src/commons/store/atom";
+import {useRouter} from "next/router";
 
 export default function LogoutForm() {
+	const [__, setAuthModalType] = useRecoilState(AuthModalType)
 	const [_, setMyToken] = useRecoilState(MyToken)
+	const router = useRouter()
 	// 기능구현중
 	const [logout] = useMutation(LOGOUT)
 	
@@ -28,6 +31,8 @@ export default function LogoutForm() {
 		// 		setMyToken('')
 		// 		router.push('/')
 		// 	})
+		setAuthModalType('AFTER_AUTH')
+		void router.push('/')
 	}
 	
 	return (
