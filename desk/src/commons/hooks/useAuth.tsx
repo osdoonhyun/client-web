@@ -5,6 +5,7 @@ import LoginIsOpen from "@/src/components/units/auth/login/Login.isOpen";
 import LogoutIsOpen from "@/src/components/units/auth/logout/Logout.isOpen";
 import SignupIsOpen from "@/src/components/units/auth/signup/Signup.isOpen";
 import SignoutIsOpen from "@/src/components/units/auth/signout/Signout.isOpen";
+import {TAuthModalType} from "@/src/components/units/auth/Auth.types";
 
 export function useAuth() {
 	const [myToken] = useRecoilState(MyToken)
@@ -20,50 +21,33 @@ export function useAuth() {
 		setIsLoggedIn(true)
 	}, [myToken])
 	
-	function loginModalOpen() {
-		setAuthModalType("LOGIN")
-		setAuthModalToggle((prev) => !prev)
-	}
-	function signupModalOpen() {
-		setAuthModalType("SIGNUP")
+	const openModal = (type: TAuthModalType) => {
+		setAuthModalType(type)
 		setAuthModalToggle((prev) => !prev)
 	}
 	
-	function logoutModalOpen() {
-		setAuthModalType("LOGOUT")
-		setAuthModalToggle((prev) => !prev)
-	}
-	
-	function signoutModalOpen() {
-		setAuthModalType("SIGNOUT")
-		setAuthModalToggle((prev) => !prev)
-	}
-	
-	const login = useCallback(() => {
+	const loginUi = useCallback(() => {
 		return <LoginIsOpen />
 	}, [])
 	
-	const signup = useCallback(() => {
+	const signupUi = useCallback(() => {
 		return <SignupIsOpen />
 	}, [])
 	
-	const logout = useCallback(() => {
+	const logoutUi = useCallback(() => {
 		return <LogoutIsOpen />
 	}, [])
 	
-	const signout = useCallback(() => {
+	const signoutUi = useCallback(() => {
 		return <SignoutIsOpen />
 	}, [])
 	
 	return {
 		isLoggedIn,
-		Login: login,
-		Signup: signup,
-		Logout: logout,
-		Signout: signout,
-		loginModalOpen,
-		signupModalOpen,
-		logoutModalOpen,
-		signoutModalOpen,
+		LoginUi: loginUi,
+		SignupUi: signupUi,
+		LogoutUi: logoutUi,
+		SignoutUi: signoutUi,
+		openModal,
 	}
 }

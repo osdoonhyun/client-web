@@ -74,3 +74,5 @@ export function errorMessage(err: string) {
 		return ErrorLog.SERVER_ERROR
 	}
 }
+
+export type TAuthModalType = 'LOGIN' | 'SIGNUP' | 'LOGOUT' | 'SIGNOUT' | 'AFTER_AUTH' | '' | undefined
