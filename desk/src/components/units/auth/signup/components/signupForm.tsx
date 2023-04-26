@@ -223,7 +223,7 @@ export default function SignupForm() {
 									</InputGroup>
 									<FormErrorMessage>{errors.password && errors.password.message}</FormErrorMessage>
 								</FormControl>
-								<FormControl id="rePassword" isInvalid={!!errors.rePassword}>
+								<FormControl id="passwordConfirm" isInvalid={!!errors.passwordConfirm}>
 									<FormLabel>비밀번호 재확인</FormLabel>
 									<InputGroup>
 										<Input
@@ -231,10 +231,10 @@ export default function SignupForm() {
 											type={'password'}
 											isReadOnly={!errMsg.isVerified}
 											placeholder={'비밀번호를 한번더 입력합니다.'}
-											{...register('password')}
+											{...register('passwordConfirm')}
 										/>
 									</InputGroup>
-									<FormErrorMessage>{errors.password && errors.password.message}</FormErrorMessage>
+									<FormErrorMessage>{errors.passwordConfirm && errors.passwordConfirm.message}</FormErrorMessage>
 								</FormControl>
 								<Stack spacing={10} pt={2}>
 									<Button
