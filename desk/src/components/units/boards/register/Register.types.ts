@@ -1,13 +1,16 @@
 import { UseFormReturn } from 'react-hook-form'
 import * as yup from 'yup'
 import { ItemLinkType } from '../components/itemLinkInput/types'
+import { TQuery } from '@/src/commons/types/generated/types'
 
 export type BoardsRegisterProps = {
   isEdit: boolean
+  boardData?: Pick<TQuery, 'fetchBoard'> | undefined
 }
 
 export type BoardsRegisterUIProps = {
   isEdit: boolean
+  boardData?: Pick<TQuery, 'fetchBoard'> | undefined
   isLoading: boolean
   useForm: UseFormReturn<BoardsRegisterInputForm, any>
   onChangeFile: (file: File, index: number) => void
