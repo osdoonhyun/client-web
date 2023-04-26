@@ -32,3 +32,9 @@ export const AuthModalToggle = atom({
 	key: `authModalToggle`,
 	default: false,
 })
+
+export const MyUserInfo = atom({
+	key: 'myUserInfo',
+	default: {}
+})
+

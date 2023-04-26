@@ -34,11 +34,11 @@ export default function LoginForm() {
 		errPass: ''
 	})
 	const [authType, setAuthType] = useState('authLogin')
-	const [___, setMyEmailSave] = useRecoilState(MyEmailSave)
+	const [myEmailSaveLocal, setMyEmailSaveLocal] = useRecoilState(MyEmailSave)
+	const [isMyEmailSave, setIsMyEmailSave] = useState(false)
 	const [__, setAuthModalType] = useRecoilState(AuthModalType)
 	const router = useRouter()
 	const {
-		getValues,
 		register,
 		handleSubmit,
 		formState: { errors },
@@ -63,6 +63,9 @@ export default function LoginForm() {
 				sameSite: "none",
 			})
 			setAuthModalType('AFTER_AUTH')
+			if (isMyEmailSave) {
+				setMyEmailSaveLocal(data.email)
+			}
 			router.push('/')
 			
 		}).catch((err) => {
@@ -80,12 +83,11 @@ export default function LoginForm() {
 		})
 	}
 	
-	const onChangeMyEmailSave = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const data = getValues()
+	const onChangeMyEmailCheckboxToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (e.target.checked) {
-			setMyEmailSave(data.email)
+			setIsMyEmailSave(true)
 		} else {
-			setMyEmailSave('')
+			setIsMyEmailSave(false)
 		}
 	}
 	
@@ -117,6 +119,7 @@ export default function LoginForm() {
 									       id={'email'}
 									       focusBorderColor={'dPrimary'}
 									       placeholder={'이메일 주소를 입력해 주세요'}
+									       defaultValue={myEmailSaveLocal}
 									       {...register('email')}
 									/>
 									<FormErrorMessage>{errors.email && errors.email.message}</FormErrorMessage>
@@ -137,7 +140,7 @@ export default function LoginForm() {
 										direction={{base: 'column', sm: 'row'}}
 										align={'start'}
 										justify={'space-between'}>
-										<Checkbox onChange={onChangeMyEmailSave}>저장하기</Checkbox>
+										<Checkbox onChange={onChangeMyEmailCheckboxToggle}>저장하기</Checkbox>
 										<Link as={NextLink} color={useColorModeValue('dPrimary', 'dPrimaryHover.transparency')} href={'/'}>비밀번호를 잊어버리셨나요?</Link>
 									</Stack>
 									

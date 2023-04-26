@@ -148,7 +148,6 @@ export default function SignupForm() {
 											placeholder={'이메일을 입력해 주세요'}
 											{...register('email')}
 										/>
-										{myJob ?
 										<Button
 											onClick={onClickCertification}
 											loadingText="Submitting"
@@ -157,6 +156,7 @@ export default function SignupForm() {
 											disabled
 											bg={'dPrimary'}
 											color={'white'}
+											isDisabled={!myJob}
 											_hover={
 												useColorModeValue(
 													{bg: 'dPrimaryHover.dark'},
@@ -165,9 +165,6 @@ export default function SignupForm() {
 										>
 											인증번호 받기
 										</Button>
-											:
-											<Text align={'center'} width={'150px'} color={'red'}>직군선택필수</Text>
-										}
 									</Flex>
 									<FormErrorMessage>{errors.email && errors.email.message}</FormErrorMessage>
 									<Text color={errMsg.errColor} pb={4}>{errMsg.errText}</Text>
