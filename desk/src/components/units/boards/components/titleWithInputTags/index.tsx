@@ -25,7 +25,9 @@ import { TitleWithInputTagsProps } from './types'
 export default function TitleWithInputTags(props: TitleWithInputTagsProps) {
   const { onOpen, onClose, isOpen } = useDisclosure()
   const [tagText, setTagText] = useState<string>('')
-  const [tagTexts, setTagTexts] = useState<string[]>([])
+  const [tagTexts, setTagTexts] = useState<string[]>(
+    props.tags?.map(tag => tag.hashtag) ?? [],
+  )
 
   useEffect(() => {
     props.onChangeInputTags(tagTexts)

@@ -21,7 +21,6 @@ export default function TitleWithInput(props: TitleWithInputProps) {
             bgColor={useColorModeValue('dGray.light', '#bababa1e')}
             color={useColorModeValue('dBlack', 'dGray.light')}
             value={props.value}
-            defaultValue={props.defaultValue}
             onChange={props.onChangeInput}
             readOnly={props.readonly ?? false}
             size="md"
@@ -38,7 +37,6 @@ export default function TitleWithInput(props: TitleWithInputProps) {
             bgColor={useColorModeValue('dGray.light', '#bababa1e')}
             color={useColorModeValue('dBlack', 'dGray.light')}
             value={props.value}
-            defaultValue={props.defaultValue}
             onChange={props.onChangeInput}
             readOnly={props.readonly ?? false}
             size="md"
