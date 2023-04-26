@@ -18,6 +18,9 @@ export default function LoginIsOpen() {
 	useEffect(() => {
 		if (authModalType === "LOGIN") {
 			onOpen()
+			// setAuthModalType('')
+		} else if (authModalType === "AFTER_AUTH") {
+			onClose()
 		}
 	}, [authModalType, authModalToggle]);
 

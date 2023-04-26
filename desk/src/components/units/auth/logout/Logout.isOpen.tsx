@@ -18,6 +18,8 @@ export default function LogoutIsOpen() {
 	useEffect(() => {
 		if (authModalType === "LOGOUT") {
 			onOpen()
+		} else if (authModalType === "AFTER_AUTH") {
+			onClose()
 		}
 	}, [authModalType, authModalToggle]);
 	

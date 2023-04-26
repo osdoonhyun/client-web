@@ -3,7 +3,7 @@ import {gql} from "@apollo/client";
 export const CREATE_USER = gql`
 	mutation createUser($createUserInput: CreateUserInput!) {
 		createUser(createUserInput: $createUserInput){
-				id email nickName
+				id email nickName jobGroup provider
 		}
 	}
 `
@@ -31,3 +31,4 @@ export const LOGOUT = gql`
 		logOut
 	}
 `
+

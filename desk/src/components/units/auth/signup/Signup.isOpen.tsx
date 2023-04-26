@@ -20,6 +20,8 @@ export default function SignupIsOpen() {
 	useEffect(() => {
 		if (authModalType === "SIGNUP") {
 			onOpen()
+		} else if (authModalType === "AFTER_AUTH") {
+			onClose()
 		}
 	}, [authModalType, authModalToggle]);
 	
