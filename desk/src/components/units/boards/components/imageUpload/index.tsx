@@ -6,7 +6,6 @@ import { memo } from 'react'
 export type ImageUploadProps = {
   imageDatas: TPicture[] | undefined
   onChangeFile: (file: File, index: number) => void
-  onChangeFileUrl: (fileUrl: string, index: number) => void
 }
 
 function ImageUpload(props: ImageUploadProps) {
@@ -31,8 +30,7 @@ function ImageUpload(props: ImageUploadProps) {
               width={'100%'}
               height={'100%'}
               fileUrl={props.imageDatas?.[0] && props.imageDatas?.[0].url}
-              onChangeFile={props.onChangeFile}
-              onChangeFileUrl={props.onChangeFileUrl}>
+              onChangeFile={props.onChangeFile}>
               <Badge
                 bgColor={'dPrimary'}
                 color={'white'}
@@ -55,7 +53,6 @@ function ImageUpload(props: ImageUploadProps) {
                   height={'100%'}
                   fileUrl={props.imageDatas?.[1] && props.imageDatas?.[1].url}
                   onChangeFile={props.onChangeFile}
-                  onChangeFileUrl={props.onChangeFileUrl}
                 />
               </Box>
             </AspectRatio>
@@ -68,7 +65,6 @@ function ImageUpload(props: ImageUploadProps) {
                   height={'100%'}
                   fileUrl={props.imageDatas?.[2] && props.imageDatas?.[2].url}
                   onChangeFile={props.onChangeFile}
-                  onChangeFileUrl={props.onChangeFileUrl}
                 />
               </Box>
             </AspectRatio>
@@ -81,7 +77,6 @@ function ImageUpload(props: ImageUploadProps) {
                   height={'100%'}
                   fileUrl={props.imageDatas?.[3] && props.imageDatas?.[3].url}
                   onChangeFile={props.onChangeFile}
-                  onChangeFileUrl={props.onChangeFileUrl}
                 />
               </Box>
             </AspectRatio>
@@ -94,7 +89,6 @@ function ImageUpload(props: ImageUploadProps) {
                   height={'100%'}
                   fileUrl={props.imageDatas?.[4] && props.imageDatas?.[4].url}
                   onChangeFile={props.onChangeFile}
-                  onChangeFileUrl={props.onChangeFileUrl}
                 />
               </Box>
             </AspectRatio>

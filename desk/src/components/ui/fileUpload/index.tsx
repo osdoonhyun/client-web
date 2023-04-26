@@ -41,7 +41,6 @@ export default function FileUpload(props: FileUploadProps) {
       const url = data.target?.result
       if (typeof url === 'string') {
         setImageUrl(url)
-        props.onChangeFileUrl(url, props.index ?? 0)
       }
     }
   }

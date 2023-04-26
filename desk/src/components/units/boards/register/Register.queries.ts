@@ -1,13 +1,5 @@
 import { gql } from '@apollo/client'
 
-export const CREATE_BOARD = gql`
-  mutation createBoard($createBoardInput: CreateBoardInput!) {
-    createBoard(createBoardInput: $createBoardInput) {
-      id
-    }
-  }
-`
-
 export const FETCH_BOARD = gql`
   query fetchBoard($boardid: String!) {
     fetchBoard(boardid: $boardid) {
@@ -43,6 +35,22 @@ export const FETCH_BOARD = gql`
       createdAt
       views
       likes
+    }
+  }
+`
+
+export const CREATE_BOARD = gql`
+  mutation createBoard($createBoardInput: CreateBoardInput!) {
+    createBoard(createBoardInput: $createBoardInput) {
+      id
+    }
+  }
+`
+
+export const UPDATE_BOARD = gql`
+  mutation updateBoard($updateBoardInput: UpdateBoardInput!, $boardid: String!) {
+    createBoard(updateBoardInput: $updateBoardInput, boardid: $boardid) {
+      id
     }
   }
 `

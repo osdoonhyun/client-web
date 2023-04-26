@@ -14,7 +14,6 @@ export type BoardsRegisterUIProps = {
   isLoading: boolean
   useForm: UseFormReturn<BoardsRegisterInputForm, any>
   onChangeFile: (file: File, index: number) => void
-  onChangeFileUrl: (fileUrl: string, index: number) => void
   onClickSubmit: (data: BoardsRegisterInputForm) => void
 }
 
