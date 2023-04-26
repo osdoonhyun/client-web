@@ -3,6 +3,12 @@ import { useCallback, useState } from 'react'
 import { useRouter } from 'next/router'
 import UserUI from './User.presenter'
 
+const TabID = {
+  USER_POSTS: 0,
+  USER_PRODUCT_POSTS: 1,
+  USER_LIKED_POSTS: 2,
+}
+
 export default function User() {
   const router = useRouter()
   const [isLiked, { toggle: toggleIsLiked }] = useBoolean()
@@ -35,18 +41,18 @@ export default function User() {
   }
 
   const onClickTab = useCallback((id: number) => {
-    if (id === 0) {
+    if (id === TabID.USER_POSTS) {
       handleShowUserPosts()
-    } else if (id === 1) {
+    } else if (id === TabID.USER_PRODUCT_POSTS) {
       handleShowUserProductPosts()
-    } else if (id === 2) {
+    } else if (id === TabID.USER_LIKED_POSTS) {
       handleShowLikedPosts()
     }
   }, [])
 
-  const onClickMoveToAccountEdit = () => {
+  const onClickMoveToAccountEdit = useCallback(() => {
     router.push('/accountEdit')
-  }
+  }, [])
 
   return (
     <UserUI
