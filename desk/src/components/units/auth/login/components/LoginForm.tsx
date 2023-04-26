@@ -31,7 +31,8 @@ export default function LoginForm() {
 	const [login] = useMutation(LOGIN)
 	const [err, setErr] = useState({
 		errEmail: '',
-		errPass: ''
+		errPass: '',
+		errServer: '',
 	})
 	const [authType, setAuthType] = useState('authLogin')
 	const [myEmailSaveLocal, setMyEmailSaveLocal] = useRecoilState(MyEmailSave)
@@ -71,6 +72,8 @@ export default function LoginForm() {
 		}).catch((err) => {
 			let errMail = ''
 			let errPass = ''
+			let errServer = ''
+			console.log(err.message)
 			const msg: string|undefined = errorMessage(err.message ?? "")
 			if (msg?.includes('등록되지 않은')) {
 				errMail = msg
@@ -78,7 +81,12 @@ export default function LoginForm() {
 			if (msg?.includes('비밀번호')) {
 				errPass = msg
 			}
-			setErr({...err, errEmail: errMail, errPass: errPass})
+			if (msg?.includes('Failed')) {
+				errServer = msg
+				console.log('errServer')
+				console.log(errServer)
+			}
+			setErr({...err, errEmail: errMail, errPass: errPass, errServer: errServer})
 			console.log('error 입니다.')
 		})
 	}
@@ -115,7 +123,7 @@ export default function LoginForm() {
 								<FormControl isInvalid={!!errors.email}>
 									<FormLabel>이메일</FormLabel>
 									<Input type="email"
-									       autoFocus={true}
+									       autoFocus={!myEmailSaveLocal}
 									       id={'email'}
 									       focusBorderColor={'dPrimary'}
 									       placeholder={'이메일 주소를 입력해 주세요'}
@@ -128,6 +136,7 @@ export default function LoginForm() {
 								<FormControl isInvalid={!!errors.password}>
 									<FormLabel>비밀번호</FormLabel>
 									<Input type="password"
+									       autoFocus={myEmailSaveLocal}
 									       focusBorderColor={'dPrimary'}
 									       placeholder={'비밀번호를 입력해 주세요'}
 									       {...register('password')}
@@ -143,7 +152,7 @@ export default function LoginForm() {
 										<Checkbox onChange={onChangeMyEmailCheckboxToggle}>저장하기</Checkbox>
 										<Link as={NextLink} color={useColorModeValue('dPrimary', 'dPrimaryHover.transparency')} href={'/'}>비밀번호를 잊어버리셨나요?</Link>
 									</Stack>
-									
+									<Text pb={4} color={'red'}>{err.errServer}</Text>
 									<Button
 										type={"submit"}
 										bg={useColorModeValue('dPrimary', 'dPrimary')}

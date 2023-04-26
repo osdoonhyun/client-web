@@ -144,7 +144,7 @@ export default function SignupForm() {
 										<Input
 											focusBorderColor={'dPrimary'}
 											type="email"
-											autoFocus={true}
+											autoFocus={!!myJob}
 											placeholder={'이메일을 입력해 주세요'}
 											{...register('email')}
 										/>
@@ -220,6 +220,19 @@ export default function SignupForm() {
 												{showPassword ? <ViewIcon /> : <ViewOffIcon />}
 											</Button>
 										</InputRightElement>
+									</InputGroup>
+									<FormErrorMessage>{errors.password && errors.password.message}</FormErrorMessage>
+								</FormControl>
+								<FormControl id="rePassword" isInvalid={!!errors.rePassword}>
+									<FormLabel>비밀번호 재확인</FormLabel>
+									<InputGroup>
+										<Input
+											focusBorderColor={'dPrimary'}
+											type={'password'}
+											isReadOnly={!errMsg.isVerified}
+											placeholder={'비밀번호를 한번더 입력합니다.'}
+											{...register('password')}
+										/>
 									</InputGroup>
 									<FormErrorMessage>{errors.password && errors.password.message}</FormErrorMessage>
 								</FormControl>

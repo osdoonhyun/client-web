@@ -1,6 +1,7 @@
 import {Select} from "@chakra-ui/react";
 import {MyJob} from "@/src/components/units/auth/Auth.types";
-import {ChangeEvent, useState} from "react";
+import {ChangeEvent, useCallback, useEffect, useState} from "react";
+import {defaultProps} from "react-quill";
 
 const JOB_LIST = [
 	{shortName: "IT", fullName: "IT"},
@@ -14,6 +15,13 @@ const JOB_LIST = [
 
 export default function MyJobSelect(props: MyJob) {
 	const [bgColor, setBgColor] = useState('red.200')
+	
+	useEffect(() => {
+		if (!props.myJob) {
+			setBgColor('red.200')
+		}
+	}, [props.myJob])
+	
 	const onChangeMySelectJob = (e: ChangeEvent<HTMLSelectElement>) => {
 		const { value: shortName} = e.target
 		props.setMyJob(shortName)
