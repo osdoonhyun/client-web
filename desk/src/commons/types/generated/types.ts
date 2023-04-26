@@ -67,13 +67,27 @@ export type TCreateReplyInput = {
 
 export type TCreateUserInput = {
   email: Scalars['String'];
+  jobGroup: Scalars['String'];
   password: Scalars['String'];
+  provider?: InputMaybe<Scalars['String']>;
+};
+
+export type TFetchFollowee = {
+  __typename?: 'FetchFollowee';
+  followee: Scalars['Boolean'];
+  user: Array<TUser>;
+};
+
+export type TFetchFollowing = {
+  __typename?: 'FetchFollowing';
+  following: Scalars['Boolean'];
+  user: Array<TUser>;
 };
 
 export type TFetchUser = {
   __typename?: 'FetchUser';
   boardCount: Scalars['Int'];
-  folloeweeCount: Scalars['Int'];
+  followeeCount: Scalars['Int'];
   followingCount: Scalars['Int'];
   user: TUser;
 };
@@ -125,7 +139,6 @@ export type TMutation = {
   matchAuthNumber: Scalars['Boolean'];
   resetUserPassword: Scalars['Boolean'];
   restoreAccessToken: Scalars['String'];
-  test: Scalars['Boolean'];
   updateBoard: TBoard;
   updateBoardLiker: Scalars['Boolean'];
   updateFollowing: Scalars['Boolean'];
@@ -189,11 +202,6 @@ export type TMutationResetUserPasswordArgs = {
 };
 
 
-export type TMutationTestArgs = {
-  a: Scalars['String'];
-};
-
-
 export type TMutationUpdateBoardArgs = {
   boardid: Scalars['String'];
   updateBoardInput: TUpdateBoardInput;
@@ -241,17 +249,25 @@ export type TQuery = {
   fetchBestBoards: Array<TBoard>;
   fetchBoard: TBoard;
   fetchBoards: Array<TBoard>;
-  fetchFollowees: Array<TUser>;
-  fetchFollowings: Array<TUser>;
+  fetchBoardsUserLiked: Array<TBoard>;
+  fetchFollowees: TFetchFollowee;
+  fetchFollowings: TFetchFollowing;
+  fetchLoginUser: TUser;
+  fetchProducts: Array<TProduct>;
   fetchUser: TFetchUser;
+  fetchUserBoards: Array<TBoard>;
   fetchYoutube: Array<TYoutube>;
   searchBoard: Array<TBoard>;
-  viewBoard: TBoard;
 };
 
 
 export type TQueryFetchBoardArgs = {
   boardid: Scalars['String'];
+};
+
+
+export type TQueryFetchBoardsUserLikedArgs = {
+  userid: Scalars['String'];
 };
 
 
@@ -265,18 +281,23 @@ export type TQueryFetchFollowingsArgs = {
 };
 
 
+export type TQueryFetchProductsArgs = {
+  userid: Scalars['String'];
+};
+
+
 export type TQueryFetchUserArgs = {
+  userid: Scalars['String'];
+};
+
+
+export type TQueryFetchUserBoardsArgs = {
   userid: Scalars['String'];
 };
 
 
 export type TQuerySearchBoardArgs = {
   keyword: Scalars['String'];
-};
-
-
-export type TQueryViewBoardArgs = {
-  boardid: Scalars['String'];
 };
 
 export type TReply = {
@@ -312,6 +333,7 @@ export type TUpdateBoardInput = {
 
 export type TUpdateUserInput = {
   intro?: InputMaybe<Scalars['String']>;
+  jobGroup?: InputMaybe<Scalars['String']>;
   nickName?: InputMaybe<Scalars['String']>;
   picture?: InputMaybe<Scalars['String']>;
   snsAccount?: InputMaybe<Scalars['String']>;
@@ -325,15 +347,18 @@ export type TUser = {
   followings: Array<TFollowing>;
   id: Scalars['String'];
   intro?: Maybe<Scalars['String']>;
+  jobGroup: Scalars['String'];
   like?: Maybe<Array<TBoard>>;
   nickName: Scalars['String'];
   picture?: Maybe<Scalars['String']>;
+  provider: Scalars['String'];
   snsAccounts?: Maybe<Array<TSnsAccount>>;
 };
 
 export type TYoutube = {
   __typename?: 'Youtube';
   thumbnailUrl: Scalars['String'];
+  title: Scalars['String'];
   videoUrl: Scalars['String'];
   views: Scalars['Float'];
 };
