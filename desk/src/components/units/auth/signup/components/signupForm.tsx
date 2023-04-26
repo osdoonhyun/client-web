@@ -26,9 +26,9 @@ import {
 import Login from "@/src/components/units/auth/login/Login.container";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
+import NextLink from "next/link";
 import MyJobSelect from "@/src/components/units/auth/signup/components/MyJobSelect";
 import Timer from "@/src/components/ui/timer";
-import ForgotPassword from "@/src/components/units/auth/forgotPassword/ForgotPassword.container";
 
 export default function SignupForm() {
 	const [errMsg, setErrMsg] = useState<errMsg>({
@@ -129,8 +129,8 @@ export default function SignupForm() {
 						<Heading fontSize={'4xl'} textAlign={'center'} pt={6}>
 							회원가입
 						</Heading>
-						<Text fontSize={'lg'} color={useColorModeValue('gray.600', 'gray.300')}>
-							당신의 책상을 자랑하십시오 <Link color={useColorModeValue('dPrimary', 'dPrimaryHover.transparency')} href={'/'}>데카이브</Link> ✌️
+						<Text fontSize={'lg'} color={useColorModeValue('gray.800', 'gray.300')}>
+							당신의 책상을 자랑하십시오 <Link as={NextLink} color={useColorModeValue('dPrimary', 'dPrimaryHover.transparency')} href={'/'}>데카이브</Link> ✌️
 						</Text>
 					</Stack>
 					<Box
@@ -159,7 +159,11 @@ export default function SignupForm() {
 											bg={'dPrimary'}
 											color={'white'}
 											isDisabled={!myJob}
-											_hover={{bgColor: 'dPrimaryHover.dark'}}
+											_hover={
+												useColorModeValue(
+													{bg: 'dPrimaryHover.dark'},
+													{bg: 'dPrimaryHover.dark'}
+												)}
 										>
 											인증번호 받기
 										</Button>
@@ -271,9 +275,6 @@ export default function SignupForm() {
 			}
 			{authType === 'authLogin' &&
 				<Login />
-			}
-			{authType === 'forgotPassword' &&
-				<ForgotPassword />
 			}
 		</>
 	);

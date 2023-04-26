@@ -75,4 +75,4 @@ export function errorMessage(err: string) {
 	}
 }
 
-export type TAuthModalType = 'LOGIN' | 'SIGNUP' | 'LOGOUT' | 'SIGNOUT' | 'FORGOT_PASSWORD' | 'AFTER_AUTH' | '' | undefined
+export type TAuthModalType = 'LOGIN' | 'SIGNUP' | 'LOGOUT' | 'SIGNOUT' | 'AFTER_AUTH' | '' | undefined
