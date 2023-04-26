@@ -16,12 +16,8 @@ export default function MainProductItems(props: MainProductItemsProps) {
     <VStack align={'flex-start'} m="2">
       <Flex justify={'flex-start'} align={'center'} wrap={'wrap'}>
         <Card w="260px" h="270px" bgColor={useColorModeValue('dGray.light', '#a0a0a01e')}>
-          <CardBody>
-            <Image
-              src="https://images.unsplash.com/photo-1542280756-2992e05fef7e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
-              alt=""
-              borderRadius="lg"
-            />
+          <CardBody borderRadius="lg">
+            <Image h="150px" src={props.image} alt="" />
             <Stack mt="5">
               <Center
                 fontSize="13pt"
