@@ -9,34 +9,36 @@ import {
 	Button,
 	Heading,
 	Text,
-	Link,
-	useColorModeValue
+	useColorModeValue, Link, FormErrorMessage
 } from '@chakra-ui/react';
-import {useRouter} from "next/router";
-import {useState} from "react";
-import OnClickBtLink from "@/src/components/units/auth/login/components/OnClickBtLink";
+import React, {useState} from "react";
 import {useMutation} from "@apollo/client";
 import {LOGIN} from "@/src/components/units/auth/queries/mutation";
-import {MyToken} from "@/src/commons/store/atom";
+import {AuthModalType, MyEmailSave, MyToken} from "@/src/commons/store/atom";
 import {useRecoilState} from "recoil";
 import SignupForm from "@/src/components/units/auth/signup/components/signupForm";
 import {Cookies} from "react-cookie";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
-import {LoginSchema, AuthFormProps} from "@/src/components/units/auth/Auth.types";
+import {LoginSchema, AuthFormProps, errorMessage} from "@/src/components/units/auth/Auth.types";
+import {useRouter} from "next/router";
+import NextLink from "next/link";
 
 const cookies = new Cookies()
 
 export default function LoginForm() {
-	const router = useRouter()
 	const [_, setMyToken] = useRecoilState(MyToken)
 	const [login] = useMutation(LOGIN)
 	const [err, setErr] = useState({
 		errEmail: '',
-		errPass: ''
+		errPass: '',
+		errServer: '',
 	})
 	const [authType, setAuthType] = useState('authLogin')
-	
+	const [myEmailSaveLocal, setMyEmailSaveLocal] = useRecoilState(MyEmailSave)
+	const [isMyEmailSave, setIsMyEmailSave] = useState(false)
+	const [__, setAuthModalType] = useRecoilState(AuthModalType)
+	const router = useRouter()
 	const {
 		register,
 		handleSubmit,
@@ -61,19 +63,40 @@ export default function LoginForm() {
 				secure: true,
 				sameSite: "none",
 			})
+			setAuthModalType('AFTER_AUTH')
+			if (isMyEmailSave) {
+				setMyEmailSaveLocal(data.email)
+			}
+			router.push('/')
 			
 		}).catch((err) => {
 			let errMail = ''
 			let errPass = ''
-			if (err.message?.includes('없는 회원')) {
-				errMail = '없는 회원 입니다.'
+			let errServer = ''
+			console.log(err.message)
+			const msg: string|undefined = errorMessage(err.message ?? "")
+			if (msg?.includes('등록되지 않은')) {
+				errMail = msg
 			}
-			if (err.message?.includes('비밀번호')) {
-				errPass = '비밀번호가 일치하지 않습니다.'
+			if (msg?.includes('비밀번호')) {
+				errPass = msg
 			}
-			setErr({...err, errEmail: errMail, errPass: errPass})
+			if (msg?.includes('Failed')) {
+				errServer = msg
+				console.log('errServer')
+				console.log(errServer)
+			}
+			setErr({...err, errEmail: errMail, errPass: errPass, errServer: errServer})
 			console.log('error 입니다.')
 		})
+	}
+	
+	const onChangeMyEmailCheckboxToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (e.target.checked) {
+			setIsMyEmailSave(true)
+		} else {
+			setIsMyEmailSave(false)
+		}
 	}
 	
 	return (
@@ -88,47 +111,48 @@ export default function LoginForm() {
 					<Stack align={'center'}>
 						<Heading fontSize={'4xl'}>로그인</Heading>
 						<Text fontSize={'lg'} color={useColorModeValue('gray.800', 'gray.300')}>
-							당신의 책상을 자랑하라! <Link color={'dPrimary'} id={'deca'} onClick={(e) => {
-							OnClickBtLink(e, router)
-						}}>데카이브</Link> ✌️
+							당신의 책상을 자랑하라! <Link as={NextLink} color={useColorModeValue('dPrimary', 'dPrimaryHover.transparency')} href={'/'}>데카이브</Link> ✌️
 						</Text>
 					</Stack>
 					<Box
 						rounded={'lg'}
 						bg={useColorModeValue('white', 'gray.700')}
-						boxShadow={'lg'}
 						p={8}>
 						<Stack spacing={4}>
 							<form onSubmit={handleSubmit(onClickLoginSubmit)}>
 								<FormControl isInvalid={!!errors.email}>
 									<FormLabel>이메일</FormLabel>
 									<Input type="email"
-									       autoFocus={true}
+									       autoFocus={!myEmailSaveLocal}
 									       id={'email'}
 									       focusBorderColor={'dPrimary'}
 									       placeholder={'이메일 주소를 입력해 주세요'}
+									       defaultValue={myEmailSaveLocal}
 									       {...register('email')}
 									/>
-									<Text p={4} color={'red'}>{errors.email && errors.email.message}</Text>
+									<FormErrorMessage>{errors.email && errors.email.message}</FormErrorMessage>
+									<Text pb={4} color={'red'}>{err.errEmail}</Text>
 								</FormControl>
 								<FormControl isInvalid={!!errors.password}>
 									<FormLabel>비밀번호</FormLabel>
 									<Input type="password"
+									       autoFocus={myEmailSaveLocal}
 									       focusBorderColor={'dPrimary'}
 									       placeholder={'비밀번호를 입력해 주세요'}
 									       {...register('password')}
 									/>
-									<Text p={4} color={'red'}>{err.errPass}{errors.password && errors.password.message}</Text>
+									<FormErrorMessage>{errors.password && errors.password.message}</FormErrorMessage>
+									<Text pb={4} color={'red'}>{err.errPass}</Text>
 								</FormControl>
 								<Stack spacing={5}>
 									<Stack
 										direction={{base: 'column', sm: 'row'}}
 										align={'start'}
 										justify={'space-between'}>
-										<Checkbox>저장하기</Checkbox>
-										<Link color={useColorModeValue('dPrimary', 'dPrimaryHover.transparency')}>비밀번호를 잊어버리셨나요?</Link>
+										<Checkbox onChange={onChangeMyEmailCheckboxToggle}>저장하기</Checkbox>
+										<Link as={NextLink} color={useColorModeValue('dPrimary', 'dPrimaryHover.transparency')} href={'/'}>비밀번호를 잊어버리셨나요?</Link>
 									</Stack>
-									
+									<Text pb={4} color={'red'}>{err.errServer}</Text>
 									<Button
 										type={"submit"}
 										bg={useColorModeValue('dPrimary', 'dPrimary')}
@@ -157,7 +181,6 @@ export default function LoginForm() {
 										회원가입
 									</Button>
 								</Stack>
-								
 							</form>
 						</Stack>
 					</Box>

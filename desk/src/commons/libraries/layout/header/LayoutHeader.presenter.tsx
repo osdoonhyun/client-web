@@ -10,7 +10,6 @@ import {
   MenuList,
   MenuItem,
   MenuDivider,
-  useDisclosure,
   useColorModeValue,
   Stack,
   useColorMode,
@@ -19,6 +18,7 @@ import {
 import { MoonIcon, SunIcon } from '@chakra-ui/icons'
 import { LayoutHeaderUIProps } from './LayoutHeader.types'
 import Logo from '@/src/components/ui/logo'
+import {useAuth} from "@/src/commons/hooks/useAuth";
 
 const NavLink = ({ children }: { children: ReactNode }) => (
   <Link
@@ -36,7 +36,7 @@ const NavLink = ({ children }: { children: ReactNode }) => (
 
 export default function LayoutHeaderUI(props: LayoutHeaderUIProps) {
   const { colorMode, toggleColorMode } = useColorMode()
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const {isLoggedIn, LoginUi, SignupUi, LogoutUi, openModal} = useAuth()
 
   return (
     <>
@@ -75,14 +75,27 @@ export default function LayoutHeaderUI(props: LayoutHeaderUIProps) {
                   </Center>
                   <br />
                   <MenuDivider />
-                  <MenuItem onClick={props.onClickMoveToUser}>마이페이지</MenuItem>
-                  <MenuItem onClick={props.onClickMoveToLogin}>로그인</MenuItem>
+                  {!isLoggedIn ?
+                    <>
+                    <MenuItem onClick={() => openModal('LOGIN')}>로그인</MenuItem>
+                    <MenuItem onClick={() => openModal('SIGNUP')}>회원가입</MenuItem>
+                    </>
+                  :
+                    <>
+                    <MenuItem onClick={props.onClickMoveToUser}>마이페이지</MenuItem>
+                    <MenuItem onClick={() => openModal('LOGOUT')}>로그아웃</MenuItem>
+                    </>
+                  }
                 </MenuList>
               </Menu>
             </Stack>
           </Flex>
         </Flex>
       </Box>
+      
+      <LoginUi />
+      <LogoutUi />
+      <SignupUi />
     </>
   )
 }
