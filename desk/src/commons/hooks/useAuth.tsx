@@ -26,28 +26,28 @@ export function useAuth() {
 		setAuthModalToggle((prev) => !prev)
 	}
 	
-	const loginUi = useCallback(() => {
+	const loginUI = useCallback(() => {
 		return <LoginIsOpen />
 	}, [])
 	
-	const signupUi = useCallback(() => {
+	const signupUI = useCallback(() => {
 		return <SignupIsOpen />
 	}, [])
 	
-	const logoutUi = useCallback(() => {
+	const logoutUI = useCallback(() => {
 		return <LogoutIsOpen />
 	}, [])
 	
-	const signoutUi = useCallback(() => {
+	const signoutUI = useCallback(() => {
 		return <SignoutIsOpen />
 	}, [])
 	
 	return {
 		isLoggedIn,
-		LoginUi: loginUi,
-		SignupUi: signupUi,
-		LogoutUi: logoutUi,
-		SignoutUi: signoutUi,
+		LoginUI: loginUI,
+		SignupUI: signupUI,
+		LogoutUI: logoutUI,
+		SignoutUI: signoutUI,
 		openModal,
 	}
 }

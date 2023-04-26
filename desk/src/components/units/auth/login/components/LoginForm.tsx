@@ -16,13 +16,13 @@ import {useMutation} from "@apollo/client";
 import {LOGIN} from "@/src/components/units/auth/queries/mutation";
 import {AuthModalType, MyEmailSave, MyToken} from "@/src/commons/store/atom";
 import {useRecoilState} from "recoil";
-import SignupForm from "@/src/components/units/auth/signup/components/signupForm";
+import SignupForm from "@/src/components/units/auth/signup/components/SignupForm";
 import {Cookies} from "react-cookie";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {LoginSchema, AuthFormProps, errorMessage} from "@/src/components/units/auth/Auth.types";
 import {useRouter} from "next/router";
-import NextLink from "next/link";
+import ForgotPassword from "@/src/components/units/auth/forgotPassword/ForgotPassword.container";
 
 const cookies = new Cookies()
 
@@ -110,8 +110,8 @@ export default function LoginForm() {
 				<Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
 					<Stack align={'center'}>
 						<Heading fontSize={'4xl'}>로그인</Heading>
-						<Text fontSize={'lg'} color={useColorModeValue('gray.800', 'gray.300')}>
-							당신의 책상을 자랑하라! <Link as={NextLink} color={useColorModeValue('dPrimary', 'dPrimaryHover.transparency')} href={'/'}>데카이브</Link> ✌️
+						<Text fontSize={'lg'} color={useColorModeValue('gray.600', 'gray.300')}>
+							당신의 책상을 자랑하라! <Link color={useColorModeValue('dPrimary', 'dPrimaryHover.transparency')} href={'/'}>데카이브</Link> ✌️
 						</Text>
 					</Stack>
 					<Box
@@ -149,8 +149,10 @@ export default function LoginForm() {
 										direction={{base: 'column', sm: 'row'}}
 										align={'start'}
 										justify={'space-between'}>
-										<Checkbox onChange={onChangeMyEmailCheckboxToggle}>저장하기</Checkbox>
-										<Link as={NextLink} color={useColorModeValue('dPrimary', 'dPrimaryHover.transparency')} href={'/'}>비밀번호를 잊어버리셨나요?</Link>
+										<Checkbox onChange={onChangeMyEmailCheckboxToggle}>저장</Checkbox>
+										<Text align={'center'}>
+											<Link color={useColorModeValue('dPrimary', 'dPrimaryHover.transparency')} onClick={() => {setAuthType('forgotPassword')}}>비밀번호를 잊어버리셨나요?</Link>
+										</Text>
 									</Stack>
 									<Text pb={4} color={'red'}>{err.errServer}</Text>
 									<Button
@@ -189,6 +191,9 @@ export default function LoginForm() {
 		}
 		{authType === 'authSignup' &&
 			<SignupForm />
+		}
+		{authType === 'forgotPassword' &&
+			<ForgotPassword />
 		}
 	</>
 	);
