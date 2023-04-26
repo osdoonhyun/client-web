@@ -28,6 +28,7 @@ import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import NextLink from "next/link";
 import MyJobSelect from "@/src/components/units/auth/signup/components/MyJobSelect";
+import Timer from "@/src/components/ui/timer";
 
 export default function SignupForm() {
 	const [errMsg, setErrMsg] = useState<errMsg>({
@@ -56,6 +57,7 @@ export default function SignupForm() {
 		resolver: yupResolver(signupSchema),
 		mode: "onChange",
 	})
+	
 	
 	const onChangePinNumber = (props: SetStateAction<string | undefined>): void => {
 		setPinNumber(props)
@@ -168,6 +170,13 @@ export default function SignupForm() {
 									</Flex>
 									<FormErrorMessage>{errors.email && errors.email.message}</FormErrorMessage>
 									<Text color={errMsg.errColor} pb={4}>{errMsg.errText}</Text>
+									{errMsg.errText.includes('인증') ?
+									<Text>
+										인증번호 유효시간은 <Timer mm={3} ss={0} /> 입니다.
+									</Text>
+										:
+										''
+									}
 								</FormControl>
 								<FormControl id="certificationNumber">
 									<FormLabel>인증번호</FormLabel>
