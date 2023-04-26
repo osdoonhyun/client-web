@@ -33,7 +33,7 @@ export default function BoardsRegisterUI(props: BoardsRegisterUIProps) {
                 type="input"
                 isRequired={true}
                 title="제목을 입력해주세요."
-                value={value || ''}
+                value={value || boardData?.title}
                 maxLength={100}
                 onChangeInput={onChange}
                 errorMessage={errors.title?.message}
@@ -67,6 +67,7 @@ export default function BoardsRegisterUI(props: BoardsRegisterUIProps) {
               return (
                 <ItemLinkInput
                   title="어떤 장비를 사용하시나요? (2개 이상)"
+                  items={boardData?.products}
                   maxCount={MIN_ITEMS_COUNT}
                   isRequired={true}
                   onItems={onChange}

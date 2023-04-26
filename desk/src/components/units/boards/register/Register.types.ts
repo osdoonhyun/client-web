@@ -36,7 +36,7 @@ export const boardsRegisterSchema = yup.object({
     yup
       .object({
         name: yup.string().required('상품명을 입력해주세요.'),
-        link: yup.string().required('링크를 입력해주세요.'),
+        url: yup.string().required('링크를 입력해주세요.'),
       })
       .required('사용하시는 장비를 자랑해주세요.'),
   ),
