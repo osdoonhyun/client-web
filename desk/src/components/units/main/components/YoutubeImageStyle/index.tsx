@@ -19,8 +19,8 @@ export default function YoutubeImageStyle(props: YoutubeImageStyleProps) {
     <Image
       src={src}
       alt={alt}
-      width={345}
-      height={250}
+      width={335}
+      height={240}
       quality={80}
       loading="lazy"
       style={{ borderRadius: '10px', width: `${imageWidth}px` }}
