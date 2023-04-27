@@ -2,12 +2,18 @@ import React, { useState, useEffect } from "react";
 
 type TtimerProps = {
 	mm: number,
-	ss: number
+	ss: number,
 }
 
 const Timer = ({ mm, ss }: TtimerProps) => {
-	const [minutes, setMinutes] = useState(3);
-	const [seconds, setSeconds] = useState(0);
+	const [minutes, setMinutes] = useState(mm);
+	const [seconds, setSeconds] = useState(ss);
+	
+	useEffect(() => {
+		console.log('mm')
+		setMinutes(3)
+		setSeconds(0)
+	}, [mm])
 	
 	useEffect(() => {
 		const countdown = setInterval(() => {

@@ -9,8 +9,8 @@ export const CREATE_USER = gql`
 `
 
 export const AUTH_EMAIL = gql`
-	mutation authEmail($email: String!) {
-		authEmail(email: $email)
+	mutation authEmail($authEmailInput: AuthEmailInput!) {
+    authEmail(authEmailInput: $authEmailInput)
 	}
 `
 

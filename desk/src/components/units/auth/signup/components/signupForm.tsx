@@ -57,6 +57,7 @@ export default function SignupForm() {
 		resolver: yupResolver(signupSchema),
 		mode: "onChange",
 	})
+	const [timeReset, setTimeReset] = useState(0)
 	
 	
 	const onChangePinNumber = (props: SetStateAction<string | undefined>): void => {
@@ -67,11 +68,16 @@ export default function SignupForm() {
 		const data = getValues()
 		await authEmail({
 			variables: {
-				email: data.email
+				authEmailInput: {
+					email: data.email,
+					authCheck: true
+				}
 			}
 		}).then(() => {
+			console.log('셋타임리')
 			const msg = '인증할 이메일 확인 후 인증번호 6자리를 입력해 주세요'
 			setErrMsg({...errMsg, errText: msg, errColor: 'green', isEmail: true})
+			setTimeReset(Math.floor(Math.random() * 1000))
 		}).catch((err) => {
 			const msg: string|undefined = errorMessage(err.message)
 			setErrMsg({...errMsg, errText: msg || '', errColor: 'red'})
@@ -172,7 +178,7 @@ export default function SignupForm() {
 									<Text color={errMsg.errColor} pb={4}>{errMsg.errText}</Text>
 									{errMsg.errText.includes('인증') ?
 									<Text>
-										인증번호 유효시간은 <Timer mm={3} ss={0} /> 입니다.
+										인증번호 유효시간은 <Timer mm={timeReset} ss={0} /> 입니다.
 									</Text>
 										:
 										''
