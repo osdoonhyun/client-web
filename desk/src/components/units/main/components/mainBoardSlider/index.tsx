@@ -54,7 +54,6 @@ export default function MainBoardSlider({ images, children }: MainBoardSliderPro
         aria-label="right-arrow"
         variant="ghost"
         position="absolute"
-        zIndex={2}
         top="40%"
         right={arrowRightPosition}
         onClick={onClickNext}
