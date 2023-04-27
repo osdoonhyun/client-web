@@ -1,9 +1,9 @@
 import { Center, Container, Flex, Text, useColorModeValue } from '@chakra-ui/react'
-import { RecentMoreUIProps } from './RecentMore.types'
+import { FolloweesBoardsMoreUIProps } from './FolloweesBoardsMore.types'
 import MainImageStyle from '@/src/components/ui/mainImageStyle'
 import InfiniteScroll from 'react-infinite-scroller'
 
-export default function RecentMoreUI(props: RecentMoreUIProps) {
+export default function FolloweesBoardsMoreUI(props: FolloweesBoardsMoreUIProps) {
   return (
     <>
       <Container
@@ -23,7 +23,7 @@ export default function RecentMoreUI(props: RecentMoreUIProps) {
           fontSize="18pt"
           fontWeight="700"
           color={useColorModeValue('dGray.dark', 'dGray.light')}>
-          최근 게시물
+          팔로우 하고 있는 유저들의 책상 둘러보기
         </Text>
         <InfiniteScroll
           pageStart={0}

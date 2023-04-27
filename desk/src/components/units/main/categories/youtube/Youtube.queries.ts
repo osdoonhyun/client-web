@@ -6,6 +6,7 @@ export const FETCH_YOUTUBE = gql`
       videoUrl
       thumbnailUrl
       views
+      title
     }
   }
 `

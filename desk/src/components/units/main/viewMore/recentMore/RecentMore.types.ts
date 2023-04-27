@@ -1,3 +1,3 @@
-type RecentMoreUIProps = {
+export type RecentMoreUIProps = {
   onLoadMore: () => void
 }
