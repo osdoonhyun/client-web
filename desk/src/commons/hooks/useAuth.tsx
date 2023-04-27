@@ -8,6 +8,7 @@ import {TAuthModalType} from "@/src/components/units/auth/Auth.types";
 import {useRouter} from "next/router";
 import {useMutation} from "@apollo/client";
 import {LOGOUT} from "@/src/components/units/auth/queries/mutation";
+import {SIGNOUT} from "@/src/components/units/auth/queries/mutation";
 
 export function useAuth() {
 	const [myToken] = useRecoilState(MyToken)
@@ -18,6 +19,7 @@ export function useAuth() {
 	const router = useRouter()
 	// 기능구현중
 	const [logout] = useMutation(LOGOUT)
+	const [signout] = useMutation(SIGNOUT)
 	
 	useEffect(() => {
 		if (!myToken) {
@@ -35,6 +37,17 @@ export function useAuth() {
 	async function onClickLogout() {
 		setMyToken('')
 		await logout()
+			.then(() => {
+				setMyToken('')
+				router.push('/')
+			})
+		setAuthModalType('AFTER_AUTH')
+		void router.push('/')
+	}
+	
+	async function onClickSignout() {
+		setMyToken('')
+		await signout()
 			.then(() => {
 				setMyToken('')
 				router.push('/')
@@ -62,5 +75,6 @@ export function useAuth() {
 		SignoutUi: signoutUi,
 		openModal,
 		onClickLogout,
+		onClickSignout,
 	}
 }
