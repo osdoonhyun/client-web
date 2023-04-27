@@ -2,6 +2,13 @@ import { useBoolean } from '@chakra-ui/react'
 import { useCallback, useState } from 'react'
 import { useRouter } from 'next/router'
 import UserUI from './User.presenter'
+import { useAuth } from '@/src/commons/hooks/useAuth'
+
+const TabID = {
+  USER_POSTS: 0,
+  USER_PRODUCT_POSTS: 1,
+  USER_LIKED_POSTS: 2,
+}
 
 export default function User() {
   const router = useRouter()
@@ -12,6 +19,7 @@ export default function User() {
   const [showLikedPosts, setShowLikedPosts] = useState(false)
   // API 받은 후 수정 계획
   const [isMyPage, setIsMyPage] = useState(true)
+  const { isLoggedIn } = useAuth()
 
   const handleShowUserPosts = () => {
     setShowUserPosts(true)
@@ -35,21 +43,22 @@ export default function User() {
   }
 
   const onClickTab = useCallback((id: number) => {
-    if (id === 0) {
+    if (id === TabID.USER_POSTS) {
       handleShowUserPosts()
-    } else if (id === 1) {
+    } else if (id === TabID.USER_PRODUCT_POSTS) {
       handleShowUserProductPosts()
-    } else if (id === 2) {
+    } else if (id === TabID.USER_LIKED_POSTS) {
       handleShowLikedPosts()
     }
   }, [])
 
-  const onClickMoveToAccountEdit = () => {
+  const onClickMoveToAccountEdit = useCallback(() => {
     router.push('/accountEdit')
-  }
+  }, [])
 
   return (
     <UserUI
+      isLoggedIn={isLoggedIn}
       isMyPage={isMyPage}
       isLiked={isLiked}
       toggleIsLiked={toggleIsLiked}
