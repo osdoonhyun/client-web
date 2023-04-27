@@ -1,4 +1,5 @@
 export type UserUIProps = {
+  isLoggedIn: boolean
   isMyPage: boolean
   isLiked: boolean
   toggleIsLiked: () => void

@@ -20,6 +20,8 @@ import {
   Avatar,
 } from '@chakra-ui/react'
 import { MdPersonOutline } from 'react-icons/md'
+import { FollowModalProps } from './FollowModal.types'
+import { useAuth } from '@/src/commons/hooks/useAuth'
 
 // 테스트용 FOLLOWERS API 연결 후 삭제 예정
 const FOLLOWERS = [
@@ -61,18 +63,31 @@ const FOLLOWERS = [
   },
 ]
 
-export default function FollowModal() {
+export default function FollowModal(props: FollowModalProps) {
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const { openModal } = useAuth()
+
+  const onClickModalButton = () => {
+    if (props.isLoggedIn) {
+      // 비 로그인 시 로그인 창 오픈
+      openModal('LOGIN')
+    } else {
+      // 로그인 시 팔로워/팔로우 모달 창 오픈
+      onOpen()
+    }
+  }
 
   return (
     <>
-      <Button onClick={onOpen}>팔로워/팔로우에 연결 예정</Button>
+      <Button onClick={() => onClickModalButton()}>
+        {props.type === 'follower' ? '팔로워' : '팔로우'}
+      </Button>
 
       <Modal onClose={onClose} size="md" isOpen={isOpen} isCentered>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader mx="auto" p="12px">
-            팔로워
+            {props.type === 'follower' ? '팔로워' : '팔로우'}
           </ModalHeader>
           <ModalCloseButton />
           <Divider />
@@ -107,92 +122,6 @@ export default function FollowModal() {
                     </CardBody>
                   </Card>
                 ))}
-
-                {/* ============= */}
-                {/* <Card w="100%" variant="elevated" px="10px">
-                  <CardBody p="0px">
-                    <Flex py="6px" justify="space-between" align="center">
-                      <Flex align="center">
-                        <Avatar
-                          mr="10px"
-                          name="Dan Abrahmov"
-                          src="https://bit.ly/dan-abramov"
-                        />
-                        <VStack align="flex-start">
-                          <Text fontSize="14px" fontWeight="600">
-                            Alice
-                          </Text>
-                          <Text fontSize="12px">45 Connections</Text>
-                        </VStack>
-                      </Flex>
-                      <IconButton
-                        variant="outline"
-                        bgColor="dPrimary"
-                        color="white"
-                        aria-label="follow"
-                        fontSize="25px"
-                        icon={<MdPersonOutline />}
-                      />
-                    </Flex>
-                  </CardBody>
-                </Card>
-                <Card w="100%" variant="elevated" px="10px">
-                  <CardBody p="0px">
-                    <Flex py="6px" justify="space-between" align="center">
-                      <Flex align="center">
-                        <Avatar
-                          mr="10px"
-                          name="Dan Abrahmov"
-                          src="https://bit.ly/dan-abramov"
-                        />
-                        <VStack align="flex-start">
-                          <Text fontSize="14px" fontWeight="600">
-                            Alice
-                          </Text>
-                          <Text fontSize="12px">45 Connections</Text>
-                        </VStack>
-                      </Flex>
-                      <IconButton
-                        variant="outline"
-                        color="dPrimary"
-                        bg="white"
-                        borderColor="dPrimary"
-                        border="2px"
-                        aria-label="follow"
-                        fontSize="25px"
-                        icon={<MdPersonOutline />}
-                      />
-                    </Flex>
-                  </CardBody>
-                </Card>
-                <Card w="100%" variant="elevated" px="10px">
-                  <CardBody p="0px">
-                    <Flex py="6px" justify="space-between" align="center">
-                      <Flex align="center">
-                        <Avatar
-                          mr="10px"
-                          name="Dan Abrahmov"
-                          src="https://bit.ly/dan-abramov"
-                        />
-                        <VStack align="flex-start">
-                          <Text fontSize="14px" fontWeight="600">
-                            Alice
-                          </Text>
-                          <Text fontSize="12px">45 Connections</Text>
-                        </VStack>
-                      </Flex>
-                      <IconButton
-                        variant="outline"
-                        bgColor="dPrimary"
-                        color="white"
-                        aria-label="follow"
-                        fontSize="25px"
-                        icon={<MdPersonOutline />}
-                      />
-                    </Flex>
-                  </CardBody>
-                </Card> */}
-                {/* ============= */}
               </VStack>
             </InfiniteScroller>
           </ModalBody>

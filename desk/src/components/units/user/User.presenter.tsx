@@ -18,6 +18,7 @@ import { BsLink45Deg } from 'react-icons/bs'
 import { UserUIProps } from './User.types'
 import NavigationTab from './components/tabs'
 import ProductItem from './components/productItem'
+import FollowModal from './components/followModal'
 
 export default function UserUI(props: UserUIProps) {
   return (
@@ -52,6 +53,7 @@ export default function UserUI(props: UserUIProps) {
                 <span style={{ padding: '0 2px' }}>
                   <GoPencil color="dPrimary" />
                 </span>
+                {/* 자신의 페이지일 경우만 보이도록 */}
                 프로필 수정하기
               </Button>
             </Flex>
@@ -79,8 +81,8 @@ export default function UserUI(props: UserUIProps) {
             </Flex>
 
             <Flex position="absolute" bottom="20px" ml="50px" gap="25px">
-              <Button>팔로워 36</Button>
-              <Button>팔로우 136</Button>
+              <FollowModal isLoggedIn={props.isLoggedIn} type="follower" />
+              <FollowModal isLoggedIn={props.isLoggedIn} type="followee" />
             </Flex>
           </Flex>
           <Flex mr="34px" direction="column" justify="center" align="center">
