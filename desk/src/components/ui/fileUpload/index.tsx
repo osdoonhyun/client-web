@@ -7,7 +7,7 @@ const EMPTY_PROFILE_URL = 'https://bit.ly/broken-link'
 
 export default function FileUpload(props: FileUploadProps) {
   const fileRef = useRef<HTMLInputElement>(null)
-  const [imageUrl, setImageUrl] = useState<string | null>(props.fileUrl)
+  const [imageUrl, setImageUrl] = useState<string | undefined>(props.fileUrl)
   const [fileData, setFileData] = useState<File>()
 
   useEffect(() => {
@@ -41,7 +41,6 @@ export default function FileUpload(props: FileUploadProps) {
       const url = data.target?.result
       if (typeof url === 'string') {
         setImageUrl(url)
-        props.onChangeFileUrl(url, props.index ?? 0)
       }
     }
   }

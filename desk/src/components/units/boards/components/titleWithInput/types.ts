@@ -4,8 +4,7 @@ export type TitleWithInputProps = {
   type: 'input' | 'textarea'
   isRequired: boolean
   title: string
-  value: string
-  defaultValue?: string
+  value: string | undefined
   readonly?: boolean
   inputHeight?: number
   maxLength?: number

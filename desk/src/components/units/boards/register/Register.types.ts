@@ -1,17 +1,19 @@
 import { UseFormReturn } from 'react-hook-form'
 import * as yup from 'yup'
 import { ItemLinkType } from '../components/itemLinkInput/types'
+import { TQuery } from '@/src/commons/types/generated/types'
 
 export type BoardsRegisterProps = {
   isEdit: boolean
+  boardData?: Pick<TQuery, 'fetchBoard'> | undefined
 }
 
 export type BoardsRegisterUIProps = {
   isEdit: boolean
+  boardData?: Pick<TQuery, 'fetchBoard'> | undefined
   isLoading: boolean
   useForm: UseFormReturn<BoardsRegisterInputForm, any>
   onChangeFile: (file: File, index: number) => void
-  onChangeFileUrl: (fileUrl: string, index: number) => void
   onClickSubmit: (data: BoardsRegisterInputForm) => void
 }
 
@@ -33,7 +35,7 @@ export const boardsRegisterSchema = yup.object({
     yup
       .object({
         name: yup.string().required('상품명을 입력해주세요.'),
-        link: yup.string().required('링크를 입력해주세요.'),
+        url: yup.string().required('링크를 입력해주세요.'),
       })
       .required('사용하시는 장비를 자랑해주세요.'),
   ),

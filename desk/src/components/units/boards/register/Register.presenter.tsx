@@ -10,6 +10,8 @@ import { BoardsRegisterUIProps } from './Register.types'
 const MIN_ITEMS_COUNT = 2
 
 export default function BoardsRegisterUI(props: BoardsRegisterUIProps) {
+  const boardData = props.boardData?.fetchBoard
+
   return (
     <Flex
       maxW={maxWidth.lg}
@@ -18,10 +20,7 @@ export default function BoardsRegisterUI(props: BoardsRegisterUIProps) {
       align={'stretch'}
       margin={'0 auto'}>
       <Box mt={140}>
-        <ImageUpload
-          onChangeFile={props.onChangeFile}
-          onChangeFileUrl={props.onChangeFileUrl}
-        />
+        <ImageUpload imageDatas={boardData?.pictures} onChangeFile={props.onChangeFile} />
       </Box>
       <form onSubmit={props.useForm.handleSubmit(props.onClickSubmit)}>
         <Box mt={'57px'}>
@@ -33,7 +32,7 @@ export default function BoardsRegisterUI(props: BoardsRegisterUIProps) {
                 type="input"
                 isRequired={true}
                 title="제목을 입력해주세요."
-                value={value || ''}
+                value={value || boardData?.title}
                 maxLength={100}
                 onChangeInput={onChange}
                 errorMessage={errors.title?.message}
@@ -67,6 +66,7 @@ export default function BoardsRegisterUI(props: BoardsRegisterUIProps) {
               return (
                 <ItemLinkInput
                   title="어떤 장비를 사용하시나요? (2개 이상)"
+                  items={boardData?.products}
                   maxCount={MIN_ITEMS_COUNT}
                   isRequired={true}
                   onItems={onChange}
@@ -104,6 +104,7 @@ export default function BoardsRegisterUI(props: BoardsRegisterUIProps) {
               <TitleWithInputTags
                 type="input"
                 isRequired={false}
+                tags={boardData?.hashtags ?? []}
                 title="해시태그를 입력해주세요. ex) 학생데스크셋업, 개발자데스크셋업..."
                 value={value || []}
                 defaultValue={value || []}
