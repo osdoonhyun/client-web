@@ -12,7 +12,7 @@ import {
 	Text,
 	useColorModeValue,
 	FormErrorMessage,
-	Link,
+	Link, Spinner,
 } from '@chakra-ui/react';
 
 import {SetStateAction, useState} from 'react';
@@ -57,6 +57,7 @@ export default function SignupForm() {
 		mode: "onChange",
 	})
 	const [timeReset, setTimeReset] = useState(0)
+	const [isPending, setIsPending] = useState({email: false})
 	
 	
 	const onChangePinNumber = (props: SetStateAction<string | undefined>): void => {
@@ -64,6 +65,7 @@ export default function SignupForm() {
 	}
 	
 	const onClickCertification = async () => {
+		setIsPending({email: true})
 		const data = getValues()
 		await authEmail({
 			variables: {
@@ -76,10 +78,11 @@ export default function SignupForm() {
 			const msg = '인증할 이메일 확인 후 인증번호 6자리를 입력해 주세요'
 			setErrMsg({...errMsg, errText: msg, errColor: 'green', isEmail: true})
 			setTimeReset(Math.floor(Math.random() * 1000))
+			setIsPending({email: false})
 		}).catch((err) => {
 			const msg: string|undefined = errorMessage(err.message)
 			setErrMsg({...errMsg, errText: msg || '', errColor: 'red'})
-			return
+			setIsPending({email: false})
 		})
 	}
 	
@@ -154,23 +157,37 @@ export default function SignupForm() {
 											placeholder={'이메일을 입력해 주세요'}
 											{...register('email')}
 										/>
-										<Button
-											onClick={onClickCertification}
-											loadingText="Submitting"
-											size="md"
-											px={6}
-											disabled
-											bg={'dPrimary'}
-											color={'white'}
-											isDisabled={!myJob}
-											_hover={
-												useColorModeValue(
-													{bg: 'dPrimaryHover.dark'},
-													{bg: 'dPrimaryHover.dark'}
-												)}
-										>
-											인증번호 받기
-										</Button>
+										{!isPending.email &&
+											<Button
+												onClick={onClickCertification}
+												loadingText="Submitting"
+												size="md"
+												px={6}
+												disabled
+												bg={'dPrimary'}
+												color={'white'}
+												isDisabled={!myJob}
+												_hover={
+													useColorModeValue(
+														{bg: 'dPrimaryHover.dark'},
+														{bg: 'dPrimaryHover.dark'}
+													)}
+											>
+												인증번호 받기
+											</Button>
+										}
+										{isPending.email &&
+											<Box w={115} ml={5}>
+												<Spinner
+													thickness='4px'
+													speed='0.65s'
+													emptyColor='gray.200'
+													color='blue.500'
+													size='lg'
+												/>
+											</Box>
+										}
+										
 									</Flex>
 									<FormErrorMessage>{errors.email && errors.email.message}</FormErrorMessage>
 									<Text color={errMsg.errColor} pb={4}>{errMsg.errText}</Text>
