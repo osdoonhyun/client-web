@@ -92,10 +92,12 @@ export default function YoutubeSlider({
             alignItems="center"
             fontSize="13pt"
             fontWeight="700"
+            width="328px"
+            pl="5px"
             color={useColorModeValue('dGray.dark', 'dGray.light')}>
-            <Box>
-              {youtube.title.substring(0, 30)}
-              {youtube.title.length > 30 ? '...' : ''}
+            <Box noOfLines={1}>
+              {youtube.title.substring(0, 40)}
+              {youtube.title.length > 40 ? '...' : ''}
             </Box>
           </Flex>
           <Flex

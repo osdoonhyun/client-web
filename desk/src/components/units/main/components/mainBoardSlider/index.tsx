@@ -7,7 +7,7 @@ import Slider, { CustomArrowProps } from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 
-export default function MainBoardSlider({ images }: MainBoardSliderProps) {
+export default function MainBoardSlider({ images, children }: MainBoardSliderProps) {
   const [slider, setSlider] = useState<Slider | null>(null)
   const [arrowVisible, setArrowVisible] = useState(true)
   const [currentSlide, setCurrentSlide] = useState(0)
@@ -99,13 +99,15 @@ export default function MainBoardSlider({ images }: MainBoardSliderProps) {
       <Box position="relative" w="full" h="260" overflow="hidden">
         <Box width={{ base: '100%', md: '80%', lg: '1090px' }} mx="auto">
           <Slider {...settings} ref={slider => setSlider(slider)}>
-            {images.map((src, index) => (
-              <Box key={index} p={1}>
-                <Center pl="5px">
-                  <MainImageStyle src={src} alt={`Image ${index}`} />
-                </Center>
-              </Box>
-            ))}
+            {children
+              ? children
+              : images.map((src, index) => (
+                  <Box key={index} p={1}>
+                    <Center pl="5px">
+                      <MainImageStyle src={src} alt={`Image ${index}`} />
+                    </Center>
+                  </Box>
+                ))}
           </Slider>
         </Box>
       </Box>
