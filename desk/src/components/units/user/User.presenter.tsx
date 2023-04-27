@@ -9,6 +9,8 @@ import {
   SimpleGrid,
   Text,
   Icon,
+  useColorMode,
+  useColorModeValue,
 } from '@chakra-ui/react'
 import { MdFavoriteBorder, MdFavorite } from 'react-icons/md'
 import { GoPencil } from 'react-icons/go'
@@ -35,6 +37,10 @@ export default function UserUI(props: UserUIProps) {
                 textAlign="center"
                 color="dPrimary"
                 borderColor="dPrimary"
+                _hover={useColorModeValue(
+                  { bg: 'dPrimaryHover.dark', color: 'dGray.light' },
+                  { bg: 'dPrimaryHover.dark', color: 'dGray.medium' },
+                )}
                 variant="outline"
                 w="108px"
                 h="16px"
@@ -54,7 +60,11 @@ export default function UserUI(props: UserUIProps) {
                 한 줄 소개 :{' '}
               </Text>
 
-              <Link href="https://www.example.com" isExternal>
+              <Link
+                href="https://www.example.com"
+                isExternal
+                color={useColorModeValue('#1e5d97', '#c1daf2')}
+                fontWeight="600">
                 <Flex alignItems="center" justifyContent="flex-start">
                   <Icon as={BsLink45Deg} mr={1} />
                   <Text>sns 링크로 이동하기</Text>
@@ -77,7 +87,7 @@ export default function UserUI(props: UserUIProps) {
             <Avatar
               borderRadius="full"
               objectFit="cover"
-              background="gray.300"
+              background="dGray.medium"
               boxSize="170px"
               src=""
             />
@@ -86,7 +96,8 @@ export default function UserUI(props: UserUIProps) {
               w="126px"
               h="48px"
               bg="dPrimary"
-              color="white"
+              color="#fff"
+              _hover={{ bg: 'dPrimaryHover.dark' }}
               fontSize="18px"
               fontWeight="600">
               팔로우

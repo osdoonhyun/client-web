@@ -13,9 +13,8 @@ export default function NavigationTabs(props: NavigationTabsProps) {
   const TABS = props.isMyPage ? MY_PAGE_TAB : OTHERS_PAGE_TAB
 
   return (
-    // colorScheme 속성에 dPrimary가 적용 안됨
     <>
-      <Tabs mt="auto" colorScheme="purple">
+      <Tabs mt="auto">
         <TabList color="dGray.medium">
           {TABS.map((icon, index) => (
             <Tab
@@ -24,6 +23,7 @@ export default function NavigationTabs(props: NavigationTabsProps) {
               w={'50%'}
               h="28px"
               py="25px"
+              _selected={{ color: 'dPrimary', borderBottomColor: 'dPrimary' }}
               fontSize="22px"
               fontWeight="700">
               <Icon as={icon} mr={1} />
