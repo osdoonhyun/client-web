@@ -14,6 +14,11 @@ export type Scalars = {
   Upload: any;
 };
 
+export type TAuthEmailInput = {
+  authCheck: Scalars['Boolean'];
+  email: Scalars['String'];
+};
+
 export type TBoard = {
   __typename?: 'Board';
   comments?: Maybe<Array<TComments>>;
@@ -43,11 +48,9 @@ export type TCreateBoardInput = {
   createProductInputs: Array<TCreateProductInput>;
   description: Scalars['String'];
   hashtags?: InputMaybe<Array<Scalars['String']>>;
-  likes?: Scalars['Int'];
   recommend?: InputMaybe<Scalars['String']>;
   title: Scalars['String'];
   uploadFile: Array<Scalars['String']>;
-  views?: Scalars['Int'];
 };
 
 export type TCreateCommentInput = {
@@ -148,7 +151,7 @@ export type TMutation = {
 
 
 export type TMutationAuthEmailArgs = {
-  email: Scalars['String'];
+  authEmailInput: TAuthEmailInput;
 };
 
 
@@ -227,6 +230,13 @@ export type TMutationUploadFileArgs = {
   files: Array<Scalars['Upload']>;
 };
 
+export type TOpenGraph = {
+  __typename?: 'OpenGraph';
+  description: Scalars['String'];
+  imageUrl: Scalars['String'];
+  name: Scalars['String'];
+};
+
 export type TPicture = {
   __typename?: 'Picture';
   board: TBoard;
@@ -238,8 +248,9 @@ export type TPicture = {
 export type TProduct = {
   __typename?: 'Product';
   board: TBoard;
+  description?: Maybe<Scalars['String']>;
   id: Scalars['String'];
-  name: Scalars['String'];
+  name?: Maybe<Scalars['String']>;
   picture?: Maybe<Scalars['String']>;
   url: Scalars['String'];
 };
@@ -257,7 +268,8 @@ export type TQuery = {
   fetchUser: TFetchUser;
   fetchUserBoards: Array<TBoard>;
   fetchYoutube: Array<TYoutube>;
-  searchBoard: Array<TBoard>;
+  getOpenGraph?: Maybe<TOpenGraph>;
+  searchBoards: Array<TBoard>;
 };
 
 
@@ -296,7 +308,12 @@ export type TQueryFetchUserBoardsArgs = {
 };
 
 
-export type TQuerySearchBoardArgs = {
+export type TQueryGetOpenGraphArgs = {
+  url: Scalars['String'];
+};
+
+
+export type TQuerySearchBoardsArgs = {
   keyword: Scalars['String'];
 };
 
@@ -323,12 +340,16 @@ export type TSnsAccount = {
 export type TUpdateBoardInput = {
   description: Scalars['String'];
   hashtags?: InputMaybe<Array<Scalars['String']>>;
-  likes?: Scalars['Int'];
   recommend?: InputMaybe<Scalars['String']>;
   title: Scalars['String'];
-  updateProductInputs: Array<TCreateProductInput>;
+  updateProductInputs: Array<TUpdateProductInput>;
   uploadFile: Array<Scalars['String']>;
-  views?: Scalars['Int'];
+};
+
+export type TUpdateProductInput = {
+  name: Scalars['String'];
+  picture?: InputMaybe<Scalars['String']>;
+  url: Scalars['String'];
 };
 
 export type TUpdateUserInput = {

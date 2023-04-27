@@ -9,7 +9,6 @@ import TitleWithDescription from '../components/titleWithDescription'
 import { BoardDetailUIProps } from './Detail.types'
 
 export default function BoardDetailUI(props: BoardDetailUIProps) {
-  console.log('#########', props.boardData)
   return (
     <VStack
       maxW={maxWidth.lg}
@@ -23,38 +22,46 @@ export default function BoardDetailUI(props: BoardDetailUIProps) {
           userData={props.boardData.writer}
         />
       </Box>
-
       <Carousel imageURLs={props.boardData.pictures.map(item => item.url)} />
-      <TagWithCountState
-        views={props.boardData.views}
-        likes={props.boardData.likes}
-        comments={props.boardData.comments?.length}
-        hashTags={props.boardData.hashtags?.map(item => item.hashtag)}
-      />
-      <Center>
+      <Box pt={'8px'}>
+        <TagWithCountState
+          views={props.boardData.views}
+          likes={props.boardData.likes}
+          comments={props.boardData.comments?.length}
+          hashTags={props.boardData.hashtags?.map(item => item.hashtag)}
+        />
+      </Box>
+      <Center pt={'60px'} pb={'16px'}>
         <HStack>
-          <FaQuoteLeft size={12} color="#BABABA" />
+          <FaQuoteLeft size={12} color={useColorModeValue('#232323B3', '#BABABA')} />
           <Text
-            fontSize={22}
+            fontSize={26}
             fontWeight={800}
-            color={useColorModeValue('dGray.dark', 'dGray.medium')}
+            color={useColorModeValue('dBlack', 'dGray.medium')}
             pt={'10px'}>
-            제목이 들어감
+            {props.boardData.title}
           </Text>
-          <FaQuoteRight size={12} color="#BABABA" />
+          <FaQuoteRight size={12} color={useColorModeValue('#232323B3', '#BABABA')} />
         </HStack>
       </Center>
-      <TitleWithDescription
-        title="책상을 자랑해주세요."
-        description="프론트엔드 이직을 희망하는 예비 개발자의 데스크 셋업입니다! 최근 맥북 프로를
-          구매하면서 애플 제품에 대한 관심이 많아졌습니다."
-      />
-      <ProductItemCardList title="어떤 장비를 사용하시나요?" />
-      <TitleWithDescription
-        title="추천하고 싶은 아이템이 있나요?"
-        description="프론트엔드 이직을 희망하는 예비 개발자의 데스크 셋업입니다! 최근 맥북 프로를
-          구매하면서 애플 제품에 대한 관심이 많아졌습니다."
-      />
+      <Box pt={'20px'}>
+        <TitleWithDescription
+          title="책상을 자랑해주세요."
+          description={props.boardData.description}
+        />
+      </Box>
+      <Box pt={'60px'}>
+        <ProductItemCardList
+          title="어떤 장비를 사용하시나요?"
+          products={props.boardData.products}
+        />
+      </Box>
+      <Box pt={'60px'}>
+        <TitleWithDescription
+          title="추천하고 싶은 아이템이 있나요?"
+          description={props.boardData.recommend ?? ''}
+        />
+      </Box>
     </VStack>
   )
 }
