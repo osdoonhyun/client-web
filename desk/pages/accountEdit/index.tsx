@@ -16,6 +16,7 @@ import {
   Link,
   Text,
   VStack,
+  useColorModeValue,
   useEditableControls,
 } from '@chakra-ui/react'
 import { Editable, EditableInput, EditablePreview } from '@chakra-ui/react'
@@ -46,20 +47,23 @@ export default function AccountEdit() {
       useEditableControls()
 
     return isEditing ? (
-      <ButtonGroup justifyContent="center" size="sm">
+      <Flex justifyContent="center" align="center">
         <IconButton
+          ml={'10px'}
           icon={<CheckIcon />}
           {...(getSubmitButtonProps() as IconButtonProps)}
         />
-        <IconButton
+        {/* <IconButton
           icon={<CloseIcon />}
           {...(getCancelButtonProps() as IconButtonProps)}
-        />
-      </ButtonGroup>
+        /> */}
+      </Flex>
     ) : (
-      <Flex justifyContent="center">
+      <Flex justifyContent="center" align="center">
         <IconButton
-          size="sm"
+          w="40px"
+          h="40px"
+          bgColor={useColorModeValue('dGray.light', '#bababa1e')}
           icon={<EditIcon />}
           {...(getEditButtonProps() as IconButtonProps)}
         />
@@ -123,10 +127,16 @@ export default function AccountEdit() {
             </Center>
           </Box>
           <Box w="60%" ml="55px" my={'auto'}>
-            <Button onClick={onClickUploadButton}>이미지 업로드</Button>
+            <Button
+              color={useColorModeValue('#fff', '#1A202C')}
+              bgColor={'dPrimary'}
+              _hover={{ bg: 'dPrimaryHover.dark' }}
+              onClick={onClickUploadButton}>
+              이미지 업로드
+            </Button>
           </Box>
         </Flex>
-        <Divider border="1px" borderColor="#bababa" />
+        <Divider border="1px" borderColor="dGray.medium" />
         <Flex>
           <Box w="40%">
             <Center flexDirection="column" w="80%">
@@ -143,9 +153,13 @@ export default function AccountEdit() {
               fontSize="26px"
               fontWeight="700"
               isPreviewFocusable={false}>
-              <Flex justify={'space-between'} fontSize="26px" fontWeight="700">
+              <Flex
+                justify={'space-between'}
+                align="center"
+                fontSize="26px"
+                fontWeight="700">
                 <EditablePreview />
-                <Input as={EditableInput} />
+                <Input as={EditableInput} focusBorderColor={'dPrimary'} />
                 <EditableControls />
               </Flex>
             </Editable>
@@ -170,8 +184,7 @@ export default function AccountEdit() {
                 isPreviewFocusable={false}>
                 <Flex justify={'space-between'} fontSize="20px" fontWeight="500">
                   <EditablePreview />
-
-                  <Input as={EditableInput} />
+                  <Input as={EditableInput} focusBorderColor={'dPrimary'} />
                   <EditableControls />
                 </Flex>
               </Editable>
@@ -182,7 +195,9 @@ export default function AccountEdit() {
         <Flex>
           <Box w="40%">
             <Center flexDirection="column" w="80%">
-              <Text fontSize="18px">email</Text>
+              <Text fontSize="18px" fontWeight="500">
+                email
+              </Text>
             </Center>
           </Box>
           <Box w="60%" ml="55px">
@@ -193,7 +208,7 @@ export default function AccountEdit() {
         <Flex>
           <Box w="40%">
             <Center flexDirection="column" w="80%">
-              <Text alignContent="center" fontSize="18px">
+              <Text fontSize="18px" fontWeight="500">
                 SNS 계정
               </Text>
             </Center>
@@ -227,8 +242,7 @@ export default function AccountEdit() {
                           id={`${link.id}`}
                           w={'40px'}
                           h={'40px'}
-                          backgroundColor={'clear'}
-                          bgColor={'dGray.light'}
+                          bgColor={useColorModeValue('dGray.light', '#bababa1e')}
                           onClick={deleteSnsLink(link.id)}>
                           <MinusIcon boxSize={3} />
                         </Button>
@@ -236,7 +250,7 @@ export default function AccountEdit() {
                         <Button
                           w={'40px'}
                           h={'40px'}
-                          bgColor={'dGray.light'}
+                          bgColor={useColorModeValue('dGray.light', '#bababa1e')}
                           onClick={addSnsLink}>
                           <AddIcon boxSize={3} />
                         </Button>
@@ -245,7 +259,7 @@ export default function AccountEdit() {
                       <Button
                         w={'40px'}
                         h={'40px'}
-                        bgColor={'dGray.light'}
+                        bgColor={useColorModeValue('dGray.light', '#bababa1e')}
                         onClick={addSnsLink}>
                         <AddIcon boxSize={3} />
                       </Button>
@@ -254,8 +268,7 @@ export default function AccountEdit() {
                         id={`${link.id}`}
                         w={'40px'}
                         h={'40px'}
-                        backgroundColor={'clear'}
-                        bgColor={'dGray.light'}
+                        bgColor={useColorModeValue('dGray.light', '#bababa1e')}
                         onClick={deleteSnsLink(link.id)}>
                         <MinusIcon boxSize={3} />
                       </Button>
@@ -270,7 +283,9 @@ export default function AccountEdit() {
         <Flex>
           <Box w="40%">
             <Center flexDirection="column" w="80%">
-              <Text fontSize="18px">회원 탈퇴</Text>
+              <Text fontSize="18px" fontWeight="500">
+                회원 탈퇴
+              </Text>
             </Center>
           </Box>
           <Box w="60%" ml="55px">

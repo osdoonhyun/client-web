@@ -10,6 +10,7 @@ import {
   Button,
   Text,
   Checkbox,
+  useColorModeValue,
 } from '@chakra-ui/react'
 import { ChangeEvent, useState } from 'react'
 
@@ -32,7 +33,13 @@ export default function SignOutButton() {
 
   return (
     <>
-      <Button onClick={onOpen}>회원 탈퇴</Button>
+      <Button
+        color={useColorModeValue('#fff', '#1A202C')}
+        bg={useColorModeValue('red.400', 'red.200')}
+        _hover={{ bg: 'red.300' }}
+        onClick={onOpen}>
+        회원 탈퇴
+      </Button>
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
@@ -43,17 +50,23 @@ export default function SignOutButton() {
             <Text>
               탈퇴 시 작성하신 포스트 및 댓글이 모두 삭제되며 복구되지 않습니다.
             </Text>
-            <Checkbox isChecked={isChecked} onChange={onChangeCheckboxChecked}>
+            <Checkbox
+              iconColor="red.300"
+              borderColor="dPrimary"
+              colorScheme="whiteAlpha"
+              isChecked={isChecked}
+              onChange={onChangeCheckboxChecked}>
               해당 내용을 확인했으며, 회원 탈퇴에 동의합니다.
             </Checkbox>
           </ModalBody>
 
           <ModalFooter justifyContent="center">
             <Button
-              color="dPrimary"
               mr={3}
-              // TODO:추후에 효과 추가
-              _hover={!isChecked ? {} : {}}
+              color={useColorModeValue('#fff', '#1A202C')}
+              bg={useColorModeValue('red.400', 'red.200')}
+              _hover={{ bg: 'red.300' }}
+              isDisabled={!isChecked}
               onClick={onClickSignOutButton}>
               회원 탈퇴
             </Button>
