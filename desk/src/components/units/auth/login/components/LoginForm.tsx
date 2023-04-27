@@ -9,7 +9,7 @@ import {
 	Button,
 	Heading,
 	Text,
-	useColorModeValue, Link, FormErrorMessage
+	useColorModeValue, Link, FormErrorMessage, HStack
 } from '@chakra-ui/react';
 import React, {useState} from "react";
 import {useMutation} from "@apollo/client";
@@ -17,14 +17,14 @@ import {LOGIN} from "@/src/components/units/auth/queries/mutation";
 import {AuthModalType, MyEmailSave, MyToken} from "@/src/commons/store/atom";
 import {useRecoilState} from "recoil";
 import SignupForm from "@/src/components/units/auth/signup/components/signupForm";
-import {Cookies} from "react-cookie";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {LoginSchema, AuthFormProps, errorMessage} from "@/src/components/units/auth/Auth.types";
 import {useRouter} from "next/router";
 import ForgotPassword from "@/src/components/units/auth/forgotPassword/ForgotPassword.container";
-
-const cookies = new Cookies()
+import {RiKakaoTalkFill} from "react-icons/ri";
+import {SiNaver, } from "react-icons/si";
+import {AiFillGoogleCircle} from "react-icons/ai";
 
 export default function LoginForm() {
 	const [_, setMyToken] = useRecoilState(MyToken)
@@ -58,11 +58,6 @@ export default function LoginForm() {
 			}
 		}).then((result) => {
 			setMyToken(result.data.login)
-			cookies.set("myToken", result.data.login, {
-				path: '/',
-				secure: true,
-				sameSite: "none",
-			})
 			setAuthModalType('AFTER_AUTH')
 			if (isMyEmailSave) {
 				setMyEmailSaveLocal(data.email)
@@ -153,6 +148,23 @@ export default function LoginForm() {
 										<Link color={useColorModeValue('dPrimary', 'dPrimaryHover.transparency')} onClick={() => {setAuthType('forgotPassword')}}>비밀번호를 잊어버리셨나요?</Link>
 									</Stack>
 									<Text pb={4} color={'red'}>{err.errServer}</Text>
+									<HStack>
+										<Link href={'https://mobomobo.shop/login/kakao'}>
+											<Button colorScheme='yellow' leftIcon={<RiKakaoTalkFill />}>
+											Kakao
+											</Button>
+										</Link>
+										<Link href={'https://mobomobo.shop/login/naver'}>
+											<Button colorScheme='green' leftIcon={<SiNaver />}>
+												Naver
+											</Button>
+										</Link>
+										<Link href={'https://mobomobo.shop/login/google'}>
+											<Button colorScheme='blackAlpha' leftIcon={<AiFillGoogleCircle />}>
+												Google
+											</Button>
+										</Link>
+									</HStack>
 									<Button
 										type={"submit"}
 										bg={useColorModeValue('dPrimary', 'dPrimary')}

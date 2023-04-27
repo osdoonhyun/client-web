@@ -43,3 +43,9 @@ export const RESET_USER_PASSWORD = gql`
       resetUserPassword(resetPasswordInput: $resetPasswordInput)
 	}
 `
+
+export const RESTORE_ACCESS_TOKEN = gql`
+	mutation {
+      restoreAccessToken
+	}
+`

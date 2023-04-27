@@ -7,7 +7,7 @@ import SignoutIsOpen from "@/src/components/units/auth/signout/Signout.isOpen";
 import {TAuthModalType} from "@/src/components/units/auth/Auth.types";
 import {useRouter} from "next/router";
 import {useMutation} from "@apollo/client";
-import {LOGOUT} from "@/src/components/units/auth/queries/mutation";
+import {LOGOUT, RESTORE_ACCESS_TOKEN} from "@/src/components/units/auth/queries/mutation";
 import {SIGNOUT} from "@/src/components/units/auth/queries/mutation";
 
 export function useAuth() {
@@ -17,9 +17,23 @@ export function useAuth() {
 	const [isLoggedIn, setIsLoggedIn] = useState(false)
 	const [___, setMyToken] = useRecoilState(MyToken)
 	const router = useRouter()
-	// 기능구현중
 	const [logout] = useMutation(LOGOUT)
 	const [signout] = useMutation(SIGNOUT)
+	const [restoreAccess] = useMutation(RESTORE_ACCESS_TOKEN)
+	
+	useEffect(() => {
+		async function RestoreAccessToken() {
+			try {
+				const getLoginToken = await restoreAccess()
+				console.log(getLoginToken.data.restoreAccessToken)
+				setIsLoggedIn(true)
+				setMyToken(getLoginToken.data.restoreAccessToken)
+			} catch (err) {
+			
+			}
+		}
+		RestoreAccessToken()
+	}, [])
 	
 	useEffect(() => {
 		if (!myToken) {

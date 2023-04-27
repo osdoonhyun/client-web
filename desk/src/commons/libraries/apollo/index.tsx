@@ -1,8 +1,10 @@
 import {ApolloClient, ApolloLink, ApolloProvider, InMemoryCache} from '@apollo/client'
 import { createUploadLink } from 'apollo-upload-client'
-import { ReactNode } from 'react'
+import {ReactNode, useEffect} from 'react'
 import {useRecoilState} from "recoil";
 import {MyToken} from "@/src/commons/store/atom";
+import { Cookies } from "react-cookie"
+const cookies = new Cookies()
 
 type ApolloSettingProps = {
   children: ReactNode
@@ -36,6 +38,24 @@ export default function ApolloSetting(props: ApolloSettingProps) {
   //     }
   //   }
   // })
+  
+  useEffect(() => {
+    const refreshToken = cookies.get('refreshToken')
+    console.log(refreshToken)
+ 
+    if (refreshToken) {
+      console.log('checkRefreshToken')
+      
+      // refreshToken 값이 있는 경우
+      // 새로운 accessToken 발급 또는 로그인 유지 로직을 수행할 수 있습니다.
+      // ...
+    } else {
+      console.log('없다.')
+      // refreshToken 값이 없는 경우
+      // 로그인 페이지로 이동 또는 다른 처리를 수행할 수 있습니다.
+      // ...
+    }
+  }, [])
   
   const uploadLink = createUploadLink({
     uri: process.env.NEXT_PUBLIC_APOLLO_URI,

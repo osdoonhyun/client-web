@@ -1,7 +1,6 @@
 import {Select} from "@chakra-ui/react";
 import {MyJob} from "@/src/components/units/auth/Auth.types";
-import {ChangeEvent, useCallback, useEffect, useState} from "react";
-import {defaultProps} from "react-quill";
+import {ChangeEvent, useEffect, useState} from "react";
 
 const JOB_LIST = [
 	{shortName: "IT", fullName: "IT"},
@@ -14,23 +13,23 @@ const JOB_LIST = [
 ]
 
 export default function MyJobSelect(props: MyJob) {
-	const [bgColor, setBgColor] = useState('red.200')
+	const [textColor, setTextColor] = useState('red.200')
 	
 	useEffect(() => {
 		if (!props.myJob) {
-			setBgColor('red.200')
+			setTextColor('dPrimary')
 		}
 	}, [props.myJob])
 	
 	const onChangeMySelectJob = (e: ChangeEvent<HTMLSelectElement>) => {
 		const { value: shortName} = e.target
 		props.setMyJob(shortName)
-		setBgColor('')
+		setTextColor('')
 	}
 	
 	return(
 		<>
-			<Select bg={bgColor} placeholder='직군을 선택해 주세요' onChange={onChangeMySelectJob} isRequired>
+			<Select focusBorderColor={'dPrimary'} color={textColor} placeholder='직군을 선택해 주세요 *' onChange={onChangeMySelectJob} isRequired>
 				{JOB_LIST.map((el, index) => (
 					<option key={index} value={el.shortName}>{el.fullName}</option>
 				))}
