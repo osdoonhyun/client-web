@@ -2,7 +2,7 @@ import { Center } from '@chakra-ui/react'
 import MainImageStyle from '@/src/components/ui/mainImageStyle'
 import CategoryHeader from '../../components/categoryHeader/CategoryHeader.container'
 
-export default function FollowingUI() {
+export default function FolloweesBoardsUI() {
   const categoryTitle = 'Following'
 
   return (

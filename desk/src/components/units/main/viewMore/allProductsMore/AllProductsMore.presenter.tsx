@@ -1,13 +1,13 @@
 import { Center, Container, Flex, Text, useColorModeValue } from '@chakra-ui/react'
-import { RecentMoreUIProps } from './RecentMore.types'
-import MainImageStyle from '@/src/components/ui/mainImageStyle'
+import { AllProductsMoreUIProps } from './AllProductsMore.types'
 import InfiniteScroll from 'react-infinite-scroller'
+import MainProductItems from '../../components/mainProductItems'
 
-export default function RecentMoreUI(props: RecentMoreUIProps) {
+export default function AllProductsMoreUI(props: AllProductsMoreUIProps) {
   return (
     <>
       <Container
-        maxW="1200px"
+        maxW="1260px"
         h="900px"
         mt="50px"
         overflow="auto"
@@ -19,11 +19,11 @@ export default function RecentMoreUI(props: RecentMoreUIProps) {
           'scrollbar-width': 'none',
         }}>
         <Text
-          ml="40px"
+          ml="45px"
           fontSize="18pt"
           fontWeight="700"
           color={useColorModeValue('dGray.dark', 'dGray.light')}>
-          최근 게시물
+          장비 모아보기
         </Text>
         <InfiniteScroll
           pageStart={0}
@@ -32,8 +32,8 @@ export default function RecentMoreUI(props: RecentMoreUIProps) {
           useWindow={false}>
           <Flex flexWrap="wrap" justifyContent="center" m={2}>
             {Array.from({ length: 100 }).map((_, index) => (
-              <Center key={index} m={'15px'}>
-                <MainImageStyle src={`/test1.jpeg`} alt={`test image1`} />
+              <Center key={index} m={'10px'}>
+                <MainProductItems image={''} title={''} />
               </Center>
             ))}
           </Flex>
