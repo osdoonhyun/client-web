@@ -4,6 +4,7 @@ import { BsColumnsGap } from 'react-icons/bs'
 import { AiOutlineLaptop } from 'react-icons/ai'
 import { NavigationTabsProps } from './Tabs.types'
 import ProductItem from '../productItem'
+import InfiniteScroller from '@/src/components/ui/infiniteScroller'
 
 export default function NavigationTabs(props: NavigationTabsProps) {
   const MY_PAGE_TAB = [BsColumnsGap, AiOutlineLaptop, MdFavoriteBorder]
@@ -33,38 +34,40 @@ export default function NavigationTabs(props: NavigationTabsProps) {
 
       {/* API 나오면 수정 작업 필요 */}
       <SimpleGrid mt="33px" columns={3} spacing="30px">
-        {props.showUserPosts && (
-          <Box pos="relative">
-            <Image
-              src="https://bit.ly/dan-abramov"
-              alt="Dan Abramov"
-              bg="dGray"
-              borderRadius="10px"
-            />
-            <Box
-              pos="absolute"
-              zIndex="2"
-              top="88%"
-              left="88%"
-              _hover={
-                props.isLiked
-                  ? undefined
-                  : {
-                      color: 'dGray.medium',
-                    }
-              }
-              color={props.isLiked ? 'dRed.400' : '#fff'}
-              onClick={props.toggleIsLiked}>
-              {props.isLiked ? (
-                <MdFavorite size="20px" />
-              ) : (
-                <MdFavoriteBorder size="20px" />
-              )}
+        <InfiniteScroller loadMore={() => console.log('테스트')} hasMore={true}>
+          {props.showUserPosts && (
+            <Box pos="relative">
+              <Image
+                src="https://bit.ly/dan-abramov"
+                alt="Dan Abramov"
+                bg="dGray"
+                borderRadius="10px"
+              />
+              <Box
+                pos="absolute"
+                zIndex="2"
+                top="88%"
+                left="88%"
+                _hover={
+                  props.isLiked
+                    ? undefined
+                    : {
+                        color: 'dGray.medium',
+                      }
+                }
+                color={props.isLiked ? 'dRed.400' : '#fff'}
+                onClick={props.toggleIsLiked}>
+                {props.isLiked ? (
+                  <MdFavorite size="20px" />
+                ) : (
+                  <MdFavoriteBorder size="20px" />
+                )}
+              </Box>
             </Box>
-          </Box>
-        )}
-        {props.showUserProductPosts && <ProductItem />}
-        {props.showLikedPosts && <ProductItem />}
+          )}
+          {props.showUserProductPosts && <ProductItem />}
+          {props.showLikedPosts && <ProductItem />}
+        </InfiniteScroller>
       </SimpleGrid>
     </>
   )
