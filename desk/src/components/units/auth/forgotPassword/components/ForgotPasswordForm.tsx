@@ -15,10 +15,14 @@ import {
 	Link,
 } from '@chakra-ui/react';
 
-import {SetStateAction, useState} from 'react';
+import React, {SetStateAction, useState} from 'react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import {useMutation} from "@apollo/client";
-import {AUTH_EMAIL, CREATE_USER, MATCH_AUTH_NUMBER} from "@/src/components/units/auth/queries/mutation";
+import {
+	AUTH_EMAIL,
+	MATCH_AUTH_NUMBER,
+	RESET_USER_PASSWORD
+} from "@/src/components/units/auth/queries/mutation";
 import { PinInput, PinInputField } from '@chakra-ui/react'
 import {
 	AuthFormProps, errMsg, errorMessage, signupSchema,
@@ -26,10 +30,9 @@ import {
 import Login from "@/src/components/units/auth/login/Login.container";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
-import MyJobSelect from "@/src/components/units/auth/signup/components/MyJobSelect";
 import Timer from "@/src/components/ui/timer";
 
-export default function SignupForm() {
+export default function ForgotPasswordForm() {
 	const [errMsg, setErrMsg] = useState<errMsg>({
 		errText: '',
 		errColor: '',
@@ -41,8 +44,7 @@ export default function SignupForm() {
 		myPassword: ''
 	})
 	const [showPassword, setShowPassword] = useState(false);
-	const [myJob, setMyJob] = useState('')
-	const [createUser] = useMutation(CREATE_USER)
+	const [resetUserPassword] = useMutation(RESET_USER_PASSWORD)
 	const [authEmail] = useMutation(AUTH_EMAIL)
 	const [matchAuthNumber] = useMutation(MATCH_AUTH_NUMBER)
 	const [pinNumber, setPinNumber] = useState<string | undefined>(undefined)
@@ -56,7 +58,7 @@ export default function SignupForm() {
 		resolver: yupResolver(signupSchema),
 		mode: "onChange",
 	})
-	const [timeReset, setTimeReset] = useState(0)
+	const [isInputEmail, setIsInputEmail] = useState('')
 	
 	
 	const onChangePinNumber = (props: SetStateAction<string | undefined>): void => {
@@ -69,18 +71,21 @@ export default function SignupForm() {
 			variables: {
 				authEmailInput: {
 					email: data.email,
-					authCheck: true
+					authCheck: false
 				}
 			}
 		}).then(() => {
 			const msg = '인증할 이메일 확인 후 인증번호 6자리를 입력해 주세요'
 			setErrMsg({...errMsg, errText: msg, errColor: 'green', isEmail: true})
-			setTimeReset(Math.floor(Math.random() * 1000))
 		}).catch((err) => {
 			const msg: string|undefined = errorMessage(err.message)
 			setErrMsg({...errMsg, errText: msg || '', errColor: 'red'})
 			return
 		})
+	}
+	
+	const onChangeInputEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setIsInputEmail(e.target.value)
 	}
 	
 	const onClickMatchAuthNumber = async () => {
@@ -104,12 +109,11 @@ export default function SignupForm() {
 	}
 	
 	const onClickSubmit = async (data: AuthFormProps) => {
-		await createUser({
+		await resetUserPassword({
 			variables: {
-				createUserInput: {
+				resetPasswordInput: {
 					email: data.email,
 					password: data.password,
-					jobGroup: myJob
 				}
 			}
 		}).then(() => {
@@ -131,11 +135,11 @@ export default function SignupForm() {
 				<Stack spacing={0} mx={'auto'} maxW={'lg'} bg={useColorModeValue('white', 'gray.700')}>
 					<Stack align={'center'}>
 						<Heading fontSize={'4xl'} textAlign={'center'} pt={6}>
-							회원가입
+							비밀번호 재설정
 						</Heading>
 						<Text fontSize={'lg'} color={useColorModeValue('gray.600', 'gray.300')}>
-							당신의 책상을 자랑하십시오 <Link color={useColorModeValue('dPrimary', 'dPrimaryHover.transparency')} href={'/'}>데카이브</Link> ✌️
-						</Text>의
+							당신의 책상을 자랑하십시오 <Link color={'dPrimary'} href={'/'}>데카이브</Link> ✌️
+						</Text>
 					</Stack>
 					<Box
 						rounded={'lg'}
@@ -143,26 +147,27 @@ export default function SignupForm() {
 						p={8}>
 						<form onSubmit={handleSubmit(onClickSubmit)}>
 							<Stack spacing={4}>
-								<MyJobSelect setMyJob={setMyJob} myJob={myJob} />
 								<FormControl id="email" isInvalid={!!errors.email}>
 									<FormLabel>이메일</FormLabel>
 									<Flex gap={4}>
 										<Input
 											focusBorderColor={'dPrimary'}
 											type="email"
-											autoFocus={!!myJob}
+											autoFocus={true}
 											placeholder={'이메일을 입력해 주세요'}
-											{...register('email')}
+											{...register("email", {
+												required: "이미지를 등록해주세요.",
+												onChange: onChangeInputEmail
+											})}
 										/>
 										<Button
 											onClick={onClickCertification}
 											loadingText="Submitting"
 											size="md"
 											px={6}
-											disabled
 											bg={'dPrimary'}
 											color={'white'}
-											isDisabled={!myJob}
+											isDisabled={!isInputEmail}
 											_hover={
 												useColorModeValue(
 													{bg: 'dPrimaryHover.dark'},
@@ -176,7 +181,7 @@ export default function SignupForm() {
 									<Text color={errMsg.errColor} pb={4}>{errMsg.errText}</Text>
 									{errMsg.errText.includes('인증') ?
 									<Text>
-										인증번호 유효시간은 <Timer mm={timeReset} ss={0} /> 입니다.
+										인증번호 유효시간은 <Timer mm={3} ss={0} /> 입니다.
 									</Text>
 										:
 										''
@@ -263,11 +268,11 @@ export default function SignupForm() {
 												{bg: 'dPrimaryHover.dark'}
 											)}
 									>
-										회원가입
+										비밀번호 변경
 									</Button>
 								</Stack>
 								<Stack pt={6}>
-									<Text align={'center'} style={{color: 'dPrimary', }}>
+									<Text align={'center'}>
 										이미 회원이신가요? <Link color={useColorModeValue('dPrimary', 'dPrimaryHover.transparency')} onClick={() => {setAuthType('authLogin')}}>로그인</Link>
 									</Text>
 								</Stack>

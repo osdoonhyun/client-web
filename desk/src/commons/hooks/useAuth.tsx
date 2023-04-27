@@ -56,23 +56,23 @@ export function useAuth() {
 		void router.push('/')
 	}
 	
-	const loginUi = useCallback(() => {
+	const loginUI = useCallback(() => {
 		return <LoginIsOpen />
 	}, [])
 	
-	const signupUi = useCallback(() => {
+	const signupUI = useCallback(() => {
 		return <SignupIsOpen />
 	}, [])
 	
-	const signoutUi = useCallback(() => {
+	const signoutUI = useCallback(() => {
 		return <SignoutIsOpen />
 	}, [])
 	
 	return {
 		isLoggedIn,
-		LoginUi: loginUi,
-		SignupUi: signupUi,
-		SignoutUi: signoutUi,
+		LoginUI: loginUI,
+		SignupUI: signupUI,
+		SignoutUI: signoutUI,
 		openModal,
 		onClickLogout,
 		onClickSignout,

@@ -36,7 +36,7 @@ const NavLink = ({ children }: { children: ReactNode }) => (
 
 export default function LayoutHeaderUI(props: LayoutHeaderUIProps) {
   const { colorMode, toggleColorMode } = useColorMode()
-  const {isLoggedIn, LoginUi, SignupUi, openModal, onClickLogout, onClickSignout} = useAuth()
+  const {isLoggedIn, LoginUI, SignupUI, openModal, onClickLogout, onClickSignout} = useAuth()
 
   return (
     <>
@@ -94,8 +94,8 @@ export default function LayoutHeaderUI(props: LayoutHeaderUIProps) {
         </Flex>
       </Box>
       
-      <LoginUi />
-      <SignupUi />
+      <LoginUI />
+      <SignupUI />
     </>
   )
 }

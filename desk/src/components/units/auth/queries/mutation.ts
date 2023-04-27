@@ -38,3 +38,8 @@ export const SIGNOUT = gql`
     }
 `
 
+export const RESET_USER_PASSWORD = gql`
+	mutation resetUserPassword($resetPasswordInput: ResetPasswordInput!){
+      resetUserPassword(resetPasswordInput: $resetPasswordInput)
+	}
+`

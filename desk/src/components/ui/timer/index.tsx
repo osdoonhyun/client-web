@@ -10,7 +10,6 @@ const Timer = ({ mm, ss }: TtimerProps) => {
 	const [seconds, setSeconds] = useState(ss);
 	
 	useEffect(() => {
-		console.log('mm')
 		setMinutes(3)
 		setSeconds(0)
 	}, [mm])
