@@ -1,20 +1,13 @@
 import { Center } from '@chakra-ui/react'
 import CategoryHeader from '../../components/categoryHeader/CategoryHeader.container'
 import MainBoardSlider from '../../components/mainBoardSlider'
+import { RecentUIProps } from './Recent.types'
 
-export default function RecentUI() {
+export default function RecentUI(props: RecentUIProps) {
   const categoryTitle = '⏱️ 최근 게시물'
-  // api 연결 예정 - UI 테스트를 위한 이미지값
-  const images = [
-    '/test1.jpeg',
-    '/test1.jpeg',
-    '/test1.jpeg',
-    '/test1.jpeg',
-    '/test1.jpeg',
-    '/test1.jpeg',
-    '/test1.jpeg',
-    '/test1.jpeg',
-  ]
+  const images = props.boards.map(
+    board => board.pictures.find(picture => picture.isMain)?.url ?? '',
+  )
 
   return (
     <>
