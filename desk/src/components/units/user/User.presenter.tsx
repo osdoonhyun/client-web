@@ -33,35 +33,15 @@ export default function UserUI(props: UserUIProps) {
                   IT
                 </Badge>
               </Text>
-              <Button
-                alignItems="center"
-                textAlign="center"
-                color="dPrimary"
-                borderColor="dPrimary"
-                _hover={useColorModeValue(
-                  { bg: 'dPrimaryHover.dark', color: 'dGray.light' },
-                  { bg: 'dPrimaryHover.dark', color: 'dGray.medium' },
-                )}
-                variant="outline"
-                w="108px"
-                h="16px"
-                ml="25px"
-                py="11px"
-                fontSize="12px"
-                fontWeight="600"
-                onClick={props.onClickMoveToAccountEdit}>
-                <span style={{ padding: '0 2px' }}>
-                  <GoPencil color="dPrimary" />
-                </span>
-                {/* 자신의 페이지일 경우만 보이도록 */}
-                프로필 수정하기
-              </Button>
+            </Flex>
+            <Flex ml="50px" mt="20px" gap="25px">
+              <FollowModal isLoggedIn={props.isLoggedIn} type="follower" />
+              <FollowModal isLoggedIn={props.isLoggedIn} type="followee" />
             </Flex>
             <Flex direction="column" mt="23px" ml="50px">
               <Text mb="23px" fontSize="16px" alignItems="center" fontWeight="600">
                 한 줄 소개 :{' '}
               </Text>
-
               <Link
                 href="https://www.example.com"
                 isExternal
@@ -79,11 +59,6 @@ export default function UserUI(props: UserUIProps) {
                 </Flex>
               </Link>
             </Flex>
-
-            <Flex position="absolute" bottom="20px" ml="50px" gap="25px">
-              <FollowModal isLoggedIn={props.isLoggedIn} type="follower" />
-              <FollowModal isLoggedIn={props.isLoggedIn} type="followee" />
-            </Flex>
           </Flex>
           <Flex mr="34px" direction="column" justify="center" align="center">
             <Avatar
@@ -94,15 +69,26 @@ export default function UserUI(props: UserUIProps) {
               src=""
             />
             <Button
-              mt="28px"
-              w="126px"
-              h="48px"
-              bg="dPrimary"
-              color="#fff"
-              _hover={{ bg: 'dPrimaryHover.dark' }}
-              fontSize="18px"
-              fontWeight="600">
-              팔로우
+              alignItems="center"
+              textAlign="center"
+              color="dPrimary"
+              borderColor="dPrimary"
+              _hover={useColorModeValue(
+                { bg: 'dPrimaryHover.dark', color: 'dGray.light' },
+                { bg: 'dPrimaryHover.dark', color: '#1A202C' },
+              )}
+              variant="outline"
+              my="25px"
+              w="140px"
+              h="32px"
+              fontSize="16px"
+              fontWeight="600"
+              onClick={props.onClickMoveToAccountEdit}>
+              <span style={{ padding: '0 2px' }}>
+                <GoPencil color="dPrimary" />
+              </span>
+              {/* 자신의 페이지일 경우만 보이도록 */}
+              프로필 수정하기
             </Button>
           </Flex>
         </Flex>
