@@ -15,7 +15,7 @@ export default function Recent() {
     return <ErrorMessage message={error.message} />
   }
 
-  const boards = data?.fetchBoards || []
+  const boards = data?.fetchBoards ?? []
 
   // const images = boards.map(
   //   board => board.pictures.find((picture: TPicture) => picture.isMain)?.url ?? '',

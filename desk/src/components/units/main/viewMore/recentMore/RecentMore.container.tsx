@@ -15,7 +15,7 @@ export default function RecentMore() {
     return <ErrorMessage message={error.message} />
   }
 
-  const boards = data?.fetchBoards || []
+  const boards = data?.fetchBoards ?? []
 
   const handleOnLoadMore = () => {
     console.log('더보기')
