@@ -14,6 +14,11 @@ export type Scalars = {
   Upload: any;
 };
 
+export type TAuthEmailInput = {
+  authCheck: Scalars['Boolean'];
+  email: Scalars['String'];
+};
+
 export type TBoard = {
   __typename?: 'Board';
   comments?: Maybe<Array<TComments>>;
@@ -43,11 +48,9 @@ export type TCreateBoardInput = {
   createProductInputs: Array<TCreateProductInput>;
   description: Scalars['String'];
   hashtags?: InputMaybe<Array<Scalars['String']>>;
-  likes?: Scalars['Int'];
   recommend?: InputMaybe<Scalars['String']>;
   title: Scalars['String'];
   uploadFile: Array<Scalars['String']>;
-  views?: Scalars['Int'];
 };
 
 export type TCreateCommentInput = {
@@ -67,15 +70,34 @@ export type TCreateReplyInput = {
 
 export type TCreateUserInput = {
   email: Scalars['String'];
+  jobGroup: Scalars['String'];
   password: Scalars['String'];
+  provider?: InputMaybe<Scalars['String']>;
+};
+
+export type TFetchFollowee = {
+  __typename?: 'FetchFollowee';
+  followee: Scalars['Boolean'];
+  user: Array<TUser>;
+};
+
+export type TFetchFollowing = {
+  __typename?: 'FetchFollowing';
+  following: Scalars['Boolean'];
+  user: Array<TUser>;
 };
 
 export type TFetchUser = {
   __typename?: 'FetchUser';
   boardCount: Scalars['Int'];
-  folloeweeCount: Scalars['Int'];
+  followeeCount: Scalars['Int'];
   followingCount: Scalars['Int'];
   user: TUser;
+};
+
+export type TFetchUserInput = {
+  guestid?: InputMaybe<Scalars['String']>;
+  userid: Scalars['String'];
 };
 
 export type TFollowee = {
@@ -125,7 +147,6 @@ export type TMutation = {
   matchAuthNumber: Scalars['Boolean'];
   resetUserPassword: Scalars['Boolean'];
   restoreAccessToken: Scalars['String'];
-  test: Scalars['Boolean'];
   updateBoard: TBoard;
   updateBoardLiker: Scalars['Boolean'];
   updateFollowing: Scalars['Boolean'];
@@ -135,7 +156,7 @@ export type TMutation = {
 
 
 export type TMutationAuthEmailArgs = {
-  email: Scalars['String'];
+  authEmailInput: TAuthEmailInput;
 };
 
 
@@ -189,11 +210,6 @@ export type TMutationResetUserPasswordArgs = {
 };
 
 
-export type TMutationTestArgs = {
-  a: Scalars['String'];
-};
-
-
 export type TMutationUpdateBoardArgs = {
   boardid: Scalars['String'];
   updateBoardInput: TUpdateBoardInput;
@@ -219,6 +235,13 @@ export type TMutationUploadFileArgs = {
   files: Array<Scalars['Upload']>;
 };
 
+export type TOpenGraph = {
+  __typename?: 'OpenGraph';
+  description: Scalars['String'];
+  imageUrl: Scalars['String'];
+  name: Scalars['String'];
+};
+
 export type TPicture = {
   __typename?: 'Picture';
   board: TBoard;
@@ -230,8 +253,9 @@ export type TPicture = {
 export type TProduct = {
   __typename?: 'Product';
   board: TBoard;
+  description?: Maybe<Scalars['String']>;
   id: Scalars['String'];
-  name: Scalars['String'];
+  name?: Maybe<Scalars['String']>;
   picture?: Maybe<Scalars['String']>;
   url: Scalars['String'];
 };
@@ -241,17 +265,26 @@ export type TQuery = {
   fetchBestBoards: Array<TBoard>;
   fetchBoard: TBoard;
   fetchBoards: Array<TBoard>;
-  fetchFollowees: Array<TUser>;
-  fetchFollowings: Array<TUser>;
+  fetchBoardsUserLiked: Array<TBoard>;
+  fetchFollowees: TFetchFollowee;
+  fetchFollowings: TFetchFollowing;
+  fetchLoginUser: TUser;
+  fetchProducts: Array<TProduct>;
   fetchUser: TFetchUser;
+  fetchUserBoards: Array<TBoard>;
   fetchYoutube: Array<TYoutube>;
-  searchBoard: Array<TBoard>;
-  viewBoard: TBoard;
+  getOpenGraph?: Maybe<TOpenGraph>;
+  searchBoards: Array<TBoard>;
 };
 
 
 export type TQueryFetchBoardArgs = {
   boardid: Scalars['String'];
+};
+
+
+export type TQueryFetchBoardsUserLikedArgs = {
+  userid: Scalars['String'];
 };
 
 
@@ -265,18 +298,33 @@ export type TQueryFetchFollowingsArgs = {
 };
 
 
-export type TQueryFetchUserArgs = {
+export type TQueryFetchProductsArgs = {
   userid: Scalars['String'];
 };
 
 
-export type TQuerySearchBoardArgs = {
-  keyword: Scalars['String'];
+export type TQueryFetchUserArgs = {
+  fetchUserInput: TFetchUserInput;
 };
 
 
-export type TQueryViewBoardArgs = {
-  boardid: Scalars['String'];
+export type TQueryFetchUserBoardsArgs = {
+  userid: Scalars['String'];
+};
+
+
+export type TQueryFetchUserBoardsArgs = {
+  userid: Scalars['String'];
+};
+
+
+export type TQueryGetOpenGraphArgs = {
+  url: Scalars['String'];
+};
+
+
+export type TQuerySearchBoardsArgs = {
+  keyword: Scalars['String'];
 };
 
 export type TReply = {
@@ -302,16 +350,21 @@ export type TSnsAccount = {
 export type TUpdateBoardInput = {
   description: Scalars['String'];
   hashtags?: InputMaybe<Array<Scalars['String']>>;
-  likes?: Scalars['Int'];
   recommend?: InputMaybe<Scalars['String']>;
   title: Scalars['String'];
-  updateProductInputs: Array<TCreateProductInput>;
+  updateProductInputs: Array<TUpdateProductInput>;
   uploadFile: Array<Scalars['String']>;
-  views?: Scalars['Int'];
+};
+
+export type TUpdateProductInput = {
+  name: Scalars['String'];
+  picture?: InputMaybe<Scalars['String']>;
+  url: Scalars['String'];
 };
 
 export type TUpdateUserInput = {
   intro?: InputMaybe<Scalars['String']>;
+  jobGroup?: InputMaybe<Scalars['String']>;
   nickName?: InputMaybe<Scalars['String']>;
   picture?: InputMaybe<Scalars['String']>;
   snsAccount?: InputMaybe<Scalars['String']>;
@@ -325,15 +378,18 @@ export type TUser = {
   followings: Array<TFollowing>;
   id: Scalars['String'];
   intro?: Maybe<Scalars['String']>;
+  jobGroup: Scalars['String'];
   like?: Maybe<Array<TBoard>>;
   nickName: Scalars['String'];
   picture?: Maybe<Scalars['String']>;
+  provider: Scalars['String'];
   snsAccounts?: Maybe<Array<TSnsAccount>>;
 };
 
 export type TYoutube = {
   __typename?: 'Youtube';
   thumbnailUrl: Scalars['String'];
+  title: Scalars['String'];
   videoUrl: Scalars['String'];
   views: Scalars['Float'];
 };

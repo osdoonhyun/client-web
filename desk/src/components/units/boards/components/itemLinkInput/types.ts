@@ -1,5 +1,8 @@
+import { TProduct } from '@/src/commons/types/generated/types'
+
 export type ItemLinkInputProps = {
   title: string
+  items: TProduct[] | undefined
   maxCount: number
   isRequired: boolean
   onItems: (items: ItemLinkType[]) => void
@@ -9,5 +12,5 @@ export type ItemLinkInputProps = {
 export type ItemLinkType = {
   id: number
   name: string
-  link: string
+  url: string
 }

@@ -8,18 +8,25 @@ const INIT_DEFAULT_ITEMS: ItemLinkType[] = [
   {
     id: 1,
     name: '',
-    link: '',
+    url: '',
   },
   {
     id: 2,
     name: '',
-    link: '',
+    url: '',
   },
 ]
 
 export default function ItemLinkInput(props: ItemLinkInputProps) {
   const nextId = useRef(props.maxCount)
-  const [items, setItems] = useState<ItemLinkType[]>(INIT_DEFAULT_ITEMS)
+
+  const [items, setItems] = useState<ItemLinkType[]>(
+    props.items?.map((item, index) => ({
+      id: index + 1,
+      name: item.name,
+      url: item.url,
+    })) ?? INIT_DEFAULT_ITEMS,
+  )
 
   useEffect(() => {
     props.onItems(items)
@@ -28,7 +35,7 @@ export default function ItemLinkInput(props: ItemLinkInputProps) {
   const addItem = () => {
     nextId.current += 1
 
-    setItems(prev => [...prev, { id: nextId.current, name: '', link: '' }])
+    setItems(prev => [...prev, { id: nextId.current, name: '', url: '' }])
   }
 
   const deleteItem = (id: number) => () => {
@@ -46,10 +53,10 @@ export default function ItemLinkInput(props: ItemLinkInputProps) {
     )
   }
 
-  const onChangeLink = (event: ChangeEvent<HTMLInputElement>) => {
+  const onChangeURL = (event: ChangeEvent<HTMLInputElement>) => {
     const { id, value } = event.target
     setItems(items =>
-      items.map(item => (item.id === Number(id) ? { ...item, link: value } : item)),
+      items.map(item => (item.id === Number(id) ? { ...item, url: value } : item)),
     )
   }
 
@@ -75,21 +82,25 @@ export default function ItemLinkInput(props: ItemLinkInputProps) {
             id={`${item.id}`}
             name="name"
             placeholder="상품명을 입력해주세요."
+            defaultValue={item.name}
             bgColor={useColorModeValue('dGray.light', '#bababa1e')}
             color={useColorModeValue('dBlack', 'dGray.light')}
             width={'25%'}
             onChange={onChangeName}
             _placeholder={{ color: 'dGray.medium' }}
+            focusBorderColor="dPrimary"
           />
           <Input
             id={`${item.id}`}
             name="link"
             placeholder="상품의 구매처 링크를 입력해주세요. 구매한 사이트가 아니어도 괜찮습니다."
+            defaultValue={item.url}
             bgColor={useColorModeValue('dGray.light', '#bababa1e')}
             color={useColorModeValue('dBlack', 'dGray.light')}
             width={'65%'}
-            onChange={onChangeLink}
+            onChange={onChangeURL}
             _placeholder={{ color: 'dGray.medium' }}
+            focusBorderColor="dPrimary"
           />
           {isLastItem(array, item) ? (
             <HStack spacing={'6px'}>

@@ -1,4 +1,5 @@
 import { Center, Container, Flex, Text, useColorModeValue } from '@chakra-ui/react'
+import { RecentMoreUIProps } from './RecentMore.types'
 import MainImageStyle from '@/src/components/ui/mainImageStyle'
 import InfiniteScroll from 'react-infinite-scroller'
 
@@ -18,7 +19,7 @@ export default function RecentMoreUI(props: RecentMoreUIProps) {
           'scrollbar-width': 'none',
         }}>
         <Text
-          ml="55px"
+          ml="40px"
           fontSize="18pt"
           fontWeight="700"
           color={useColorModeValue('dGray.dark', 'dGray.light')}>
@@ -31,7 +32,7 @@ export default function RecentMoreUI(props: RecentMoreUIProps) {
           useWindow={false}>
           <Flex flexWrap="wrap" justifyContent="center" m={2}>
             {Array.from({ length: 100 }).map((_, index) => (
-              <Center key={index} m={'10px'}>
+              <Center key={index} m={'15px'}>
                 <MainImageStyle src={`/test1.jpeg`} alt={`test image1`} />
               </Center>
             ))}
