@@ -2,17 +2,16 @@ import {
   Box,
   Card,
   CardBody,
-  HStack,
   Heading,
   Image,
   Link,
+  SimpleGrid,
   Stack,
   Text,
   VStack,
   useColorModeValue,
 } from '@chakra-ui/react'
 import { ProductItemCardProps } from './types'
-// import Link from 'next/link'
 
 export default function ProductItemCardList(props: ProductItemCardProps) {
   return (
@@ -24,12 +23,10 @@ export default function ProductItemCardList(props: ProductItemCardProps) {
         pt={'10px'}>
         {props.title}
       </Text>
-      <HStack justify={'flex-start'} align={'center'} wrap={'wrap'} spacing={0}>
+      <SimpleGrid columns={{ lg: 3, sm: 2 }} spacing={'10px'}>
         {props.products.map((product, index) => (
           <Box
             key={index}
-            w={{ lg: '33.3%', sm: '50%' }}
-            p={'5px'}
             _hover={{ transform: 'scale(1.02)', filter: 'brightness(120%)' }}>
             <Link href={product.url} isExternal>
               <Card
@@ -38,8 +35,9 @@ export default function ProductItemCardList(props: ProductItemCardProps) {
                 <CardBody>
                   <Image
                     height={'150px'}
+                    width={'100%'}
+                    objectFit={'cover'}
                     src={product.picture ?? ''}
-                    alt=""
                     borderRadius="lg"
                     bgGradient="linear(to-l, #7928CA, #FF0080)"
                   />
@@ -54,7 +52,7 @@ export default function ProductItemCardList(props: ProductItemCardProps) {
             </Link>
           </Box>
         ))}
-      </HStack>
+      </SimpleGrid>
     </VStack>
   )
 }
