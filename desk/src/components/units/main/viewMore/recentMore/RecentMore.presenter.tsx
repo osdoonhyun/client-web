@@ -49,8 +49,15 @@ export default function RecentMoreUI(props: RecentMoreUIProps) {
                   src={board.pictures.find(picture => picture.isMain)?.url ?? ''}
                   alt={`test image${index}`}
                 />
-                <Text fontSize="13pt" fontWeight="bold" mt={2}>
-                  {board.title}
+                <Text
+                  w="235px"
+                  ml="5px"
+                  noOfLines={2}
+                  fontSize="13pt"
+                  fontWeight="bold"
+                  mt={2}>
+                  {board.title.substring(0, 28)}
+                  {board.title.length > 28 ? '...' : ''}
                 </Text>
                 <Center>
                   <Text fontSize="11pt" mt={2}>
@@ -63,11 +70,12 @@ export default function RecentMoreUI(props: RecentMoreUIProps) {
                     {board.writer.nickName}
                   </Text>
                 </Center>
-                {board.hashtags && (
+                {/* 해시태그 */}
+                {/* {board.hashtags && (
                   <Text fontSize="sm" mt={2}>
-                    {board.hashtags.map(hashtag => `#${hashtag.hashtag}`).join(' ')}
+                    {board.hashtags.map(hashtag => `${hashtag.hashtag}`).join(' ')}
                   </Text>
-                )}
+                )} */}
                 <Text fontSize="sm" mt={1} color="dGray.dark">
                   {`조회수: ${board.views}`}
                 </Text>
