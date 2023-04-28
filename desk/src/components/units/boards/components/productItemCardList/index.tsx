@@ -1,9 +1,11 @@
 import {
+  Box,
   Card,
   CardBody,
-  Flex,
   Heading,
   Image,
+  Link,
+  SimpleGrid,
   Stack,
   Text,
   VStack,
@@ -13,29 +15,44 @@ import { ProductItemCardProps } from './types'
 
 export default function ProductItemCardList(props: ProductItemCardProps) {
   return (
-    <VStack align={'flex-start'}>
+    <VStack align={'stretch'}>
       <Text
         fontSize={18}
         fontWeight={800}
-        color={useColorModeValue('dGray.dark', 'dGray.medium')}
+        color={useColorModeValue('dBlack', 'dGray.light')}
         pt={'10px'}>
         {props.title}
       </Text>
-      <Flex justify={'flex-start'} align={'center'} wrap={'wrap'}>
-        <Card w="30%">
-          <CardBody>
-            <Image
-              src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
-              alt=""
-              borderRadius="lg"
-            />
-            <Stack mt="6" spacing="3">
-              <Heading size="md">상품명</Heading>
-              <Text noOfLines={2}>상품설명</Text>
-            </Stack>
-          </CardBody>
-        </Card>
-      </Flex>
+      <SimpleGrid columns={{ lg: 3, sm: 2 }} spacing={'10px'}>
+        {props.products.map((product, index) => (
+          <Box
+            key={index}
+            _hover={{ transform: 'scale(1.02)', filter: 'brightness(120%)' }}>
+            <Link href={product.url} isExternal>
+              <Card
+                boxShadow={'md'}
+                bgColor={useColorModeValue('dGray.light', '#bababa1e')}>
+                <CardBody>
+                  <Image
+                    height={'150px'}
+                    width={'100%'}
+                    objectFit={'cover'}
+                    src={product.picture ?? ''}
+                    borderRadius="lg"
+                    bgGradient="linear(to-l, #7928CA, #FF0080)"
+                  />
+                  <Stack mt="6" spacing="3">
+                    <Heading noOfLines={2} size="md">
+                      {product.name}
+                    </Heading>
+                    <Text noOfLines={2}>{product.description}</Text>
+                  </Stack>
+                </CardBody>
+              </Card>
+            </Link>
+          </Box>
+        ))}
+      </SimpleGrid>
     </VStack>
   )
 }
