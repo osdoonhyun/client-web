@@ -9,6 +9,8 @@ import {
   SimpleGrid,
   Text,
   Icon,
+  useColorMode,
+  useColorModeValue,
 } from '@chakra-ui/react'
 import { MdFavoriteBorder, MdFavorite } from 'react-icons/md'
 import { GoPencil } from 'react-icons/go'
@@ -31,32 +33,20 @@ export default function UserUI(props: UserUIProps) {
                   IT
                 </Badge>
               </Text>
-              <Button
-                alignItems="center"
-                textAlign="center"
-                color="dPrimary"
-                borderColor="dPrimary"
-                variant="outline"
-                w="108px"
-                h="16px"
-                ml="25px"
-                py="11px"
-                fontSize="12px"
-                fontWeight="600"
-                onClick={props.onClickMoveToAccountEdit}>
-                <span style={{ padding: '0 2px' }}>
-                  <GoPencil color="dPrimary" />
-                </span>
-                {/* 자신의 페이지일 경우만 보이도록 */}
-                프로필 수정하기
-              </Button>
+            </Flex>
+            <Flex ml="50px" mt="20px" gap="25px">
+              <FollowModal isLoggedIn={props.isLoggedIn} type="follower" />
+              <FollowModal isLoggedIn={props.isLoggedIn} type="followee" />
             </Flex>
             <Flex direction="column" mt="23px" ml="50px">
               <Text mb="23px" fontSize="16px" alignItems="center" fontWeight="600">
                 한 줄 소개 :{' '}
               </Text>
-
-              <Link href="https://www.example.com" isExternal>
+              <Link
+                href="https://www.example.com"
+                isExternal
+                color={useColorModeValue('#1e5d97', '#c1daf2')}
+                fontWeight="600">
                 <Flex alignItems="center" justifyContent="flex-start">
                   <Icon as={BsLink45Deg} mr={1} />
                   <Text>sns 링크로 이동하기</Text>
@@ -69,30 +59,51 @@ export default function UserUI(props: UserUIProps) {
                 </Flex>
               </Link>
             </Flex>
-
-            <Flex position="absolute" bottom="20px" ml="50px" gap="25px">
-              <FollowModal isLoggedIn={props.isLoggedIn} type="follower" />
-              <FollowModal isLoggedIn={props.isLoggedIn} type="followee" />
-            </Flex>
           </Flex>
           <Flex mr="34px" direction="column" justify="center" align="center">
             <Avatar
               borderRadius="full"
               objectFit="cover"
-              background="gray.300"
+              background="dGray.medium"
               boxSize="170px"
               src=""
             />
-            <Button
-              mt="28px"
-              w="126px"
-              h="48px"
-              bg="dPrimary"
-              color="white"
-              fontSize="18px"
-              fontWeight="600">
-              팔로우
-            </Button>
+            {!props.isMyPage ? ( // 나의 페이지면 프로필 수정하기 버튼 / 아니면 팔로우 버튼
+              <Button
+                alignItems="center"
+                textAlign="center"
+                color="dPrimary"
+                borderColor="dPrimary"
+                _hover={useColorModeValue(
+                  { bg: 'dPrimaryHover.dark', color: 'dGray.light' },
+                  { bg: 'dPrimaryHover.dark', color: '#1A202C' },
+                )}
+                variant="outline"
+                my="25px"
+                w="140px"
+                h="32px"
+                fontSize="16px"
+                fontWeight="600"
+                onClick={props.onClickMoveToAccountEdit}>
+                <span style={{ padding: '0 2px' }}>
+                  <GoPencil color="dPrimary" />
+                </span>
+                {/* 자신의 페이지일 경우만 보이도록 */}
+                프로필 수정하기
+              </Button>
+            ) : (
+              <Button
+                mt="28px"
+                w="126px"
+                h="48px"
+                color={useColorModeValue('#fff', '#1A202C')}
+                bgColor={'dPrimary'}
+                _hover={{ bg: 'dPrimaryHover.dark' }}
+                fontSize="18px"
+                fontWeight="600">
+                팔로우
+              </Button>
+            )}
           </Flex>
         </Flex>
 

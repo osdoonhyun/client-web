@@ -88,6 +88,7 @@ export default function ItemLinkInput(props: ItemLinkInputProps) {
             width={'25%'}
             onChange={onChangeName}
             _placeholder={{ color: 'dGray.medium' }}
+            focusBorderColor="dPrimary"
           />
           <Input
             id={`${item.id}`}
@@ -99,6 +100,7 @@ export default function ItemLinkInput(props: ItemLinkInputProps) {
             width={'65%'}
             onChange={onChangeURL}
             _placeholder={{ color: 'dGray.medium' }}
+            focusBorderColor="dPrimary"
           />
           {isLastItem(array, item) ? (
             <HStack spacing={'6px'}>
