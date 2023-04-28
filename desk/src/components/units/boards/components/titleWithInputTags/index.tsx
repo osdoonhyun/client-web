@@ -6,6 +6,7 @@ import {
   ButtonGroup,
   HStack,
   IconButton,
+  Input,
   Popover,
   PopoverArrow,
   PopoverContent,
@@ -18,7 +19,6 @@ import {
   useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react'
-import { Input } from 'antd'
 import { ChangeEvent, MouseEvent, useEffect, useState } from 'react'
 import { TitleWithInputTagsProps } from './types'
 
@@ -93,8 +93,12 @@ export default function TitleWithInputTags(props: TitleWithInputTagsProps) {
             <PopoverArrow />
             <Stack spacing={4}>
               <Input
+                bgColor={'white'}
+                color={'dBlack'}
                 value={tagText}
                 placeholder="해시태그를 입력해주세요."
+                _placeholder={{ color: 'dGray.medium' }}
+                focusBorderColor="dPrimary"
                 onChange={onChangeTagInput}
               />
               <ButtonGroup display="flex" justifyContent="flex-end">
