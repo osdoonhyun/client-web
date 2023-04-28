@@ -49,3 +49,11 @@ export const RESTORE_ACCESS_TOKEN = gql`
       restoreAccessToken
 	}
 `
+
+export const FETCH_LOGIN_USER = gql`
+	query {
+      fetchLoginUser {
+          id email nickName jobGroup provider
+      }
+	}
+`

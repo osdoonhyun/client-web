@@ -12,9 +12,9 @@ import {
 	useColorModeValue, Link, FormErrorMessage, HStack
 } from '@chakra-ui/react';
 import React, {useState} from "react";
-import {useMutation} from "@apollo/client";
-import {LOGIN} from "@/src/components/units/auth/queries/mutation";
-import {AuthModalType, MyEmailSave, MyToken} from "@/src/commons/store/atom";
+import {useMutation, useQuery} from "@apollo/client";
+import {FETCH_LOGIN_USER, LOGIN} from "@/src/components/units/auth/queries/mutation";
+import {AuthModalType, MyEmailSave, MyToken, MyUserInfo} from "@/src/commons/store/atom";
 import {useRecoilState} from "recoil";
 import SignupForm from "@/src/components/units/auth/signup/components/signupForm";
 import {useForm} from "react-hook-form";
@@ -36,6 +36,7 @@ export default function LoginForm() {
 	})
 	const [authType, setAuthType] = useState('authLogin')
 	const [myEmailSaveLocal, setMyEmailSaveLocal] = useRecoilState(MyEmailSave)
+	const [myUserInfo, setMyUserInfo] = useRecoilState(MyUserInfo)
 	const [isMyEmailSave, setIsMyEmailSave] = useState(false)
 	const [__, setAuthModalType] = useRecoilState(AuthModalType)
 	const router = useRouter()
@@ -47,6 +48,7 @@ export default function LoginForm() {
 		resolver: yupResolver(LoginSchema),
 		mode: "onSubmit",
 	})
+	const {data: loginUserData} = useQuery(FETCH_LOGIN_USER)
 	
 	async function onClickLoginSubmit(data: AuthFormProps) {
 		await login({
@@ -62,6 +64,8 @@ export default function LoginForm() {
 			if (isMyEmailSave) {
 				setMyEmailSaveLocal(data.email)
 			}
+			console.log(loginUserData.fetchLoginUser)
+			setMyUserInfo({...loginUserData.fetchLoginUser})
 			router.push('/')
 			
 		}).catch((err) => {
@@ -102,12 +106,24 @@ export default function LoginForm() {
 				justify={'center'}
 				bg={useColorModeValue('white', 'gray.700')}
 			>
-				<Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
+				<Stack spacing={0} mx={'auto'} maxW={'lg'} py={12} px={6}>
 					<Stack align={'center'}>
 						<Heading fontSize={'4xl'}>로그인</Heading>
 						<Text fontSize={'lg'} color={useColorModeValue('gray.600', 'gray.300')}>
 							당신의 책상을 자랑하라! <Link color={useColorModeValue('dPrimary', 'dPrimaryHover.transparency')} href={'/'}>데카이브</Link> ✌️
 						</Text>
+						<Flex color={'gray'}>
+							마지막 로그인은&nbsp;
+							{myUserInfo?.provider ===  'dechive'&&
+								<Text fontWeight={"bold"} color={'dPrimary'}>데카이브</Text>}
+							{myUserInfo?.provider ===  'kakao'&&
+								<Text fontWeight={"bold"} color={'yellow.500'}>카카오</Text>}
+							{myUserInfo?.provider ===  'google'&&
+								<Text fontWeight={"bold"} color={'gray.500'}>구글</Text>}
+							{myUserInfo?.provider ===  'naver'&&
+								<Text fontWeight={"bold"} color={'green.500'}>네이버</Text>}
+							&nbsp;입니다.
+						</Flex>
 					</Stack>
 					<Box
 						rounded={'lg'}
@@ -144,14 +160,27 @@ export default function LoginForm() {
 										direction={{base: 'column', sm: 'row'}}
 										align={'start'}
 										justify={'space-between'}>
-										<Checkbox onChange={onChangeMyEmailCheckboxToggle}>저장하기</Checkbox>
+										<Checkbox iconColor={'white'} borderColor={'dPrimary'} onChange={onChangeMyEmailCheckboxToggle}>저장하기</Checkbox>
 										<Link color={useColorModeValue('dPrimary', 'dPrimaryHover.transparency')} onClick={() => {setAuthType('forgotPassword')}}>비밀번호를 잊어버리셨나요?</Link>
 									</Stack>
-									<Text pb={4} color={'red'}>{err.errServer}</Text>
+									<Text color={'red'}>{err.errServer}</Text>
+									
+									<Button
+										type={"submit"}
+										bg={useColorModeValue('dPrimary', 'dPrimary')}
+										color={'white'}
+										_hover={
+											useColorModeValue(
+												{bg: 'dPrimaryHover.dark'},
+												{bg: 'dPrimaryHover.dark'}
+											)}
+									>
+										로그인
+									</Button>
 									<HStack>
 										<Link href={'https://mobomobo.shop/login/kakao'}>
 											<Button colorScheme='yellow' leftIcon={<RiKakaoTalkFill />}>
-											Kakao
+												Kakao
 											</Button>
 										</Link>
 										<Link href={'https://mobomobo.shop/login/naver'}>
@@ -165,18 +194,6 @@ export default function LoginForm() {
 											</Button>
 										</Link>
 									</HStack>
-									<Button
-										type={"submit"}
-										bg={useColorModeValue('dPrimary', 'dPrimary')}
-										color={'white'}
-										_hover={
-											useColorModeValue(
-												{bg: 'dPrimaryHover.dark'},
-												{bg: 'dPrimaryHover.dark'}
-											)}
-									>
-										로그인
-									</Button>
 									<Button
 										name='buttonJoinMember'
 										onClick={() => {setAuthType('authSignup')}}
