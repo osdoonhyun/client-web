@@ -35,8 +35,8 @@ export default function SignoutModalButton() {
     <>
       <Button
         color={useColorModeValue('#fff', '#1A202C')}
-        bg={useColorModeValue('red.400', 'red.200')}
-        _hover={{ bg: 'red.300' }}
+        bg={'dGray.medium'}
+        _hover={{ bg: useColorModeValue('dGray.dark', 'dGray.light') }}
         onClick={onOpen}>
         회원 탈퇴
       </Button>
@@ -64,8 +64,8 @@ export default function SignoutModalButton() {
             <Button
               mr={3}
               color={useColorModeValue('#fff', '#1A202C')}
-              bg={useColorModeValue('red.400', 'red.200')}
-              _hover={{ bg: 'red.300' }}
+              bg={'dGray.medium'}
+              _hover={{ bg: useColorModeValue('dGray.dark', 'dGray.light') }}
               isDisabled={!isChecked}
               onClick={onClickSignOutButton}>
               회원 탈퇴
