@@ -15,7 +15,7 @@ import {
 import { ChangeEvent, useState } from 'react'
 
 // 활성화 되면 hover
-export default function SignOutButton() {
+export default function SignoutModalButton() {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [isChecked, setIsChecked] = useState<boolean>(false)
 

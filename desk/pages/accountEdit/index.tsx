@@ -1,5 +1,6 @@
 import FileUpload from '@/src/components/ui/fileUpload'
-import SignOutButton from '@/src/components/units/accountEdit/components'
+import SignoutModalButton from '@/src/components/units/accountEdit/components/signoutModalButton'
+import SignOutButton from '@/src/components/units/accountEdit/components/signoutModalButton'
 import { AddIcon, CheckIcon, CloseIcon, EditIcon, MinusIcon } from '@chakra-ui/icons'
 import {
   Badge,
@@ -289,7 +290,7 @@ export default function AccountEdit() {
             </Center>
           </Box>
           <Box w="60%" ml="55px">
-            <SignOutButton />
+            <SignoutModalButton />
           </Box>
         </Flex>
       </Flex>
