@@ -95,11 +95,6 @@ export type TFetchUser = {
   user: TUser;
 };
 
-export type TFetchUserInput = {
-  guestid?: InputMaybe<Scalars['String']>;
-  userid: Scalars['String'];
-};
-
 export type TFollowee = {
   __typename?: 'Followee';
   followeeid: Scalars['String'];
@@ -304,11 +299,6 @@ export type TQueryFetchProductsArgs = {
 
 
 export type TQueryFetchUserArgs = {
-  fetchUserInput: TFetchUserInput;
-};
-
-
-export type TQueryFetchUserBoardsArgs = {
   userid: Scalars['String'];
 };
 
