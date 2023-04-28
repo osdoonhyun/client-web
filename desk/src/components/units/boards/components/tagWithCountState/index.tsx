@@ -1,35 +1,30 @@
-import { Flex, HStack, Text, useColorModeValue } from '@chakra-ui/react'
-import { AiOutlineComment, AiOutlineEye, AiOutlineHeart, IconName } from 'react-icons/ai'
+import { Flex, HStack, Tag, Text, useColorModeValue } from '@chakra-ui/react'
+import { AiOutlineComment, AiOutlineEye, AiOutlineHeart } from 'react-icons/ai'
+import { TagWithCountStateProps } from './types'
 
-export default function TagWithCountState() {
-  const testTags = ['개발자데스크셋업', '학생데스크셋업']
-
-  const makeTags = testTags.map(tag => `#${tag}`)
-
+export default function TagWithCountState(props: TagWithCountStateProps) {
   return (
     <>
       <Flex justify={'space-between'} align={'center'}>
-        {/* Tag 들어갈 예정 */}
-
         <HStack>
-          {makeTags.map((tag, index) => (
-            <Text
+          {props.hashTags?.map((tag, index) => (
+            <Tag
               key={index}
               fontSize={14}
               fontWeight={600}
               color={useColorModeValue('dGray.dark', 'dGray.medium')}>
               {tag}
-            </Text>
+            </Tag>
           ))}
         </HStack>
-        <HStack spacing={6}>
+        <HStack spacing={2}>
           <HStack>
             <AiOutlineHeart />
             <Text
               fontSize={14}
               fontWeight={600}
               color={useColorModeValue('dGray.dark', 'dGray.medium')}>
-              좋아요수
+              {props.likes}
             </Text>
           </HStack>
           <HStack>
@@ -38,7 +33,7 @@ export default function TagWithCountState() {
               fontSize={14}
               fontWeight={600}
               color={useColorModeValue('dGray.dark', 'dGray.medium')}>
-              조회수
+              {props.views}
             </Text>
           </HStack>
           <HStack>
@@ -47,7 +42,7 @@ export default function TagWithCountState() {
               fontSize={14}
               fontWeight={600}
               color={useColorModeValue('dGray.dark', 'dGray.medium')}>
-              댓글수
+              {props.comments}
             </Text>
           </HStack>
         </HStack>
