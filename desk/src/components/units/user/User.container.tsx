@@ -10,12 +10,6 @@ const TabID = {
   USER_LIKED_POSTS: 2,
 }
 
-const TabID = {
-  USER_POSTS: 0,
-  USER_PRODUCT_POSTS: 1,
-  USER_LIKED_POSTS: 2,
-}
-
 export default function User() {
   const router = useRouter()
   const [isLiked, { toggle: toggleIsLiked }] = useBoolean()

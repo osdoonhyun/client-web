@@ -79,9 +79,13 @@ export default function FollowModal(props: FollowModalProps) {
 
   return (
     <>
-      <Button onClick={() => onClickModalButton()}>
-        {props.type === 'follower' ? '팔로워' : '팔로우'}
-      </Button>
+      <Text
+        fontSize="18px"
+        fontWeight="600"
+        cursor="pointer"
+        onClick={() => onClickModalButton()}>
+        {props.type === 'follower' ? '팔로워' : '팔로우'} 123
+      </Text>
 
       <Modal onClose={onClose} size="md" isOpen={isOpen} isCentered>
         <ModalOverlay />
