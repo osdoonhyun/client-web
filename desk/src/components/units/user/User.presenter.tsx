@@ -68,28 +68,42 @@ export default function UserUI(props: UserUIProps) {
               boxSize="170px"
               src=""
             />
-            <Button
-              alignItems="center"
-              textAlign="center"
-              color="dPrimary"
-              borderColor="dPrimary"
-              _hover={useColorModeValue(
-                { bg: 'dPrimaryHover.dark', color: 'dGray.light' },
-                { bg: 'dPrimaryHover.dark', color: '#1A202C' },
-              )}
-              variant="outline"
-              my="25px"
-              w="140px"
-              h="32px"
-              fontSize="16px"
-              fontWeight="600"
-              onClick={props.onClickMoveToAccountEdit}>
-              <span style={{ padding: '0 2px' }}>
-                <GoPencil color="dPrimary" />
-              </span>
-              {/* 자신의 페이지일 경우만 보이도록 */}
-              프로필 수정하기
-            </Button>
+            {!props.isMyPage ? ( // 나의 페이지면 프로필 수정하기 버튼 / 아니면 팔로우 버튼
+              <Button
+                alignItems="center"
+                textAlign="center"
+                color="dPrimary"
+                borderColor="dPrimary"
+                _hover={useColorModeValue(
+                  { bg: 'dPrimaryHover.dark', color: 'dGray.light' },
+                  { bg: 'dPrimaryHover.dark', color: '#1A202C' },
+                )}
+                variant="outline"
+                my="25px"
+                w="140px"
+                h="32px"
+                fontSize="16px"
+                fontWeight="600"
+                onClick={props.onClickMoveToAccountEdit}>
+                <span style={{ padding: '0 2px' }}>
+                  <GoPencil color="dPrimary" />
+                </span>
+                {/* 자신의 페이지일 경우만 보이도록 */}
+                프로필 수정하기
+              </Button>
+            ) : (
+              <Button
+                mt="28px"
+                w="126px"
+                h="48px"
+                color={useColorModeValue('#fff', '#1A202C')}
+                bgColor={'dPrimary'}
+                _hover={{ bg: 'dPrimaryHover.dark' }}
+                fontSize="18px"
+                fontWeight="600">
+                팔로우
+              </Button>
+            )}
           </Flex>
         </Flex>
 
