@@ -28,21 +28,44 @@ export default function UserUI(props: UserUIProps) {
           <Flex direction="column" pos="relative">
             <Flex ml="15px" justify="space-between" align="center">
               <Text fontSize="24px" fontWeight="700" alignContent="center">
-                책상주인 : 닉네임
+                책상주인 : {props.userData.user.nickName}
                 <Badge mx="3" textTransform="uppercase" alignItems="center">
-                  IT
+                  {props.userData.user.jobGroup}
                 </Badge>
               </Text>
             </Flex>
             <Flex ml="50px" mt="20px" gap="25px">
-              <FollowModal isLoggedIn={props.isLoggedIn} type="follower" />
-              <FollowModal isLoggedIn={props.isLoggedIn} type="followee" />
+              <FollowModal
+                type="follower"
+                userid={props.userData.user.id}
+                isLoggedIn={props.isLoggedIn}
+                followCount={props.userData.followingCount}
+              />
+              <FollowModal
+                type="followee"
+                userid={props.userData.user.id}
+                isLoggedIn={props.isLoggedIn}
+                followCount={props.userData.followeeCount}
+              />
             </Flex>
             <Flex direction="column" mt="23px" ml="50px">
               <Text mb="23px" fontSize="16px" alignItems="center" fontWeight="600">
-                한 줄 소개 :{' '}
+                한 줄 소개 : {props.userData.user.intro}
               </Text>
-              <Link
+              {props.userData.user.snsAccounts?.map(snsAccount => (
+                <Link
+                  key={snsAccount.id}
+                  href={snsAccount.sns}
+                  isExternal
+                  color={useColorModeValue('#1e5d97', '#c1daf2')}
+                  fontWeight="600">
+                  <Flex alignItems="center" justifyContent="flex-start">
+                    <Icon as={BsLink45Deg} mr={1} />
+                    <Text>{snsAccount.sns}</Text>
+                  </Flex>
+                </Link>
+              ))}
+              {/* <Link
                 href="https://www.example.com"
                 isExternal
                 color={useColorModeValue('#1e5d97', '#c1daf2')}
@@ -51,13 +74,7 @@ export default function UserUI(props: UserUIProps) {
                   <Icon as={BsLink45Deg} mr={1} />
                   <Text>sns 링크로 이동하기</Text>
                 </Flex>
-              </Link>
-              <Link href="https://www.example.com" isExternal>
-                <Flex alignItems="center" justifyContent="flex-start">
-                  <Icon as={BsLink45Deg} mr={1} />
-                  <Text>https://naver.com</Text>
-                </Flex>
-              </Link>
+              </Link> */}
             </Flex>
           </Flex>
           <Flex mr="34px" direction="column" justify="center" align="center">
@@ -66,7 +83,7 @@ export default function UserUI(props: UserUIProps) {
               objectFit="cover"
               background="dGray.medium"
               boxSize="170px"
-              src=""
+              src={props.userData.user.picture ?? ''}
             />
             {!props.isMyPage ? ( // 나의 페이지면 프로필 수정하기 버튼 / 아니면 팔로우 버튼
               <Button
@@ -106,7 +123,6 @@ export default function UserUI(props: UserUIProps) {
             )}
           </Flex>
         </Flex>
-
         {/* 게시글, 팔로우, 팔로워 분리 예정 */}
         {/* TODO:props drilling 최적화 예정 */}
         <NavigationTab

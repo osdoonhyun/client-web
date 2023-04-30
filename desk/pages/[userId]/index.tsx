@@ -30,5 +30,9 @@ export const getServerSideProps: GetServerSideProps<UserPageProps> = async ({
 export default function UserPage(props: UserPageProps) {
   const userData = props.userData.fetchUser
 
+  // if(userData.user.id === 로그인한 유저의 id) {
+  //   isMyPage = true
+  // }
+
   return <User userData={userData} />
 }

@@ -3,6 +3,7 @@ import { useCallback, useState } from 'react'
 import { useRouter } from 'next/router'
 import UserUI from './User.presenter'
 import { useAuth } from '@/src/commons/hooks/useAuth'
+import { UserProps } from './User.types'
 
 const TabID = {
   USER_POSTS: 0,
@@ -10,15 +11,14 @@ const TabID = {
   USER_LIKED_POSTS: 2,
 }
 
-export default function User() {
+export default function User(props: UserProps) {
   const router = useRouter()
   const [isLiked, { toggle: toggleIsLiked }] = useBoolean()
-
   const [showUserPosts, setShowUserPosts] = useState(true)
   const [showUserProductPosts, setShowUserProductPosts] = useState(false)
   const [showLikedPosts, setShowLikedPosts] = useState(false)
   // API 받은 후 수정 계획
-  const [isMyPage, setIsMyPage] = useState(true)
+  const [isMyPage, setIsMyPage] = useState(false)
   const { isLoggedIn } = useAuth()
 
   const handleShowUserPosts = () => {
@@ -58,6 +58,7 @@ export default function User() {
 
   return (
     <UserUI
+      userData={props.userData}
       isLoggedIn={isLoggedIn}
       isMyPage={isMyPage}
       isLiked={isLiked}
