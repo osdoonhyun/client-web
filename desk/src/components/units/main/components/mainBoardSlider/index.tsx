@@ -125,15 +125,15 @@ export default function MainBoardSlider({
                       <Center>
                         <Flex flexDirection="column">
                           <Center
-                            fontSize="md"
+                            fontSize={{ base: 'sm', md: 'md' }}
                             fontWeight="bold"
                             textAlign="center"
                             mt={2}
-                            w="250px"
+                            w="100%"
                             p="0px 10px 0px 10px">
                             {titles[index] ?? ''}
                           </Center>
-                          <Center fontSize="sm" mt={1}>
+                          <Center fontSize={{ base: 'xs', md: 'sm' }} w="100%" mt={1}>
                             <Avatar w="20px" h="20px" mr="5px" />
                             {writers[index] ?? ''}
                           </Center>

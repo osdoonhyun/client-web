@@ -4,13 +4,15 @@ import MainBoardSlider from '../../components/mainBoardSlider'
 import { BestUIProps } from './Best.types'
 
 export default function BestUI(props: BestUIProps) {
-  const { categoryTitle, images, titles, writers } = props
-
   return (
     <>
-      <CategoryHeader categoryTitle={categoryTitle} moreButtonHidden={false} />
+      <CategoryHeader categoryTitle={props.categoryTitle} moreButtonHidden={false} />
       <Center m={2}>
-        <MainBoardSlider images={images} titles={titles} writers={writers} />
+        <MainBoardSlider
+          images={props.images}
+          titles={props.titles}
+          writers={props.writers}
+        />
       </Center>
     </>
   )
