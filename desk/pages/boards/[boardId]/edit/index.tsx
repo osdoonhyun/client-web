@@ -1,5 +1,5 @@
 import { TQuery, TQueryFetchBoardArgs } from '@/src/commons/types/generated/types'
-import CustomSpinner from '@/src/components/ui/spinner'
+import CustomSpinner from '@/src/components/ui/customSpinner'
 import BoardsRegister from '@/src/components/units/boards/register/Register.container'
 import { FETCH_BOARD } from '@/src/components/units/boards/register/Register.queries'
 import { useQuery } from '@apollo/client'

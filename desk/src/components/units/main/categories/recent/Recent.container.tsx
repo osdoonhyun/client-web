@@ -2,7 +2,7 @@ import RecentUI from './Recent.presenter'
 import { useQuery } from '@apollo/client'
 import { TPicture, TQuery } from '@/src/commons/types/generated/types'
 import { FETCH_BOARDS } from './Recent.queries'
-import CustomSpinner from '@/src/components/ui/spinner'
+import CustomSpinner from '@/src/components/ui/customSpinner'
 import ErrorMessage from '@/src/components/ui/errorMessage'
 
 export default function Recent() {
