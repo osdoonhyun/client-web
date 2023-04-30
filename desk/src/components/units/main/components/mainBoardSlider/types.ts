@@ -1,5 +1,6 @@
 export type MainBoardSliderProps = {
   images: string[]
-  title?: string
+  titles: string[]
+  writers: string[]
   children?: React.ReactNode
 }
