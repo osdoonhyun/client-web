@@ -4,16 +4,13 @@ import MainBoardSlider from '../../components/mainBoardSlider'
 import { BestUIProps } from './Best.types'
 
 export default function BestUI(props: BestUIProps) {
-  const categoryTitle = '🏆 인기 게시물 TOP 10 🏆'
-  const images = props.bestBoards.map(
-    board => board.pictures.find(picture => picture.isMain)?.url ?? '',
-  )
+  const { categoryTitle, images, titles, writers } = props
 
   return (
     <>
       <CategoryHeader categoryTitle={categoryTitle} moreButtonHidden={false} />
       <Center m={2}>
-        <MainBoardSlider images={images} />
+        <MainBoardSlider images={images} titles={titles} writers={writers} />
       </Center>
     </>
   )

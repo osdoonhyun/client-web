@@ -1,5 +1,6 @@
-import { TBoard } from '@/src/commons/types/generated/types'
-
 export type BestUIProps = {
-  bestBoards: TBoard[]
+  categoryTitle: string
+  images: string[]
+  titles: string[]
+  writers: string[]
 }
