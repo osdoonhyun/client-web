@@ -52,7 +52,7 @@ export type MyJob = {
 
 const ErrorLog = {
   NOT_EMAIL: '올바르지 않은 이메일 형식입니다.',
-  ALREADY_USED_EMAIL: '이미 사용중인 이메일입니다.',
+  ALREADY_USED_EMAIL: '이미 사용 중인 이메일입니다.',
   NOT_JOINED_MEMBER: '등록되지 않은 회원 입니다.',
   NOT_MATCH_PASSWORD: '비밀번호가 일치하지 않습니다.',
   SERVER_ERROR: '서버응답에 문제가 있습니다.',

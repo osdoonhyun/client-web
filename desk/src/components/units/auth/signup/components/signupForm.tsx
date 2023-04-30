@@ -12,7 +12,6 @@ import {
   Link,
   PinInput,
   PinInputField,
-  Spinner,
   Stack,
   Text,
   useColorModeValue,
@@ -37,6 +36,7 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import MyJobSelect from '@/src/components/units/auth/signup/components/MyJobSelect'
 import Timer from '@/src/components/ui/timer'
+import CustomSpinner from '@/src/components/ui/spinner'
 
 export default function SignupForm() {
   const [errMsg, setErrMsg] = useState<errMsg>({
@@ -147,7 +147,7 @@ export default function SignupForm() {
         setAuthType('authLogin')
       })
       .catch(() => {
-        const errorMsg: string = '이미 사용중인 이메일입니다.' as const
+        const errorMsg: string = '이미 사용 중인 이메일입니다.' as const
         setErrMsg({ ...errMsg, errText: errorMsg, errColor: 'red' })
         return
       })
@@ -182,7 +182,7 @@ export default function SignupForm() {
                         focusBorderColor={'dPrimary'}
                         type="email"
                         autoFocus={!!myJob}
-                        placeholder={'이메일을 입력해 주세요'}
+                        placeholder={'이메일을 입력해 주세요.'}
                         {...register('email')}
                       />
                       {!isPending.email && (
@@ -200,14 +200,8 @@ export default function SignupForm() {
                         </Button>
                       )}
                       {isPending.email && (
-                        <Box w={115} ml={5}>
-                          <Spinner
-                            thickness="4px"
-                            speed="0.65s"
-                            emptyColor="gray.200"
-                            color="blue.500"
-                            size="lg"
-                          />
+                        <Box w={164} ml={0}>
+                          <CustomSpinner />
                         </Box>
                       )}
                     </Flex>
@@ -260,7 +254,7 @@ export default function SignupForm() {
                         focusBorderColor={'dPrimary'}
                         type={showPassword ? 'text' : 'password'}
                         isReadOnly={!errMsg.isVerified}
-                        placeholder={'숫자인증 후 비밀번호 입력 가능'}
+                        placeholder={'숫자인증 후 비밀번호 입력 가능합니다.'}
                         {...register('password')}
                       />
                       <InputRightElement h={'full'}>
@@ -282,7 +276,7 @@ export default function SignupForm() {
                         focusBorderColor={'dPrimary'}
                         type={'password'}
                         isReadOnly={!errMsg.isVerified}
-                        placeholder={'비밀번호를 한번더 입력합니다.'}
+                        placeholder={'비밀번호를 확인해 주세요.'}
                         {...register('passwordConfirm')}
                       />
                     </InputGroup>

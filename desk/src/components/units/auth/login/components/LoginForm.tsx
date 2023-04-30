@@ -72,6 +72,18 @@ export default function LoginForm() {
     gray300AndGray500: useColorModeValue({ bg: 'gray.300' }, { bg: 'gray.500' }),
   }
 
+  type TSnsLinksProps = {
+    name: string
+    buttonColor: string
+    leftIcon: JSX.Element
+  }
+
+  const snsLinks: TSnsLinksProps[] = [
+    { name: 'kakao', buttonColor: 'yellow', leftIcon: <RiKakaoTalkFill /> },
+    { name: 'naver', buttonColor: 'green', leftIcon: <SiNaver /> },
+    { name: 'google', buttonColor: 'blackAlpha', leftIcon: <AiFillGoogleCircle /> },
+  ]
+
   async function onClickLoginSubmit(data: AuthFormProps) {
     await login({
       variables: {
@@ -214,53 +226,30 @@ export default function LoginForm() {
                       </Button>
                     )}
                     <HStack>
-                      <Link href={'https://mobomobo.shop/login/kakao'}>
-                        {myUserInfo?.provider === 'kakao' ? (
-                          <Tooltip hasArrow label="마지막 로그인" bg="red.300" isOpen>
-                            <Button colorScheme="yellow" leftIcon={<RiKakaoTalkFill />}>
-                              Kakao
-                            </Button>
-                          </Tooltip>
-                        ) : (
-                          <Button colorScheme="yellow" leftIcon={<RiKakaoTalkFill />}>
-                            Kakao
-                          </Button>
-                        )}
-                      </Link>
-                      {myUserInfo?.provider === 'naver' ? (
-                        <Tooltip hasArrow label="마지막 로그인" bg="red.300" isOpen>
-                          <Link href={'https://mobomobo.shop/login/naver'}>
-                            <Button colorScheme="green" leftIcon={<SiNaver />}>
-                              Naver
-                            </Button>
+                      {snsLinks.map(props => {
+                        return (
+                          <Link
+                            href={`https://mobomobo.shop/login/${props.name}`}
+                            key={props.name}>
+                            {myUserInfo?.provider === props.name ? (
+                              <Tooltip hasArrow label="마지막 로그인" bg="red.300" isOpen>
+                                <Button
+                                  colorScheme={props.buttonColor}
+                                  leftIcon={props.leftIcon}>
+                                  {props.name.charAt(0).toUpperCase() +
+                                    props.name.slice(1)}
+                                </Button>
+                              </Tooltip>
+                            ) : (
+                              <Button
+                                colorScheme={props.buttonColor}
+                                leftIcon={props.leftIcon}>
+                                {props.name.charAt(0).toUpperCase() + props.name.slice(1)}
+                              </Button>
+                            )}
                           </Link>
-                        </Tooltip>
-                      ) : (
-                        <Link href={'https://mobomobo.shop/login/naver'}>
-                          <Button colorScheme="green" leftIcon={<SiNaver />}>
-                            Naver
-                          </Button>
-                        </Link>
-                      )}
-                      {myUserInfo?.provider === 'google' ? (
-                        <Tooltip hasArrow label="마지막 로그인" bg="red.300" isOpen>
-                          <Link href={'https://mobomobo.shop/login/google'}>
-                            <Button
-                              colorScheme="blackAlpha"
-                              leftIcon={<AiFillGoogleCircle />}>
-                              Google
-                            </Button>
-                          </Link>
-                        </Tooltip>
-                      ) : (
-                        <Link href={'https://mobomobo.shop/login/google'}>
-                          <Button
-                            colorScheme="blackAlpha"
-                            leftIcon={<AiFillGoogleCircle />}>
-                            Google
-                          </Button>
-                        </Link>
-                      )}
+                        )
+                      })}
                     </HStack>
                     <Button
                       name="buttonJoinMember"

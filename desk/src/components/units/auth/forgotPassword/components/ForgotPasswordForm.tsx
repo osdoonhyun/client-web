@@ -35,6 +35,7 @@ import Login from '@/src/components/units/auth/login/Login.container'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import Timer from '@/src/components/ui/timer'
+import CustomSpinner from '@/src/components/ui/spinner'
 
 export default function ForgotPasswordForm() {
   const [errMsg, setErrMsg] = useState<errMsg>({
@@ -62,8 +63,9 @@ export default function ForgotPasswordForm() {
     resolver: yupResolver(signupSchema),
     mode: 'onChange',
   })
-  const [isInputEmail, setIsInputEmail] = useState('')
-
+  const [timeReset, setTimeReset] = useState(0)
+  const [, setInputEmail] = useState('')
+  const [isPending, setIsPending] = useState({ email: false })
   const bgColor = {
     whiteAndGray700: useColorModeValue('white', 'gray.700'),
     gray200AndGray600: useColorModeValue('gray.200', 'gray.600'),
@@ -81,6 +83,7 @@ export default function ForgotPasswordForm() {
   }
 
   const onClickCertification = async () => {
+    setIsPending({ email: true })
     const data = getValues()
     await authEmail({
       variables: {
@@ -91,18 +94,21 @@ export default function ForgotPasswordForm() {
       },
     })
       .then(() => {
-        const msg = '인증할 이메일 확인 후 인증번호 6자리를 입력해 주세요'
+        const msg = '인증할 이메일 확인 후 인증번호 6자리를 입력해 주세요.'
         setErrMsg({ ...errMsg, errText: msg, errColor: 'green', isEmail: true })
+        setTimeReset(Math.floor(Math.random() * 1000))
+        setIsPending({ email: false })
       })
       .catch(err => {
         const msg: string | undefined = errorMessage(err.message)
         setErrMsg({ ...errMsg, errText: msg || '', errColor: 'red' })
+        setIsPending({ email: false })
         return
       })
   }
 
   const onChangeInputEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setIsInputEmail(e.target.value)
+    setInputEmail(e.target.value)
   }
 
   const onClickMatchAuthNumber = async () => {
@@ -143,7 +149,7 @@ export default function ForgotPasswordForm() {
         setAuthType('authLogin')
       })
       .catch(() => {
-        const errorMsg = '이미 사용중인 이메일입니다.'
+        const errorMsg = '이미 사용 중인 이메일입니다.'
         setErrMsg({ ...errMsg, errText: errorMsg, errColor: 'red' })
         return
       })
@@ -176,23 +182,29 @@ export default function ForgotPasswordForm() {
                         focusBorderColor={'dPrimary'}
                         type="email"
                         autoFocus={true}
-                        placeholder={'이메일을 입력해 주세요'}
+                        placeholder={'이메일을 입력해 주세요.'}
                         {...register('email', {
-                          required: '이미지를 등록해주세요.',
                           onChange: onChangeInputEmail,
                         })}
                       />
-                      <Button
-                        onClick={onClickCertification}
-                        loadingText="Submitting"
-                        size="md"
-                        px={6}
-                        bg={'dPrimary'}
-                        color={'white'}
-                        isDisabled={!isInputEmail}
-                        _hover={{ bg: 'dPrimaryHover.dark' }}>
-                        인증번호 받기
-                      </Button>
+                      {!isPending.email && (
+                        <Button
+                          onClick={onClickCertification}
+                          loadingText="Submitting"
+                          size="md"
+                          px={6}
+                          disabled
+                          bg={'dPrimary'}
+                          color={'white'}
+                          _hover={{ bg: 'dPrimaryHover.dark' }}>
+                          인증번호 받기
+                        </Button>
+                      )}
+                      {isPending.email && (
+                        <Box w={164} ml={0}>
+                          <CustomSpinner />
+                        </Box>
+                      )}
                     </Flex>
                     <FormErrorMessage>
                       {errors.email && errors.email.message}
@@ -202,7 +214,7 @@ export default function ForgotPasswordForm() {
                     </Text>
                     {errMsg.errText.includes('인증') ? (
                       <Text>
-                        인증번호 유효시간은 <Timer mm={3} ss={0} /> 입니다.
+                        인증번호 유효시간은 <Timer mm={timeReset} ss={0} /> 입니다.
                       </Text>
                     ) : (
                       ''
@@ -243,7 +255,7 @@ export default function ForgotPasswordForm() {
                         focusBorderColor={'dPrimary'}
                         type={showPassword ? 'text' : 'password'}
                         isReadOnly={!errMsg.isVerified}
-                        placeholder={'숫자인증 후 비밀번호 입력 가능'}
+                        placeholder={'숫자인증 후 비밀번호 입력 가능합니다.'}
                         {...register('password')}
                       />
                       <InputRightElement h={'full'}>
@@ -265,7 +277,7 @@ export default function ForgotPasswordForm() {
                         focusBorderColor={'dPrimary'}
                         type={'password'}
                         isReadOnly={!errMsg.isVerified}
-                        placeholder={'비밀번호를 한번더 입력합니다.'}
+                        placeholder={'비밀번호를 확인해 주세요.'}
                         {...register('passwordConfirm')}
                       />
                     </InputGroup>
