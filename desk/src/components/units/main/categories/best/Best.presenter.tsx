@@ -1,21 +1,13 @@
 import { Center } from '@chakra-ui/react'
 import CategoryHeader from '../../components/categoryHeader/CategoryHeader.container'
 import MainBoardSlider from '../../components/mainBoardSlider'
+import { BestUIProps } from './Best.types'
 
-export default function BestUI() {
+export default function BestUI(props: BestUIProps) {
   const categoryTitle = '🏆 인기 게시물 TOP 10 🏆'
-
-  // api 연결 예정 - UI 테스트를 위한 이미지값
-  const images = [
-    '/test1.jpeg',
-    '/test1.jpeg',
-    '/test1.jpeg',
-    '/test1.jpeg',
-    '/test1.jpeg',
-    '/test1.jpeg',
-    '/test1.jpeg',
-    '/test1.jpeg',
-  ]
+  const images = props.bestBoards.map(
+    board => board.pictures.find(picture => picture.isMain)?.url ?? '',
+  )
 
   return (
     <>
