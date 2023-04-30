@@ -47,7 +47,7 @@ export function useAuth() {
     }
 
     void restoreAccessToken()
-  }, [restoreAccess, data.fetchLoginUser, setMyToken, setMyUserInfo, setIsLoggedIn])
+  }, [])
 
   useEffect(() => {
     if (!myToken) {
