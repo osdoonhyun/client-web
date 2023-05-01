@@ -1,5 +1,5 @@
 import ErrorMessage from '@/src/components/ui/errorMessage'
-import CustomSpinner from '@/src/components/ui/spinner'
+import CustomSpinner from '@/src/components/ui/customSpinner'
 import YoutubeUI from './Youtube.presenter'
 import { useQuery } from '@apollo/client'
 import { useState, useCallback } from 'react'

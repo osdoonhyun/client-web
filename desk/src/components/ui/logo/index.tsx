@@ -20,7 +20,7 @@ export default function Logo(props: LogoProps) {
         color="dPrimary"
         cursor="pointer"
         onClick={onClickMoveToMain}>
-        dechaive
+        dechive
         <Text
           as="b"
           fontSize="50px"

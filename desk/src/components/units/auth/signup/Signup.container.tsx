@@ -1,6 +1,5 @@
-import SignupUI from "./Signup.presenter";
+import SignupUI from './Signup.presenter'
 
 export default function Signup() {
-	return <SignupUI />
+  return <SignupUI />
 }
-

@@ -1,6 +1,5 @@
-import SignoutUI from "./Signout.presenter";
+import SignoutUI from './Signout.presenter'
 
 export default function Signout() {
-	return <SignoutUI />
+  return <SignoutUI />
 }
-
