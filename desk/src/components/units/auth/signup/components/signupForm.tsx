@@ -17,6 +17,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react'
 
+import { useAuth } from '@/src/commons/hooks/useAuth'
 import Timer from '@/src/components/ui/timer'
 import {
   AuthFormProps,
@@ -25,13 +26,7 @@ import {
   signupSchema,
 } from '@/src/components/units/auth/Auth.types'
 import Login from '@/src/components/units/auth/login/Login.container'
-import {
-  AUTH_EMAIL,
-  CREATE_USER,
-  MATCH_AUTH_NUMBER,
-} from '@/src/components/units/auth/queries/mutation'
 import MyJobSelect from '@/src/components/units/auth/signup/components/MyJobSelect'
-import { useMutation } from '@apollo/client'
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { SetStateAction, useState } from 'react'
@@ -40,6 +35,7 @@ import { useForm } from 'react-hook-form'
 type TCurrentModalType = 'LOGIN' | 'SIGNUP'
 
 export default function SignupForm() {
+  const { authEmail, matchAuthNumber, signin } = useAuth()
   const [errMsg, setErrMsg] = useState<errMsg>({
     errText: '',
     errColor: '',
@@ -52,9 +48,6 @@ export default function SignupForm() {
   })
   const [showPassword, setShowPassword] = useState(false)
   const [myJob, setMyJob] = useState('')
-  const [createUser] = useMutation(CREATE_USER)
-  const [authEmail] = useMutation(AUTH_EMAIL)
-  const [matchAuthNumber] = useMutation(MATCH_AUTH_NUMBER)
   const [pinNumber, setPinNumber] = useState<string | undefined>(undefined)
   const [currentModalType, setCurrentModalType] = useState<TCurrentModalType>('SIGNUP')
   const {
@@ -94,37 +87,22 @@ export default function SignupForm() {
 
     setIsCheckedEmail(true)
 
-    await authEmail({
-      variables: {
-        authEmailInput: {
-          email: data.email,
-          authCheck: true,
-        },
-      },
-    })
+    await authEmail(data.email, true)
       .then(() => {
         const msg = '인증할 이메일 확인 후 인증번호 6자리를 입력해 주세요'
         setErrMsg({ ...errMsg, errText: msg, errColor: 'green', isEmail: true })
         setTimeReset(Math.floor(Math.random() * 1000))
-        setIsCheckedEmail(false)
       })
       .catch(err => {
         const msg: string | undefined = errorMessage(err.message)
         setErrMsg({ ...errMsg, errText: msg || '', errColor: 'red' })
-        setIsCheckedEmail(false)
       })
+      .finally(() => setIsCheckedEmail(false))
   }
 
   const onClickMatchAuthNumber = async () => {
     const data = getValues()
-    await matchAuthNumber({
-      variables: {
-        matchAuthInput: {
-          email: data.email,
-          authNumber: pinNumber,
-        },
-      },
-    })
+    await matchAuthNumber(data.email, pinNumber)
       .then(() => {
         const msg = '인증번호가 일치합니다.'
         setErrMsg({
@@ -141,22 +119,9 @@ export default function SignupForm() {
   }
 
   const onClickSubmit = async (data: AuthFormProps) => {
-    await createUser({
-      variables: {
-        createUserInput: {
-          email: data.email,
-          password: data.password,
-          jobGroup: myJob,
-        },
-      },
-    })
-      .then(() => {
-        setCurrentModalType('LOGIN')
-      })
-      .catch(() => {
-        const errorMsg: string = '이미 사용 중인 이메일입니다.' as const
-        setErrMsg({ ...errMsg, errText: errorMsg, errColor: 'red' })
-      })
+    await signin(data.email, data.password, myJob).then(() =>
+      setCurrentModalType('LOGIN'),
+    )
   }
 
   return (
