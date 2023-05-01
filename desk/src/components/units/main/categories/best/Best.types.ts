@@ -1,4 +1,4 @@
-export type RecentUIProps = {
+export type BestUIProps = {
   categoryTitle: string
   images: string[]
   titles: string[]

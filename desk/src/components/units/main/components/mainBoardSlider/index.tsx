@@ -1,5 +1,13 @@
 import { useState } from 'react'
-import { Box, Center, IconButton, useMediaQuery } from '@chakra-ui/react'
+import {
+  Avatar,
+  Box,
+  Center,
+  Flex,
+  IconButton,
+  useColorModeValue,
+  useMediaQuery,
+} from '@chakra-ui/react'
 import { IoIosArrowDropleftCircle, IoIosArrowDroprightCircle } from 'react-icons/io'
 import { MainBoardSliderProps } from './types'
 import MainImageStyle from '@/src/components/ui/mainImageStyle'
@@ -7,7 +15,12 @@ import Slider, { CustomArrowProps } from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 
-export default function MainBoardSlider({ images, children }: MainBoardSliderProps) {
+export default function MainBoardSlider({
+  images,
+  titles = [],
+  writers = [],
+  children,
+}: MainBoardSliderProps) {
   const [slider, setSlider] = useState<Slider | null>(null)
   const [arrowVisible, setArrowVisible] = useState(true)
   const [currentSlide, setCurrentSlide] = useState(0)
@@ -34,7 +47,7 @@ export default function MainBoardSlider({ images, children }: MainBoardSliderPro
         variant="ghost"
         position="absolute"
         zIndex={2}
-        top="40%"
+        top="35%"
         left="2"
         onClick={onClickPrev}
         color="#f8f8f8c8"
@@ -54,7 +67,7 @@ export default function MainBoardSlider({ images, children }: MainBoardSliderPro
         aria-label="right-arrow"
         variant="ghost"
         position="absolute"
-        top="40%"
+        top="35%"
         right={arrowRightPosition}
         onClick={onClickNext}
         color="#f8f8f8c8"
@@ -95,16 +108,38 @@ export default function MainBoardSlider({ images, children }: MainBoardSliderPro
 
   return (
     <>
-      <Box position="relative" w="full" h="260" overflow="hidden">
+      <Box position="relative" w="full" h="340px" overflow="hidden">
         <Box width={{ base: '100%', md: '80%', lg: '1090px' }} mx="auto">
           <Slider {...settings} ref={slider => setSlider(slider)}>
             {children
               ? children
               : images.map((src, index) => (
-                  <Box key={index} p={1}>
-                    <Center pl="5px">
-                      <MainImageStyle src={src} alt={`Image ${index}`} />
-                    </Center>
+                  <Box
+                    key={index}
+                    p={1}
+                    color={useColorModeValue('dGray.dark', 'dGray.light')}>
+                    <Flex flexDirection="column">
+                      <Center pl="5px">
+                        <MainImageStyle src={src} alt={`Image ${index}`} />
+                      </Center>
+                      <Center>
+                        <Flex flexDirection="column">
+                          <Center
+                            fontSize={{ base: 'sm', md: 'md' }}
+                            fontWeight="bold"
+                            textAlign="center"
+                            mt={2}
+                            w="100%"
+                            p="0px 10px 0px 10px">
+                            {titles[index] ?? ''}
+                          </Center>
+                          <Center fontSize={{ base: 'xs', md: 'sm' }} w="100%" mt={1}>
+                            <Avatar w="20px" h="20px" mr="5px" />
+                            {writers[index] ?? ''}
+                          </Center>
+                        </Flex>
+                      </Center>
+                    </Flex>
                   </Box>
                 ))}
           </Slider>
