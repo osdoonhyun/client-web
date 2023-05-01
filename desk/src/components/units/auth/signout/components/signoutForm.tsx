@@ -1,14 +1,14 @@
 import {
-	Avatar,
-	Button,
-	Center,
-	Flex,
-	FormControl,
-	FormLabel,
-	Heading,
-	Input,
-	Stack,
-	useColorModeValue,
+  Avatar,
+  Button,
+  Center,
+  Flex,
+  FormControl,
+  FormLabel,
+  Heading,
+  Input,
+  Stack,
+  useColorModeValue,
 } from '@chakra-ui/react'
 
 // 테스트를 위해 만든 <회원탈퇴> 페이지 입니다.
