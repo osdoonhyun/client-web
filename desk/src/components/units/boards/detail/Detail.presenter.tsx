@@ -1,6 +1,5 @@
-import { maxWidth } from '@/src/commons/libraries/layout'
 import Carousel from '@/src/components/ui/carousel'
-import { Box, Center, HStack, Text, VStack, useColorModeValue } from '@chakra-ui/react'
+import { Box, Center, HStack, Text, useColorModeValue } from '@chakra-ui/react'
 import { FaQuoteLeft, FaQuoteRight } from 'react-icons/fa'
 import ProductItemCardList from '../components/productItemCardList'
 import ProfileHeader from '../components/profileHeader'
@@ -10,12 +9,7 @@ import { BoardDetailUIProps } from './Detail.types'
 
 export default function BoardDetailUI(props: BoardDetailUIProps) {
   return (
-    <VStack
-      maxW={maxWidth.lg}
-      margin={'0 auto'}
-      pl={'10px'}
-      pr={'10px'}
-      align={'stretch'}>
+    <>
       <Box mt={'40px'} mb={'10px'}>
         <ProfileHeader
           createdAt={props.boardData.createdAt}
@@ -62,6 +56,6 @@ export default function BoardDetailUI(props: BoardDetailUIProps) {
           description={props.boardData.recommend ?? ''}
         />
       </Box>
-    </VStack>
+    </>
   )
 }
