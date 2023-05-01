@@ -33,24 +33,22 @@ export default function FollowModal(props: FollowModalProps) {
   const { data: followeesData } = useQuery<Pick<TQuery, 'fetchFollowees'>>(
     FETCH_FOLLOWEES,
     {
-      variables: { userid: props.userid as string },
+      variables: { userid: props.userData.user.id as string },
     },
   )
   const { data: followingsData } = useQuery<Pick<TQuery, 'fetchFollowings'>>(
     FETCH_FOLLOWINGS,
     {
-      variables: { userid: props.userid as string },
+      variables: { userid: props.userData.user.id as string },
     },
   )
 
-  console.log('userId', props.userid, followeesData)
-  const followees = followeesData?.fetchFollowees.user ?? []
-  const followings = followingsData?.fetchFollowings.user ?? []
+  const followings = followingsData?.fetchFollowings ?? []
+  const followees = followeesData?.fetchFollowees ?? []
 
-  const FOLLOW_DATA = props.type === 'follower' ? followees : followings
+  const FOLLOW_DATA = props.type === 'follower' ? followings : followees
 
   const onClickModalButton = () => {
-    console.log('로그인 됨', props.isLoggedIn)
     if (!props.isLoggedIn) {
       // 비 로그인 시 로그인 창 오픈
       openModal('LOGIN')
@@ -68,8 +66,8 @@ export default function FollowModal(props: FollowModalProps) {
         cursor="pointer"
         onClick={() => onClickModalButton()}>
         {props.type === 'follower'
-          ? `팔로워 ${props.followCount}`
-          : `팔로우 ${props.followCount}`}
+          ? `팔로워 ${followings.length}`
+          : `팔로우 ${followees.length}`}
       </Text>
 
       <Modal onClose={onClose} size="md" isOpen={isOpen} isCentered>
@@ -98,14 +96,17 @@ export default function FollowModal(props: FollowModalProps) {
                             <Text fontSize="14px" fontWeight="600">
                               {data.nickName}
                             </Text>
-                            <Text fontSize="12px">?? Connections</Text>
+                            <Text fontSize="12px">
+                              {data.followingsCount} Connections
+                            </Text>
                           </VStack>
                         </Flex>
                         <IconButton
                           variant="outline"
-                          color="dPrimary"
-                          bg="white"
+                          color={data.followingStatus ? 'white' : 'dPrimary'}
+                          bg={data.followingStatus ? 'dPrimary' : 'white'}
                           borderColor="dPrimary"
+                          _hover={{ color: 'dPrimary.dark' }}
                           border="2px"
                           aria-label="follow"
                           fontSize="25px"

@@ -1,29 +1,30 @@
+import { TFetchUser } from '@/src/commons/types/generated/types'
+
 export type FollowModalType = 'follower' | 'followee'
 
 export type FollowModalProps = {
-  userid: string
+  // userid: string
+  userData: TFetchUser
   isLoggedIn: boolean
   type: FollowModalType
-  followCount: number
+  // followCount: number
 }
 
 export type FolloweesData = {
   fetchFollowees: {
-    user: {
-      id: string
-      nickName: string
-      picture: string
-    }
-    followee: string
+    id: string
+    nickName: string
+    picture: string
+    followingsCount: number
+    followingStatus: boolean
   }
 }
 export type FollowingsData = {
   fetchFollowings: {
-    user: {
-      id: string
-      nickName: string
-      picture: string
-    }
-    following: string
+    id: string
+    nickName: string
+    picture: string
+    followingsCount: number
+    followingStatus: boolean
   }
 }
