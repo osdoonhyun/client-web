@@ -85,15 +85,16 @@ export default function YoutubeSlider({
           m="2"
           flexShrink="0"
           cursor="pointer"
+          h="320px"
           onClick={() => onClickSelectedVideo(youtube.videoUrl)}>
           <YoutubeImageStyle src={youtube.thumbnailUrl} alt={youtube.videoUrl} />
           <Flex
             justifyContent="center"
-            alignItems="center"
+            textAlign="center"
             fontSize="13pt"
             fontWeight="700"
-            width="328px"
-            pl="5px"
+            width="330px"
+            pl="3px"
             color={useColorModeValue('dGray.dark', 'dGray.light')}>
             <Box noOfLines={1}>
               {youtube.title.substring(0, 40)}

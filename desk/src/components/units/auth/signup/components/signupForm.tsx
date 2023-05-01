@@ -36,7 +36,7 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import MyJobSelect from '@/src/components/units/auth/signup/components/MyJobSelect'
 import Timer from '@/src/components/ui/timer'
-import CustomSpinner from '@/src/components/ui/spinner'
+import CustomSpinner from '@/src/components/ui/customSpinner'
 
 export default function SignupForm() {
   const [errMsg, setErrMsg] = useState<errMsg>({

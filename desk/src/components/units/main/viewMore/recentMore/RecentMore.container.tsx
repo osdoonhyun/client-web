@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client'
 import { TQuery } from '@/src/commons/types/generated/types'
 import { FETCH_BOARDS } from './RecentMore.queries'
 import RecentMoreUI from './RecentMore.presenter'
-import CustomSpinner from '@/src/components/ui/spinner'
+import CustomSpinner from '@/src/components/ui/customSpinner'
 import ErrorMessage from '@/src/components/ui/errorMessage'
 
 export default function RecentMore() {
