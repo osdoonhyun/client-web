@@ -1,107 +1,137 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import { useRecoilState } from 'recoil'
 import {
   AuthModalToggle,
   AuthModalType,
   MyToken,
   MyUserInfo,
+  isLoggedInState,
 } from '@/src/commons/store/atom'
+import { TAuthModalType } from '@/src/components/units/auth/Auth.types'
 import LoginIsOpen from '@/src/components/units/auth/login/Login.isOpen'
-import SignupIsOpen from '@/src/components/units/auth/signup/Signup.isOpen'
-import SignoutIsOpen from '@/src/components/units/auth/signout/Signout.isOpen'
-import { TAuthModalType, TMyUserInfo } from '@/src/components/units/auth/Auth.types'
-import { useRouter } from 'next/router'
-import { useMutation, useQuery } from '@apollo/client'
 import {
   FETCH_LOGIN_USER,
+  LOGIN,
   LOGOUT,
   RESTORE_ACCESS_TOKEN,
   SIGNOUT,
 } from '@/src/components/units/auth/queries/mutation'
+import SignoutIsOpen from '@/src/components/units/auth/signout/Signout.isOpen'
+import SignupIsOpen from '@/src/components/units/auth/signup/Signup.isOpen'
+import { useApolloClient, useMutation } from '@apollo/client'
+import { useRouter } from 'next/router'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { useRecoilState } from 'recoil'
+import { TMutation } from '../types/generated/types'
+import { useToast } from '@chakra-ui/react'
 
 export function useAuth() {
+  const client = useApolloClient()
+  const router = useRouter()
+  const toast = useToast()
+
   const [, setAuthModalType] = useRecoilState(AuthModalType)
   const [, setAuthModalToggle] = useRecoilState(AuthModalToggle)
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState)
   const [myToken, setMyToken] = useRecoilState(MyToken)
-  const router = useRouter()
-  const [logout] = useMutation(LOGOUT)
-  const [signout] = useMutation(SIGNOUT)
-  const [restoreAccess] = useMutation(RESTORE_ACCESS_TOKEN)
-  const [myUserInfo] = useRecoilState<TMyUserInfo>(MyUserInfo)
-  const [, setMyUserInfo] = useRecoilState(MyUserInfo)
-  const { data } = useQuery(FETCH_LOGIN_USER)
+  const [myUserInfo, setMyUserInfo] = useRecoilState(MyUserInfo)
+
+  const [loginMutation] = useMutation<Pick<TMutation, 'login'>>(LOGIN)
+  const [logoutMutation] = useMutation<Pick<TMutation, 'logOut'>>(LOGOUT)
+  const [signoutMutation] = useMutation<Pick<TMutation, 'deleteUser'>>(SIGNOUT)
 
   useEffect(() => {
-    async function restoreAccessToken() {
-      await restoreAccess()
-        .then(async getLoginToken => {
-          setMyToken(getLoginToken.data.restoreAccessToken)
-
-          setMyUserInfo({ ...data.fetchLoginUser })
-          setIsLoggedIn(true)
-        })
-        .catch(err => {
-          console.log(err.message)
-        })
-    }
-
-    void restoreAccessToken()
-  }, [])
-
-  useEffect(() => {
-    if (!myToken) {
-      setIsLoggedIn(false)
-      return
-    }
-    setIsLoggedIn(true)
-  }, [myToken])
+    fetchUserInfo()
+  }, [isLoggedIn])
 
   const openModal = (type: TAuthModalType) => {
     setAuthModalType(type)
     setAuthModalToggle(prev => !prev)
   }
 
-  async function onClickLogout() {
-    setMyToken('')
-    await logout().then(() => {
-      setMyToken('')
+  async function logout() {
+    await logoutMutation().then(() => {
+      clear()
+      setAuthModalType('AFTER_AUTH')
+
       router.push('/')
     })
-    setAuthModalType('AFTER_AUTH')
-    void router.push('/')
   }
 
-  async function onClickSignout() {
-    setMyToken('')
-    await signout().then(() => {
-      setMyToken('')
+  async function signout() {
+    await signoutMutation().then(() => {
+      clear()
+      setAuthModalType('AFTER_AUTH')
+
       router.push('/')
     })
-    setAuthModalType('AFTER_AUTH')
-    void router.push('/')
   }
 
-  const loginUI = useCallback(() => {
+  async function login(email: string, password: string) {
+    return await loginMutation({
+      variables: {
+        loginInput: {
+          email,
+          password,
+        },
+      },
+    })
+      .then(result => {
+        setIsLoggedIn(true)
+        setMyToken(result.data?.login ?? '')
+        setAuthModalType('AFTER_AUTH')
+      })
+      .catch(error => {
+        if (error instanceof Error) {
+          toast({
+            title: '에러',
+            description: `${error.message}`,
+            status: 'error',
+            position: 'top',
+          })
+        }
+      })
+  }
+
+  async function fetchUserInfo() {
+    if (isLoggedIn) {
+      const result = await client.query({ query: FETCH_LOGIN_USER })
+      const { id, email, nickName, jobGroup, provider } = result.data?.fetchLoginUser
+
+      setMyUserInfo({ id, email, nickName, jobGroup, provider })
+    }
+  }
+
+  const clear = async () => {
+    setMyToken('')
+    setIsLoggedIn(false)
+    setMyUserInfo(null)
+  }
+
+  const loginModalUI = useCallback(() => {
     return <LoginIsOpen />
   }, [])
 
-  const signupUI = useCallback(() => {
+  const signupModalUI = useCallback(() => {
     return <SignupIsOpen />
   }, [])
 
-  const signoutUI = useCallback(() => {
+  const signoutModalUI = useCallback(() => {
     return <SignoutIsOpen />
   }, [])
 
   return {
     isLoggedIn,
-    LoginUI: loginUI,
-    SignupUI: signupUI,
-    SignoutUI: signoutUI,
-    openModal,
-    onClickLogout,
-    onClickSignout,
+    login,
+    logout,
+    signout,
     myUserInfo,
+    setMyUserInfo,
+    myToken,
+    setMyToken,
+    fetchUserInfo,
+    openModal,
+    LoginModalUI: loginModalUI,
+    SignupModalUI: signupModalUI,
+    SignoutModalUI: signoutModalUI,
   }
 }

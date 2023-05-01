@@ -18,7 +18,7 @@ import {
 import { MoonIcon, SunIcon } from '@chakra-ui/icons'
 import { LayoutHeaderUIProps } from './LayoutHeader.types'
 import Logo from '@/src/components/ui/logo'
-import {useAuth} from "@/src/commons/hooks/useAuth";
+import { useAuth } from '@/src/commons/hooks/useAuth'
 
 const NavLink = ({ children }: { children: ReactNode }) => (
   <Link
@@ -36,7 +36,15 @@ const NavLink = ({ children }: { children: ReactNode }) => (
 
 export default function LayoutHeaderUI(props: LayoutHeaderUIProps) {
   const { colorMode, toggleColorMode } = useColorMode()
-  const {isLoggedIn, myUserInfo, LoginUI, SignupUI, openModal, onClickLogout, onClickSignout} = useAuth()
+  const {
+    isLoggedIn,
+    myUserInfo,
+    LoginModalUI,
+    SignupModalUI,
+    openModal,
+    logout,
+    signout,
+  } = useAuth()
 
   return (
     <>
@@ -71,36 +79,32 @@ export default function LayoutHeaderUI(props: LayoutHeaderUIProps) {
                   </Center>
                   <br />
                   <Center>
-                    {!isLoggedIn &&
-                      <p>닉네임</p>
-                    }
-                    {isLoggedIn &&
-                     <p>{myUserInfo?.nickName}</p>
-                    }
+                    {!isLoggedIn && <p>닉네임</p>}
+                    {isLoggedIn && <p>{myUserInfo?.nickName}</p>}
                   </Center>
                   <br />
                   <MenuDivider />
-                  {!isLoggedIn ?
+                  {!isLoggedIn ? (
                     <>
-                    <MenuItem onClick={() => openModal('LOGIN')}>로그인</MenuItem>
-                    <MenuItem onClick={() => openModal('SIGNUP')}>회원가입</MenuItem>
+                      <MenuItem onClick={() => openModal('LOGIN')}>로그인</MenuItem>
+                      <MenuItem onClick={() => openModal('SIGNUP')}>회원가입</MenuItem>
                     </>
-                  :
+                  ) : (
                     <>
-                    <MenuItem onClick={props.onClickMoveToUser}>마이페이지</MenuItem>
-                    <MenuItem onClick={onClickLogout}>로그아웃</MenuItem>
-                    <MenuItem onClick={onClickSignout}>회원탈퇴</MenuItem>
+                      <MenuItem onClick={props.onClickMoveToUser}>마이페이지</MenuItem>
+                      <MenuItem onClick={logout}>로그아웃</MenuItem>
+                      <MenuItem onClick={signout}>회원탈퇴</MenuItem>
                     </>
-                  }
+                  )}
                 </MenuList>
               </Menu>
             </Stack>
           </Flex>
         </Flex>
       </Box>
-      
-      <LoginUI />
-      <SignupUI />
+
+      <LoginModalUI />
+      <SignupModalUI />
     </>
   )
 }

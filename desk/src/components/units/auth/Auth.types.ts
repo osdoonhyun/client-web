@@ -88,9 +88,9 @@ export type TAuthModalType =
   | undefined
 
 export type TMyUserInfo = {
-  id: string
-  email: string
-  nickName: string
-  jobGroup: string
-  provider: string
+  id: string | undefined
+  email: string | undefined
+  nickName: string | undefined
+  jobGroup: string | undefined
+  provider: string | undefined
 }
