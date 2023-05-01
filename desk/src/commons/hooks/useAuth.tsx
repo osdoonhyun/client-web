@@ -58,7 +58,7 @@ export function useAuth() {
 
   /** 로그아웃 */
   const logout = async () => {
-    await logoutMutation()
+    return await logoutMutation()
       .then(() => {
         clear()
         setAuthModalType('AFTER_AUTH')
@@ -79,7 +79,7 @@ export function useAuth() {
 
   /** 회원탈퇴 */
   const signout = async () => {
-    await signoutMutation()
+    return await signoutMutation()
       .then(() => {
         clear()
         setAuthModalType('AFTER_AUTH')

@@ -18,7 +18,6 @@ import {
 } from '@chakra-ui/react'
 
 import { useAuth } from '@/src/commons/hooks/useAuth'
-import CustomSpinner from '@/src/components/ui/customSpinner'
 import Timer from '@/src/components/ui/timer'
 import {
   AuthFormProps,
