@@ -10,7 +10,7 @@ export default function CategoryHeaderUI(props: CategoryHeaderUIProps) {
         display="flex"
         justifyContent="space-between"
         alignContent="center"
-        mt="35px"
+        mt="40px"
         fontSize="14pt"
         fontWeight="700"
         color={useColorModeValue('dGray.dark', 'dGray.light')}>

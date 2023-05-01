@@ -47,7 +47,7 @@ export default function MainBoardSlider({
         variant="ghost"
         position="absolute"
         zIndex={2}
-        top="40%"
+        top="35%"
         left="2"
         onClick={onClickPrev}
         color="#f8f8f8c8"
@@ -67,7 +67,7 @@ export default function MainBoardSlider({
         aria-label="right-arrow"
         variant="ghost"
         position="absolute"
-        top="40%"
+        top="35%"
         right={arrowRightPosition}
         onClick={onClickNext}
         color="#f8f8f8c8"

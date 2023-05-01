@@ -35,7 +35,7 @@ import Login from '@/src/components/units/auth/login/Login.container'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import Timer from '@/src/components/ui/timer'
-import CustomSpinner from '@/src/components/ui/spinner'
+import CustomSpinner from '@/src/components/ui/customSpinner'
 
 export default function ForgotPasswordForm() {
   const [errMsg, setErrMsg] = useState<errMsg>({
