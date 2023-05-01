@@ -1,6 +1,6 @@
 import {atom} from "recoil";
 import {recoilPersist} from 'recoil-persist'
-import {TAuthModalType} from "@/src/components/units/auth/Auth.types";
+import {TAuthModalType, TMyUserInfo} from "@/src/components/units/auth/Auth.types";
 
 const sessionStorage = typeof window !== 'undefined' ? window.sessionStorage:undefined
 
@@ -34,8 +34,9 @@ export const AuthModalToggle = atom({
 	default: false,
 })
 
-export const MyUserInfo = atom({
+export const MyUserInfo = atom<TMyUserInfo>({
 	key: 'myUserInfo',
-	default: {}
+	default: {id: '', email: '', nickName: '', jobGroup: '', provider: ''},
+	effects_UNSTABLE: [session],
 })
 

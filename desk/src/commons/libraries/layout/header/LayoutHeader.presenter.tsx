@@ -36,7 +36,7 @@ const NavLink = ({ children }: { children: ReactNode }) => (
 
 export default function LayoutHeaderUI(props: LayoutHeaderUIProps) {
   const { colorMode, toggleColorMode } = useColorMode()
-  const {isLoggedIn, LoginUi, SignupUi, LogoutUi, openModal} = useAuth()
+  const {isLoggedIn, myUserInfo, LoginUI, SignupUI, openModal, onClickLogout, onClickSignout} = useAuth()
 
   return (
     <>
@@ -71,7 +71,12 @@ export default function LayoutHeaderUI(props: LayoutHeaderUIProps) {
                   </Center>
                   <br />
                   <Center>
-                    <p>닉네임</p>
+                    {!isLoggedIn &&
+                      <p>닉네임</p>
+                    }
+                    {isLoggedIn &&
+                     <p>{myUserInfo?.nickName}</p>
+                    }
                   </Center>
                   <br />
                   <MenuDivider />
@@ -83,7 +88,8 @@ export default function LayoutHeaderUI(props: LayoutHeaderUIProps) {
                   :
                     <>
                     <MenuItem onClick={props.onClickMoveToUser}>마이페이지</MenuItem>
-                    <MenuItem onClick={() => openModal('LOGOUT')}>로그아웃</MenuItem>
+                    <MenuItem onClick={onClickLogout}>로그아웃</MenuItem>
+                    <MenuItem onClick={onClickSignout}>회원탈퇴</MenuItem>
                     </>
                   }
                 </MenuList>
@@ -93,9 +99,8 @@ export default function LayoutHeaderUI(props: LayoutHeaderUIProps) {
         </Flex>
       </Box>
       
-      <LoginUi />
-      <LogoutUi />
-      <SignupUi />
+      <LoginUI />
+      <SignupUI />
     </>
   )
 }

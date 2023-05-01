@@ -7,20 +7,22 @@ import {
   ModalOverlay,
   useDisclosure,
 } from '@chakra-ui/react'
-import Login from '@/src/components/units/auth/login/Login.container'
 import { useRecoilState } from 'recoil'
 import { AuthModalToggle, AuthModalType } from '@/src/commons/store/atom'
 import { useEffect } from 'react'
+import ForgotPassword from '@/src/components/units/auth/forgotPassword/ForgotPassword.container'
+import { TAuthModalType } from '@/src/components/units/auth/Auth.types'
 
-export default function LoginIsOpen() {
+export default function ForgotPasswordIsOpen() {
   const { isOpen, onOpen, onClose } = useDisclosure({ defaultIsOpen: false })
-  const [authModalType] = useRecoilState(AuthModalType)
+  // 현재 바라보고 있는 상태값 로그인인지, 회원가입인지, 비밀번호찾기인지
+  const [authModalType] = useRecoilState<TAuthModalType>(AuthModalType)
+  // 토글값, useEffect가 상태값 변경에 따라 작동되게 하기 위해서
   const [authModalToggle] = useRecoilState(AuthModalToggle)
 
   useEffect(() => {
-    if (authModalType === 'LOGIN') {
+    if (authModalType === 'FORGOT_PASSWORD') {
       onOpen()
-      // setAuthModalType('')
     } else if (authModalType === 'AFTER_AUTH') {
       onClose()
     }
@@ -33,7 +35,7 @@ export default function LoginIsOpen() {
         <ModalContent>
           <ModalCloseButton />
           <ModalBody>
-            <Login />
+            <ForgotPassword />
           </ModalBody>
         </ModalContent>
       </Modal>

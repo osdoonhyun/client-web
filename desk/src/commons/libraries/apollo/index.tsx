@@ -1,8 +1,8 @@
-import {ApolloClient, ApolloLink, ApolloProvider, InMemoryCache} from '@apollo/client'
+import { ApolloClient, ApolloLink, ApolloProvider, InMemoryCache } from '@apollo/client'
 import { createUploadLink } from 'apollo-upload-client'
 import { ReactNode } from 'react'
-import {useRecoilState} from "recoil";
-import {MyToken} from "@/src/commons/store/atom";
+import { useRecoilState } from 'recoil'
+import { MyToken } from '@/src/commons/store/atom'
 
 type ApolloSettingProps = {
   children: ReactNode
@@ -11,8 +11,8 @@ type ApolloSettingProps = {
 const cache = new InMemoryCache()
 
 export default function ApolloSetting(props: ApolloSettingProps) {
-  const [myToken, _] = useRecoilState(MyToken)
-  
+  const [myToken] = useRecoilState(MyToken)
+
   // 일반토큰 에러처리 로직 구현중
   // const errorLink = onError(({ graphQLErrors, operation, forward}) => {
   //   if (graphQLErrors) {
@@ -36,10 +36,10 @@ export default function ApolloSetting(props: ApolloSettingProps) {
   //     }
   //   }
   // })
-  
+
   const uploadLink = createUploadLink({
     uri: process.env.NEXT_PUBLIC_APOLLO_URI,
-    headers: {Authorization: `Bearer ${myToken}`},
+    headers: { Authorization: `Bearer ${myToken}` },
     credentials: 'include',
   })
 
