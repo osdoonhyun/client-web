@@ -1,6 +1,6 @@
 import RecentUI from './Recent.presenter'
 import { useQuery } from '@apollo/client'
-import { TPicture, TQuery } from '@/src/commons/types/generated/types'
+import { TBoard, TQuery } from '@/src/commons/types/generated/types'
 import { FETCH_BOARDS } from './Recent.queries'
 import CustomSpinner from '@/src/components/ui/customSpinner'
 import ErrorMessage from '@/src/components/ui/errorMessage'
@@ -17,13 +17,21 @@ export default function Recent() {
 
   const boards = data?.fetchBoards ?? []
 
-  // const images = boards.map(
-  //   board => board.pictures.find((picture: TPicture) => picture.isMain)?.url ?? '',
-  // )
+  const categoryTitle = '⏱️ 최근 게시물'
+  const titles = boards.map((board: TBoard) => board.title)
+  const writers = boards.map((board: TBoard) => board.writer.nickName)
+  const images = boards.map(
+    (board: TBoard) => board.pictures.find(picture => picture.isMain)?.url ?? '',
+  )
 
   return (
     <>
-      <RecentUI boards={boards} />
+      <RecentUI
+        categoryTitle={categoryTitle}
+        images={images}
+        titles={titles}
+        writers={writers}
+      />
     </>
   )
 }
