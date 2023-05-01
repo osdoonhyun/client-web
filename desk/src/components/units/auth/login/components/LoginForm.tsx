@@ -1,3 +1,13 @@
+import { AuthModalType, MyEmailSave, MyToken, MyUserInfo } from '@/src/commons/store/atom'
+import {
+  AuthFormProps,
+  errorMessage,
+  loginSchema,
+} from '@/src/components/units/auth/Auth.types'
+import ForgotPassword from '@/src/components/units/auth/forgotPassword/ForgotPassword.container'
+import { FETCH_LOGIN_USER, LOGIN } from '@/src/components/units/auth/queries/mutation'
+import SignupForm from '@/src/components/units/auth/signup/components/signupForm'
+import { useMutation, useQuery } from '@apollo/client'
 import {
   Box,
   Button,
@@ -15,24 +25,14 @@ import {
   Tooltip,
   useColorModeValue,
 } from '@chakra-ui/react'
-import React, { useState } from 'react'
-import { useMutation, useQuery } from '@apollo/client'
-import { FETCH_LOGIN_USER, LOGIN } from '@/src/components/units/auth/queries/mutation'
-import { AuthModalType, MyEmailSave, MyToken, MyUserInfo } from '@/src/commons/store/atom'
-import { useRecoilState } from 'recoil'
-import SignupForm from '@/src/components/units/auth/signup/components/signupForm'
-import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import {
-  AuthFormProps,
-  errorMessage,
-  LoginSchema,
-} from '@/src/components/units/auth/Auth.types'
 import { useRouter } from 'next/router'
-import ForgotPassword from '@/src/components/units/auth/forgotPassword/ForgotPassword.container'
+import React, { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { AiFillGoogleCircle } from 'react-icons/ai'
 import { RiKakaoTalkFill } from 'react-icons/ri'
 import { SiNaver } from 'react-icons/si'
-import { AiFillGoogleCircle } from 'react-icons/ai'
+import { useRecoilState } from 'recoil'
 
 type TSnsLinksProps = {
   name: string
@@ -65,7 +65,7 @@ export default function LoginForm() {
     handleSubmit,
     formState: { errors },
   } = useForm<AuthFormProps>({
-    resolver: yupResolver(LoginSchema),
+    resolver: yupResolver(loginSchema),
     mode: 'onSubmit',
   })
   const { data: loginUserData } = useQuery(FETCH_LOGIN_USER)

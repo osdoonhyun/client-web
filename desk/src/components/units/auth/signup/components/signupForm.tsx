@@ -17,14 +17,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react'
 
-import { SetStateAction, useState } from 'react'
-import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
-import { useMutation } from '@apollo/client'
-import {
-  AUTH_EMAIL,
-  CREATE_USER,
-  MATCH_AUTH_NUMBER,
-} from '@/src/components/units/auth/queries/mutation'
+import Timer from '@/src/components/ui/timer'
 import {
   AuthFormProps,
   errMsg,
@@ -32,11 +25,17 @@ import {
   signupSchema,
 } from '@/src/components/units/auth/Auth.types'
 import Login from '@/src/components/units/auth/login/Login.container'
-import { useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
+import {
+  AUTH_EMAIL,
+  CREATE_USER,
+  MATCH_AUTH_NUMBER,
+} from '@/src/components/units/auth/queries/mutation'
 import MyJobSelect from '@/src/components/units/auth/signup/components/MyJobSelect'
-import Timer from '@/src/components/ui/timer'
-import CustomSpinner from '@/src/components/ui/customSpinner'
+import { useMutation } from '@apollo/client'
+import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { SetStateAction, useState } from 'react'
+import { useForm } from 'react-hook-form'
 
 type TCurrentModalType = 'LOGIN' | 'SIGNUP'
 
