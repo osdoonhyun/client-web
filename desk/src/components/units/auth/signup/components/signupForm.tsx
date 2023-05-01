@@ -87,8 +87,14 @@ export default function SignupForm() {
   }
 
   const onClickCertification = async () => {
-    setIsCheckedEmail(true)
     const data = getValues()
+
+    if (data.email === '') {
+      return
+    }
+
+    setIsCheckedEmail(true)
+
     await authEmail({
       variables: {
         authEmailInput: {
@@ -151,7 +157,6 @@ export default function SignupForm() {
       .catch(() => {
         const errorMsg: string = '이미 사용 중인 이메일입니다.' as const
         setErrMsg({ ...errMsg, errText: errorMsg, errColor: 'red' })
-        return
       })
   }
 
@@ -186,24 +191,18 @@ export default function SignupForm() {
                         placeholder={'이메일을 입력해 주세요.'}
                         {...register('email')}
                       />
-                      {!isCheckedEmail && (
-                        <Button
-                          onClick={onClickCertification}
-                          size="md"
-                          px={6}
-                          disabled
-                          bg={'dPrimary'}
-                          color={'white'}
-                          isDisabled={!myJob}
-                          _hover={{ bg: 'dPrimaryHover.dark' }}>
-                          인증번호 받기
-                        </Button>
-                      )}
-                      {isCheckedEmail && (
-                        <Box w={164} ml={0}>
-                          <CustomSpinner />
-                        </Box>
-                      )}
+                      <Button
+                        onClick={onClickCertification}
+                        size="md"
+                        px={6}
+                        disabled
+                        bg={'dPrimary'}
+                        color={'white'}
+                        isDisabled={!myJob}
+                        _hover={{ bg: 'dPrimaryHover.dark' }}
+                        isLoading={isCheckedEmail}>
+                        인증번호 받기
+                      </Button>
                     </Flex>
                     <FormErrorMessage>
                       {errors.email && errors.email.message}
