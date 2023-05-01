@@ -26,6 +26,7 @@ export type TBoard = {
   description: Scalars['String'];
   hashtags?: Maybe<Array<THashtag>>;
   id: Scalars['String'];
+  like: Scalars['Boolean'];
   likers?: Maybe<Array<TUser>>;
   likes: Scalars['Int'];
   pictures: Array<TPicture>;
@@ -61,6 +62,8 @@ export type TCreateCommentInput = {
 };
 
 export type TCreateProductInput = {
+  description: Scalars['String'];
+  imageUrl: Scalars['String'];
   name: Scalars['String'];
   url: Scalars['String'];
 };
@@ -332,6 +335,8 @@ export type TUpdateBoardInput = {
 };
 
 export type TUpdateProductInput = {
+  description: Scalars['String'];
+  imageUrl: Scalars['String'];
   name: Scalars['String'];
   picture?: InputMaybe<Scalars['String']>;
   url: Scalars['String'];
