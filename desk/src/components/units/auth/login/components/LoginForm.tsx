@@ -47,7 +47,7 @@ const snsLinks: TSnsLinksProps[] = [
 ]
 
 export default function LoginForm() {
-  const [, setMyToken] = useRecoilState(MyToken)
+  const [myToken, setMyToken] = useRecoilState(MyToken)
   const [login] = useMutation(LOGIN)
   const [err, setErr] = useState({
     errEmail: '',
