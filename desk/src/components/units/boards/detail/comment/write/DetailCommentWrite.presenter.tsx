@@ -1,8 +1,18 @@
-import { Avatar, HStack, Input, Text, VStack, useColorModeValue } from '@chakra-ui/react'
+import {
+  Avatar,
+  Button,
+  Divider,
+  HStack,
+  Input,
+  Text,
+  VStack,
+  useColorModeValue,
+} from '@chakra-ui/react'
 
 export default function BoardDetailCommentWriteUI() {
   return (
     <VStack align={'stretch'}>
+      <Divider mt={'80px'} mb={'50px'} />
       <HStack>
         <Text
           fontSize={16}
@@ -14,20 +24,21 @@ export default function BoardDetailCommentWriteUI() {
           6
         </Text>
       </HStack>
-      <HStack>
-        <Avatar w={'40px'} h={'40px'} src={'https://bit.ly/broken-link'} />
+      <HStack pt={'10px'} spacing={'16px'}>
+        <Avatar w={'34px'} h={'34px'} src={'https://bit.ly/broken-link'} />
         <Input
           bgColor={useColorModeValue('dGray.light', '#bababa1e')}
           color={useColorModeValue('dBlack', 'dGray.light')}
           // value={props.value}
           // onChange={props.onChangeInput}
-          // readOnly={props.readonly ?? false}
           size="md"
           focusBorderColor="dPrimary"
-          // maxLength={props.maxLength}
-          // placeholder={`${props.maxLength}자까지 입력 가능합니다.`}
+          placeholder={`칭찬과 격려의 댓글은 작성자에게 큰 힘이 됩니다:)`}
           _placeholder={{ color: 'dGray.medium' }}
         />
+        <Button bgColor={'dPrimary'} color={'dGray.light'}>
+          입력
+        </Button>
       </HStack>
     </VStack>
   )
