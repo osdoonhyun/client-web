@@ -1,6 +1,10 @@
+import { maxWidth } from '@/src/commons/libraries/layout'
 import { TQuery } from '@/src/commons/types/generated/types'
 import BoardDetail from '@/src/components/units/boards/detail/Detail.container'
 import { FETCH_BOARD } from '@/src/components/units/boards/detail/Detail.queries'
+import BoardDetailCommentList from '@/src/components/units/boards/detail/comment/list/DetailCommentList.container'
+import BoardDetailCommentWrite from '@/src/components/units/boards/detail/comment/write/DetailCommentWrite.container'
+import { VStack } from '@chakra-ui/react'
 import { GraphQLClient } from 'graphql-request'
 import { GetServerSideProps } from 'next'
 
@@ -30,5 +34,16 @@ export const getServerSideProps: GetServerSideProps<BoardDetailPageProps> = asyn
 export default function BoardDetailPage(props: BoardDetailPageProps) {
   const boardData = props.boardData.fetchBoard
 
-  return <BoardDetail boardData={boardData} />
+  return (
+    <VStack
+      maxW={maxWidth.lg}
+      margin={'0 auto'}
+      pl={'10px'}
+      pr={'10px'}
+      align={'stretch'}>
+      <BoardDetail boardData={boardData} />
+      <BoardDetailCommentWrite />
+      <BoardDetailCommentList />
+    </VStack>
+  )
 }
