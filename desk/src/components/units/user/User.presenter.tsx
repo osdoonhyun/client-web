@@ -127,12 +127,9 @@ export default function UserUI(props: UserUIProps) {
         {/* TODO:props drilling 최적화 예정 */}
         <NavigationTab
           isMyPage={props.isMyPage}
-          showUserPosts={props.showUserPosts}
-          showUserProductPosts={props.showUserProductPosts}
-          showLikedPosts={props.showLikedPosts}
+          userid={props.userData.user.id}
           isLiked={props.isLiked}
           toggleIsLiked={props.toggleIsLiked}
-          onClickTab={props.onClickTab}
         />
       </Box>
     </Box>

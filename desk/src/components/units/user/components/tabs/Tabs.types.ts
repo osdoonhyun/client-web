@@ -1,9 +1,13 @@
+import { TBoard, TProduct } from '@/src/commons/types/generated/types'
+
 export type NavigationTabsProps = {
   isMyPage: boolean
-  showUserPosts: boolean
-  showUserProductPosts: boolean
-  showLikedPosts: boolean
+  userid: string
   isLiked: boolean
   toggleIsLiked: () => void
-  onClickTab: (id: number) => void
+}
+
+export type UserData = {
+  // data: Array<TBoard | TProduct>
+  data: any
 }
