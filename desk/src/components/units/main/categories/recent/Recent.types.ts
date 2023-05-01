@@ -1,6 +1,5 @@
 import { TBoard } from '@/src/commons/types/generated/types'
 
-export type RecentMoreUIProps = {
-  onLoadMore: () => void
+export type RecentUIProps = {
   boards: TBoard[]
 }
