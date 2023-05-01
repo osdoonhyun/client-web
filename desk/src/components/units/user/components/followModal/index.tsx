@@ -25,10 +25,12 @@ import { useAuth } from '@/src/commons/hooks/useAuth'
 import { TQuery } from '@/src/commons/types/generated/types'
 import { FETCH_FOLLOWEES, FETCH_FOLLOWINGS } from './FollowModal.queries'
 import { useQuery } from '@apollo/client'
+import { useRouter } from 'next/router'
 
 export default function FollowModal(props: FollowModalProps) {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { openModal } = useAuth()
+  const router = useRouter()
 
   const { data: followeesData } = useQuery<Pick<TQuery, 'fetchFollowees'>>(
     FETCH_FOLLOWEES,
@@ -56,6 +58,11 @@ export default function FollowModal(props: FollowModalProps) {
       // 로그인 시 팔로워/팔로우 모달 창 오픈
       onOpen()
     }
+  }
+
+  const onClickMoveToOtherUserPage = (userid: string) => () => {
+    router.push(`/${userid}`)
+    onClose()
   }
 
   return (
@@ -88,12 +95,18 @@ export default function FollowModal(props: FollowModalProps) {
                       <Flex py="6px" justify="space-between" align="center">
                         <Flex align="center">
                           <Avatar
+                            cursor="pointer"
+                            onClick={onClickMoveToOtherUserPage(data.id)}
                             mr="10px"
                             name={data.nickName}
                             src={data.picture ?? 'https://bit.ly/broken-link'}
                           />
                           <VStack align="flex-start">
-                            <Text fontSize="14px" fontWeight="600">
+                            <Text
+                              fontSize="14px"
+                              fontWeight="600"
+                              cursor="pointer"
+                              onClick={onClickMoveToOtherUserPage(data.id)}>
                               {data.nickName}
                             </Text>
                             <Text fontSize="12px">
