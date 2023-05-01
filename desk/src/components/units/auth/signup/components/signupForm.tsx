@@ -38,6 +38,8 @@ import MyJobSelect from '@/src/components/units/auth/signup/components/MyJobSele
 import Timer from '@/src/components/ui/timer'
 import CustomSpinner from '@/src/components/ui/customSpinner'
 
+type TCurrentModalType = 'LOGIN' | 'SIGNUP'
+
 export default function SignupForm() {
   const [errMsg, setErrMsg] = useState<errMsg>({
     errText: '',
@@ -55,7 +57,7 @@ export default function SignupForm() {
   const [authEmail] = useMutation(AUTH_EMAIL)
   const [matchAuthNumber] = useMutation(MATCH_AUTH_NUMBER)
   const [pinNumber, setPinNumber] = useState<string | undefined>(undefined)
-  const [authType, setAuthType] = useState('authSignup')
+  const [currentModalType, setCurrentModalType] = useState<TCurrentModalType>('SIGNUP')
   const {
     getValues,
     register,
@@ -66,7 +68,7 @@ export default function SignupForm() {
     mode: 'onChange',
   })
   const [timeReset, setTimeReset] = useState(0)
-  const [isPending, setIsPending] = useState({ email: false })
+  const [isCheckedEmail, setIsCheckedEmail] = useState(false)
 
   const bgColor = {
     whiteAndGray700: useColorModeValue('white', 'gray.700'),
@@ -85,7 +87,7 @@ export default function SignupForm() {
   }
 
   const onClickCertification = async () => {
-    setIsPending({ email: true })
+    setIsCheckedEmail(true)
     const data = getValues()
     await authEmail({
       variables: {
@@ -99,12 +101,12 @@ export default function SignupForm() {
         const msg = '인증할 이메일 확인 후 인증번호 6자리를 입력해 주세요'
         setErrMsg({ ...errMsg, errText: msg, errColor: 'green', isEmail: true })
         setTimeReset(Math.floor(Math.random() * 1000))
-        setIsPending({ email: false })
+        setIsCheckedEmail(false)
       })
       .catch(err => {
         const msg: string | undefined = errorMessage(err.message)
         setErrMsg({ ...errMsg, errText: msg || '', errColor: 'red' })
-        setIsPending({ email: false })
+        setIsCheckedEmail(false)
       })
   }
 
@@ -144,7 +146,7 @@ export default function SignupForm() {
       },
     })
       .then(() => {
-        setAuthType('authLogin')
+        setCurrentModalType('LOGIN')
       })
       .catch(() => {
         const errorMsg: string = '이미 사용 중인 이메일입니다.' as const
@@ -155,7 +157,7 @@ export default function SignupForm() {
 
   return (
     <>
-      {authType === 'authSignup' && (
+      {currentModalType === 'SIGNUP' && (
         <Flex align={'center'} justify={'center'}>
           <Stack spacing={0} mx={'auto'} maxW={'lg'} bg={bgColor.whiteAndGray700}>
             <Stack align={'center'}>
@@ -169,7 +171,6 @@ export default function SignupForm() {
                 </Link>{' '}
                 ✌️
               </Text>
-              의
             </Stack>
             <Box rounded={'lg'} bg={bgColor.whiteAndGray700} p={8}>
               <form onSubmit={handleSubmit(onClickSubmit)}>
@@ -185,10 +186,9 @@ export default function SignupForm() {
                         placeholder={'이메일을 입력해 주세요.'}
                         {...register('email')}
                       />
-                      {!isPending.email && (
+                      {!isCheckedEmail && (
                         <Button
                           onClick={onClickCertification}
-                          loadingText="Submitting"
                           size="md"
                           px={6}
                           disabled
@@ -199,7 +199,7 @@ export default function SignupForm() {
                           인증번호 받기
                         </Button>
                       )}
-                      {isPending.email && (
+                      {isCheckedEmail && (
                         <Box w={164} ml={0}>
                           <CustomSpinner />
                         </Box>
@@ -302,7 +302,7 @@ export default function SignupForm() {
                       <Link
                         color={color.dPrimaryAndDprimaryHoverTransparency}
                         onClick={() => {
-                          setAuthType('authLogin')
+                          setCurrentModalType('LOGIN')
                         }}>
                         로그인
                       </Link>
@@ -314,7 +314,7 @@ export default function SignupForm() {
           </Stack>
         </Flex>
       )}
-      {authType === 'authLogin' && <Login />}
+      {currentModalType === 'LOGIN' && <Login />}
     </>
   )
 }
