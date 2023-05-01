@@ -34,8 +34,20 @@ import { RiKakaoTalkFill } from 'react-icons/ri'
 import { SiNaver } from 'react-icons/si'
 import { AiFillGoogleCircle } from 'react-icons/ai'
 
+type TSnsLinksProps = {
+  name: string
+  buttonColor: string
+  leftIcon: JSX.Element
+}
+
+const snsLinks: TSnsLinksProps[] = [
+  { name: 'kakao', buttonColor: 'yellow', leftIcon: <RiKakaoTalkFill /> },
+  { name: 'naver', buttonColor: 'green', leftIcon: <SiNaver /> },
+  { name: 'google', buttonColor: 'gray', leftIcon: <AiFillGoogleCircle /> },
+]
+
 export default function LoginForm() {
-  const [, setMyToken] = useRecoilState(MyToken)
+  const [myToken, setMyToken] = useRecoilState(MyToken)
   const [login] = useMutation(LOGIN)
   const [err, setErr] = useState({
     errEmail: '',
@@ -72,18 +84,6 @@ export default function LoginForm() {
     gray300AndGray500: useColorModeValue({ bg: 'gray.300' }, { bg: 'gray.500' }),
   }
 
-  type TSnsLinksProps = {
-    name: string
-    buttonColor: string
-    leftIcon: JSX.Element
-  }
-
-  const snsLinks: TSnsLinksProps[] = [
-    { name: 'kakao', buttonColor: 'yellow', leftIcon: <RiKakaoTalkFill /> },
-    { name: 'naver', buttonColor: 'green', leftIcon: <SiNaver /> },
-    { name: 'google', buttonColor: 'blackAlpha', leftIcon: <AiFillGoogleCircle /> },
-  ]
-
   async function onClickLoginSubmit(data: AuthFormProps) {
     await login({
       variables: {
@@ -99,7 +99,6 @@ export default function LoginForm() {
         if (isMyEmailSave) {
           setMyEmailSaveLocal(data.email)
         }
-        console.log(loginUserData.fetchLoginUser)
         setMyUserInfo({ ...loginUserData.fetchLoginUser })
         router.push('/')
       })
@@ -226,25 +225,18 @@ export default function LoginForm() {
                       </Button>
                     )}
                     <HStack>
-                      {snsLinks.map(props => {
+                      {snsLinks?.map(({ buttonColor, leftIcon, name }) => {
                         return (
-                          <Link
-                            href={`https://mobomobo.shop/login/${props.name}`}
-                            key={props.name}>
-                            {myUserInfo?.provider === props.name ? (
+                          <Link href={`https://mobomobo.shop/login/${name}`} key={name}>
+                            {myUserInfo?.provider === name ? (
                               <Tooltip hasArrow label="마지막 로그인" bg="red.300" isOpen>
-                                <Button
-                                  colorScheme={props.buttonColor}
-                                  leftIcon={props.leftIcon}>
-                                  {props.name.charAt(0).toUpperCase() +
-                                    props.name.slice(1)}
+                                <Button colorScheme={buttonColor} leftIcon={leftIcon}>
+                                  {name.charAt(0).toUpperCase() + name.slice(1)}
                                 </Button>
                               </Tooltip>
                             ) : (
-                              <Button
-                                colorScheme={props.buttonColor}
-                                leftIcon={props.leftIcon}>
-                                {props.name.charAt(0).toUpperCase() + props.name.slice(1)}
+                              <Button colorScheme={buttonColor} leftIcon={leftIcon}>
+                                {name.charAt(0).toUpperCase() + name.slice(1)}
                               </Button>
                             )}
                           </Link>
