@@ -30,3 +30,9 @@ export const FETCH_USER = gql`
     }
   }
 `
+
+export const UPDATE_FOLLOWING = gql`
+  mutation updateFolloiwng($follwoingid: String!) {
+    updateFollowing(followingid: $followingid)
+  }
+`

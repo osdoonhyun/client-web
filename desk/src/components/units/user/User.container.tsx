@@ -4,6 +4,12 @@ import { useRouter } from 'next/router'
 import UserUI from './User.presenter'
 import { useAuth } from '@/src/commons/hooks/useAuth'
 import { UserProps } from './User.types'
+import { useMutation } from '@apollo/client'
+import { UPDATE_FOLLOWING } from './User.queries'
+import {
+  TMutation,
+  TMutationUpdateFollowingArgs,
+} from '@/src/commons/types/generated/types'
 
 const TabID = {
   USER_POSTS: 0,
@@ -20,6 +26,10 @@ export default function User(props: UserProps) {
   // API 받은 후 수정 계획
   const [isMyPage, setIsMyPage] = useState(false)
   const { isLoggedIn } = useAuth()
+  const [updateFollowing] = useMutation<
+    Pick<TMutation, 'updateFollowing'>,
+    TMutationUpdateFollowingArgs
+  >(UPDATE_FOLLOWING)
 
   const handleShowUserPosts = () => {
     setShowUserPosts(true)
@@ -56,6 +66,14 @@ export default function User(props: UserProps) {
     router.push('/accountEdit')
   }, [])
 
+  const onClickFollowingButton = async () => {
+    await updateFollowing({
+      variables: {
+        followingid: props.userData.user.id,
+      },
+    })
+  }
+
   return (
     <UserUI
       userData={props.userData}
@@ -65,6 +83,7 @@ export default function User(props: UserProps) {
       toggleIsLiked={toggleIsLiked}
       showUserPosts={showUserPosts}
       onClickMoveToAccountEdit={onClickMoveToAccountEdit}
+      onClickFollowingButton={onClickFollowingButton}
       showUserProductPosts={showUserProductPosts}
       showLikedPosts={showLikedPosts}
       onClickTab={onClickTab}

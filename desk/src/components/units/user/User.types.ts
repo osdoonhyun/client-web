@@ -15,4 +15,5 @@ export type UserUIProps = {
   toggleIsLiked: () => void
   onClickTab: (id: number) => void
   onClickMoveToAccountEdit: () => void
+  onClickFollowingButton: () => void
 }

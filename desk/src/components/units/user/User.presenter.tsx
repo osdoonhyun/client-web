@@ -117,6 +117,8 @@ export default function UserUI(props: UserUIProps) {
                 bgColor={'dPrimary'}
                 _hover={{ bg: 'dPrimaryHover.dark' }}
                 fontSize="18px"
+                // 팔로우를 하는지에 상태값에 따라 버튼 color 바뀌도록
+                onClick={props.onClickFollowingButton}
                 fontWeight="600">
                 팔로우
               </Button>
