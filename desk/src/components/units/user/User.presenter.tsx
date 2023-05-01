@@ -37,15 +37,13 @@ export default function UserUI(props: UserUIProps) {
             <Flex ml="50px" mt="20px" gap="25px">
               <FollowModal
                 type="follower"
-                userid={props.userData.user.id}
+                userData={props.userData}
                 isLoggedIn={props.isLoggedIn}
-                followCount={props.userData.followingCount}
               />
               <FollowModal
                 type="followee"
-                userid={props.userData.user.id}
+                userData={props.userData}
                 isLoggedIn={props.isLoggedIn}
-                followCount={props.userData.followeeCount}
               />
             </Flex>
             <Flex direction="column" mt="23px" ml="50px">

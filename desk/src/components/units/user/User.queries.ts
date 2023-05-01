@@ -15,18 +15,12 @@ export const FETCH_USER = gql`
           id
           sns
         }
-        followings {
-          id
-          followingid
-        }
-        followees {
-          id
-          followeeid
-        }
+        followingsCount
+        followeesCount
+        followingStatus
+        followeeStatus
       }
       boardCount
-      followingCount
-      followeeCount
     }
   }
 `
