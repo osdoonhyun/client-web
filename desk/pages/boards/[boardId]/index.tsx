@@ -42,7 +42,10 @@ export default function BoardDetailPage(props: BoardDetailPageProps) {
       pr={'10px'}
       align={'stretch'}>
       <BoardDetail boardData={boardData} />
-      <BoardDetailCommentWrite />
+      <BoardDetailCommentWrite
+        boardId={boardData.id}
+        commentDatas={boardData.comments ?? []}
+      />
       <BoardDetailCommentList />
     </VStack>
   )
