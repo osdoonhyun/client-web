@@ -40,6 +40,7 @@ export type TComments = {
   __typename?: 'Comments';
   board: TBoard;
   content: Scalars['String'];
+  createdAt: Scalars['DateTime'];
   id: Scalars['String'];
   user: TUser;
 };
@@ -258,11 +259,13 @@ export type TProduct = {
 
 export type TQuery = {
   __typename?: 'Query';
+  fetchAllProducts: Array<TProduct>;
   fetchBestBoards: Array<TBoard>;
   fetchBoard: TBoard;
   fetchBoards: Array<TBoard>;
   fetchBoardsUserLiked: Array<TBoard>;
   fetchFollowees: TFetchFollowee;
+  fetchFollowingBoards: Array<TFollowing>;
   fetchFollowings: TFetchFollowing;
   fetchLoginUser: TUser;
   fetchProducts: Array<TProduct>;
@@ -322,6 +325,7 @@ export type TReply = {
   __typename?: 'Reply';
   comment: TComments;
   content: Scalars['String'];
+  createdAt: Scalars['DateTime'];
   id: Scalars['String'];
   user: TUser;
 };
