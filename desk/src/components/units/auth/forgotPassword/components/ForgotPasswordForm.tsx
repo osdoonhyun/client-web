@@ -17,13 +17,13 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react'
 
-import { SetStateAction, useState } from 'react'
+import React, { SetStateAction, useState } from 'react'
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 import { useMutation } from '@apollo/client'
 import {
   AUTH_EMAIL,
-  CREATE_USER,
   MATCH_AUTH_NUMBER,
+  RESET_USER_PASSWORD,
 } from '@/src/components/units/auth/queries/mutation'
 import {
   AuthFormProps,
@@ -34,11 +34,10 @@ import {
 import Login from '@/src/components/units/auth/login/Login.container'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import MyJobSelect from '@/src/components/units/auth/signup/components/MyJobSelect'
 import Timer from '@/src/components/ui/timer'
 import CustomSpinner from '@/src/components/ui/spinner'
 
-export default function SignupForm() {
+export default function ForgotPasswordForm() {
   const [errMsg, setErrMsg] = useState<errMsg>({
     errText: '',
     errColor: '',
@@ -50,8 +49,7 @@ export default function SignupForm() {
     myPassword: '',
   })
   const [showPassword, setShowPassword] = useState(false)
-  const [myJob, setMyJob] = useState('')
-  const [createUser] = useMutation(CREATE_USER)
+  const [resetUserPassword] = useMutation(RESET_USER_PASSWORD)
   const [authEmail] = useMutation(AUTH_EMAIL)
   const [matchAuthNumber] = useMutation(MATCH_AUTH_NUMBER)
   const [pinNumber, setPinNumber] = useState<string | undefined>(undefined)
@@ -66,8 +64,8 @@ export default function SignupForm() {
     mode: 'onChange',
   })
   const [timeReset, setTimeReset] = useState(0)
+  const [, setInputEmail] = useState('')
   const [isPending, setIsPending] = useState({ email: false })
-
   const bgColor = {
     whiteAndGray700: useColorModeValue('white', 'gray.700'),
     gray200AndGray600: useColorModeValue('gray.200', 'gray.600'),
@@ -91,12 +89,12 @@ export default function SignupForm() {
       variables: {
         authEmailInput: {
           email: data.email,
-          authCheck: true,
+          authCheck: false,
         },
       },
     })
       .then(() => {
-        const msg = '인증할 이메일 확인 후 인증번호 6자리를 입력해 주세요'
+        const msg = '인증할 이메일 확인 후 인증번호 6자리를 입력해 주세요.'
         setErrMsg({ ...errMsg, errText: msg, errColor: 'green', isEmail: true })
         setTimeReset(Math.floor(Math.random() * 1000))
         setIsPending({ email: false })
@@ -105,7 +103,12 @@ export default function SignupForm() {
         const msg: string | undefined = errorMessage(err.message)
         setErrMsg({ ...errMsg, errText: msg || '', errColor: 'red' })
         setIsPending({ email: false })
+        return
       })
+  }
+
+  const onChangeInputEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputEmail(e.target.value)
   }
 
   const onClickMatchAuthNumber = async () => {
@@ -134,12 +137,11 @@ export default function SignupForm() {
   }
 
   const onClickSubmit = async (data: AuthFormProps) => {
-    await createUser({
+    await resetUserPassword({
       variables: {
-        createUserInput: {
+        resetPasswordInput: {
           email: data.email,
           password: data.password,
-          jobGroup: myJob,
         },
       },
     })
@@ -147,7 +149,7 @@ export default function SignupForm() {
         setAuthType('authLogin')
       })
       .catch(() => {
-        const errorMsg: string = '이미 사용 중인 이메일입니다.' as const
+        const errorMsg = '이미 사용 중인 이메일입니다.'
         setErrMsg({ ...errMsg, errText: errorMsg, errColor: 'red' })
         return
       })
@@ -160,30 +162,30 @@ export default function SignupForm() {
           <Stack spacing={0} mx={'auto'} maxW={'lg'} bg={bgColor.whiteAndGray700}>
             <Stack align={'center'}>
               <Heading fontSize={'4xl'} textAlign={'center'} pt={6}>
-                회원가입
+                비밀번호 재설정
               </Heading>
               <Text fontSize={'lg'} color={color.gray600AndGray300}>
                 당신의 책상을 자랑하십시오{' '}
-                <Link color={color.dPrimaryAndDprimaryHoverTransparency} href={'/'}>
+                <Link color={'dPrimary'} href={'/'}>
                   데카이브
                 </Link>{' '}
                 ✌️
               </Text>
-              의
             </Stack>
             <Box rounded={'lg'} bg={bgColor.whiteAndGray700} p={8}>
               <form onSubmit={handleSubmit(onClickSubmit)}>
                 <Stack spacing={4}>
-                  <MyJobSelect setMyJob={setMyJob} myJob={myJob} />
                   <FormControl id="email" isInvalid={!!errors.email}>
                     <FormLabel>이메일</FormLabel>
                     <Flex gap={4}>
                       <Input
                         focusBorderColor={'dPrimary'}
                         type="email"
-                        autoFocus={!!myJob}
+                        autoFocus={true}
                         placeholder={'이메일을 입력해 주세요.'}
-                        {...register('email')}
+                        {...register('email', {
+                          onChange: onChangeInputEmail,
+                        })}
                       />
                       {!isPending.email && (
                         <Button
@@ -194,7 +196,6 @@ export default function SignupForm() {
                           disabled
                           bg={'dPrimary'}
                           color={'white'}
-                          isDisabled={!myJob}
                           _hover={{ bg: 'dPrimaryHover.dark' }}>
                           인증번호 받기
                         </Button>
@@ -293,11 +294,11 @@ export default function SignupForm() {
                       isDisabled={!!errors.password}
                       color={'white'}
                       _hover={{ bg: 'dPrimaryHover.dark' }}>
-                      회원가입
+                      비밀번호 변경
                     </Button>
                   </Stack>
                   <Stack pt={6}>
-                    <Text align={'center'} style={{ color: 'dPrimary' }}>
+                    <Text align={'center'}>
                       이미 회원이신가요?{' '}
                       <Link
                         color={color.dPrimaryAndDprimaryHoverTransparency}

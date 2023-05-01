@@ -6,17 +6,19 @@ module.exports = {
   extends: [
     'plugin:react/recommended',
     'plugin:@next/next/recommended',
-    // "standard-with-typescript",
     'prettier',
+    'next/core-web-vitals',
+    'plugin:@typescript-eslint/recommended',
   ],
   overrides: [],
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    project: '**/tsconfig.json',
+    project: './tsconfig.json',
     ecmaVersion: 'latest',
     sourceType: 'module',
+    tsconfigRootDir: __dirname,
   },
-  plugins: ['react'],
+  plugins: ['react', '@typescript-eslint'],
   ignorePatterns: ['src/commons/types/generated/types.ts'],
   rules: {
     'react/react-in-jsx-scope': 'off',
