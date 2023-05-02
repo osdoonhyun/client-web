@@ -20,10 +20,13 @@ export default function Best() {
   const categoryTitle = '🏆 인기 게시물 TOP 10 🏆'
   const titles = bestBoards.map((board: TBoard) => board.title)
   const writers = bestBoards.map((board: TBoard) => board.writer.nickName)
+  const writerImages = bestBoards.map((board: TBoard) => board.writer.picture)
   const images = bestBoards.map(
     (board: TBoard) => board.pictures.find(picture => picture.isMain)?.url ?? '',
   )
   const boardIds = bestBoards.map((board: TBoard) => board.id)
+  const userIds = bestBoards.map((board: TBoard) => board.writer.id)
+  console.log('userIds:', userIds)
 
   return (
     <>
@@ -32,7 +35,9 @@ export default function Best() {
         images={images}
         titles={titles}
         writers={writers}
+        writerImages={writerImages}
         boardIds={boardIds}
+        userIds={userIds}
       />
     </>
   )
