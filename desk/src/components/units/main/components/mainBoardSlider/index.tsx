@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useRouter } from 'next/router'
 import {
   Avatar,
   Box,
@@ -19,13 +20,19 @@ export default function MainBoardSlider({
   images,
   titles = [],
   writers = [],
+  boardIds = [],
   children,
 }: MainBoardSliderProps) {
   const [slider, setSlider] = useState<Slider | null>(null)
   const [arrowVisible, setArrowVisible] = useState(true)
   const [currentSlide, setCurrentSlide] = useState(0)
+  const router = useRouter()
 
   const [isMobile] = useMediaQuery('(max-width: 767px)')
+
+  const onClickBoardDetail = (boardId: string) => {
+    router.push(`/boards/${boardId}`)
+  }
 
   const onClickPrev = () => {
     const moveBy = isMobile ? 2 : 4
@@ -120,7 +127,10 @@ export default function MainBoardSlider({
                     p={1}
                     color={useColorModeValue('dGray.dark', 'dGray.light')}>
                     <Flex flexDirection="column">
-                      <Center pl="5px">
+                      <Center
+                        pl="5px"
+                        onClick={() => onClickBoardDetail(boardIds[index])}
+                        cursor="pointer">
                         <MainImageStyle src={src} alt={`Image ${index}`} />
                       </Center>
                       <Center>
