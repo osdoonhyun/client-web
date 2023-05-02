@@ -1,19 +1,32 @@
-import { TMutation } from '@/src/commons/types/generated/types'
+import {
+  TMutation,
+  TMutationUpdateBoardLikerArgs,
+} from '@/src/commons/types/generated/types'
 import { Box, Image } from '@chakra-ui/react'
 import { useState } from 'react'
 import { MdFavorite, MdFavoriteBorder } from 'react-icons/md'
+import { useMutation } from '@apollo/client'
+import { UPDATE_BOARD_LIKER } from './boardItem.queries'
 
 export type BoardItemProps = {
   index: number
   boardId: string
   imageUrl: string
   isLiked: boolean
-  onClickLikeButton: (boardid: string) => void
 }
 
 export default function BoardItem(props: BoardItemProps) {
-  const handleLikeButtonClick = () => {
-    props.onClickLikeButton(props.boardId)
+  const [updateBoardLiker] = useMutation<
+    Pick<TMutation, 'updateBoardLiker'>,
+    TMutationUpdateBoardLikerArgs
+  >(UPDATE_BOARD_LIKER)
+
+  const onClickLikeButton = async (boardid: string) => {
+    await updateBoardLiker({
+      variables: {
+        boardid,
+      },
+    })
     setIsLiked(prevIsLiked => !prevIsLiked)
   }
 
@@ -42,7 +55,7 @@ export default function BoardItem(props: BoardItemProps) {
               }
         }
         color={isLiked ? 'dRed.400' : '#fff'}
-        onClick={handleLikeButtonClick}>
+        onClick={() => onClickLikeButton(props.boardId)}>
         {isLiked ? <MdFavorite size="20px" /> : <MdFavoriteBorder size="20px" />}
       </Box>
     </Box>

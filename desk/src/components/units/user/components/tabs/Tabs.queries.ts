@@ -37,9 +37,3 @@ export const FETCH_PRODUCTS = gql`
     }
   }
 `
-
-export const UPDATE_BOARD_LIKER = gql`
-  mutation updateBoardLiker($boardid: String!) {
-    updateBoardLiker(boardid: $boardid)
-  }
-`
