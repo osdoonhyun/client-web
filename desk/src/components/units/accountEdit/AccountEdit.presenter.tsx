@@ -114,7 +114,6 @@ export default function AccountEditUI(props: AccountEditUIProps) {
               <Text fontSize="18px" fontWeight="500">
                 email
               </Text>
-              props.
             </Center>
           </Box>
           <Box w="60%" ml="55px">
