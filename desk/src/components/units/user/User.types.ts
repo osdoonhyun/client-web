@@ -6,14 +6,9 @@ export type UserProps = {
 
 export type UserUIProps = {
   userData: TFetchUser
-  showUserPosts: boolean
-  showUserProductPosts: boolean
-  showLikedPosts: boolean
   isLoggedIn: boolean
   isMyPage: boolean
-  isLiked: boolean
-  toggleIsLiked: () => void
-  onClickTab: (id: number) => void
+  isFollowing: boolean
   onClickMoveToAccountEdit: () => void
   onClickFollowingButton: () => void
 }

@@ -1,18 +1,29 @@
-import { Card, CardBody, Image, Text, VStack } from '@chakra-ui/react'
+import { Box, Card, CardBody, Image, Text, VStack } from '@chakra-ui/react'
 
-export default function ProductItem() {
+export type ProductItemProps = {
+  index: number
+  productId: string
+  imageUrl: string
+  productName: string
+}
+
+export default function ProductItem(props: ProductItemProps) {
   return (
-    <VStack>
-      <Card>
+    <Box key={props.index}>
+      <Card h="260px">
         <CardBody>
           <Image
-            src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
-            alt=""
+            height={'150px'}
+            width={'100%'}
+            objectFit={'cover'}
+            src={props.imageUrl ?? ''}
             borderRadius="lg"
           />
-          <Text mt="6">상품명</Text>
+          <Text noOfLines={2} mt="6">
+            {props.productName}
+          </Text>
         </CardBody>
       </Card>
-    </VStack>
+    </Box>
   )
 }

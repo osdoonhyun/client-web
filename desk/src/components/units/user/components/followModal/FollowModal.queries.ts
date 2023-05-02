@@ -3,24 +3,22 @@ import { gql } from '@apollo/client'
 export const FETCH_FOLLOWEES = gql`
   query fetchFollowees($userid: String!) {
     fetchFollowees(userid: $userid) {
-      user {
-        id
-        nickName
-        picture
-      }
-      followee
+      id
+      nickName
+      picture
+      followingsCount
+      followingStatus
     }
   }
 `
 export const FETCH_FOLLOWINGS = gql`
   query fetchFollowings($userid: String!) {
     fetchFollowings(userid: $userid) {
-      user {
-        id
-        nickName
-        picture
-      }
-      following
+      id
+      nickName
+      picture
+      followingsCount
+      followingStatus
     }
   }
 `
