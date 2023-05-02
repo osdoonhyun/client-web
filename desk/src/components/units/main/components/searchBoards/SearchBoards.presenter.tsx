@@ -6,14 +6,23 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Stack,
   Text,
+  useDisclosure,
 } from '@chakra-ui/react'
-import { useRef } from 'react'
+import { useRef, useEffect } from 'react'
 import { SearchBoardsUIProps } from './SearchBoards.types'
 
 export default function SearchBoardsUI(props: SearchBoardsUIProps) {
   const searchInputRef = useRef<HTMLInputElement>(null)
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
   return (
     <>
@@ -29,23 +38,52 @@ export default function SearchBoardsUI(props: SearchBoardsUIProps) {
             color="dGray.medium"
             variant="outline"
             _hover={{ color: 'dPrimary', borderColor: 'dPrimary' }}
-            onClick={() => props.onClickSearchBoard(searchInputRef.current?.value)}>
+            onClick={() => {
+              props.onClickSearchBoard(searchInputRef.current?.value)
+              onOpen()
+            }}>
             검색
           </Button>
         </InputGroup>
       </Stack>
-      {props.data?.searchBoards && (
-        <Box mt={4}>
-          {props.data.searchBoards.map(board => (
-            <Box key={board.id} borderWidth="1px" borderRadius="lg" p={4} mt={2}>
-              <Heading size="md" mb={2}>
-                {board.title}
-              </Heading>
-              <Text>{board.description}</Text>
-            </Box>
-          ))}
-        </Box>
-      )}
+      <Modal isOpen={isOpen} onClose={onClose} size="xl">
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>검색 결과</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            {props.data?.searchBoards ? (
+              props.data.searchBoards.map(board => (
+                <Box
+                  key={board.id}
+                  borderWidth="1px"
+                  borderRadius="lg"
+                  p={4}
+                  mt={2}
+                  _hover={{ cursor: 'pointer', bg: 'gray.100' }}
+                  onClick={() => {
+                    props.onClickBoardDetail(board.id)
+                    onClose()
+                  }}>
+                  <Heading size="md" mb={2}>
+                    {board.title}
+                  </Heading>
+                  <Text>{board.description}</Text>
+                </Box>
+              ))
+            ) : (
+              <Text>검색 결과가 없습니다.</Text>
+            )}
+          </ModalBody>
+          <ModalFooter>
+            <Button
+              _hover={{ bg: 'dPrimaryHover.transparency', color: 'white' }}
+              onClick={onClose}>
+              닫기
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </>
   )
 }
