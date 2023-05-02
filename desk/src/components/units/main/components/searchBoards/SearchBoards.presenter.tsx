@@ -47,6 +47,7 @@ export default function SearchBoardsUI(props: SearchBoardsUIProps) {
             ref={props.searchInputRef}
             placeholder="search"
             focusBorderColor="dPrimary"
+            onKeyDown={props.onKeyDown}
           />
           <Button
             ml="10px"

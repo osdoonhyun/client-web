@@ -1,7 +1,7 @@
 import SearchBoardsUI from './SearchBoards.presenter'
 import { TQuery } from '@/src/commons/types/generated/types'
 import { useLazyQuery } from '@apollo/client'
-import { useEffect, useRef, useState } from 'react'
+import { KeyboardEvent, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router'
 import { SEARCH_BOARDS } from './SearchBoards.queries'
 import { Text, useDisclosure } from '@chakra-ui/react'
@@ -66,6 +66,24 @@ export default function SearchBoards() {
     return <ErrorMessage message={error.message} />
   }
 
+  const onKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      event.preventDefault()
+      const searchInput = searchInputRef.current
+      if (searchInput) {
+        setTimeout(() => {
+          const searchValue = searchInput.value
+          if (searchValue) {
+            setSearchKeyword(searchValue)
+            searchBoards({ variables: { keyword: searchValue } })
+            onOpen()
+            searchInput.value = ''
+          }
+        }, 0)
+      }
+    }
+  }
+
   return (
     <>
       <SearchBoardsUI
@@ -79,6 +97,7 @@ export default function SearchBoards() {
         onOpen={onOpen}
         highlightSearchKeyword={highlightSearchKeyword}
         searchKeyword={searchKeyword}
+        onKeyDown={onKeyDown}
       />
     </>
   )
