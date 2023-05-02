@@ -13,6 +13,7 @@ export const FETCH_TOP10 = gql`
         hashtag
       }
       writer {
+        id
         nickName
         picture
         jobGroup
