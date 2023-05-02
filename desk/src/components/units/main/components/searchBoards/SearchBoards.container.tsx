@@ -5,9 +5,13 @@ import { useState } from 'react'
 import { SEARCH_BOARDS } from './SearchBoards.queries'
 import CustomSpinner from '@/src/components/ui/customSpinner'
 import ErrorMessage from '@/src/components/ui/errorMessage'
+import { useRouter } from 'next/router'
+import { useDisclosure } from '@chakra-ui/react'
 
 export default function SearchBoards() {
   const [keyword, setKeyword] = useState('')
+  const { onClose } = useDisclosure()
+  const router = useRouter()
 
   const [searchBoards, { data, error, loading }] =
     useLazyQuery<Pick<TQuery, 'searchBoards'>>(SEARCH_BOARDS)
@@ -26,10 +30,16 @@ export default function SearchBoards() {
     }
   }
 
+  const onClickBoardDetail = (boardId: string) => {
+    onClose()
+    router.push(`/boards/${boardId}`)
+  }
+
   return (
     <>
       <SearchBoardsUI
         onClickSearchBoard={onClickSearchBoard}
+        onClickBoardDetail={onClickBoardDetail}
         loading={loading}
         data={data}
       />
