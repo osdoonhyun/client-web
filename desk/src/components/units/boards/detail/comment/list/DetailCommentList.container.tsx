@@ -24,43 +24,42 @@ export default function BoardDetailCommentList(props: BoardDetailCommentListProp
   const [deleteReplyComment] =
     useMutation<Pick<TMutation, 'deleteReply'>>(DELETE_REPLY_COMMENT)
 
-  const onClickCreateReplyComment =
-    (commentId: string) => async (event: MouseEvent<HTMLButtonElement>) => {
-      if (replyComment === '') {
-        return
-      }
-
-      setIsReplyLoading(true)
-
-      await createReplyComment({
-        variables: {
-          createReplyInput: {
-            commentid: commentId,
-            content: replyComment,
-          },
-        },
-      })
-        .then(res => {
-          setReplyComment('')
-
-          props.setCommentDatas(comments =>
-            produce(comments, draft => {
-              const index = comments.findIndex(comment => comment.id === commentId)
-
-              draft[index].replies = [
-                res.data!.createReply,
-                ...(comments[index].replies ?? []),
-              ]
-            }),
-          )
-        })
-        .catch(error => {
-          if (error instanceof Error) {
-            toast({ title: '에러', description: `${error.message}`, status: 'error' })
-          }
-        })
-        .finally(() => setIsReplyLoading(false))
+  const onClickCreateReplyComment = (commentId: string) => async () => {
+    if (replyComment === '') {
+      return
     }
+
+    setIsReplyLoading(true)
+
+    await createReplyComment({
+      variables: {
+        createReplyInput: {
+          commentid: commentId,
+          content: replyComment,
+        },
+      },
+    })
+      .then(res => {
+        setReplyComment('')
+
+        props.setCommentDatas(comments =>
+          produce(comments, draft => {
+            const index = comments.findIndex(comment => comment.id === commentId)
+
+            draft[index].replies = [
+              res.data!.createReply,
+              ...(comments[index].replies ?? []),
+            ]
+          }),
+        )
+      })
+      .catch(error => {
+        if (error instanceof Error) {
+          toast({ title: '에러', description: `${error.message}`, status: 'error' })
+        }
+      })
+      .finally(() => setIsReplyLoading(false))
+  }
 
   const onClickDeleteComment = (commentId: string) => async () => {
     await deleteComment({ variables: { commentid: commentId } })

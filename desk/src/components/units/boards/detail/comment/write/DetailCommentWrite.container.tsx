@@ -24,7 +24,7 @@ export default function BoardDetailCommentWrite(props: BoardDetailCommentWritePr
     setInputComment(event.target.value)
   }, [])
 
-  const onClickCreateComment = async (event: MouseEvent<HTMLButtonElement>) => {
+  const onClickCreateComment = async () => {
     if (inputComment === '') {
       return
     }
