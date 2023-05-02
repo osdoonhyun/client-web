@@ -16,9 +16,12 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react'
+import { useState } from 'react'
 import { SearchBoardsUIProps } from './SearchBoards.types'
 
 export default function SearchBoardsUI(props: SearchBoardsUIProps) {
+  const [showInput, setShowInput] = useState(false)
+
   const onClickSearchButton = () => {
     const searchInput = props.searchInputRef.current
     if (searchInput) {
@@ -40,7 +43,7 @@ export default function SearchBoardsUI(props: SearchBoardsUIProps) {
     <>
       <Stack spacing={4}>
         <InputGroup>
-          <InputLeftElement pointerEvents="none">
+          <InputLeftElement pointerEvents="auto" onClick={() => setShowInput(!showInput)}>
             <SearchIcon color="dGray.medium" />
           </InputLeftElement>
           <Input
@@ -48,6 +51,7 @@ export default function SearchBoardsUI(props: SearchBoardsUIProps) {
             placeholder="search"
             focusBorderColor="dPrimary"
             onKeyDown={props.onKeyDown}
+            display={showInput ? 'block' : 'none'}
           />
           <Button
             ml="10px"
