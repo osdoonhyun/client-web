@@ -45,13 +45,19 @@ export default function DetailCommentItem(props: DetailCommentItemProps) {
       </HStack>
       <VStack pl={'52px'} spacing={'12px'} align={'stretch'}>
         <Text
+          pr={'52px'}
           fontWeight={500}
           fontSize={16}
           color={useColorModeValue('dBlack', 'dGray.light')}>
           {commentData.content}
         </Text>
         <HStack justify={'space-between'}>
-          <Button variant={'outline'} size={'xs'} onClick={onClickShowReply}>
+          <Button
+            variant={'outline'}
+            size={'xs'}
+            onClick={onClickShowReply}
+            color={isOpenReply ? 'dGray.light' : ''}
+            bgColor={isOpenReply ? useColorModeValue('teal.500', 'dPrimary') : ''}>
             {`답글 ${
               (commentData.replies?.length ?? 0) === 0 ? '' : commentData.replies?.length
             }`}

@@ -33,6 +33,7 @@ export default function DetailCommentReplyItem(props: DetailCommentReplyItemProp
       </HStack>
       <Text
         pl={'52px'}
+        pr={'52px'}
         fontWeight={500}
         fontSize={16}
         color={useColorModeValue('dBlack', 'dGray.light')}>
