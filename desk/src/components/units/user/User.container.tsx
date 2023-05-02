@@ -13,7 +13,6 @@ import {
 
 export default function User(props: UserProps) {
   const router = useRouter()
-  const [isLiked, { toggle: toggleIsLiked }] = useBoolean()
   // API 받은 후 수정 계획
   const [isMyPage, setIsMyPage] = useState(true)
   const [isFollowing, setIsFollowing] = useState<boolean>(
@@ -43,8 +42,6 @@ export default function User(props: UserProps) {
       userData={props.userData}
       isLoggedIn={isLoggedIn}
       isMyPage={isMyPage}
-      isLiked={isLiked}
-      toggleIsLiked={toggleIsLiked}
       isFollowing={isFollowing}
       onClickMoveToAccountEdit={onClickMoveToAccountEdit}
       onClickFollowingButton={onClickFollowingButton}

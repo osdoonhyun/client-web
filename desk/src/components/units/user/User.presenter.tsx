@@ -133,12 +133,7 @@ export default function UserUI(props: UserUIProps) {
         </Flex>
         {/* 게시글, 팔로우, 팔로워 분리 예정 */}
         {/* TODO:props drilling 최적화 예정 */}
-        <NavigationTab
-          isMyPage={props.isMyPage}
-          userid={props.userData.user.id}
-          isLiked={props.isLiked}
-          toggleIsLiked={props.toggleIsLiked}
-        />
+        <NavigationTab isMyPage={props.isMyPage} userid={props.userData.user.id} />
       </Box>
     </Box>
   )
