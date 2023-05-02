@@ -62,10 +62,16 @@ export default function SearchBoardsUI(props: SearchBoardsUIProps) {
       </Stack>
       <Modal isOpen={props.isOpen} onClose={props.onClose} size="xl">
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent
+          h={
+            props.data?.searchBoards && props.data.searchBoards.length > 0
+              ? '700px'
+              : undefined
+          }
+          p="10px">
           <ModalHeader>검색 결과</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>
+          <ModalBody overflowY="auto">
             {props.data?.searchBoards && props.data.searchBoards.length > 0 ? (
               props.data.searchBoards.map(board => (
                 <Box
