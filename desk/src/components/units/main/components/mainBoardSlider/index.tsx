@@ -92,11 +92,14 @@ export default function MainBoardSlider({
 
   const settings = {
     dots: false,
-    // infinite: true,
     infinite: images.length > 4,
     speed: 500,
     slidesToShow: 4.15,
     slidesToScroll: isMobile ? 2 : 4,
+    swipe: isMobile,
+    draggable: isMobile,
+    touchMove: isMobile,
+    swipeToSlide: isMobile,
     beforeChange: (oldIndex: number, newIndex: number) => {
       setCurrentSlide(newIndex)
       setArrowVisible(false)
@@ -120,58 +123,91 @@ export default function MainBoardSlider({
     ],
   }
 
+  const renderContent = () => {
+    return images.map((src, index) => (
+      <Box
+        key={index}
+        p={1}
+        color={useColorModeValue('dGray.dark', 'dGray.light')}
+        w={isMobile ? 'calc(50% -3px)' : 'auto'}
+        mr={isMobile ? '8px' : '0'}
+        mb={isMobile ? '8px' : '0'}
+        flexShrink={0}>
+        <Flex flexDirection="column">
+          <Center
+            pl="5px"
+            mb="5px"
+            onClick={() => onClickBoardDetail(boardIds[index])}
+            cursor="pointer">
+            <MainImageStyle src={src} alt={`Image ${index}`} />
+          </Center>
+          <Center>
+            <Flex flexDirection="column">
+              <Center
+                fontSize={{ base: 'sm', md: 'md' }}
+                fontWeight="bold"
+                textAlign="center"
+                mt={2}
+                w="100%"
+                p="5px"
+                cursor="pointer"
+                onClick={() => onClickBoardDetail(boardIds[index])}
+                style={{
+                  display: '-webkit-box',
+                  WebkitLineClamp: 2,
+                  WebkitBoxOrient: 'vertical',
+                  textOverflow: 'ellipsis',
+                  overflow: 'hidden',
+                  maxWidth: '240px',
+                  margin: '0 auto',
+                  whiteSpace: 'normal',
+                }}>
+                {titles[index] ?? ''}
+              </Center>
+
+              <Center
+                fontSize={{ base: 'xs', md: 'sm' }}
+                w="100%"
+                mt={1}
+                cursor="pointer"
+                onClick={() => onClickUserDetail(userIds[index])}>
+                <Avatar
+                  w="20px"
+                  h="20px"
+                  mr="5px"
+                  src={writerImages[index] ?? 'https://bit.ly/broken-link'}
+                />
+                {writers[index] ?? ''}
+              </Center>
+            </Flex>
+          </Center>
+        </Flex>
+      </Box>
+    ))
+  }
+
   return (
     <>
       <Box position="relative" w="full" h="340px" overflow="hidden">
         <Box width={{ base: '100%', md: '80%', lg: '1090px' }} mx="auto">
-          <Slider {...settings} ref={slider => setSlider(slider)}>
-            {children
-              ? children
-              : images.map((src, index) => (
-                  <Box
-                    key={index}
-                    p={1}
-                    color={useColorModeValue('dGray.dark', 'dGray.light')}>
-                    <Flex flexDirection="column">
-                      <Center
-                        pl="5px"
-                        onClick={() => onClickBoardDetail(boardIds[index])}
-                        cursor="pointer">
-                        <MainImageStyle src={src} alt={`Image ${index}`} />
-                      </Center>
-                      <Center>
-                        <Flex flexDirection="column">
-                          <Center
-                            fontSize={{ base: 'sm', md: 'md' }}
-                            fontWeight="bold"
-                            textAlign="center"
-                            mt={2}
-                            w="100%"
-                            p="0px 10px 0px 10px"
-                            cursor="pointer"
-                            onClick={() => onClickBoardDetail(boardIds[index])}>
-                            {titles[index] ?? ''}
-                          </Center>
-                          <Center
-                            fontSize={{ base: 'xs', md: 'sm' }}
-                            w="100%"
-                            mt={1}
-                            cursor="pointer"
-                            onClick={() => onClickUserDetail(userIds[index])}>
-                            <Avatar
-                              w="20px"
-                              h="20px"
-                              mr="5px"
-                              src={writerImages[index] ?? 'https://bit.ly/broken-link'}
-                            />
-                            {writers[index] ?? ''}
-                          </Center>
-                        </Flex>
-                      </Center>
-                    </Flex>
-                  </Box>
-                ))}
-          </Slider>
+          {isMobile ? (
+            <Flex
+              flexDirection="row"
+              overflowX="scroll"
+              overflowY="hidden"
+              css={{
+                '&::-webkit-scrollbar': {
+                  display: 'none',
+                },
+              }}
+              pr="30px">
+              {renderContent()}
+            </Flex>
+          ) : (
+            <Slider {...settings} ref={slider => setSlider(slider)}>
+              {renderContent()}
+            </Slider>
+          )}
         </Box>
       </Box>
     </>
