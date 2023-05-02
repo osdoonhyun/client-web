@@ -17,14 +17,8 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react'
 
-import React, { SetStateAction, useState } from 'react'
-import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
-import { useMutation } from '@apollo/client'
-import {
-  AUTH_EMAIL,
-  MATCH_AUTH_NUMBER,
-  RESET_USER_PASSWORD,
-} from '@/src/components/units/auth/queries/mutation'
+import { useAuth } from '@/src/commons/hooks/useAuth'
+import Timer from '@/src/components/ui/timer'
 import {
   AuthFormProps,
   errMsg,
@@ -32,12 +26,15 @@ import {
   signupSchema,
 } from '@/src/components/units/auth/Auth.types'
 import Login from '@/src/components/units/auth/login/Login.container'
-import { useForm } from 'react-hook-form'
+import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 import { yupResolver } from '@hookform/resolvers/yup'
-import Timer from '@/src/components/ui/timer'
-import CustomSpinner from '@/src/components/ui/customSpinner'
+import React, { SetStateAction, useState } from 'react'
+import { useForm } from 'react-hook-form'
+
+type TCurrentModalType = 'LOGIN' | 'SIGNUP'
 
 export default function ForgotPasswordForm() {
+  const { authEmail, matchAuthNumber, resetUserPassword } = useAuth()
   const [errMsg, setErrMsg] = useState<errMsg>({
     errText: '',
     errColor: '',
@@ -49,11 +46,8 @@ export default function ForgotPasswordForm() {
     myPassword: '',
   })
   const [showPassword, setShowPassword] = useState(false)
-  const [resetUserPassword] = useMutation(RESET_USER_PASSWORD)
-  const [authEmail] = useMutation(AUTH_EMAIL)
-  const [matchAuthNumber] = useMutation(MATCH_AUTH_NUMBER)
   const [pinNumber, setPinNumber] = useState<string | undefined>(undefined)
-  const [authType, setAuthType] = useState('authSignup')
+  const [currentModalType, setCurrentModalType] = useState<TCurrentModalType>('SIGNUP')
   const {
     getValues,
     register,
@@ -65,7 +59,7 @@ export default function ForgotPasswordForm() {
   })
   const [timeReset, setTimeReset] = useState(0)
   const [, setInputEmail] = useState('')
-  const [isPending, setIsPending] = useState({ email: false })
+  const [isCheckedEmail, setIsCheckedEmail] = useState(false)
   const bgColor = {
     whiteAndGray700: useColorModeValue('white', 'gray.700'),
     gray200AndGray600: useColorModeValue('gray.200', 'gray.600'),
@@ -83,28 +77,25 @@ export default function ForgotPasswordForm() {
   }
 
   const onClickCertification = async () => {
-    setIsPending({ email: true })
     const data = getValues()
-    await authEmail({
-      variables: {
-        authEmailInput: {
-          email: data.email,
-          authCheck: false,
-        },
-      },
-    })
+
+    if (data.email === '') {
+      return
+    }
+
+    setIsCheckedEmail(true)
+
+    await authEmail(data.email, false)
       .then(() => {
         const msg = '인증할 이메일 확인 후 인증번호 6자리를 입력해 주세요.'
         setErrMsg({ ...errMsg, errText: msg, errColor: 'green', isEmail: true })
         setTimeReset(Math.floor(Math.random() * 1000))
-        setIsPending({ email: false })
       })
       .catch(err => {
         const msg: string | undefined = errorMessage(err.message)
         setErrMsg({ ...errMsg, errText: msg || '', errColor: 'red' })
-        setIsPending({ email: false })
-        return
       })
+      .finally(() => setIsCheckedEmail(false))
   }
 
   const onChangeInputEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -113,14 +104,7 @@ export default function ForgotPasswordForm() {
 
   const onClickMatchAuthNumber = async () => {
     const data = getValues()
-    await matchAuthNumber({
-      variables: {
-        matchAuthInput: {
-          email: data.email,
-          authNumber: pinNumber,
-        },
-      },
-    })
+    await matchAuthNumber(data.email, pinNumber)
       .then(() => {
         const msg = '인증번호가 일치합니다.'
         setErrMsg({
@@ -137,27 +121,17 @@ export default function ForgotPasswordForm() {
   }
 
   const onClickSubmit = async (data: AuthFormProps) => {
-    await resetUserPassword({
-      variables: {
-        resetPasswordInput: {
-          email: data.email,
-          password: data.password,
-        },
-      },
-    })
-      .then(() => {
-        setAuthType('authLogin')
-      })
+    await resetUserPassword(data.email, data.password)
+      .then(() => setCurrentModalType('LOGIN'))
       .catch(() => {
         const errorMsg = '이미 사용 중인 이메일입니다.'
         setErrMsg({ ...errMsg, errText: errorMsg, errColor: 'red' })
-        return
       })
   }
 
   return (
     <>
-      {authType === 'authSignup' && (
+      {currentModalType === 'SIGNUP' && (
         <Flex align={'center'} justify={'center'}>
           <Stack spacing={0} mx={'auto'} maxW={'lg'} bg={bgColor.whiteAndGray700}>
             <Stack align={'center'}>
@@ -187,24 +161,17 @@ export default function ForgotPasswordForm() {
                           onChange: onChangeInputEmail,
                         })}
                       />
-                      {!isPending.email && (
-                        <Button
-                          onClick={onClickCertification}
-                          loadingText="Submitting"
-                          size="md"
-                          px={6}
-                          disabled
-                          bg={'dPrimary'}
-                          color={'white'}
-                          _hover={{ bg: 'dPrimaryHover.dark' }}>
-                          인증번호 받기
-                        </Button>
-                      )}
-                      {isPending.email && (
-                        <Box w={164} ml={0}>
-                          <CustomSpinner />
-                        </Box>
-                      )}
+                      <Button
+                        onClick={onClickCertification}
+                        size="md"
+                        px={6}
+                        disabled
+                        bg={'dPrimary'}
+                        color={'white'}
+                        _hover={{ bg: 'dPrimaryHover.dark' }}
+                        isLoading={isCheckedEmail}>
+                        인증번호 받기
+                      </Button>
                     </Flex>
                     <FormErrorMessage>
                       {errors.email && errors.email.message}
@@ -302,9 +269,7 @@ export default function ForgotPasswordForm() {
                       이미 회원이신가요?{' '}
                       <Link
                         color={color.dPrimaryAndDprimaryHoverTransparency}
-                        onClick={() => {
-                          setAuthType('authLogin')
-                        }}>
+                        onClick={() => setCurrentModalType('LOGIN')}>
                         로그인
                       </Link>
                     </Text>
@@ -315,7 +280,7 @@ export default function ForgotPasswordForm() {
           </Stack>
         </Flex>
       )}
-      {authType === 'authLogin' && <Login />}
+      {currentModalType === 'LOGIN' && <Login />}
     </>
   )
 }

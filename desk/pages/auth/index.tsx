@@ -4,28 +4,28 @@ import { useAuth } from '@/src/commons/hooks/useAuth'
 export default function LoginPage() {
   const {
     isLoggedIn,
-    LoginUI,
-    SignupUI,
-    SignoutUI,
+    LoginModalUI,
+    SignupModalUI,
+    SignoutModalUI,
     openModal,
-    onClickLogout,
-    onClickSignout,
+    logout,
+    signout,
   } = useAuth()
   return (
     <Flex justify={'center'} minH={'100vh'} align={'center'}>
       <VStack>
         {!isLoggedIn ? (
           <>
-            <LoginUI />
-            <SignupUI />
+            <LoginModalUI />
+            <SignupModalUI />
             <Button onClick={() => openModal('LOGIN')}>로그인</Button>
             <Button onClick={() => openModal('SIGNUP')}>회원가입</Button>
           </>
         ) : (
           <>
-            <SignoutUI />
-            <Button onClick={onClickLogout}>로그아웃</Button>
-            <Button onClick={onClickSignout}>회원탈퇴</Button>
+            <SignoutModalUI />
+            <Button onClick={logout}>로그아웃</Button>
+            <Button onClick={signout}>회원탈퇴</Button>
           </>
         )}
       </VStack>
