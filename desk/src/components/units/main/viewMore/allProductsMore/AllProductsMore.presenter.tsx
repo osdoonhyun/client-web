@@ -1,4 +1,4 @@
-import { Box, Center, Container, Flex, Text, useColorModeValue } from '@chakra-ui/react'
+import { Box, Container, Flex, Text, useColorModeValue } from '@chakra-ui/react'
 import { AllProductsMoreUIProps } from './AllProductsMore.types'
 import InfiniteScroll from 'react-infinite-scroller'
 import MainProductItems from '../../components/mainProductItems'
