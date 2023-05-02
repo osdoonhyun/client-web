@@ -1,6 +1,6 @@
 import { VStack } from '@chakra-ui/react'
 import { BoardDetailCommentListUIProps } from './DetailCommentList.types'
-import DetailCommentItem from './comment item/DetailCommentItem'
+import DetailCommentItem from './commentItem/DetailCommentItem'
 
 export default function BoardDetailCommentListUI(props: BoardDetailCommentListUIProps) {
   return (
@@ -8,7 +8,9 @@ export default function BoardDetailCommentListUI(props: BoardDetailCommentListUI
       {props.commentDatas.map(comment => (
         <DetailCommentItem
           key={comment.id}
+          isReplyLoading={props.isReplyLoading}
           commentData={comment}
+          onClickCreateReplyComment={props.onClickCreateReplyComment}
           onClickDeleteComment={props.onClickDeleteComment}
         />
       ))}

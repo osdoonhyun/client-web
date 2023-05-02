@@ -45,3 +45,8 @@ export const isLoggedInState = atom<boolean>({
   default: false,
   effects_UNSTABLE: [session],
 })
+
+export const replyCommentState = atom<string>({
+  key: 'replyCommentState',
+  default: '',
+})

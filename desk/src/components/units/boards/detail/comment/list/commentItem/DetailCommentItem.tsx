@@ -1,4 +1,4 @@
-import { getDatetoRelative } from '@/src/commons/utils/util'
+import { getDateToRelative } from '@/src/commons/utils/util'
 import {
   Avatar,
   Button,
@@ -8,17 +8,17 @@ import {
   VStack,
   useColorModeValue,
 } from '@chakra-ui/react'
-import { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { DetailCommentItemProps } from '../DetailCommentList.types'
-import DetailCommentReplyListItem from './DetailCommentReplyList'
+import DetailCommentReplyList from '../commentReplyItem/DetailCommentReplyList'
 
 export default function DetailCommentItem(props: DetailCommentItemProps) {
   const commentData = props.commentData
   const [isOpenReply, setIsOpenReply] = useState(false)
 
-  const onClickShowReply = () => {
+  const onClickShowReply = useCallback(() => {
     setIsOpenReply(isOpen => !isOpen)
-  }
+  }, [])
 
   return (
     <VStack pt={'20px'} spacing={'12px'} align={'stretch'}>
@@ -40,7 +40,7 @@ export default function DetailCommentItem(props: DetailCommentItemProps) {
           fontSize={14}
           fontWeight={300}
           color={useColorModeValue('dGray.dark', 'dGray.light')}>
-          {getDatetoRelative(commentData.createdAt)}
+          {getDateToRelative(commentData.createdAt)}
         </Text>
       </HStack>
       <VStack pl={'52px'} spacing={'12px'} align={'stretch'}>
@@ -65,7 +65,13 @@ export default function DetailCommentItem(props: DetailCommentItemProps) {
           </Button>
         </HStack>
         {/* 대댓글 */}
-        <DetailCommentReplyListItem isOpenReply={isOpenReply} />
+        <DetailCommentReplyList
+          isReplyLoading={props.isReplyLoading}
+          commentId={props.commentData.id}
+          isOpenReply={isOpenReply}
+          replyDatas={commentData.replies ?? []}
+          onClickCreateReplyComment={props.onClickCreateReplyComment}
+        />
       </VStack>
       <Divider pt={'10px'} />
     </VStack>

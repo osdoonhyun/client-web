@@ -8,6 +8,7 @@ import { ChangeEvent, MouseEvent, useCallback, useState } from 'react'
 import BoardDetailCommentWriteUI from './DetailCommentWrite.presenter'
 import { CREATE_COMMENT } from './DetailCommentWrite.queries'
 import { BoardDetailCommentWriteProps } from './DetailCommentWrite.types'
+import { produce } from 'immer'
 
 export default function BoardDetailCommentWrite(props: BoardDetailCommentWriteProps) {
   const toast = useToast()
@@ -40,16 +41,19 @@ export default function BoardDetailCommentWrite(props: BoardDetailCommentWritePr
     })
       .then(res => {
         setInputComment('')
-        props.setCommentDatas(comments => [...comments, res.data!.createComment])
+
+        props.setCommentDatas(comments =>
+          produce(comments, draft => {
+            draft.splice(0, 0, res.data!.createComment)
+          }),
+        )
       })
       .catch(error => {
         if (error instanceof Error) {
           toast({ title: '에러', description: `${error.message}`, status: 'error' })
         }
       })
-      .finally(() => {
-        setIsCommentLoading(false)
-      })
+      .finally(() => setIsCommentLoading(false))
   }
 
   return (

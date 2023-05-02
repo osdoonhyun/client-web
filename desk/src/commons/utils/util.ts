@@ -12,7 +12,7 @@ export const getConvertedDate = (value: string) => {
 }
 
 /** 예시) 지금, 1분 전, 1시간 전 */
-export function getDatetoRelative(value: string) {
+export function getDateToRelative(value: string) {
   if (DateTime.fromISO(value).diffNow().as('seconds') > -30) {
     return '지금'
   }
