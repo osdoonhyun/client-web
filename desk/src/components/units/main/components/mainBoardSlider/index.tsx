@@ -141,7 +141,9 @@ export default function MainBoardSlider({
                             textAlign="center"
                             mt={2}
                             w="100%"
-                            p="0px 10px 0px 10px">
+                            p="0px 10px 0px 10px"
+                            cursor="pointer"
+                            onClick={() => onClickBoardDetail(boardIds[index])}>
                             {titles[index] ?? ''}
                           </Center>
                           <Center fontSize={{ base: 'xs', md: 'sm' }} w="100%" mt={1}>
