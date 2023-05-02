@@ -12,6 +12,7 @@ export default function BoardDetailCommentListUI(props: BoardDetailCommentListUI
           commentData={comment}
           onClickCreateReplyComment={props.onClickCreateReplyComment}
           onClickDeleteComment={props.onClickDeleteComment}
+          onClickDeleteReplyComment={props.onClickDeleteReplyComment}
         />
       ))}
     </VStack>

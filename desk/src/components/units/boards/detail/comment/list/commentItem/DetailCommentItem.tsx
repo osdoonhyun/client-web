@@ -71,6 +71,7 @@ export default function DetailCommentItem(props: DetailCommentItemProps) {
           isOpenReply={isOpenReply}
           replyDatas={commentData.replies ?? []}
           onClickCreateReplyComment={props.onClickCreateReplyComment}
+          onClickDeleteReplyComment={props.onClickDeleteReplyComment}
         />
       </VStack>
       <Divider pt={'10px'} />

@@ -27,7 +27,12 @@ export default function DetailCommentReplyList(props: DetailCommentReplyListProp
         <VStack align={'stretch'} pt={'10px'}>
           {/* 대댓글 */}
           {props.replyDatas.map(reply => (
-            <DetailCommentReplyItem key={reply.id} reply={reply} />
+            <DetailCommentReplyItem
+              key={reply.id}
+              commentId={props.commentId}
+              reply={reply}
+              onClickDeleteReplyComment={props.onClickDeleteReplyComment}
+            />
           ))}
           {/* 대댓글 입력 */}
           <HStack spacing={'16px'} pt={'20px'}>

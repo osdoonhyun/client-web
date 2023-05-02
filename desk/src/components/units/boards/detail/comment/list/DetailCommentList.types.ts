@@ -13,6 +13,7 @@ export type BoardDetailCommentListUIProps = {
     commentId: string,
   ) => (event: MouseEvent<HTMLButtonElement>) => void
   onClickDeleteComment: (commentId: string) => () => void
+  onClickDeleteReplyComment: (commentId: string, replyid: string) => () => void
 }
 
 export type DetailCommentItemProps = {
@@ -22,6 +23,7 @@ export type DetailCommentItemProps = {
     commentId: string,
   ) => (event: MouseEvent<HTMLButtonElement>) => void
   onClickDeleteComment: (commentId: string) => () => void
+  onClickDeleteReplyComment: (commentId: string, replyid: string) => () => void
 }
 
 export type DetailCommentReplyListProps = {
@@ -32,8 +34,11 @@ export type DetailCommentReplyListProps = {
   onClickCreateReplyComment: (
     commentId: string,
   ) => (event: MouseEvent<HTMLButtonElement>) => void
+  onClickDeleteReplyComment: (commentId: string, replyid: string) => () => void
 }
 
 export type DetailCommentReplyItemProps = {
+  commentId: string
   reply: TReply
+  onClickDeleteReplyComment: (commentId: string, replyid: string) => () => void
 }

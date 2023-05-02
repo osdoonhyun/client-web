@@ -11,7 +11,7 @@ import {
 import { DetailCommentReplyItemProps } from '../DetailCommentList.types'
 import React from 'react'
 
-function DetailCommentReplyItem(props: DetailCommentReplyItemProps) {
+export default function DetailCommentReplyItem(props: DetailCommentReplyItemProps) {
   return (
     <VStack align={'stretch'}>
       <HStack spacing={'12px'} justifyContent={'space-between'} pt={'10px'}>
@@ -39,7 +39,11 @@ function DetailCommentReplyItem(props: DetailCommentReplyItemProps) {
         {props.reply.content}
       </Text>
       <HStack justify={'flex-end'}>
-        <Button variant={'ghost'} size={'xs'} color={'dRed.400'}>
+        <Button
+          variant={'ghost'}
+          size={'xs'}
+          color={'dRed.400'}
+          onClick={props.onClickDeleteReplyComment(props.commentId, props.reply.id)}>
           삭제
         </Button>
       </HStack>
@@ -47,5 +51,3 @@ function DetailCommentReplyItem(props: DetailCommentReplyItemProps) {
     </VStack>
   )
 }
-
-export default React.memo(DetailCommentReplyItem)

@@ -20,3 +20,9 @@ export const DELETE_COMMENT = gql`
     deleteComment(commentid: $commentid)
   }
 `
+
+export const DELETE_REPLY_COMMENT = gql`
+  mutation deleteReply($replyid: String!) {
+    deleteReply(replyid: $replyid)
+  }
+`
