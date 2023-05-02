@@ -1,32 +1,49 @@
 import SearchBoardsUI from './SearchBoards.presenter'
 import { TQuery } from '@/src/commons/types/generated/types'
 import { useLazyQuery } from '@apollo/client'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { useRouter } from 'next/router'
 import { SEARCH_BOARDS } from './SearchBoards.queries'
+import { Text, useDisclosure } from '@chakra-ui/react'
 import CustomSpinner from '@/src/components/ui/customSpinner'
 import ErrorMessage from '@/src/components/ui/errorMessage'
-import { useRouter } from 'next/router'
-import { useDisclosure } from '@chakra-ui/react'
+
+const highlightSearchKeyword = (
+  text: string,
+  keyword: string,
+): (string | JSX.Element)[] => {
+  const regex = new RegExp(`(${keyword})`, 'gi')
+  const parts = text.split(regex)
+  return parts.map((part, index) => {
+    if (part.match(regex)) {
+      return (
+        <Text as="span" key={index} color="dPrimary">
+          {part}
+        </Text>
+      )
+    }
+    return <span key={index}>{part}</span>
+  })
+}
 
 export default function SearchBoards() {
-  const [keyword, setKeyword] = useState('')
-  const { onClose } = useDisclosure()
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const searchInputRef = useRef<HTMLInputElement>(null)
   const router = useRouter()
 
   const [searchBoards, { data, error, loading }] =
     useLazyQuery<Pick<TQuery, 'searchBoards'>>(SEARCH_BOARDS)
 
-  if (loading) {
-    return <CustomSpinner />
-  }
-  if (error) {
-    return <ErrorMessage message={error.message} />
-  }
+  const [searchKeyword, setSearchKeyword] = useState('')
+  const [boards, setBoards] = useState<Pick<TQuery, 'searchBoards'> | undefined>(
+    undefined,
+  )
 
   const onClickSearchBoard = (searchValue: string | undefined) => {
     if (searchValue) {
-      setKeyword(searchValue)
+      setSearchKeyword(searchValue)
       searchBoards({ variables: { keyword: searchValue } })
+      onOpen()
     }
   }
 
@@ -35,13 +52,33 @@ export default function SearchBoards() {
     router.push(`/boards/${boardId}`)
   }
 
+  useEffect(() => {
+    if (data) {
+      setBoards(data)
+    }
+  }, [data])
+
+  if (loading) {
+    return <CustomSpinner />
+  }
+
+  if (error) {
+    return <ErrorMessage message={error.message} />
+  }
+
   return (
     <>
       <SearchBoardsUI
         onClickSearchBoard={onClickSearchBoard}
         onClickBoardDetail={onClickBoardDetail}
         loading={loading}
-        data={data}
+        data={boards}
+        searchInputRef={searchInputRef}
+        isOpen={isOpen}
+        onClose={onClose}
+        onOpen={onOpen}
+        highlightSearchKeyword={highlightSearchKeyword}
+        searchKeyword={searchKeyword}
       />
     </>
   )

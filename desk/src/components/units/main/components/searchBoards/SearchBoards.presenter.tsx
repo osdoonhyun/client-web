@@ -15,14 +15,26 @@ import {
   ModalOverlay,
   Stack,
   Text,
-  useDisclosure,
 } from '@chakra-ui/react'
-import { useRef, useEffect } from 'react'
 import { SearchBoardsUIProps } from './SearchBoards.types'
 
 export default function SearchBoardsUI(props: SearchBoardsUIProps) {
-  const searchInputRef = useRef<HTMLInputElement>(null)
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const onClickSearchButton = () => {
+    const searchInput = props.searchInputRef.current
+    if (searchInput) {
+      const searchValue = searchInput.value
+      if (searchValue) {
+        props.onClickSearchBoard(searchValue)
+        props.onOpen()
+        searchInput.value = ''
+      }
+    }
+  }
+
+  const onClickBoard = (boardId: string) => {
+    props.onClickBoardDetail(boardId)
+    props.onClose()
+  }
 
   return (
     <>
@@ -31,22 +43,23 @@ export default function SearchBoardsUI(props: SearchBoardsUIProps) {
           <InputLeftElement pointerEvents="none">
             <SearchIcon color="dGray.medium" />
           </InputLeftElement>
-          <Input ref={searchInputRef} placeholder="search" focusBorderColor="dPrimary" />
+          <Input
+            ref={props.searchInputRef}
+            placeholder="search"
+            focusBorderColor="dPrimary"
+          />
           <Button
             ml="10px"
             borderColor="dGray.medium"
             color="dGray.medium"
             variant="outline"
             _hover={{ color: 'dPrimary', borderColor: 'dPrimary' }}
-            onClick={() => {
-              props.onClickSearchBoard(searchInputRef.current?.value)
-              onOpen()
-            }}>
+            onClick={onClickSearchButton}>
             검색
           </Button>
         </InputGroup>
       </Stack>
-      <Modal isOpen={isOpen} onClose={onClose} size="xl">
+      <Modal isOpen={props.isOpen} onClose={props.onClose} size="xl">
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>검색 결과</ModalHeader>
@@ -60,15 +73,18 @@ export default function SearchBoardsUI(props: SearchBoardsUIProps) {
                   borderRadius="lg"
                   p={4}
                   mt={2}
-                  _hover={{ cursor: 'pointer', bg: 'gray.100' }}
-                  onClick={() => {
-                    props.onClickBoardDetail(board.id)
-                    onClose()
-                  }}>
+                  _hover={{ cursor: 'pointer', bg: '#666bff28' }}
+                  onClick={() => onClickBoard(board.id)}>
                   <Heading size="md" mb={2}>
-                    {board.title}
+                    {props.highlightSearchKeyword(board.title, props.searchKeyword ?? '')}
                   </Heading>
-                  <Text>{board.description}</Text>
+                  {props
+                    .highlightSearchKeyword(board.description, props.searchKeyword ?? '')
+                    .map((highlightedText, index) => (
+                      <Text key={index} display="inline">
+                        {highlightedText}
+                      </Text>
+                    ))}
                 </Box>
               ))
             ) : (
@@ -78,7 +94,7 @@ export default function SearchBoardsUI(props: SearchBoardsUIProps) {
           <ModalFooter>
             <Button
               _hover={{ bg: 'dPrimaryHover.transparency', color: 'white' }}
-              onClick={onClose}>
+              onClick={props.onClose}>
               닫기
             </Button>
           </ModalFooter>
