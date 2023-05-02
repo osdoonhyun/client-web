@@ -37,14 +37,17 @@ export default function BoardDetailCommentWrite(props: BoardDetailCommentWritePr
         },
       },
     })
-      .then(res => res.data?.createComment)
+      .then(res => {
+        setComment('')
+        // 작업해야됨
+        res.data?.createComment
+      })
       .catch(error => {
         if (error instanceof Error) {
           toast({ title: '에러', description: `${error.message}`, status: 'error' })
         }
       })
       .finally(() => {
-        setComment('')
         setIsCommentLoading(false)
       })
   }
@@ -52,6 +55,7 @@ export default function BoardDetailCommentWrite(props: BoardDetailCommentWritePr
   return (
     <BoardDetailCommentWriteUI
       isCommentLoading={isCommentLoading}
+      userData={props.userData}
       commentDatas={props.commentDatas}
       comment={comment}
       onChangeInputComment={onChangeInputComment}

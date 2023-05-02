@@ -44,6 +44,7 @@ export default function BoardDetailPage(props: BoardDetailPageProps) {
       <BoardDetail boardData={boardData} />
       <BoardDetailCommentWrite
         boardId={boardData.id}
+        userData={boardData.writer}
         commentDatas={boardData.comments ?? []}
       />
       <BoardDetailCommentList />
