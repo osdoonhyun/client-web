@@ -21,6 +21,7 @@ export default function MainBoardSlider({
   titles = [],
   writers = [],
   boardIds = [],
+  userIds = [],
   children,
 }: MainBoardSliderProps) {
   const [slider, setSlider] = useState<Slider | null>(null)
@@ -32,6 +33,10 @@ export default function MainBoardSlider({
 
   const onClickBoardDetail = (boardId: string) => {
     router.push(`/boards/${boardId}`)
+  }
+
+  const onClickUserDetail = (userId: string) => {
+    router.push(`/${userId}`)
   }
 
   const onClickPrev = () => {
@@ -146,7 +151,12 @@ export default function MainBoardSlider({
                             onClick={() => onClickBoardDetail(boardIds[index])}>
                             {titles[index] ?? ''}
                           </Center>
-                          <Center fontSize={{ base: 'xs', md: 'sm' }} w="100%" mt={1}>
+                          <Center
+                            fontSize={{ base: 'xs', md: 'sm' }}
+                            w="100%"
+                            mt={1}
+                            cursor="pointer"
+                            onClick={() => onClickUserDetail(userIds[index])}>
                             <Avatar w="20px" h="20px" mr="5px" />
                             {writers[index] ?? ''}
                           </Center>
