@@ -10,8 +10,11 @@ import {
 } from '@chakra-ui/react'
 import { DetailCommentReplyItemProps } from '../DetailCommentList.types'
 import React from 'react'
+import { useAuth } from '@/src/commons/hooks/useAuth'
 
 export default function DetailCommentReplyItem(props: DetailCommentReplyItemProps) {
+  const { isWrittenBy } = useAuth()
+
   return (
     <VStack align={'stretch'}>
       <HStack spacing={'12px'} justifyContent={'space-between'} pt={'10px'}>
@@ -39,15 +42,17 @@ export default function DetailCommentReplyItem(props: DetailCommentReplyItemProp
         color={useColorModeValue('dBlack', 'dGray.light')}>
         {props.reply.content}
       </Text>
-      <HStack justify={'flex-end'}>
-        <Button
-          variant={'ghost'}
-          size={'xs'}
-          color={'dRed.400'}
-          onClick={props.onClickDeleteReplyComment(props.commentId, props.reply.id)}>
-          삭제
-        </Button>
-      </HStack>
+      {isWrittenBy(props.reply.user.id) && (
+        <HStack justify={'flex-end'}>
+          <Button
+            variant={'ghost'}
+            size={'xs'}
+            color={'dRed.400'}
+            onClick={props.onClickDeleteReplyComment(props.commentId, props.reply.id)}>
+            삭제
+          </Button>
+        </HStack>
+      )}
       <Divider pt={'10px'} />
     </VStack>
   )

@@ -12,7 +12,7 @@ import { BoardDetailCommentWriteUIProps } from './DetailCommentWrite.types'
 import { useAuth } from '@/src/commons/hooks/useAuth'
 
 export default function BoardDetailCommentWriteUI(props: BoardDetailCommentWriteUIProps) {
-  const { isLoggedIn } = useAuth()
+  const { isLoggedIn, myUserInfo } = useAuth()
 
   return (
     <VStack align={'stretch'}>
@@ -32,7 +32,7 @@ export default function BoardDetailCommentWriteUI(props: BoardDetailCommentWrite
         <Avatar
           w={'34px'}
           h={'34px'}
-          src={props.userData.picture || 'https://bit.ly/broken-link'}
+          src={myUserInfo?.picture || 'https://bit.ly/broken-link'}
         />
         <Input
           bgColor={useColorModeValue('dGray.light', '#bababa1e')}

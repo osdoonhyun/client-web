@@ -11,9 +11,11 @@ import {
 import React, { useCallback, useState } from 'react'
 import { DetailCommentItemProps } from '../DetailCommentList.types'
 import DetailCommentReplyList from '../commentReplyItem/DetailCommentReplyList'
+import { useAuth } from '@/src/commons/hooks/useAuth'
 
 export default function DetailCommentItem(props: DetailCommentItemProps) {
   const commentData = props.commentData
+  const { isWrittenBy, myUserInfo } = useAuth()
   const [isOpenReply, setIsOpenReply] = useState(false)
 
   const onClickShowReply = useCallback(() => {
@@ -62,13 +64,15 @@ export default function DetailCommentItem(props: DetailCommentItemProps) {
               (commentData.replies?.length ?? 0) === 0 ? '' : commentData.replies?.length
             }`}
           </Button>
-          <Button
-            variant={'ghost'}
-            size={'xs'}
-            color={'dRed.400'}
-            onClick={props.onClickDeleteComment(commentData.id)}>
-            삭제
-          </Button>
+          {isWrittenBy(props.commentData.user.id) && (
+            <Button
+              variant={'ghost'}
+              size={'xs'}
+              color={'dRed.400'}
+              onClick={props.onClickDeleteComment(commentData.id)}>
+              삭제
+            </Button>
+          )}
         </HStack>
         {/* 대댓글 */}
         <DetailCommentReplyList
