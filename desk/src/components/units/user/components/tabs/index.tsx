@@ -15,7 +15,7 @@ import { BsColumnsGap } from 'react-icons/bs'
 import { AiOutlineLaptop } from 'react-icons/ai'
 import { NavigationTabsProps, UserData } from './Tabs.types'
 import ProductItem from '../productItem'
-import UserBoard from '../userBoard'
+import BoardItem from '../boardItem'
 import InfiniteScroller from '@/src/components/ui/infiniteScroller'
 import React, { useCallback, useState } from 'react'
 import { useMutation, useQuery } from '@apollo/client'
@@ -145,7 +145,7 @@ export default function NavigationTabs(props: NavigationTabsProps) {
                   productName={item.name}
                 />
               ) : (
-                <UserBoard
+                <BoardItem
                   index={index}
                   boardId={item.id}
                   imageUrl={item.pictures[0].url}

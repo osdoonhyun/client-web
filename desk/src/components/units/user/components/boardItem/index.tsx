@@ -3,7 +3,7 @@ import { Box, Image } from '@chakra-ui/react'
 import { useState } from 'react'
 import { MdFavorite, MdFavoriteBorder } from 'react-icons/md'
 
-export type UserBoardProps = {
+export type BoardItemProps = {
   index: number
   boardId: string
   imageUrl: string
@@ -11,7 +11,7 @@ export type UserBoardProps = {
   onClickLikeButton: (boardid: string) => void
 }
 
-export default function UserBoard(props: UserBoardProps) {
+export default function BoardItem(props: BoardItemProps) {
   const handleLikeButtonClick = () => {
     props.onClickLikeButton(props.boardId)
     setIsLiked(prevIsLiked => !prevIsLiked)
