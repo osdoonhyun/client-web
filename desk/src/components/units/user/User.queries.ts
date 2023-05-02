@@ -15,24 +15,18 @@ export const FETCH_USER = gql`
           id
           sns
         }
-        followings {
-          id
-          followingid
-        }
-        followees {
-          id
-          followeeid
-        }
+        followingsCount
+        followeesCount
+        followingStatus
+        followeeStatus
       }
       boardCount
-      followingCount
-      followeeCount
     }
   }
 `
 
 export const UPDATE_FOLLOWING = gql`
-  mutation updateFolloiwng($follwoingid: String!) {
+  mutation updateFolloiwng($followingid: String!) {
     updateFollowing(followingid: $followingid)
   }
 `
