@@ -23,6 +23,7 @@ export default function Best() {
   const images = bestBoards.map(
     (board: TBoard) => board.pictures.find(picture => picture.isMain)?.url ?? '',
   )
+  const boardIds = bestBoards.map((board: TBoard) => board.id)
 
   return (
     <>
@@ -31,6 +32,7 @@ export default function Best() {
         images={images}
         titles={titles}
         writers={writers}
+        boardIds={boardIds}
       />
     </>
   )

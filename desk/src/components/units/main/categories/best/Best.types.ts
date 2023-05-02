@@ -3,4 +3,5 @@ export type BestUIProps = {
   images: string[]
   titles: string[]
   writers: string[]
+  boardIds: string[]
 }
