@@ -75,7 +75,7 @@ export default function RecentMoreUI(props: RecentMoreUIProps) {
                       w="20px"
                       h="20px"
                       mr="5px"
-                      src={board.writer.picture ?? undefined}
+                      src={board.writer.picture ?? 'https://bit.ly/broken-link'}
                     />
                     {board.writer.nickName}
                   </Text>
