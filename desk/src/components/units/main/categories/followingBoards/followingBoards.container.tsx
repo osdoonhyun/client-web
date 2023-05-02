@@ -4,7 +4,6 @@ import { TBoard, TQuery } from '@/src/commons/types/generated/types'
 import { FETCH_FOLLOWING_BOARDS } from './followingBoards.queries'
 import CustomSpinner from '@/src/components/ui/customSpinner'
 import ErrorMessage from '@/src/components/ui/errorMessage'
-// import _ from 'lodash'
 import { uniqWith, isEqual } from 'lodash'
 
 export default function FollowingBoards() {
@@ -30,17 +29,23 @@ export default function FollowingBoards() {
           title: board.title,
           writer: user.nickName,
           imageUrl: board.pictures.find(picture => picture.isMain)?.url ?? '',
+          writerImage: user.picture,
+          userId: user.id,
+          boardId: board.id,
         }))
       return [...acc, ...userBoards]
     }
     return acc
-  }, [] as { title: string; writer: string; imageUrl: string }[])
+  }, [] as { title: string; writer: string; imageUrl: string; writerImage: string | null | undefined; userId: string; boardId: string }[])
 
   const uniqueBoardData = uniqWith(boardData, isEqual)
 
   const uniqueTitles = uniqueBoardData.map(data => data.title)
   const uniqueWriters = uniqueBoardData.map(data => data.writer)
   const uniqueImages = uniqueBoardData.map(data => data.imageUrl)
+  const uniqueWriterImages = uniqueBoardData.map(data => data.writerImage)
+  const uniqueBoardIds = uniqueBoardData.map(data => data.boardId)
+  const uniqueUserIds = uniqueBoardData.map(data => data.userId)
 
   return (
     <>
@@ -49,6 +54,9 @@ export default function FollowingBoards() {
         images={uniqueImages}
         titles={uniqueTitles}
         writers={uniqueWriters}
+        writerImages={uniqueWriterImages}
+        boardIds={uniqueBoardIds}
+        userIds={uniqueUserIds}
       />
     </>
   )
