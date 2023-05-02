@@ -24,7 +24,11 @@ export default function DetailCommentItem(props: DetailCommentItemProps) {
     <VStack pt={'20px'} spacing={'12px'} align={'stretch'}>
       <HStack spacing={'12px'} justifyContent={'space-between'}>
         <HStack spacing={'16px'}>
-          <Avatar w={'34px'} h={'34px'} src={'https://bit.ly/broken-link'} />
+          <Avatar
+            w={'34px'}
+            h={'34px'}
+            src={commentData.user.picture || 'https://bit.ly/broken-link'}
+          />
           <Text
             fontWeight={700}
             fontSize={16}
@@ -52,7 +56,11 @@ export default function DetailCommentItem(props: DetailCommentItemProps) {
               (commentData.replies?.length ?? 0) === 0 ? '' : commentData.replies?.length
             }`}
           </Button>
-          <Button variant={'ghost'} size={'xs'} color={'dRed.400'}>
+          <Button
+            variant={'ghost'}
+            size={'xs'}
+            color={'dRed.400'}
+            onClick={props.onClickDeleteComment(commentData.id)}>
             삭제
           </Button>
         </HStack>
