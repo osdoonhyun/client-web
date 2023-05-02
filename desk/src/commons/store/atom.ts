@@ -1,5 +1,6 @@
+import { TAuthModalType } from '@/src/components/units/auth/Auth.types'
 import { atom } from 'recoil'
-import { TAuthModalType, TMyUserInfo } from '@/src/components/units/auth/Auth.types'
+import { TUser } from '../types/generated/types'
 
 export const MyEmailSave = atom({
   key: `myEmailSave`,
@@ -21,7 +22,7 @@ export const AuthModalToggle = atom({
   default: false,
 })
 
-export const MyUserInfo = atom<TMyUserInfo | null>({
+export const MyUserInfo = atom<TUser | null>({
   key: 'myUserInfo',
   default: null,
 })
@@ -29,4 +30,9 @@ export const MyUserInfo = atom<TMyUserInfo | null>({
 export const isLoggedInState = atom<boolean>({
   key: `isLoggedInState`,
   default: false,
+})
+
+export const replyCommentState = atom<string>({
+  key: 'replyCommentState',
+  default: '',
 })
