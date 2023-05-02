@@ -16,6 +16,9 @@ export default function User(props: UserProps) {
   const [isLiked, { toggle: toggleIsLiked }] = useBoolean()
   // API 받은 후 수정 계획
   const [isMyPage, setIsMyPage] = useState(true)
+  const [isFollowing, setIsFollowing] = useState<boolean>(
+    props.userData.user.followingStatus,
+  )
   const { isLoggedIn } = useAuth()
   const [updateFollowing] = useMutation<
     Pick<TMutation, 'updateFollowing'>,
@@ -32,6 +35,7 @@ export default function User(props: UserProps) {
         followingid: props.userData.user.id,
       },
     })
+    setIsFollowing(prevIsFollowing => !prevIsFollowing)
   }
 
   return (
@@ -41,6 +45,7 @@ export default function User(props: UserProps) {
       isMyPage={isMyPage}
       isLiked={isLiked}
       toggleIsLiked={toggleIsLiked}
+      isFollowing={isFollowing}
       onClickMoveToAccountEdit={onClickMoveToAccountEdit}
       onClickFollowingButton={onClickFollowingButton}
     />

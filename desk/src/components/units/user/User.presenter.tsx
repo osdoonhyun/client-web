@@ -111,14 +111,22 @@ export default function UserUI(props: UserUIProps) {
                 mt="28px"
                 w="126px"
                 h="48px"
-                color={useColorModeValue('#fff', '#1A202C')}
-                bgColor={'dPrimary'}
-                _hover={{ bg: 'dPrimaryHover.dark' }}
                 fontSize="18px"
-                // 팔로우를 하는지에 상태값에 따라 버튼 color 바뀌도록
+                color={
+                  props.isFollowing
+                    ? useColorModeValue('#fff', '#1A202C')
+                    : 'dGray.medium'
+                }
+                bgColor={props.isFollowing ? 'dPrimary' : undefined}
+                borderColor={props.isFollowing ? 'dPrimary' : 'dGray.medium'}
+                _hover={
+                  props.isFollowing
+                    ? { bg: 'dPrimaryHover.dark' }
+                    : useColorModeValue({ bg: 'dGray.light' }, { bg: 'dGray.dark' })
+                }
                 onClick={props.onClickFollowingButton}
                 fontWeight="600">
-                팔로우
+                {props.isFollowing ? '팔로우' : '팔로잉'}
               </Button>
             )}
           </Flex>
