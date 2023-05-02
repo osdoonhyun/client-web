@@ -79,7 +79,8 @@ export default function MainBoardSlider({
 
   const settings = {
     dots: false,
-    infinite: true,
+    // infinite: true,
+    infinite: images.length > 4,
     speed: 500,
     slidesToShow: 4.15,
     slidesToScroll: isMobile ? 2 : 4,
