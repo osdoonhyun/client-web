@@ -45,37 +45,41 @@ export default function RecentMoreUI(props: RecentMoreUIProps) {
                 m={'15px'}
                 maxW={{ base: '100%', md: '25%' }}
                 textAlign="center">
-                <MainImageStyle
-                  src={board.pictures.find(picture => picture.isMain)?.url ?? ''}
-                  alt={`test image${index}`}
-                />
-                <Text
-                  w="235px"
-                  ml="5px"
-                  noOfLines={2}
-                  fontSize="13pt"
-                  fontWeight="bold"
-                  mt={2}>
-                  {board.title.substring(0, 28)}
-                  {board.title.length > 28 ? '...' : ''}
-                </Text>
+                <Box onClick={() => props.onClickBoardDetail(board.id)} cursor="pointer">
+                  <MainImageStyle
+                    src={board.pictures.find(picture => picture.isMain)?.url ?? ''}
+                    alt={`test image${index}`}
+                  />
+                </Box>
                 <Center>
-                  <Text fontSize="11pt" mt={2}>
+                  <Text
+                    w="235px"
+                    noOfLines={2}
+                    fontSize="13pt"
+                    fontWeight="bold"
+                    mt={2}
+                    cursor="pointer"
+                    onClick={() => props.onClickBoardDetail(board.id)}>
+                    {board.title.substring(0, 35)}
+                    {board.title.length > 35 ? '...' : ''}
+                  </Text>
+                </Center>
+                <Center>
+                  <Text
+                    fontSize="11pt"
+                    mt={2}
+                    cursor="pointer"
+                    onClick={() => props.onClickUserDetail(board.writer.id)}>
                     <Avatar
                       // size={'xs'}
                       w="20px"
                       h="20px"
                       mr="5px"
+                      src={board.writer.picture ?? undefined}
                     />
                     {board.writer.nickName}
                   </Text>
                 </Center>
-                {/* 해시태그 */}
-                {/* {board.hashtags && (
-                  <Text fontSize="sm" mt={2}>
-                    {board.hashtags.map(hashtag => `${hashtag.hashtag}`).join(' ')}
-                  </Text>
-                )} */}
                 <Text fontSize="sm" mt={1} color="dGray.dark">
                   {`조회수: ${board.views}`}
                 </Text>
