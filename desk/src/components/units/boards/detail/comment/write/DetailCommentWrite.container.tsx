@@ -12,18 +12,19 @@ import { BoardDetailCommentWriteProps } from './DetailCommentWrite.types'
 export default function BoardDetailCommentWrite(props: BoardDetailCommentWriteProps) {
   const toast = useToast()
   const [isCommentLoading, setIsCommentLoading] = useState(false)
-  const [comment, setComment] = useState('')
+  const [inputComment, setInputComment] = useState('')
+
   const [createComment] = useMutation<
     Pick<TMutation, 'createComment'>,
     TMutationCreateCommentArgs
   >(CREATE_COMMENT)
 
-  const onChangeInputComment = (event: ChangeEvent<HTMLInputElement>) => {
-    setComment(event.target.value)
-  }
+  const onChangeInputComment = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+    setInputComment(event.target.value)
+  }, [])
 
   const onClickCreateComment = async (event: MouseEvent<HTMLButtonElement>) => {
-    if (comment === '') {
+    if (inputComment === '') {
       return
     }
 
@@ -33,14 +34,13 @@ export default function BoardDetailCommentWrite(props: BoardDetailCommentWritePr
       variables: {
         createCommentInput: {
           boardid: props.boardId,
-          content: comment,
+          content: inputComment,
         },
       },
     })
       .then(res => {
-        setComment('')
-        // 작업해야됨
-        res.data?.createComment
+        setInputComment('')
+        props.setCommentDatas(comments => [...comments, res.data!.createComment])
       })
       .catch(error => {
         if (error instanceof Error) {
@@ -56,8 +56,8 @@ export default function BoardDetailCommentWrite(props: BoardDetailCommentWritePr
     <BoardDetailCommentWriteUI
       isCommentLoading={isCommentLoading}
       userData={props.userData}
-      commentDatas={props.commentDatas}
-      comment={comment}
+      commentsCount={props.commentDatas.length}
+      inputComment={inputComment}
       onChangeInputComment={onChangeInputComment}
       onClickCreateComment={onClickCreateComment}
     />

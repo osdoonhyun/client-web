@@ -25,7 +25,7 @@ export default function BoardDetailCommentWriteUI(props: BoardDetailCommentWrite
           댓글
         </Text>
         <Text fontSize={16} fontWeight={700} color={'dPrimary'}>
-          {props.commentDatas.length}
+          {props.commentsCount}
         </Text>
       </HStack>
       <HStack pt={'10px'} spacing={'16px'}>
@@ -37,7 +37,7 @@ export default function BoardDetailCommentWriteUI(props: BoardDetailCommentWrite
         <Input
           bgColor={useColorModeValue('dGray.light', '#bababa1e')}
           color={useColorModeValue('dBlack', 'dGray.light')}
-          value={props.comment}
+          value={props.inputComment}
           onChange={props.onChangeInputComment}
           size="md"
           focusBorderColor="dPrimary"
