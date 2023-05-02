@@ -86,11 +86,3 @@ export type TAuthModalType =
   | 'FORGOT_PASSWORD'
   | ''
   | undefined
-
-export type TMyUserInfo = {
-  id: string | undefined
-  email: string | undefined
-  nickName: string | undefined
-  jobGroup: string | undefined
-  provider: string | undefined
-}
