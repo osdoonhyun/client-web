@@ -134,7 +134,7 @@ export default function NavigationTabs(props: NavigationTabsProps) {
       </Tabs>
       {/* API 나오면 수정 작업 필요 */}
       <InfiniteScroller loadMore={() => console.log('무한스크롤')} hasMore={true}>
-        <SimpleGrid mt="33px" columns={TABS.length} spacing="30px">
+        <SimpleGrid mt="33px" columns={3} spacing="30px">
           {userData?.map((item: any, index: number) => (
             <React.Fragment key={index}>
               {showUserProductPosts ? (

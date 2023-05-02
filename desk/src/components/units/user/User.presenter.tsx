@@ -83,7 +83,7 @@ export default function UserUI(props: UserUIProps) {
               boxSize="170px"
               src={props.userData.user.picture ?? ''}
             />
-            {!props.isMyPage ? ( // 나의 페이지면 프로필 수정하기 버튼 / 아니면 팔로우 버튼
+            {props.isMyPage ? ( // 나의 페이지면 프로필 수정하기 버튼 / 아니면 팔로우 버튼
               <Button
                 alignItems="center"
                 textAlign="center"
