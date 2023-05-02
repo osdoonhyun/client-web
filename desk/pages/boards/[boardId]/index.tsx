@@ -51,7 +51,7 @@ export default function BoardDetailPage(props: BoardDetailPageProps) {
         commentDatas={commentDatas}
         setCommentDatas={setCommentDatas}
       />
-      <BoardDetailCommentList />
+      <BoardDetailCommentList commentDatas={commentDatas} />
     </VStack>
   )
 }

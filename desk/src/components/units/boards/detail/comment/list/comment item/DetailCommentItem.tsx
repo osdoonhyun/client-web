@@ -1,3 +1,4 @@
+import { getDatetoRelative } from '@/src/commons/utils/util'
 import {
   Avatar,
   Button,
@@ -8,9 +9,11 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react'
 import { useState } from 'react'
+import { DetailCommentItemProps } from '../DetailCommentList.types'
 import DetailCommentReplyListItem from './DetailCommentReplyList'
 
-export default function DetailCommentItem() {
+export default function DetailCommentItem(props: DetailCommentItemProps) {
+  const commentData = props.commentData
   const [isOpenReply, setIsOpenReply] = useState(false)
 
   const onClickShowReply = () => {
@@ -18,7 +21,7 @@ export default function DetailCommentItem() {
   }
 
   return (
-    <VStack pt={'20px'} spacing={'16px'} align={'stretch'}>
+    <VStack pt={'20px'} spacing={'12px'} align={'stretch'}>
       <HStack spacing={'12px'} justifyContent={'space-between'}>
         <HStack spacing={'16px'}>
           <Avatar w={'34px'} h={'34px'} src={'https://bit.ly/broken-link'} />
@@ -26,27 +29,28 @@ export default function DetailCommentItem() {
             fontWeight={700}
             fontSize={16}
             color={useColorModeValue('dBlack', 'dGray.light')}>
-            닉네임
+            {commentData.user.nickName}
           </Text>
         </HStack>
         <Text
           fontSize={14}
           fontWeight={300}
           color={useColorModeValue('dGray.dark', 'dGray.light')}>
-          2023.5.1
-          {/* {getConvertedDate(props.createdAt)} */}
+          {getDatetoRelative(commentData.createdAt)}
         </Text>
       </HStack>
-      <VStack pl={'52px'} spacing={'16px'} align={'stretch'}>
+      <VStack pl={'52px'} spacing={'12px'} align={'stretch'}>
         <Text
           fontWeight={500}
           fontSize={16}
           color={useColorModeValue('dBlack', 'dGray.light')}>
-          댓글내용 (ex. 키크론 구매 고민중인데 타건감 괜찮나요??)
+          {commentData.content}
         </Text>
         <HStack justify={'space-between'}>
           <Button variant={'outline'} size={'xs'} onClick={onClickShowReply}>
-            답글 2
+            {`답글 ${
+              (commentData.replies?.length ?? 0) === 0 ? '' : commentData.replies?.length
+            }`}
           </Button>
           <Button variant={'ghost'} size={'xs'} color={'dRed.400'}>
             삭제
