@@ -14,6 +14,7 @@ export const FETCH_BOARDS = gql`
         hashtag
       }
       writer {
+        id
         nickName
         picture
         jobGroup

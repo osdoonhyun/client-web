@@ -16,6 +16,22 @@ export const FETCH_BOARD = gql`
       comments {
         id
         content
+        user {
+          id
+          nickName
+          picture
+        }
+        replies {
+          id
+          content
+          user {
+            id
+            nickName
+            picture
+          }
+          createdAt
+        }
+        createdAt
       }
       hashtags {
         id

@@ -1,3 +1,4 @@
+import { getDateToRelative } from '@/src/commons/utils/util'
 import {
   Avatar,
   Button,
@@ -7,10 +8,13 @@ import {
   VStack,
   useColorModeValue,
 } from '@chakra-ui/react'
-
-type DetailCommentReplyItemProps = {}
+import { DetailCommentReplyItemProps } from '../DetailCommentList.types'
+import React from 'react'
+import { useAuth } from '@/src/commons/hooks/useAuth'
 
 export default function DetailCommentReplyItem(props: DetailCommentReplyItemProps) {
+  const { isWrittenBy } = useAuth()
+
   return (
     <VStack align={'stretch'}>
       <HStack spacing={'12px'} justifyContent={'space-between'} pt={'10px'}>
@@ -20,29 +24,35 @@ export default function DetailCommentReplyItem(props: DetailCommentReplyItemProp
             fontWeight={700}
             fontSize={16}
             color={useColorModeValue('dBlack', 'dGray.light')}>
-            닉네임
+            {props.reply.user.nickName}
           </Text>
         </HStack>
         <Text
           fontSize={14}
           fontWeight={300}
           color={useColorModeValue('dGray.dark', 'dGray.light')}>
-          2023.5.1
-          {/* {getConvertedDate(props.createdAt)} */}
+          {getDateToRelative(props.reply.createdAt)}
         </Text>
       </HStack>
       <Text
         pl={'52px'}
+        pr={'52px'}
         fontWeight={500}
         fontSize={16}
         color={useColorModeValue('dBlack', 'dGray.light')}>
-        댓글내용 (ex. 키크론 구매 고민중인데 타건감 괜찮나요??)
+        {props.reply.content}
       </Text>
-      <HStack justify={'flex-end'}>
-        <Button variant={'ghost'} size={'xs'} color={'dRed.400'}>
-          삭제
-        </Button>
-      </HStack>
+      {isWrittenBy(props.reply.user.id) && (
+        <HStack justify={'flex-end'}>
+          <Button
+            variant={'ghost'}
+            size={'xs'}
+            color={'dRed.400'}
+            onClick={props.onClickDeleteReplyComment(props.commentId, props.reply.id)}>
+            삭제
+          </Button>
+        </HStack>
+      )}
       <Divider pt={'10px'} />
     </VStack>
   )

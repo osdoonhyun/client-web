@@ -1,6 +1,6 @@
 import { TBoard, TUser } from '@/src/commons/types/generated/types'
 
-type ExtendedBoard = Pick<TBoard, Exclude<keyof TBoard, 'writer'>> & {
+export type ExtendedBoard = TBoard & {
   user: TUser
 }
 

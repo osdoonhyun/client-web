@@ -16,6 +16,9 @@ export default function RecentUI(props: RecentUIProps) {
           images={props.images}
           titles={props.titles}
           writers={props.writers}
+          writerImages={props.writerImages}
+          boardIds={props.boardIds}
+          userIds={props.userIds}
         />
       </Center>
     </>

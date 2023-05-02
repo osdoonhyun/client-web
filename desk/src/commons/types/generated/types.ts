@@ -62,10 +62,10 @@ export type TCreateCommentInput = {
 };
 
 export type TCreateProductInput = {
-  description: Scalars['String'];
-  imageUrl: Scalars['String'];
-  name: Scalars['String'];
-  url: Scalars['String'];
+  description?: InputMaybe<Scalars['String']>;
+  imageUrl?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  url?: InputMaybe<Scalars['String']>;
 };
 
 export type TCreateReplyInput = {
@@ -216,10 +216,10 @@ export type TMutationUploadFileArgs = {
 
 export type TOpenGraph = {
   __typename?: 'OpenGraph';
-  description: Scalars['String'];
-  imageUrl: Scalars['String'];
-  name: Scalars['String'];
-  url: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
+  imageUrl?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
 };
 
 export type TPicture = {
@@ -243,7 +243,6 @@ export type TProduct = {
 export type TQuery = {
   __typename?: 'Query';
   fetchAllProducts: Array<TProduct>;
-  fetchBestBoards: Array<TBoard>;
   fetchBoard: TBoard;
   fetchBoards: Array<TBoard>;
   fetchBoardsUserLiked: Array<TBoard>;
@@ -251,11 +250,12 @@ export type TQuery = {
   fetchFollowingBoards: Array<TFollowing>;
   fetchFollowings: Array<TUser>;
   fetchLoginUser: TUser;
-  fetchProducts: Array<TProduct>;
+  fetchTop10: Array<TBoard>;
   fetchUser: TFetchUser;
   fetchUserBoards: Array<TBoard>;
+  fetchUserProducts: Array<TProduct>;
   fetchYoutube: Array<TYoutube>;
-  getOpenGraph?: Maybe<TOpenGraph>;
+  getOpenGraph: TOpenGraph;
   searchBoards: Array<TBoard>;
 };
 
@@ -280,17 +280,17 @@ export type TQueryFetchFollowingsArgs = {
 };
 
 
-export type TQueryFetchProductsArgs = {
-  userid: Scalars['String'];
-};
-
-
 export type TQueryFetchUserArgs = {
   userid: Scalars['String'];
 };
 
 
 export type TQueryFetchUserBoardsArgs = {
+  userid: Scalars['String'];
+};
+
+
+export type TQueryFetchUserProductsArgs = {
   userid: Scalars['String'];
 };
 
@@ -335,11 +335,11 @@ export type TUpdateBoardInput = {
 };
 
 export type TUpdateProductInput = {
-  description: Scalars['String'];
-  imageUrl: Scalars['String'];
-  name: Scalars['String'];
+  description?: InputMaybe<Scalars['String']>;
+  imageUrl?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
   picture?: InputMaybe<Scalars['String']>;
-  url: Scalars['String'];
+  url?: InputMaybe<Scalars['String']>;
 };
 
 export type TUpdateUserInput = {
