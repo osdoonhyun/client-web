@@ -15,6 +15,7 @@ import {
   Stack,
   Text,
   useColorModeValue,
+  useToast,
 } from '@chakra-ui/react'
 
 import { useAuth } from '@/src/commons/hooks/useAuth'
@@ -73,7 +74,7 @@ export default function SignupForm() {
       'dPrimaryHover.transparency',
     ),
   }
-
+  const toast = useToast()
   const onChangePinNumber = (props: SetStateAction<string | undefined>): void => {
     setPinNumber(props)
   }
@@ -122,6 +123,14 @@ export default function SignupForm() {
     await signin(data.email, data.password, myJob).then(() =>
       setCurrentModalType('LOGIN'),
     )
+
+    toast({
+      title: '회원가입성공',
+      description: '이제 로그인하여 데카이브를 마음껏 즐기세요!',
+      status: 'success',
+      duration: 9000,
+      isClosable: true,
+    })
   }
 
   return (

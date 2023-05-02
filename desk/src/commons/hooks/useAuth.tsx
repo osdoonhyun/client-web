@@ -53,7 +53,6 @@ export function useAuth() {
 
   /** 유저 정보 */
   useEffect(() => {
-    // console.log('myToken유저정보입니다.' + myToken)
     void fetchUserInfo()
   }, [myToken])
 
@@ -214,7 +213,7 @@ export function useAuth() {
   // Helper methods
 
   const clear = async () => {
-    // setMyToken('')
+    setMyToken('')
     setIsLoggedIn(false)
     setMyUserInfo(null)
   }
