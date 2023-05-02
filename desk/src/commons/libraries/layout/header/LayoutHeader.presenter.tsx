@@ -91,7 +91,9 @@ export default function LayoutHeaderUI(props: LayoutHeaderUIProps) {
                     </>
                   ) : (
                     <>
-                      <MenuItem onClick={props.onClickMoveToUser}>마이페이지</MenuItem>
+                      <MenuItem onClick={props.onClickMoveToUser(myUserInfo?.id ?? '')}>
+                        마이페이지
+                      </MenuItem>
                       <MenuItem onClick={logout}>로그아웃</MenuItem>
                       <MenuItem onClick={signout}>회원탈퇴</MenuItem>
                     </>
