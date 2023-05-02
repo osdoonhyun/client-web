@@ -21,7 +21,7 @@ import React, { useCallback, useState } from 'react'
 import { useMutation, useQuery } from '@apollo/client'
 import {
   FETCH_BOARDS_USER_LIKED,
-  FETCH_PRODUCTS,
+  FETCH_USER_PRODUCTS,
   FETCH_USER_BOARDS,
 } from './Tabs.queries'
 import {
@@ -52,9 +52,12 @@ export default function NavigationTabs(props: NavigationTabsProps) {
     FETCH_BOARDS_USER_LIKED,
     { variables: { userid: props.userid as string } },
   )
-  const { data: userProducts } = useQuery<Pick<TQuery, 'fetchProducts'>>(FETCH_PRODUCTS, {
-    variables: { userid: props.userid as string },
-  })
+  const { data: userProducts } = useQuery<Pick<TQuery, 'fetchUserProducts'>>(
+    FETCH_USER_PRODUCTS,
+    {
+      variables: { userid: props.userid as string },
+    },
+  )
 
   const TABS = props.isMyPage ? MY_PAGE_TAB : OTHERS_PAGE_TAB
 
@@ -65,7 +68,7 @@ export default function NavigationTabs(props: NavigationTabsProps) {
   } else if (showLikedPosts) {
     userData = userLikedBoards?.fetchBoardsUserLiked
   } else if (showUserProductPosts) {
-    userData = userProducts?.fetchProducts
+    userData = userProducts?.fetchUserProducts
   }
 
   const handleShowUserPosts = () => {

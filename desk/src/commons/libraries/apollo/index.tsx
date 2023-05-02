@@ -4,12 +4,12 @@ import {
   ApolloClient,
   ApolloLink,
   ApolloProvider,
-  InMemoryCache,
   fromPromise,
+  InMemoryCache,
 } from '@apollo/client'
 import { onError } from '@apollo/client/link/error'
 import { createUploadLink } from 'apollo-upload-client'
-import { ReactNode } from 'react'
+import { ReactNode, useEffect } from 'react'
 import { useRecoilState } from 'recoil'
 
 type ApolloSettingProps = {
@@ -21,15 +21,20 @@ const cache = new InMemoryCache()
 export default function ApolloSetting(props: ApolloSettingProps) {
   const [myToken, setMyToken] = useRecoilState(MyToken)
 
+  useEffect(() => {
+    void updateAccessToken().then(newAccessToken => {
+      setMyToken(newAccessToken)
+    })
+  }, [])
+
   const errorLink = onError(({ graphQLErrors, operation, forward }) => {
     if (graphQLErrors) {
       for (const err of graphQLErrors) {
-        if (err.extensions.code === 'UNAUTHENTICATED') {
+        if (err.extensions.code === 'GRAPHQL_VALIDATION_FAILED') {
           return fromPromise(
             updateAccessToken()
               .then(newAccessToken => {
                 setMyToken(newAccessToken)
-
                 operation.setContext({
                   headers: {
                     ...operation.getContext().headers,
@@ -37,7 +42,10 @@ export default function ApolloSetting(props: ApolloSettingProps) {
                   },
                 })
               })
-              .catch(() => setMyToken('')),
+              .catch(() => {
+                console.log('리프레시 토큰 에러입니다.')
+                setMyToken('')
+              }),
           ).flatMap(() => forward(operation))
         }
       }

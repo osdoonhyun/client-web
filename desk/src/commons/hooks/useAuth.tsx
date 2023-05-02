@@ -1,9 +1,9 @@
 import {
   AuthModalToggle,
   AuthModalType,
+  isLoggedInState,
   MyToken,
   MyUserInfo,
-  isLoggedInState,
 } from '@/src/commons/store/atom'
 import { TAuthModalType } from '@/src/components/units/auth/Auth.types'
 import LoginIsOpen from '@/src/components/units/auth/login/Login.isOpen'
@@ -24,7 +24,7 @@ import { useToast } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { useCallback, useEffect } from 'react'
 import { useRecoilState } from 'recoil'
-import { TMutation } from '../types/generated/types'
+import { TMutation, TQuery } from '../types/generated/types'
 
 export function useAuth() {
   const client = useApolloClient()
@@ -53,8 +53,9 @@ export function useAuth() {
 
   /** 유저 정보 */
   useEffect(() => {
-    fetchUserInfo()
-  }, [isLoggedIn])
+    setIsLoggedIn(true)
+    void fetchUserInfo()
+  }, [myToken])
 
   /** 로그아웃 */
   const logout = async () => {
@@ -127,11 +128,12 @@ export function useAuth() {
 
   /** 유저 정보 */
   const fetchUserInfo = async () => {
-    if (isLoggedIn) {
-      const result = await client.query({ query: FETCH_LOGIN_USER })
-      const { id, email, nickName, jobGroup, provider } = result.data?.fetchLoginUser
+    if (myToken) {
+      const result = await client.query<Pick<TQuery, 'fetchLoginUser'>>({
+        query: FETCH_LOGIN_USER,
+      })
 
-      setMyUserInfo({ id, email, nickName, jobGroup, provider })
+      setMyUserInfo(result.data.fetchLoginUser)
     }
   }
 
@@ -212,7 +214,6 @@ export function useAuth() {
   // Helper methods
 
   const clear = async () => {
-    setMyToken('')
     setIsLoggedIn(false)
     setMyUserInfo(null)
   }
@@ -222,14 +223,20 @@ export function useAuth() {
     setAuthModalToggle(prev => !prev)
   }
 
+  const isWrittenBy = (id: string) => {
+    return myUserInfo?.id === id
+  }
+
   return {
     isLoggedIn,
+    isWrittenBy,
     login,
     logout,
     signout,
     signin,
     myUserInfo,
     myToken,
+    fetchUserInfo,
     authEmail,
     matchAuthNumber,
     resetUserPassword,

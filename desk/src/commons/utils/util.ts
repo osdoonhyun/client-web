@@ -1,3 +1,6 @@
+import { DateTime } from 'luxon'
+
+/** 예시) 2023.05.02. 13:22 */
 export const getConvertedDate = (value: string) => {
   const date = new Date(value)
   const yyyy = date.getFullYear()
@@ -6,4 +9,13 @@ export const getConvertedDate = (value: string) => {
   const t = `${date.getHours()}:${date.getMinutes()}`
 
   return `${yyyy}.${mm}.${dd}. ${t}`
+}
+
+/** 예시) 지금, 1분 전, 1시간 전 */
+export function getDateToRelative(value: string) {
+  if (DateTime.fromISO(value).diffNow().as('seconds') > -30) {
+    return '지금'
+  }
+
+  return DateTime.fromISO(value).toRelative()
 }

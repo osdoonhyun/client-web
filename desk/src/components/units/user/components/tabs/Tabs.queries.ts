@@ -28,9 +28,9 @@ export const FETCH_BOARDS_USER_LIKED = gql`
   }
 `
 
-export const FETCH_PRODUCTS = gql`
-  query fetchProducts($userid: String!) {
-    fetchProducts(userid: $userid) {
+export const FETCH_USER_PRODUCTS = gql`
+  query fetchUserProducts($userid: String!) {
+    fetchUserProducts(userid: $userid) {
       id
       name
       picture
