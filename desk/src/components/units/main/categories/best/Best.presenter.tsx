@@ -12,6 +12,9 @@ export default function BestUI(props: BestUIProps) {
           images={props.images}
           titles={props.titles}
           writers={props.writers}
+          writerImages={props.writerImages}
+          boardIds={props.boardIds}
+          userIds={props.userIds}
         />
       </Center>
     </>

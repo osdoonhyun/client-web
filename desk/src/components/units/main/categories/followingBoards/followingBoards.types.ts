@@ -3,4 +3,7 @@ export type FollowingBoardsProps = {
   images: string[]
   titles: string[]
   writers: string[]
+  writerImages: (string | null | undefined)[]
+  boardIds: string[]
+  userIds: string[]
 }

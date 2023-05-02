@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client'
 
-export const FETCH_BEST_BOARDS = gql`
-  query fetchBestBoards {
-    fetchBestBoards {
+export const FETCH_TOP10 = gql`
+  query fetchTop10 {
+    fetchTop10 {
       id
       title
       pictures {
@@ -13,6 +13,7 @@ export const FETCH_BEST_BOARDS = gql`
         hashtag
       }
       writer {
+        id
         nickName
         picture
         jobGroup
