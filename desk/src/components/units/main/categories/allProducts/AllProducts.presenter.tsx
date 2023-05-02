@@ -1,4 +1,4 @@
-import { Box, Center } from '@chakra-ui/react'
+import { Box, Center, Flex, useMediaQuery } from '@chakra-ui/react'
 import { AllProductsUIProps } from './AllProducts.types'
 import CategoryHeader from '../../components/categoryHeader/CategoryHeader.container'
 import MainProductItems from '../../components/mainProductItems'
@@ -7,6 +7,8 @@ import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 
 export default function AllProductsUI(props: AllProductsUIProps) {
+  const [isMobile] = useMediaQuery('(max-width: 768px)')
+
   const settings = {
     dots: false,
     infinite: true,
@@ -26,16 +28,38 @@ export default function AllProductsUI(props: AllProductsUIProps) {
       />
       <Center>
         <Box maxWidth="1100px">
-          <Slider {...settings}>
-            {props.allProducts.map((product, index) => (
-              <Box key={index} p="0px 10px" textAlign="center">
-                <MainProductItems
-                  title={product.name ?? ''}
-                  image={product.picture ?? ''}
-                />
-              </Box>
-            ))}
-          </Slider>
+          {isMobile ? (
+            <Flex
+              direction="row"
+              overflowX="auto"
+              w="410px"
+              css={{
+                '&::-webkit-scrollbar': {
+                  display: 'none',
+                },
+                scrollbarWidth: 'none',
+              }}>
+              {props.allProducts.map((product, index) => (
+                <Box key={index} textAlign="center">
+                  <MainProductItems
+                    title={product.name ?? ''}
+                    image={product.picture ?? ''}
+                  />
+                </Box>
+              ))}
+            </Flex>
+          ) : (
+            <Slider {...settings}>
+              {props.allProducts.map((product, index) => (
+                <Box key={index} p="0px 10px" textAlign="center">
+                  <MainProductItems
+                    title={product.name ?? ''}
+                    image={product.picture ?? ''}
+                  />
+                </Box>
+              ))}
+            </Slider>
+          )}
         </Box>
       </Center>
     </>
