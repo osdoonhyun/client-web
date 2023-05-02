@@ -66,7 +66,7 @@ export default function SearchBoardsUI(props: SearchBoardsUIProps) {
           <ModalHeader>검색 결과</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            {props.data?.searchBoards ? (
+            {props.data?.searchBoards && props.data.searchBoards.length > 0 ? (
               props.data.searchBoards.map(board => (
                 <Box
                   key={board.id}
