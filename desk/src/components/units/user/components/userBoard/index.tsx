@@ -1,4 +1,6 @@
+import { TMutation } from '@/src/commons/types/generated/types'
 import { Box, Image } from '@chakra-ui/react'
+import { useState } from 'react'
 import { MdFavorite, MdFavoriteBorder } from 'react-icons/md'
 
 export type UserBoardProps = {
@@ -6,10 +8,17 @@ export type UserBoardProps = {
   boardId: string
   imageUrl: string
   isLiked: boolean
-  toggleIsLiked: () => void
+  onClickLikeButton: (boardid: string) => void
 }
 
 export default function UserBoard(props: UserBoardProps) {
+  const handleLikeButtonClick = () => {
+    props.onClickLikeButton(props.boardId)
+    setIsLiked(prevIsLiked => !prevIsLiked)
+  }
+
+  const [isLiked, setIsLiked] = useState(props.isLiked)
+
   return (
     <Box key={props.index} pos="relative">
       <Image
@@ -26,15 +35,15 @@ export default function UserBoard(props: UserBoardProps) {
         top="88%"
         left="88%"
         _hover={
-          props.isLiked
+          isLiked
             ? undefined
             : {
                 color: 'dGray.medium',
               }
         }
-        color={props.isLiked ? 'dRed.400' : '#fff'}
-        onClick={props.toggleIsLiked}>
-        {props.isLiked ? <MdFavorite size="20px" /> : <MdFavoriteBorder size="20px" />}
+        color={isLiked ? 'dRed.400' : '#fff'}
+        onClick={handleLikeButtonClick}>
+        {isLiked ? <MdFavorite size="20px" /> : <MdFavoriteBorder size="20px" />}
       </Box>
     </Box>
   )

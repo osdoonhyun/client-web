@@ -18,13 +18,18 @@ import ProductItem from '../productItem'
 import UserBoard from '../userBoard'
 import InfiniteScroller from '@/src/components/ui/infiniteScroller'
 import React, { useCallback, useState } from 'react'
-import { useQuery } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client'
 import {
   FETCH_BOARDS_USER_LIKED,
   FETCH_PRODUCTS,
   FETCH_USER_BOARDS,
+  UPDATE_BOARD_LIKER,
 } from './Tabs.queries'
-import { TQuery } from '@/src/commons/types/generated/types'
+import {
+  TMutation,
+  TMutationUpdateBoardLikerArgs,
+  TQuery,
+} from '@/src/commons/types/generated/types'
 
 const TabID = {
   USER_POSTS: 0,
@@ -51,6 +56,11 @@ export default function NavigationTabs(props: NavigationTabsProps) {
   const { data: userProducts } = useQuery<Pick<TQuery, 'fetchProducts'>>(FETCH_PRODUCTS, {
     variables: { userid: props.userid as string },
   })
+
+  const [updateBoardLiker] = useMutation<
+    Pick<TMutation, 'updateBoardLiker'>,
+    TMutationUpdateBoardLikerArgs
+  >(UPDATE_BOARD_LIKER)
 
   const TABS = props.isMyPage ? MY_PAGE_TAB : OTHERS_PAGE_TAB
 
@@ -95,6 +105,14 @@ export default function NavigationTabs(props: NavigationTabsProps) {
     [showUserPosts, showUserProductPosts, showLikedPosts],
   )
 
+  const onClickLikeButton = async (boardid: string) => {
+    await updateBoardLiker({
+      variables: {
+        boardid,
+      },
+    })
+  }
+
   return (
     <>
       <Tabs mt="auto">
@@ -132,7 +150,7 @@ export default function NavigationTabs(props: NavigationTabsProps) {
                   boardId={item.id}
                   imageUrl={item.pictures[0].url}
                   isLiked={item.like}
-                  toggleIsLiked={() => console.log('test')}
+                  onClickLikeButton={() => onClickLikeButton(item.id)}
                 />
               )}
             </React.Fragment>
