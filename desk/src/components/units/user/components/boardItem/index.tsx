@@ -7,6 +7,7 @@ import { useState } from 'react'
 import { MdFavorite, MdFavoriteBorder } from 'react-icons/md'
 import { useMutation } from '@apollo/client'
 import { UPDATE_BOARD_LIKER } from './boardItem.queries'
+import { useRouter } from 'next/router'
 
 export type BoardItemProps = {
   index: number
@@ -22,6 +23,7 @@ export default function BoardItem(props: BoardItemProps) {
   >(UPDATE_BOARD_LIKER)
 
   const onClickLikeButton = async (boardid: string) => {
+    console.log('boardid', boardid)
     await updateBoardLiker({
       variables: {
         boardid,
@@ -32,8 +34,18 @@ export default function BoardItem(props: BoardItemProps) {
 
   const [isLiked, setIsLiked] = useState(props.isLiked)
 
+  const router = useRouter()
+
+  const onClickBoardItem = (boardid: string) => {
+    router.push(`/boards/${boardid}`)
+  }
+
   return (
-    <Box key={props.index} pos="relative">
+    <Box
+      key={props.index}
+      pos="relative"
+      cursor="pointer"
+      onClick={() => onClickBoardItem(props.boardId)}>
       <Image
         h="250px"
         width={'100%'}
