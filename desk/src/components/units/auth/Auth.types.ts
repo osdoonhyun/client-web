@@ -11,7 +11,7 @@ export type errMsg = {
   myPassword: string
 }
 
-export const LoginSchema = yup.object({
+export const loginSchema = yup.object({
   email: yup
     .string()
     .required('필수 입력값 입니다.')
@@ -19,8 +19,10 @@ export const LoginSchema = yup.object({
   password: yup
     .string()
     .required('필수 입력값 입니다.')
-    .min(6, '비밀번호는 6자리 이상이어야 합니다.')
-    .max(13, '비밀번호는 13자리 이하여야 합니다.'),
+    .matches(
+      /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&]{6,13}$/,
+      '문자+숫자 조합 6~13자리의 비밀번호를 입력해주세요.',
+    ),
 })
 
 export const signupSchema = yup.object({
@@ -30,9 +32,11 @@ export const signupSchema = yup.object({
     .email('이메일 형식으로만 입력이 가능합니다.'),
   password: yup
     .string()
-    .required('필수 입력값 입니다.')
-    .min(6, '비밀번호는 6자리 이상이어야 합니다.')
-    .max(13, '비밀번호는 13자리 이하여야 합니다.'),
+    .matches(
+      /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&]{6,13}$/,
+      '문자+숫자 조합 6~13자리의 비밀번호를 입력해주세요.',
+    )
+    .required('필수 입력값 입니다.'),
   passwordConfirm: yup
     .string()
     .oneOf([yup.ref('password'), undefined], '비밀번호가 일치하지 않습니다.')
@@ -84,9 +88,9 @@ export type TAuthModalType =
   | undefined
 
 export type TMyUserInfo = {
-  id: string
-  email: string
-  nickName: string
-  jobGroup: string
-  provider: string
+  id: string | undefined
+  email: string | undefined
+  nickName: string | undefined
+  jobGroup: string | undefined
+  provider: string | undefined
 }

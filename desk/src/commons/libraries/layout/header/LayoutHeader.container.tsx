@@ -1,17 +1,18 @@
 import { useRouter } from 'next/router'
-import { MouseEventHandler } from 'react'
+import { MouseEvent } from 'react'
 import LayoutHeaderUI from './LayoutHeader.presenter'
 
 export default function LayoutHeader() {
   const router = useRouter()
 
-  const onClickMoveToLogin: MouseEventHandler<HTMLButtonElement> = event => {
+  const onClickMoveToLogin = (event: MouseEvent<HTMLButtonElement>) => {
     router.push('/auth/login')
   }
 
-  const onClickMoveToUser: MouseEventHandler<HTMLButtonElement> = event => {
-    router.push('/user')
-  }
+  const onClickMoveToUser =
+    (userId: string) => (event: MouseEvent<HTMLButtonElement>) => {
+      router.push(`/${userId}`)
+    }
 
   return (
     <LayoutHeaderUI

@@ -17,14 +17,8 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react'
 
-import { SetStateAction, useState } from 'react'
-import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
-import { useMutation } from '@apollo/client'
-import {
-  AUTH_EMAIL,
-  CREATE_USER,
-  MATCH_AUTH_NUMBER,
-} from '@/src/components/units/auth/queries/mutation'
+import { useAuth } from '@/src/commons/hooks/useAuth'
+import Timer from '@/src/components/ui/timer'
 import {
   AuthFormProps,
   errMsg,
@@ -32,13 +26,16 @@ import {
   signupSchema,
 } from '@/src/components/units/auth/Auth.types'
 import Login from '@/src/components/units/auth/login/Login.container'
-import { useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
 import MyJobSelect from '@/src/components/units/auth/signup/components/MyJobSelect'
-import Timer from '@/src/components/ui/timer'
-import CustomSpinner from '@/src/components/ui/customSpinner'
+import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { SetStateAction, useState } from 'react'
+import { useForm } from 'react-hook-form'
+
+type TCurrentModalType = 'LOGIN' | 'SIGNUP'
 
 export default function SignupForm() {
+  const { authEmail, matchAuthNumber, signin } = useAuth()
   const [errMsg, setErrMsg] = useState<errMsg>({
     errText: '',
     errColor: '',
@@ -51,11 +48,8 @@ export default function SignupForm() {
   })
   const [showPassword, setShowPassword] = useState(false)
   const [myJob, setMyJob] = useState('')
-  const [createUser] = useMutation(CREATE_USER)
-  const [authEmail] = useMutation(AUTH_EMAIL)
-  const [matchAuthNumber] = useMutation(MATCH_AUTH_NUMBER)
   const [pinNumber, setPinNumber] = useState<string | undefined>(undefined)
-  const [authType, setAuthType] = useState('authSignup')
+  const [currentModalType, setCurrentModalType] = useState<TCurrentModalType>('SIGNUP')
   const {
     getValues,
     register,
@@ -66,7 +60,7 @@ export default function SignupForm() {
     mode: 'onChange',
   })
   const [timeReset, setTimeReset] = useState(0)
-  const [isPending, setIsPending] = useState({ email: false })
+  const [isCheckedEmail, setIsCheckedEmail] = useState(false)
 
   const bgColor = {
     whiteAndGray700: useColorModeValue('white', 'gray.700'),
@@ -85,39 +79,30 @@ export default function SignupForm() {
   }
 
   const onClickCertification = async () => {
-    setIsPending({ email: true })
     const data = getValues()
-    await authEmail({
-      variables: {
-        authEmailInput: {
-          email: data.email,
-          authCheck: true,
-        },
-      },
-    })
+
+    if (data.email === '') {
+      return
+    }
+
+    setIsCheckedEmail(true)
+
+    await authEmail(data.email, true)
       .then(() => {
         const msg = '인증할 이메일 확인 후 인증번호 6자리를 입력해 주세요'
         setErrMsg({ ...errMsg, errText: msg, errColor: 'green', isEmail: true })
         setTimeReset(Math.floor(Math.random() * 1000))
-        setIsPending({ email: false })
       })
       .catch(err => {
         const msg: string | undefined = errorMessage(err.message)
         setErrMsg({ ...errMsg, errText: msg || '', errColor: 'red' })
-        setIsPending({ email: false })
       })
+      .finally(() => setIsCheckedEmail(false))
   }
 
   const onClickMatchAuthNumber = async () => {
     const data = getValues()
-    await matchAuthNumber({
-      variables: {
-        matchAuthInput: {
-          email: data.email,
-          authNumber: pinNumber,
-        },
-      },
-    })
+    await matchAuthNumber(data.email, pinNumber)
       .then(() => {
         const msg = '인증번호가 일치합니다.'
         setErrMsg({
@@ -134,28 +119,14 @@ export default function SignupForm() {
   }
 
   const onClickSubmit = async (data: AuthFormProps) => {
-    await createUser({
-      variables: {
-        createUserInput: {
-          email: data.email,
-          password: data.password,
-          jobGroup: myJob,
-        },
-      },
-    })
-      .then(() => {
-        setAuthType('authLogin')
-      })
-      .catch(() => {
-        const errorMsg: string = '이미 사용 중인 이메일입니다.' as const
-        setErrMsg({ ...errMsg, errText: errorMsg, errColor: 'red' })
-        return
-      })
+    await signin(data.email, data.password, myJob).then(() =>
+      setCurrentModalType('LOGIN'),
+    )
   }
 
   return (
     <>
-      {authType === 'authSignup' && (
+      {currentModalType === 'SIGNUP' && (
         <Flex align={'center'} justify={'center'}>
           <Stack spacing={0} mx={'auto'} maxW={'lg'} bg={bgColor.whiteAndGray700}>
             <Stack align={'center'}>
@@ -169,7 +140,6 @@ export default function SignupForm() {
                 </Link>{' '}
                 ✌️
               </Text>
-              의
             </Stack>
             <Box rounded={'lg'} bg={bgColor.whiteAndGray700} p={8}>
               <form onSubmit={handleSubmit(onClickSubmit)}>
@@ -185,25 +155,18 @@ export default function SignupForm() {
                         placeholder={'이메일을 입력해 주세요.'}
                         {...register('email')}
                       />
-                      {!isPending.email && (
-                        <Button
-                          onClick={onClickCertification}
-                          loadingText="Submitting"
-                          size="md"
-                          px={6}
-                          disabled
-                          bg={'dPrimary'}
-                          color={'white'}
-                          isDisabled={!myJob}
-                          _hover={{ bg: 'dPrimaryHover.dark' }}>
-                          인증번호 받기
-                        </Button>
-                      )}
-                      {isPending.email && (
-                        <Box w={164} ml={0}>
-                          <CustomSpinner />
-                        </Box>
-                      )}
+                      <Button
+                        onClick={onClickCertification}
+                        size="md"
+                        px={6}
+                        disabled
+                        bg={'dPrimary'}
+                        color={'white'}
+                        isDisabled={!myJob}
+                        _hover={{ bg: 'dPrimaryHover.dark' }}
+                        isLoading={isCheckedEmail}>
+                        인증번호 받기
+                      </Button>
                     </Flex>
                     <FormErrorMessage>
                       {errors.email && errors.email.message}
@@ -302,7 +265,7 @@ export default function SignupForm() {
                       <Link
                         color={color.dPrimaryAndDprimaryHoverTransparency}
                         onClick={() => {
-                          setAuthType('authLogin')
+                          setCurrentModalType('LOGIN')
                         }}>
                         로그인
                       </Link>
@@ -314,7 +277,7 @@ export default function SignupForm() {
           </Stack>
         </Flex>
       )}
-      {authType === 'authLogin' && <Login />}
+      {currentModalType === 'LOGIN' && <Login />}
     </>
   )
 }

@@ -1,6 +1,6 @@
-import { MouseEventHandler } from 'react'
+import { MouseEvent } from 'react'
 
 export type LayoutHeaderUIProps = {
-  onClickMoveToLogin: MouseEventHandler<HTMLButtonElement>
-  onClickMoveToUser: MouseEventHandler<HTMLButtonElement>
+  onClickMoveToLogin: (event: MouseEvent<HTMLButtonElement>) => void
+  onClickMoveToUser: (userId: string) => (event: MouseEvent<HTMLButtonElement>) => void
 }

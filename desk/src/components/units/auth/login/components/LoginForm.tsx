@@ -1,3 +1,8 @@
+import { useAuth } from '@/src/commons/hooks/useAuth'
+import { MyEmailSave } from '@/src/commons/store/atom'
+import { AuthFormProps, loginSchema } from '@/src/components/units/auth/Auth.types'
+import ForgotPassword from '@/src/components/units/auth/forgotPassword/ForgotPassword.container'
+import SignupForm from '@/src/components/units/auth/signup/components/signupForm'
 import {
   Box,
   Button,
@@ -6,57 +11,56 @@ import {
   FormControl,
   FormErrorMessage,
   FormLabel,
-  Heading,
   HStack,
+  Heading,
   Input,
   Link,
   Stack,
   Text,
   Tooltip,
+  VStack,
   useColorModeValue,
 } from '@chakra-ui/react'
-import React, { useState } from 'react'
-import { useMutation, useQuery } from '@apollo/client'
-import { FETCH_LOGIN_USER, LOGIN } from '@/src/components/units/auth/queries/mutation'
-import { AuthModalType, MyEmailSave, MyToken, MyUserInfo } from '@/src/commons/store/atom'
-import { useRecoilState } from 'recoil'
-import SignupForm from '@/src/components/units/auth/signup/components/signupForm'
-import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import {
-  AuthFormProps,
-  errorMessage,
-  LoginSchema,
-} from '@/src/components/units/auth/Auth.types'
 import { useRouter } from 'next/router'
-import ForgotPassword from '@/src/components/units/auth/forgotPassword/ForgotPassword.container'
+import { ChangeEvent, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { AiFillGoogleCircle } from 'react-icons/ai'
 import { RiKakaoTalkFill } from 'react-icons/ri'
 import { SiNaver } from 'react-icons/si'
-import { AiFillGoogleCircle } from 'react-icons/ai'
+import { useRecoilState } from 'recoil'
+
+type TCurrentModalType = 'LOGIN' | 'SIGNUP' | 'FORGOT_PASSWORD'
+
+type TSnsLinksProps = {
+  name: string
+  buttonColor: string
+  leftIcon: JSX.Element
+}
+
+const snsLinks: TSnsLinksProps[] = [
+  { name: 'kakao', buttonColor: 'yellow', leftIcon: <RiKakaoTalkFill /> },
+  { name: 'naver', buttonColor: 'green', leftIcon: <SiNaver /> },
+  { name: 'google', buttonColor: 'gray', leftIcon: <AiFillGoogleCircle /> },
+]
 
 export default function LoginForm() {
-  const [, setMyToken] = useRecoilState(MyToken)
-  const [login] = useMutation(LOGIN)
-  const [err, setErr] = useState({
-    errEmail: '',
-    errPass: '',
-    errServer: '',
-  })
-  const [authType, setAuthType] = useState('authLogin')
-  const [myEmailSaveLocal, setMyEmailSaveLocal] = useRecoilState(MyEmailSave)
-  const [myUserInfo, setMyUserInfo] = useRecoilState(MyUserInfo)
-  const [isMyEmailSave, setIsMyEmailSave] = useState(false)
-  const [, setAuthModalType] = useRecoilState(AuthModalType)
   const router = useRouter()
+  const { login, myUserInfo } = useAuth()
+
+  const [currentModalType, setCurrentModalType] = useState<TCurrentModalType>('LOGIN')
+  const [myEmailSaveLocal, setMyEmailSaveLocal] = useRecoilState(MyEmailSave)
+  const [isCheckedSaveEmail, setIsCheckedSaveEmail] = useState(false)
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<AuthFormProps>({
-    resolver: yupResolver(LoginSchema),
+    resolver: yupResolver(loginSchema),
     mode: 'onSubmit',
   })
-  const { data: loginUserData } = useQuery(FETCH_LOGIN_USER)
+
   const bgColor = {
     whiteAndGray700: useColorModeValue('white', 'gray.700'),
     gray200AndGray600: useColorModeValue('gray.200', 'gray.600'),
@@ -72,70 +76,23 @@ export default function LoginForm() {
     gray300AndGray500: useColorModeValue({ bg: 'gray.300' }, { bg: 'gray.500' }),
   }
 
-  type TSnsLinksProps = {
-    name: string
-    buttonColor: string
-    leftIcon: JSX.Element
-  }
-
-  const snsLinks: TSnsLinksProps[] = [
-    { name: 'kakao', buttonColor: 'yellow', leftIcon: <RiKakaoTalkFill /> },
-    { name: 'naver', buttonColor: 'green', leftIcon: <SiNaver /> },
-    { name: 'google', buttonColor: 'blackAlpha', leftIcon: <AiFillGoogleCircle /> },
-  ]
-
   async function onClickLoginSubmit(data: AuthFormProps) {
-    await login({
-      variables: {
-        loginInput: {
-          email: data.email,
-          password: data.password,
-        },
-      },
+    await login(data.email, data.password).then(result => {
+      if (isCheckedSaveEmail) {
+        setMyEmailSaveLocal(data.email)
+      }
+
+      router.push('/')
     })
-      .then(result => {
-        setMyToken(result.data.login)
-        setAuthModalType('AFTER_AUTH')
-        if (isMyEmailSave) {
-          setMyEmailSaveLocal(data.email)
-        }
-        console.log(loginUserData.fetchLoginUser)
-        setMyUserInfo({ ...loginUserData.fetchLoginUser })
-        router.push('/')
-      })
-      .catch(err => {
-        let errMail = ''
-        let errPass = ''
-        let errServer = ''
-        console.log(err.message)
-        const msg: string | undefined = errorMessage(err.message ?? '')
-        if (msg?.includes('등록되지 않은')) {
-          errMail = msg
-        }
-        if (msg?.includes('비밀번호')) {
-          errPass = msg
-        }
-        if (msg?.includes('Failed')) {
-          errServer = msg
-          console.log('errServer')
-          console.log(errServer)
-        }
-        setErr({ ...err, errEmail: errMail, errPass: errPass, errServer: errServer })
-        console.log('error 입니다.')
-      })
   }
 
-  const onChangeMyEmailCheckboxToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.checked) {
-      setIsMyEmailSave(true)
-    } else {
-      setIsMyEmailSave(false)
-    }
+  const onChangeMyEmailCheckboxToggle = (e: ChangeEvent<HTMLInputElement>) => {
+    setIsCheckedSaveEmail(e.target.checked)
   }
 
   return (
     <>
-      {authType === 'authLogin' && (
+      {currentModalType === 'LOGIN' && (
         <Flex align={'center'} justify={'center'} bg={bgColor.whiteAndGray700}>
           <Stack spacing={0} mx={'auto'} maxW={'lg'} py={12} px={6}>
             <Stack align={'center'}>
@@ -149,10 +106,10 @@ export default function LoginForm() {
               </Text>
             </Stack>
             <Box rounded={'lg'} bg={bgColor.whiteAndGray700} p={8}>
-              <Stack spacing={4}>
+              <VStack>
                 <form onSubmit={handleSubmit(onClickLoginSubmit)}>
                   <FormControl isInvalid={!!errors.email}>
-                    <FormLabel>이메일</FormLabel>
+                    <FormLabel mt={'20px'}>이메일</FormLabel>
                     <Input
                       type="email"
                       autoFocus={!myEmailSaveLocal}
@@ -165,12 +122,9 @@ export default function LoginForm() {
                     <FormErrorMessage>
                       {errors.email && errors.email.message}
                     </FormErrorMessage>
-                    <Text pb={4} color={'red'}>
-                      {err.errEmail}
-                    </Text>
                   </FormControl>
                   <FormControl isInvalid={!!errors.password}>
-                    <FormLabel>비밀번호</FormLabel>
+                    <FormLabel mt={'20px'}>비밀번호</FormLabel>
                     <Input
                       type="password"
                       autoFocus={myEmailSaveLocal}
@@ -181,11 +135,8 @@ export default function LoginForm() {
                     <FormErrorMessage>
                       {errors.password && errors.password.message}
                     </FormErrorMessage>
-                    <Text pb={4} color={'red'}>
-                      {err.errPass}
-                    </Text>
                   </FormControl>
-                  <Stack spacing={5}>
+                  <Stack spacing={5} mt={'10px'}>
                     <Stack
                       direction={{ base: 'column', sm: 'row' }}
                       align={'start'}
@@ -199,12 +150,11 @@ export default function LoginForm() {
                       <Link
                         color={color.gray600AndGray300}
                         onClick={() => {
-                          setAuthType('forgotPassword')
+                          setCurrentModalType('FORGOT_PASSWORD')
                         }}>
                         비밀번호를 잊어버리셨나요?
                       </Link>
                     </Stack>
-                    <Text color={'red'}>{err.errServer}</Text>
 
                     {myUserInfo?.provider === 'dechive' ? (
                       <Tooltip hasArrow label="마지막 로그인" bg="red.300" isOpen>
@@ -226,25 +176,18 @@ export default function LoginForm() {
                       </Button>
                     )}
                     <HStack>
-                      {snsLinks.map(props => {
+                      {snsLinks?.map(({ buttonColor, leftIcon, name }) => {
                         return (
-                          <Link
-                            href={`https://mobomobo.shop/login/${props.name}`}
-                            key={props.name}>
-                            {myUserInfo?.provider === props.name ? (
+                          <Link href={`https://mobomobo.shop/login/${name}`} key={name}>
+                            {myUserInfo?.provider === name ? (
                               <Tooltip hasArrow label="마지막 로그인" bg="red.300" isOpen>
-                                <Button
-                                  colorScheme={props.buttonColor}
-                                  leftIcon={props.leftIcon}>
-                                  {props.name.charAt(0).toUpperCase() +
-                                    props.name.slice(1)}
+                                <Button colorScheme={buttonColor} leftIcon={leftIcon}>
+                                  {name.charAt(0).toUpperCase() + name.slice(1)}
                                 </Button>
                               </Tooltip>
                             ) : (
-                              <Button
-                                colorScheme={props.buttonColor}
-                                leftIcon={props.leftIcon}>
-                                {props.name.charAt(0).toUpperCase() + props.name.slice(1)}
+                              <Button colorScheme={buttonColor} leftIcon={leftIcon}>
+                                {name.charAt(0).toUpperCase() + name.slice(1)}
                               </Button>
                             )}
                           </Link>
@@ -254,24 +197,23 @@ export default function LoginForm() {
                     <Button
                       name="buttonJoinMember"
                       onClick={() => {
-                        setAuthType('authSignup')
+                        setCurrentModalType('SIGNUP')
                       }}
                       bg={bgColor.gray200AndGray600}
                       border={'0px'}
                       borderColor={'dPrimary'}
-                      // color={'white'}
                       _hover={hover.gray300AndGray500}>
                       회원가입
                     </Button>
                   </Stack>
                 </form>
-              </Stack>
+              </VStack>
             </Box>
           </Stack>
         </Flex>
       )}
-      {authType === 'authSignup' && <SignupForm />}
-      {authType === 'forgotPassword' && <ForgotPassword />}
+      {currentModalType === 'SIGNUP' && <SignupForm />}
+      {currentModalType === 'FORGOT_PASSWORD' && <ForgotPassword />}
     </>
   )
 }
