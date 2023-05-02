@@ -12,6 +12,7 @@ export const FETCH_BOARD = gql`
         name
         url
         picture
+        description
       }
       comments {
         id

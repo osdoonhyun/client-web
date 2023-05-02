@@ -50,12 +50,14 @@ export default function BoardDetailUI(props: BoardDetailUIProps) {
           products={props.boardData.products}
         />
       </Box>
-      <Box pt={'60px'}>
-        <TitleWithDescription
-          title="추천하고 싶은 아이템이 있나요?"
-          description={props.boardData.recommend ?? ''}
-        />
-      </Box>
+      {props.boardData.recommend && (
+        <Box pt={'60px'}>
+          <TitleWithDescription
+            title="추천하고 싶은 아이템이 있나요?"
+            description={props.boardData.recommend ?? ''}
+          />
+        </Box>
+      )}
     </>
   )
 }
