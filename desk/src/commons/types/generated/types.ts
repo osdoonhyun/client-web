@@ -26,6 +26,7 @@ export type TBoard = {
   description: Scalars['String'];
   hashtags?: Maybe<Array<THashtag>>;
   id: Scalars['String'];
+  like: Scalars['Boolean'];
   likers?: Maybe<Array<TUser>>;
   likes: Scalars['Int'];
   pictures: Array<TPicture>;
@@ -42,6 +43,7 @@ export type TComments = {
   content: Scalars['String'];
   createdAt: Scalars['DateTime'];
   id: Scalars['String'];
+  replies?: Maybe<Array<TReply>>;
   user: TUser;
 };
 
@@ -60,6 +62,8 @@ export type TCreateCommentInput = {
 };
 
 export type TCreateProductInput = {
+  description: Scalars['String'];
+  imageUrl: Scalars['String'];
   name: Scalars['String'];
   url: Scalars['String'];
 };
@@ -76,31 +80,10 @@ export type TCreateUserInput = {
   provider?: InputMaybe<Scalars['String']>;
 };
 
-export type TFetchFollowee = {
-  __typename?: 'FetchFollowee';
-  followee: Scalars['Boolean'];
-  user: Array<TUser>;
-};
-
-export type TFetchFollowing = {
-  __typename?: 'FetchFollowing';
-  following: Scalars['Boolean'];
-  user: Array<TUser>;
-};
-
 export type TFetchUser = {
   __typename?: 'FetchUser';
   boardCount: Scalars['Int'];
-  followeeCount: Scalars['Int'];
-  followingCount: Scalars['Int'];
   user: TUser;
-};
-
-export type TFollowee = {
-  __typename?: 'Followee';
-  followeeid: Scalars['String'];
-  id: Scalars['String'];
-  users: Array<TUser>;
 };
 
 export type TFollowing = {
@@ -264,9 +247,9 @@ export type TQuery = {
   fetchBoard: TBoard;
   fetchBoards: Array<TBoard>;
   fetchBoardsUserLiked: Array<TBoard>;
-  fetchFollowees: TFetchFollowee;
+  fetchFollowees: Array<TUser>;
   fetchFollowingBoards: Array<TFollowing>;
-  fetchFollowings: TFetchFollowing;
+  fetchFollowings: Array<TUser>;
   fetchLoginUser: TUser;
   fetchProducts: Array<TProduct>;
   fetchUser: TFetchUser;
@@ -352,6 +335,8 @@ export type TUpdateBoardInput = {
 };
 
 export type TUpdateProductInput = {
+  description: Scalars['String'];
+  imageUrl: Scalars['String'];
   name: Scalars['String'];
   picture?: InputMaybe<Scalars['String']>;
   url: Scalars['String'];
@@ -369,8 +354,10 @@ export type TUser = {
   __typename?: 'User';
   boards?: Maybe<Array<TBoard>>;
   email: Scalars['String'];
-  followees: Array<TFollowee>;
-  followings: Array<TFollowing>;
+  followeeStatus: Scalars['Boolean'];
+  followeesCount: Scalars['Int'];
+  followingStatus: Scalars['Boolean'];
+  followingsCount: Scalars['Int'];
   id: Scalars['String'];
   intro?: Maybe<Scalars['String']>;
   jobGroup: Scalars['String'];
