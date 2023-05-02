@@ -1,5 +1,5 @@
 import { useBoolean } from '@chakra-ui/react'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import UserUI from './User.presenter'
 import { useAuth } from '@/src/commons/hooks/useAuth'
@@ -14,11 +14,11 @@ import {
 export default function User(props: UserProps) {
   const router = useRouter()
   // API 받은 후 수정 계획
-  const [isMyPage, setIsMyPage] = useState(true)
+  const [isMyPage, setIsMyPage] = useState(false)
   const [isFollowing, setIsFollowing] = useState<boolean>(
     props.userData.user.followingStatus,
   )
-  const { isLoggedIn } = useAuth()
+  const { isLoggedIn, myUserInfo } = useAuth()
   const [updateFollowing] = useMutation<
     Pick<TMutation, 'updateFollowing'>,
     TMutationUpdateFollowingArgs
@@ -36,6 +36,14 @@ export default function User(props: UserProps) {
     })
     setIsFollowing(prevIsFollowing => !prevIsFollowing)
   }
+
+  useEffect(() => {
+    if (myUserInfo?.id === props.userData?.user.id) {
+      setIsMyPage(true)
+    } else {
+      setIsMyPage(false)
+    }
+  }, [myUserInfo?.id, props.userData?.user.id])
 
   return (
     <UserUI
