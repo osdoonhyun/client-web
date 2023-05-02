@@ -7,7 +7,7 @@ import BoardDetailCommentWrite from '@/src/components/units/boards/detail/commen
 import { VStack } from '@chakra-ui/react'
 import { GraphQLClient } from 'graphql-request'
 import { GetServerSideProps } from 'next'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 type BoardDetailPageProps = {
   boardData: Pick<TQuery, 'fetchBoard'>
