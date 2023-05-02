@@ -1,19 +1,19 @@
-import { ReactNode } from 'react'
+import { ReactNode, useEffect } from 'react'
 import {
-  Box,
-  Flex,
   Avatar,
-  Link,
+  Box,
   Button,
+  Center,
+  Flex,
+  Link,
   Menu,
   MenuButton,
-  MenuList,
-  MenuItem,
   MenuDivider,
-  useColorModeValue,
+  MenuItem,
+  MenuList,
   Stack,
   useColorMode,
-  Center,
+  useColorModeValue,
 } from '@chakra-ui/react'
 import { MoonIcon, SunIcon } from '@chakra-ui/icons'
 import { LayoutHeaderUIProps } from './LayoutHeader.types'
@@ -42,10 +42,14 @@ export default function LayoutHeaderUI(props: LayoutHeaderUIProps) {
     myUserInfo,
     LoginModalUI,
     SignupModalUI,
+    fetchUserInfo,
     openModal,
     logout,
-    signout,
   } = useAuth()
+
+  useEffect(() => {
+    void fetchUserInfo()
+  }, [])
 
   return (
     <>
@@ -97,7 +101,6 @@ export default function LayoutHeaderUI(props: LayoutHeaderUIProps) {
                         마이페이지
                       </MenuItem>
                       <MenuItem onClick={logout}>로그아웃</MenuItem>
-                      <MenuItem onClick={signout}>회원탈퇴</MenuItem>
                     </>
                   )}
                 </MenuList>
