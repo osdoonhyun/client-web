@@ -20,6 +20,7 @@ export default function MainBoardSlider({
   images,
   titles = [],
   writers = [],
+  writerImages = [],
   boardIds = [],
   userIds = [],
   children,
@@ -157,7 +158,12 @@ export default function MainBoardSlider({
                             mt={1}
                             cursor="pointer"
                             onClick={() => onClickUserDetail(userIds[index])}>
-                            <Avatar w="20px" h="20px" mr="5px" />
+                            <Avatar
+                              w="20px"
+                              h="20px"
+                              mr="5px"
+                              src={writerImages[index] ?? undefined}
+                            />
                             {writers[index] ?? ''}
                           </Center>
                         </Flex>
