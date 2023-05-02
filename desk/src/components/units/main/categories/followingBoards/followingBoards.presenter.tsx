@@ -1,12 +1,16 @@
 import { Center } from '@chakra-ui/react'
 import CategoryHeader from '../../components/categoryHeader/CategoryHeader.container'
 import MainBoardSlider from '../../components/mainBoardSlider'
-import { BestUIProps } from './Best.types'
+import { FollowingBoardsProps } from './followingBoards.types'
 
-export default function BestUI(props: BestUIProps) {
+export default function FollowingBoardsUI(props: FollowingBoardsProps) {
   return (
     <>
-      <CategoryHeader categoryTitle={props.categoryTitle} moreButtonHidden={false} />
+      <CategoryHeader
+        categoryTitle={props.categoryTitle}
+        moreButtonHidden={true}
+        moreButtonLink="/followingBoardsMore"
+      />
       <Center m={2}>
         <MainBoardSlider
           images={props.images}

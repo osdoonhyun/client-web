@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useRouter } from 'next/router'
 import {
   Avatar,
   Box,
@@ -19,13 +20,25 @@ export default function MainBoardSlider({
   images,
   titles = [],
   writers = [],
+  writerImages = [],
+  boardIds = [],
+  userIds = [],
   children,
 }: MainBoardSliderProps) {
   const [slider, setSlider] = useState<Slider | null>(null)
   const [arrowVisible, setArrowVisible] = useState(true)
   const [currentSlide, setCurrentSlide] = useState(0)
+  const router = useRouter()
 
   const [isMobile] = useMediaQuery('(max-width: 767px)')
+
+  const onClickBoardDetail = (boardId: string) => {
+    router.push(`/boards/${boardId}`)
+  }
+
+  const onClickUserDetail = (userId: string) => {
+    router.push(`/${userId}`)
+  }
 
   const onClickPrev = () => {
     const moveBy = isMobile ? 2 : 4
@@ -79,7 +92,8 @@ export default function MainBoardSlider({
 
   const settings = {
     dots: false,
-    infinite: true,
+    // infinite: true,
+    infinite: images.length > 4,
     speed: 500,
     slidesToShow: 4.15,
     slidesToScroll: isMobile ? 2 : 4,
@@ -119,7 +133,10 @@ export default function MainBoardSlider({
                     p={1}
                     color={useColorModeValue('dGray.dark', 'dGray.light')}>
                     <Flex flexDirection="column">
-                      <Center pl="5px">
+                      <Center
+                        pl="5px"
+                        onClick={() => onClickBoardDetail(boardIds[index])}
+                        cursor="pointer">
                         <MainImageStyle src={src} alt={`Image ${index}`} />
                       </Center>
                       <Center>
@@ -130,11 +147,23 @@ export default function MainBoardSlider({
                             textAlign="center"
                             mt={2}
                             w="100%"
-                            p="0px 10px 0px 10px">
+                            p="0px 10px 0px 10px"
+                            cursor="pointer"
+                            onClick={() => onClickBoardDetail(boardIds[index])}>
                             {titles[index] ?? ''}
                           </Center>
-                          <Center fontSize={{ base: 'xs', md: 'sm' }} w="100%" mt={1}>
-                            <Avatar w="20px" h="20px" mr="5px" />
+                          <Center
+                            fontSize={{ base: 'xs', md: 'sm' }}
+                            w="100%"
+                            mt={1}
+                            cursor="pointer"
+                            onClick={() => onClickUserDetail(userIds[index])}>
+                            <Avatar
+                              w="20px"
+                              h="20px"
+                              mr="5px"
+                              src={writerImages[index] ?? 'https://bit.ly/broken-link'}
+                            />
                             {writers[index] ?? ''}
                           </Center>
                         </Flex>

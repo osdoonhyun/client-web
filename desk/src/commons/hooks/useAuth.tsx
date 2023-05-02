@@ -1,9 +1,9 @@
 import {
   AuthModalToggle,
   AuthModalType,
+  isLoggedInState,
   MyToken,
   MyUserInfo,
-  isLoggedInState,
 } from '@/src/commons/store/atom'
 import { TAuthModalType } from '@/src/components/units/auth/Auth.types'
 import LoginIsOpen from '@/src/components/units/auth/login/Login.isOpen'
@@ -53,8 +53,9 @@ export function useAuth() {
 
   /** 유저 정보 */
   useEffect(() => {
-    fetchUserInfo()
-  }, [isLoggedIn])
+    // console.log('myToken유저정보입니다.' + myToken)
+    void fetchUserInfo()
+  }, [myToken])
 
   /** 로그아웃 */
   const logout = async () => {
@@ -127,7 +128,8 @@ export function useAuth() {
 
   /** 유저 정보 */
   const fetchUserInfo = async () => {
-    if (isLoggedIn) {
+    if (myToken) {
+      setIsLoggedIn(true)
       const result = await client.query({ query: FETCH_LOGIN_USER })
       const { id, email, nickName, jobGroup, provider } = result.data?.fetchLoginUser
 
@@ -212,7 +214,7 @@ export function useAuth() {
   // Helper methods
 
   const clear = async () => {
-    setMyToken('')
+    // setMyToken('')
     setIsLoggedIn(false)
     setMyUserInfo(null)
   }
@@ -230,6 +232,7 @@ export function useAuth() {
     signin,
     myUserInfo,
     myToken,
+    fetchUserInfo,
     authEmail,
     matchAuthNumber,
     resetUserPassword,

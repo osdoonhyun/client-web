@@ -37,15 +37,13 @@ export default function UserUI(props: UserUIProps) {
             <Flex ml="50px" mt="20px" gap="25px">
               <FollowModal
                 type="follower"
-                userid={props.userData.user.id}
+                userData={props.userData}
                 isLoggedIn={props.isLoggedIn}
-                followCount={props.userData.followingCount}
               />
               <FollowModal
                 type="followee"
-                userid={props.userData.user.id}
+                userData={props.userData}
                 isLoggedIn={props.isLoggedIn}
-                followCount={props.userData.followeeCount}
               />
             </Flex>
             <Flex direction="column" mt="23px" ml="50px">
@@ -85,7 +83,7 @@ export default function UserUI(props: UserUIProps) {
               boxSize="170px"
               src={props.userData.user.picture ?? ''}
             />
-            {!props.isMyPage ? ( // 나의 페이지면 프로필 수정하기 버튼 / 아니면 팔로우 버튼
+            {props.isMyPage ? ( // 나의 페이지면 프로필 수정하기 버튼 / 아니면 팔로우 버튼
               <Button
                 alignItems="center"
                 textAlign="center"
@@ -113,29 +111,29 @@ export default function UserUI(props: UserUIProps) {
                 mt="28px"
                 w="126px"
                 h="48px"
-                color={useColorModeValue('#fff', '#1A202C')}
-                bgColor={'dPrimary'}
-                _hover={{ bg: 'dPrimaryHover.dark' }}
                 fontSize="18px"
-                // 팔로우를 하는지에 상태값에 따라 버튼 color 바뀌도록
+                color={
+                  props.isFollowing
+                    ? useColorModeValue('#fff', '#1A202C')
+                    : 'dGray.medium'
+                }
+                bgColor={props.isFollowing ? 'dPrimary' : undefined}
+                borderColor={props.isFollowing ? 'dPrimary' : 'dGray.medium'}
+                _hover={
+                  props.isFollowing
+                    ? { bg: 'dPrimaryHover.dark' }
+                    : useColorModeValue({ bg: 'dGray.light' }, { bg: 'dGray.dark' })
+                }
                 onClick={props.onClickFollowingButton}
                 fontWeight="600">
-                팔로우
+                {props.isFollowing ? '팔로우' : '팔로잉'}
               </Button>
             )}
           </Flex>
         </Flex>
         {/* 게시글, 팔로우, 팔로워 분리 예정 */}
         {/* TODO:props drilling 최적화 예정 */}
-        <NavigationTab
-          isMyPage={props.isMyPage}
-          showUserPosts={props.showUserPosts}
-          showUserProductPosts={props.showUserProductPosts}
-          showLikedPosts={props.showLikedPosts}
-          isLiked={props.isLiked}
-          toggleIsLiked={props.toggleIsLiked}
-          onClickTab={props.onClickTab}
-        />
+        <NavigationTab isMyPage={props.isMyPage} userid={props.userData.user.id} />
       </Box>
     </Box>
   )

@@ -20,9 +20,13 @@ export default function Recent() {
   const categoryTitle = '⏱️ 최근 게시물'
   const titles = boards.map((board: TBoard) => board.title)
   const writers = boards.map((board: TBoard) => board.writer.nickName)
+  const writerImages = boards.map((board: TBoard) => board.writer.picture)
   const images = boards.map(
     (board: TBoard) => board.pictures.find(picture => picture.isMain)?.url ?? '',
   )
+  const boardIds = boards.map((board: TBoard) => board.id)
+  const userIds = boards.map((board: TBoard) => board.writer.id)
+  console.log('userIds:', userIds)
 
   return (
     <>
@@ -31,6 +35,9 @@ export default function Recent() {
         images={images}
         titles={titles}
         writers={writers}
+        writerImages={writerImages}
+        boardIds={boardIds}
+        userIds={userIds}
       />
     </>
   )

@@ -1,4 +1,4 @@
-export type BestUIProps = {
+export type FollowingBoardsProps = {
   categoryTitle: string
   images: string[]
   titles: string[]
