@@ -188,7 +188,7 @@ export default function MainBoardSlider({
 
   return (
     <>
-      <Box position="relative" w="full" h="340px" overflow="hidden">
+      <Box position="relative" w="full" h="350px" overflow="hidden">
         <Box width={{ base: '100%', md: '80%', lg: '1090px' }} mx="auto">
           {isMobile ? (
             <Flex
