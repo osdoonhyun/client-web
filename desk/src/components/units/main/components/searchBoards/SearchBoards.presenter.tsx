@@ -15,21 +15,23 @@ import {
   ModalOverlay,
   Stack,
   Text,
+  useMediaQuery,
 } from '@chakra-ui/react'
-import { useState } from 'react'
 import { SearchBoardsUIProps } from './SearchBoards.types'
 
 export default function SearchBoardsUI(props: SearchBoardsUIProps) {
-  const [showInput, setShowInput] = useState(false)
+  const [isMobile] = useMediaQuery('(max-width: 480px)')
 
-  const onClickSearchButton = () => {
+  const onClickSearchButton = async () => {
     const searchInput = props.searchInputRef.current
     if (searchInput) {
       const searchValue = searchInput.value
       if (searchValue) {
-        props.onClickSearchBoard(searchValue)
-        props.onOpen()
+        await props.onClickSearchBoard(searchValue)
         searchInput.value = ''
+        if (!isMobile) {
+          props.onOpen()
+        }
       }
     }
   }
@@ -39,30 +41,49 @@ export default function SearchBoardsUI(props: SearchBoardsUIProps) {
     props.onClose()
   }
 
+  const handleSearchModalOpen = async () => {
+    if (isMobile) {
+      props.onOpen()
+    } else {
+      await onClickSearchButton()
+    }
+  }
+
   return (
     <>
       <Stack spacing={4}>
-        <InputGroup>
-          <InputLeftElement pointerEvents="auto" onClick={() => setShowInput(!showInput)}>
-            <SearchIcon color="dGray.medium" />
-          </InputLeftElement>
-          <Input
-            ref={props.searchInputRef}
-            placeholder="search"
-            focusBorderColor="dPrimary"
-            onKeyDown={props.onKeyDown}
-            display={showInput ? 'block' : 'none'}
-          />
+        {!isMobile && (
+          <InputGroup>
+            <InputLeftElement pointerEvents="none">
+              <SearchIcon color="dGray.medium" />
+            </InputLeftElement>
+            <Input
+              ref={props.searchInputRef}
+              placeholder="search"
+              focusBorderColor="dPrimary"
+              onKeyDown={props.onKeyDown}
+            />
+            <Button
+              ml="10px"
+              borderColor="dGray.medium"
+              color="dGray.medium"
+              variant="outline"
+              _hover={{ color: 'dPrimary', borderColor: 'dPrimary' }}
+              onClick={handleSearchModalOpen}>
+              검색
+            </Button>
+          </InputGroup>
+        )}
+        {isMobile && (
           <Button
-            ml="10px"
             borderColor="dGray.medium"
             color="dGray.medium"
             variant="outline"
             _hover={{ color: 'dPrimary', borderColor: 'dPrimary' }}
-            onClick={onClickSearchButton}>
-            검색
+            onClick={handleSearchModalOpen}>
+            <SearchIcon />
           </Button>
-        </InputGroup>
+        )}
       </Stack>
       <Modal isOpen={props.isOpen} onClose={props.onClose} size="xl">
         <ModalOverlay />
@@ -111,6 +132,37 @@ export default function SearchBoardsUI(props: SearchBoardsUIProps) {
           </ModalFooter>
         </ModalContent>
       </Modal>
+      {isMobile && (
+        <Modal isOpen={props.isOpen} onClose={props.onClose} size="xl">
+          <ModalOverlay />
+          <ModalContent p="10px">
+            <ModalHeader>검색</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <InputGroup>
+                <InputLeftElement pointerEvents="none">
+                  <SearchIcon color="dGray.medium" />
+                </InputLeftElement>
+                <Input
+                  ref={props.searchInputRef}
+                  placeholder="search"
+                  focusBorderColor="dPrimary"
+                  onKeyDown={props.onKeyDown}
+                />
+                <Button
+                  ml="10px"
+                  borderColor="dGray.medium"
+                  color="dGray.medium"
+                  variant="outline"
+                  _hover={{ color: 'dPrimary', borderColor: 'dPrimary' }}
+                  onClick={onClickSearchButton}>
+                  검색
+                </Button>
+              </InputGroup>
+            </ModalBody>
+          </ModalContent>
+        </Modal>
+      )}
     </>
   )
 }
