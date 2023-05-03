@@ -177,7 +177,7 @@ export default function AccountEdit() {
             intro: data.intro,
             picture: data.picture,
             jobGroup: data.jobGroup,
-            snsAccount: data.snsAccount,
+            snsAccount: [],
           },
         },
       })
@@ -214,7 +214,7 @@ export default function AccountEdit() {
       handleSubmit={handleSubmit}
       myJob={myJob}
       setMyJob={setMyJob}
-      onChangeMyJob={onChangeMyJob}
+      // onChangeMyJob={onChangeMyJob}
     />
   )
 }

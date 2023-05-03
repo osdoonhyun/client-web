@@ -68,7 +68,7 @@ export default function UserUI(props: UserUIProps) {
                   fontWeight="600">
                   <Flex alignItems="center" justifyContent="flex-start">
                     <Icon as={BsLink45Deg} mr={1} />
-                    <Text>{snsAccount.sns}</Text>
+                    {/* <Text>{snsAccount.sns}</Text> */}
                   </Flex>
                 </Link>
               ))}
