@@ -19,7 +19,7 @@ export default function FollowingBoards() {
 
   const categoryTitle = '🧐 팔로우 한 유저들의 책상 구경하기'
 
-  const users = data?.fetchFollowingBoards.flatMap(following => following.users) ?? []
+  const users = data?.fetchFollowingBoards ?? []
 
   const boardData = users.reduce((acc, user) => {
     if (user.boards) {
