@@ -81,7 +81,6 @@ export default function LoginForm() {
       if (isCheckedSaveEmail) {
         setMyEmailSaveLocal(data.email)
       }
-
       router.push('/')
     })
   }
