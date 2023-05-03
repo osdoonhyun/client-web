@@ -73,7 +73,11 @@ export default function LayoutHeaderUI(props: LayoutHeaderUIProps) {
                   <Avatar
                     mr={2}
                     size={'sm'}
-                    src={'https://avatars.dicebear.com/api/male/username.svg'}
+                    src={
+                      isLoggedIn && myUserInfo?.picture
+                        ? myUserInfo.picture
+                        : 'https://avatars.dicebear.com/api/male/username.svg'
+                    }
                   />
                 </MenuButton>
                 <MenuList alignItems={'center'}>
@@ -81,7 +85,11 @@ export default function LayoutHeaderUI(props: LayoutHeaderUIProps) {
                   <Center>
                     <Avatar
                       size={'xl'}
-                      src={'https://avatars.dicebear.com/api/male/username.svg'}
+                      src={
+                        isLoggedIn && myUserInfo?.picture
+                          ? myUserInfo.picture
+                          : 'https://avatars.dicebear.com/api/male/username.svg'
+                      }
                     />
                   </Center>
                   <br />
