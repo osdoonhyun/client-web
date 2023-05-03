@@ -16,7 +16,7 @@ type ApolloSettingProps = {
   children: ReactNode
 }
 
-const cache = new InMemoryCache()
+export const cache = new InMemoryCache()
 
 export default function ApolloSetting(props: ApolloSettingProps) {
   const [myToken, setMyToken] = useRecoilState(MyToken)
