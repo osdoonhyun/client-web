@@ -49,7 +49,7 @@ export type AccountEditInputForm = {
   //   sns: string
   // }
   jobGroup: string
-  snsAccount: string
+  // snsAccount: string
 }
 
 export const AccountEditSchema = yup.object({
