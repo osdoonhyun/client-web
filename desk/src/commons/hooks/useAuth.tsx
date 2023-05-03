@@ -53,7 +53,6 @@ export function useAuth() {
 
   /** 유저 정보 */
   useEffect(() => {
-    setIsLoggedIn(true)
     void fetchUserInfo()
   }, [myToken])
 
@@ -134,6 +133,7 @@ export function useAuth() {
       })
 
       setMyUserInfo(result.data.fetchLoginUser)
+      setIsLoggedIn(true)
     }
   }
 
