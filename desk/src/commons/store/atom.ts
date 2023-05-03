@@ -31,6 +31,7 @@ export const AuthModalToggle = atom({
 export const MyUserInfo = atom<TUser | null>({
   key: 'myUserInfo',
   default: null,
+  effects_UNSTABLE: [local],
 })
 
 export const isLoggedInState = atom<boolean>({
