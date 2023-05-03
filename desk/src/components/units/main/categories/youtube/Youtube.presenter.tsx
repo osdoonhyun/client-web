@@ -24,7 +24,9 @@ export default function YoutubeUI(props: YoutubeUIProps) {
   const [isMobile] = useMediaQuery('(max-width: 768px)')
 
   const getTitleSubstringLength = () => {
-    if (isMobile) return 25
+    if (isMobile) {
+      return 25
+    }
     return 30
   }
 
