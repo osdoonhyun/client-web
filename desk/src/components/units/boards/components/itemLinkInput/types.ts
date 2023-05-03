@@ -1,4 +1,4 @@
-import { TProduct } from '@/src/commons/types/generated/types'
+import { TOpenGraph, TProduct } from '@/src/commons/types/generated/types'
 
 export type ItemLinkInputProps = {
   title: string
@@ -13,4 +13,9 @@ export type ItemLinkType = {
   id: number
   name: string
   url: string
+  og: TOpenGraph
+}
+
+export type OpenGraphPreviewProps = {
+  item: ItemLinkType
 }
