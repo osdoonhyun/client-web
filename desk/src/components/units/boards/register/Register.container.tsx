@@ -87,7 +87,8 @@ export default function BoardsRegister(props: BoardsRegisterProps) {
 
   const createBoardSubmit = async (data: BoardsRegisterInputForm) => {
     // 대표사진
-    if (!(files[0] as File).size) {
+
+    if (!files[0]) {
       toast({
         title: '에러',
         description: '대표사진을 등록해주세요.',
