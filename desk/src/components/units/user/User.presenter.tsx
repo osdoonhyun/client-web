@@ -90,7 +90,7 @@ export default function UserUI(props: UserUIProps) {
               objectFit="cover"
               background="dGray.medium"
               boxSize="170px"
-              src={props.userData.user.picture ?? ''}
+              src={props.userData.user.picture ?? 'https://bit.ly/broken-link'}
             />
             {props.isMyPage ? ( // 나의 페이지면 프로필 수정하기 버튼 / 아니면 팔로우 버튼
               <Button
