@@ -115,6 +115,7 @@ export default function FollowModal(props: FollowModalProps) {
                           </VStack>
                         </Flex>
                         <IconButton
+                          // 여기에서 팔로우에는 data.id가 들어가야함
                           variant="outline"
                           color={data.followingStatus ? 'white' : 'dPrimary'}
                           bg={data.followingStatus ? 'dPrimary' : 'white'}
