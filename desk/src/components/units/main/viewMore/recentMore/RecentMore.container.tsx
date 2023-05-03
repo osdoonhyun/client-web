@@ -7,7 +7,9 @@ import ErrorMessage from '@/src/components/ui/errorMessage'
 import { useRouter } from 'next/router'
 
 export default function RecentMore() {
-  const { data, loading, error } = useQuery<Pick<TQuery, 'fetchBoards'>>(FETCH_BOARDS)
+  const { data, loading, error } = useQuery<Pick<TQuery, 'fetchBoards'>>(FETCH_BOARDS, {
+    variables: { userid: '' },
+  })
   const router = useRouter()
 
   if (loading) {

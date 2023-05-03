@@ -6,7 +6,9 @@ import CustomSpinner from '@/src/components/ui/customSpinner'
 import ErrorMessage from '@/src/components/ui/errorMessage'
 
 export default function Recent() {
-  const { data, loading, error } = useQuery<Pick<TQuery, 'fetchBoards'>>(FETCH_BOARDS)
+  const { data, loading, error } = useQuery<Pick<TQuery, 'fetchBoards'>>(FETCH_BOARDS, {
+    variables: { userid: '' },
+  })
 
   if (loading) {
     return <CustomSpinner />

@@ -1,9 +1,27 @@
-import { Avatar, Box, Container, Flex, Text, useColorModeValue } from '@chakra-ui/react'
+import {
+  Avatar,
+  Box,
+  Container,
+  Flex,
+  Text,
+  useBreakpointValue,
+  useColorModeValue,
+} from '@chakra-ui/react'
 import { FollowingBoardsMoreUIProps } from './FollowingBoardsMore.types'
 import MainImageStyle from '@/src/components/ui/mainImageStyle'
 import InfiniteScroll from 'react-infinite-scroller'
 
 export default function FollowingBoardsMoreUI(props: FollowingBoardsMoreUIProps) {
+  const categoryTitleFontSize = useBreakpointValue({
+    base: '15pt',
+    md: '18pt',
+  })
+
+  const ml = useBreakpointValue({
+    base: 0,
+    md: '25px',
+  })
+
   return (
     <>
       <Container
@@ -19,8 +37,9 @@ export default function FollowingBoardsMoreUI(props: FollowingBoardsMoreUIProps)
           'scrollbar-width': 'none',
         }}>
         <Text
-          ml="40px"
-          fontSize="18pt"
+          ml={ml}
+          fontSize={categoryTitleFontSize}
+          textAlign={['center', 'left']}
           fontWeight="700"
           color={useColorModeValue('dGray.dark', 'dGray.light')}>
           🧐 팔로우 한 유저들의 책상 구경하기
@@ -32,28 +51,41 @@ export default function FollowingBoardsMoreUI(props: FollowingBoardsMoreUIProps)
           useWindow={false}>
           <Flex flexWrap="wrap" justifyContent="center" m={2}>
             {props.boards.map((board, index) => (
-              <Box key={index} m={'15px'} p={1} textAlign="center">
-                {board.pictures.map(picture => {
-                  if (picture.isMain) {
-                    return (
-                      <MainImageStyle
-                        key={picture.id}
-                        src={picture.url}
-                        alt={`board image ${board.id}`}
-                      />
-                    )
-                  }
-                })}
-                <Text fontWeight="bold" mt={2}>
-                  {board.title}
+              <Box cursor="pointer" key={index} m={'15px'} p={1} textAlign="center">
+                <Box onClick={() => props.onClickBoardDetail(board.id)}>
+                  {board.pictures.map(picture => {
+                    if (picture.isMain) {
+                      return (
+                        <MainImageStyle
+                          key={picture.id}
+                          src={picture.url}
+                          alt={`board image ${board.id}`}
+                        />
+                      )
+                    }
+                  })}
+                </Box>
+                <Text
+                  w="245px"
+                  noOfLines={2}
+                  fontSize="13pt"
+                  fontWeight="bold"
+                  mt={2}
+                  cursor="pointer"
+                  onClick={() => props.onClickBoardDetail(board.id)}>
+                  {board.title.substring(0, 35)}
+                  {board.title.length > 35 ? '...' : ''}
                 </Text>
-                <Flex alignItems="center" justifyContent="center" mt={1}>
+                <Flex
+                  onClick={() => props.onClickUserDetail(board.user.id)}
+                  alignItems="center"
+                  justifyContent="center"
+                  mt={1}>
                   <Avatar
                     w="20px"
                     h="20px"
                     mr="5px"
-                    // src={board.user.picture}
-                    // alt={board.user.nickName}
+                    src={board.user.picture ?? 'https://bit.ly/broken-link'}
                   />
                   {board.user.nickName}
                 </Flex>

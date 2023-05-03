@@ -22,8 +22,17 @@ import FollowModal from './components/followModal'
 
 export default function UserUI(props: UserUIProps) {
   return (
-    <Box h="900px">
-      <Box mx="auto" maxW="900px" w="810px" h="900px">
+    <Box
+      h="900px"
+      overflow="auto"
+      sx={{
+        '&::-webkit-scrollbar': {
+          display: 'none',
+        },
+        '-ms-overflow-style': 'none',
+        'scrollbar-width': 'none',
+      }}>
+      <Box mx="auto" maxW="900px" w="810px">
         <Flex mt="100px" justify="space-between">
           <Flex direction="column" pos="relative">
             <Flex ml="15px" justify="space-between" align="center">
@@ -81,7 +90,7 @@ export default function UserUI(props: UserUIProps) {
               objectFit="cover"
               background="dGray.medium"
               boxSize="170px"
-              src={props.userData.user.picture ?? ''}
+              src={props.userData.user.picture ?? 'https://bit.ly/broken-link'}
             />
             {props.isMyPage ? ( // 나의 페이지면 프로필 수정하기 버튼 / 아니면 팔로우 버튼
               <Button

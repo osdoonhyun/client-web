@@ -138,6 +138,7 @@ export function useAuth() {
         },
       })
       setMyUserInfo(result.data.fetchLoginUser)
+      setIsLoggedIn(true)
     }
   }
 
