@@ -88,7 +88,7 @@ export default function AccountEditUI(props: AccountEditUIProps) {
               <MyJobSelect
                 setMyJob={props.setMyJob}
                 myJob={props.myJob}
-                onChange={props.onChangeMyJob(props.myJob)}
+                // onChange={props.onChangeMyJob(props.myJob)}
               />
             </Box>
           </Flex>
