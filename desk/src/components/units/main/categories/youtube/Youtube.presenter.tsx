@@ -23,6 +23,13 @@ export default function YoutubeUI(props: YoutubeUIProps) {
   const categoryTitle = '유튜브'
   const [isMobile] = useMediaQuery('(max-width: 768px)')
 
+  const getTitleSubstringLength = () => {
+    if (isMobile) {
+      return 25
+    }
+    return 30
+  }
+
   return (
     <>
       <CategoryHeader categoryTitle={categoryTitle} moreButtonHidden={false} />
@@ -44,8 +51,8 @@ export default function YoutubeUI(props: YoutubeUIProps) {
                   fontWeight="700"
                   color={useColorModeValue('dGray.dark', 'dGray.light')}>
                   <Box>
-                    {youtube.title.substring(0, 30)}
-                    {youtube.title.length > 30 ? '...' : ''}
+                    {youtube.title.substring(0, getTitleSubstringLength())}
+                    {youtube.title.length > getTitleSubstringLength() ? '...' : ''}
                   </Box>
                 </Flex>
                 <Flex
@@ -72,6 +79,7 @@ export default function YoutubeUI(props: YoutubeUIProps) {
           </Box>
         </Center>
       )}
+
       <Modal isOpen={!!props.selectedVideo} onClose={props.onClickCloseModal} size="4xl">
         <ModalOverlay />
         <ModalContent bg={'#000000d1'} borderRadius="10" p="10px">

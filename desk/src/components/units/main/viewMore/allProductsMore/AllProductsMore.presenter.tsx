@@ -1,9 +1,26 @@
-import { Box, Container, Flex, Text, useColorModeValue } from '@chakra-ui/react'
+import {
+  Box,
+  Container,
+  Flex,
+  Text,
+  useBreakpointValue,
+  useColorModeValue,
+} from '@chakra-ui/react'
 import { AllProductsMoreUIProps } from './AllProductsMore.types'
 import InfiniteScroll from 'react-infinite-scroller'
 import MainProductItems from '../../components/mainProductItems'
 
 export default function AllProductsMoreUI(props: AllProductsMoreUIProps) {
+  const categoryTitleFontSize = useBreakpointValue({
+    base: '15pt',
+    md: '18pt',
+  })
+
+  const ml = useBreakpointValue({
+    base: 0,
+    md: '40px',
+  })
+
   return (
     <>
       <Container
@@ -19,8 +36,9 @@ export default function AllProductsMoreUI(props: AllProductsMoreUIProps) {
           'scrollbar-width': 'none',
         }}>
         <Text
-          ml="45px"
-          fontSize="18pt"
+          ml={ml}
+          fontSize={categoryTitleFontSize}
+          textAlign={['center', 'left']}
           fontWeight="700"
           color={useColorModeValue('dGray.dark', 'dGray.light')}>
           💻 전체 장비 모아보기

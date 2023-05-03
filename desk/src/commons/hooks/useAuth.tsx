@@ -37,7 +37,6 @@ export function useAuth() {
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState)
   const [myToken, setMyToken] = useRecoilState(MyToken)
   const [myUserInfo, setMyUserInfo] = useRecoilState(MyUserInfo)
-
   const [loginMutation] = useMutation<Pick<TMutation, 'login'>>(LOGIN)
   const [logoutMutation] = useMutation<Pick<TMutation, 'logOut'>>(LOGOUT)
   const [signoutMutation] = useMutation<Pick<TMutation, 'deleteUser'>>(SIGNOUT)
@@ -53,7 +52,6 @@ export function useAuth() {
 
   /** 유저 정보 */
   useEffect(() => {
-    setIsLoggedIn(true)
     void fetchUserInfo()
   }, [myToken])
 
@@ -84,7 +82,6 @@ export function useAuth() {
       .then(() => {
         clear()
         setAuthModalType('AFTER_AUTH')
-
         router.push('/')
       })
       .catch(error => {
@@ -101,6 +98,7 @@ export function useAuth() {
 
   /** 로그인 */
   const login = async (email: string, password: string) => {
+    // void clear()
     return await loginMutation({
       variables: {
         loginInput: {
@@ -113,6 +111,7 @@ export function useAuth() {
         setIsLoggedIn(true)
         setMyToken(result.data?.login ?? '')
         setAuthModalType('AFTER_AUTH')
+        location.href = '/'
       })
       .catch(error => {
         if (error instanceof Error) {
@@ -129,11 +128,17 @@ export function useAuth() {
   /** 유저 정보 */
   const fetchUserInfo = async () => {
     if (myToken) {
+      setIsLoggedIn(true)
       const result = await client.query<Pick<TQuery, 'fetchLoginUser'>>({
         query: FETCH_LOGIN_USER,
+        context: {
+          headers: {
+            Authorization: `Bearer ${myToken}`,
+          },
+        },
       })
-
       setMyUserInfo(result.data.fetchLoginUser)
+      setIsLoggedIn(true)
     }
   }
 
@@ -214,8 +219,8 @@ export function useAuth() {
   // Helper methods
 
   const clear = async () => {
+    setMyToken('')
     setIsLoggedIn(false)
-    setMyUserInfo(null)
   }
 
   const openModal = (type: TAuthModalType) => {

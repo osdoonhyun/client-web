@@ -10,7 +10,10 @@ export type SearchBoardsUIProps = {
   highlightSearchKeyword: (text: string, keyword: string) => (string | JSX.Element)[]
   searchInputRef: RefObject<HTMLInputElement>
   searchKeyword?: string
-  isOpen: boolean
-  onOpen: () => void
-  onClose: () => void
+  isSearchOpen: boolean
+  onSearchOpen: () => void
+  onSearchClose: () => void
+  isResultOpen: boolean
+  onResultOpen: () => void
+  onResultClose: () => void
 }

@@ -41,7 +41,7 @@ export type TComments = {
   __typename?: 'Comments';
   board: TBoard;
   content: Scalars['String'];
-  createdAt: Scalars['DateTime'];
+  createdAt?: Maybe<Scalars['DateTime']>;
   id: Scalars['String'];
   replies?: Maybe<Array<TReply>>;
   user: TUser;
@@ -84,13 +84,6 @@ export type TFetchUser = {
   __typename?: 'FetchUser';
   boardCount: Scalars['Int'];
   user: TUser;
-};
-
-export type TFollowing = {
-  __typename?: 'Following';
-  followingid: Scalars['String'];
-  id: Scalars['String'];
-  users: Array<TUser>;
 };
 
 export type THashtag = {
@@ -247,7 +240,7 @@ export type TQuery = {
   fetchBoards: Array<TBoard>;
   fetchBoardsUserLiked: Array<TBoard>;
   fetchFollowees: Array<TUser>;
-  fetchFollowingBoards: Array<TFollowing>;
+  fetchFollowingBoards: Array<TUser>;
   fetchFollowings: Array<TUser>;
   fetchLoginUser: TUser;
   fetchTop10: Array<TBoard>;
@@ -262,10 +255,11 @@ export type TQuery = {
 
 export type TQueryFetchBoardArgs = {
   boardid: Scalars['String'];
+  userid: Scalars['String'];
 };
 
 
-export type TQueryFetchBoardsUserLikedArgs = {
+export type TQueryFetchBoardsArgs = {
   userid: Scalars['String'];
 };
 
@@ -276,6 +270,11 @@ export type TQueryFetchFolloweesArgs = {
 
 
 export type TQueryFetchFollowingsArgs = {
+  userid: Scalars['String'];
+};
+
+
+export type TQueryFetchTop10Args = {
   userid: Scalars['String'];
 };
 
@@ -347,7 +346,7 @@ export type TUpdateUserInput = {
   jobGroup?: InputMaybe<Scalars['String']>;
   nickName?: InputMaybe<Scalars['String']>;
   picture?: InputMaybe<Scalars['String']>;
-  snsAccount?: InputMaybe<Scalars['String']>;
+  snsAccount?: InputMaybe<Array<Scalars['String']>>;
 };
 
 export type TUser = {

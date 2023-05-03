@@ -15,58 +15,90 @@ import {
   ModalOverlay,
   Stack,
   Text,
+  useMediaQuery,
 } from '@chakra-ui/react'
 import { SearchBoardsUIProps } from './SearchBoards.types'
 
 export default function SearchBoardsUI(props: SearchBoardsUIProps) {
+  const [isMobile] = useMediaQuery('(max-width: 480px)')
+
   const onClickSearchButton = () => {
     const searchInput = props.searchInputRef.current
     if (searchInput) {
       const searchValue = searchInput.value
       if (searchValue) {
         props.onClickSearchBoard(searchValue)
-        props.onOpen()
-        searchInput.value = ''
+        if (isMobile) {
+          props.onSearchOpen()
+        } else {
+          props.onResultOpen()
+        }
       }
+    }
+  }
+
+  const onClickSearchModalOpen = () => {
+    if (isMobile) {
+      props.onSearchOpen()
+    } else {
+      onClickSearchButton()
     }
   }
 
   const onClickBoard = (boardId: string) => {
     props.onClickBoardDetail(boardId)
-    props.onClose()
+    props.onResultClose()
   }
 
   return (
     <>
       <Stack spacing={4}>
-        <InputGroup>
-          <InputLeftElement pointerEvents="none">
-            <SearchIcon color="dGray.medium" />
-          </InputLeftElement>
-          <Input
-            ref={props.searchInputRef}
-            placeholder="search"
-            focusBorderColor="dPrimary"
-            onKeyDown={props.onKeyDown}
-          />
+        {!isMobile && (
+          <InputGroup>
+            <InputLeftElement pointerEvents="none">
+              <SearchIcon color="dGray.medium" />
+            </InputLeftElement>
+            <Input
+              ref={props.searchInputRef}
+              placeholder="search"
+              focusBorderColor="dPrimary"
+              onKeyDown={props.onKeyDown}
+            />
+            <Button
+              ml="10px"
+              borderColor="dGray.medium"
+              color="dGray.medium"
+              variant="outline"
+              _hover={{ color: 'dPrimary', borderColor: 'dPrimary' }}
+              onClick={onClickSearchModalOpen}>
+              검색
+            </Button>
+          </InputGroup>
+        )}
+        {isMobile && (
           <Button
-            ml="10px"
             borderColor="dGray.medium"
             color="dGray.medium"
             variant="outline"
             _hover={{ color: 'dPrimary', borderColor: 'dPrimary' }}
-            onClick={onClickSearchButton}>
-            검색
+            onClick={onClickSearchModalOpen}>
+            <SearchIcon />
           </Button>
-        </InputGroup>
+        )}
       </Stack>
-      <Modal isOpen={props.isOpen} onClose={props.onClose} size="xl">
+      <Modal isOpen={props.isResultOpen} onClose={props.onResultClose} size="xl">
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent
+          h={
+            props.data?.searchBoards && props.data.searchBoards.length > 0
+              ? '700px'
+              : undefined
+          }
+          p="10px">
           <ModalHeader>검색 결과</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>
-            {props.data?.searchBoards ? (
+          <ModalBody overflowY="auto">
+            {props.data?.searchBoards && props.data.searchBoards.length > 0 ? (
               props.data.searchBoards.map(board => (
                 <Box
                   key={board.id}
@@ -95,12 +127,43 @@ export default function SearchBoardsUI(props: SearchBoardsUIProps) {
           <ModalFooter>
             <Button
               _hover={{ bg: 'dPrimaryHover.transparency', color: 'white' }}
-              onClick={props.onClose}>
+              onClick={props.onResultClose}>
               닫기
             </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
+      {isMobile && (
+        <Modal isOpen={props.isSearchOpen} onClose={props.onSearchClose} size="xl">
+          <ModalOverlay />
+          <ModalContent p="10px">
+            <ModalHeader>검색</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <InputGroup>
+                <InputLeftElement pointerEvents="none">
+                  <SearchIcon color="dGray.medium" />
+                </InputLeftElement>
+                <Input
+                  ref={props.searchInputRef}
+                  placeholder="search"
+                  focusBorderColor="dPrimary"
+                  onKeyDown={props.onKeyDown}
+                />
+                <Button
+                  ml="10px"
+                  borderColor="dGray.medium"
+                  color="dGray.medium"
+                  variant="outline"
+                  _hover={{ color: 'dPrimary', borderColor: 'dPrimary' }}
+                  onClick={onClickSearchButton}>
+                  검색
+                </Button>
+              </InputGroup>
+            </ModalBody>
+          </ModalContent>
+        </Modal>
+      )}
     </>
   )
 }

@@ -6,5 +6,7 @@ export type ExtendedBoard = TBoard & {
 
 export type FollowingBoardsMoreUIProps = {
   onLoadMore: () => void
+  onClickBoardDetail: (boardId: string) => void
+  onClickUserDetail: (userId: string) => void
   boards: ExtendedBoard[]
 }
