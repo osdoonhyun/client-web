@@ -13,6 +13,7 @@ export default function BoardDetailUI(props: BoardDetailUIProps) {
     <>
       <Box mt={'40px'} mb={'10px'}>
         <ProfileHeader
+          boardId={props.boardData.id}
           createdAt={props.boardData.createdAt}
           userData={props.boardData.writer}
         />
