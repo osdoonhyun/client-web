@@ -22,8 +22,17 @@ import FollowModal from './components/followModal'
 
 export default function UserUI(props: UserUIProps) {
   return (
-    <Box h="900px">
-      <Box mx="auto" maxW="900px" w="810px" h="900px">
+    <Box
+      h="900px"
+      overflow="auto"
+      sx={{
+        '&::-webkit-scrollbar': {
+          display: 'none',
+        },
+        '-ms-overflow-style': 'none',
+        'scrollbar-width': 'none',
+      }}>
+      <Box mx="auto" maxW="900px" w="810px">
         <Flex mt="100px" justify="space-between">
           <Flex direction="column" pos="relative">
             <Flex ml="15px" justify="space-between" align="center">
