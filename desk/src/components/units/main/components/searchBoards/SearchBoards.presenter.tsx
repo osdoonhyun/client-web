@@ -37,17 +37,17 @@ export default function SearchBoardsUI(props: SearchBoardsUIProps) {
     }
   }
 
-  const onClickBoard = (boardId: string) => {
-    props.onClickBoardDetail(boardId)
-    props.onResultClose()
-  }
-
-  const handleSearchModalOpen = () => {
+  const onClickSearchModalOpen = () => {
     if (isMobile) {
       props.onSearchOpen()
     } else {
       onClickSearchButton()
     }
+  }
+
+  const onClickBoard = (boardId: string) => {
+    props.onClickBoardDetail(boardId)
+    props.onResultClose()
   }
 
   return (
@@ -70,7 +70,7 @@ export default function SearchBoardsUI(props: SearchBoardsUIProps) {
               color="dGray.medium"
               variant="outline"
               _hover={{ color: 'dPrimary', borderColor: 'dPrimary' }}
-              onClick={handleSearchModalOpen}>
+              onClick={onClickSearchModalOpen}>
               검색
             </Button>
           </InputGroup>
@@ -81,7 +81,7 @@ export default function SearchBoardsUI(props: SearchBoardsUIProps) {
             color="dGray.medium"
             variant="outline"
             _hover={{ color: 'dPrimary', borderColor: 'dPrimary' }}
-            onClick={handleSearchModalOpen}>
+            onClick={onClickSearchModalOpen}>
             <SearchIcon />
           </Button>
         )}
