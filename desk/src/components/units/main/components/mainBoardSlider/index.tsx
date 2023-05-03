@@ -175,7 +175,7 @@ export default function MainBoardSlider({
                   w="20px"
                   h="20px"
                   mr="5px"
-                  src={writerImages[index] ?? 'https://bit.ly/broken-link'}
+                  src={writerImages[index] || 'https://bit.ly/broken-link'}
                 />
                 {writers[index] ?? ''}
               </Center>
