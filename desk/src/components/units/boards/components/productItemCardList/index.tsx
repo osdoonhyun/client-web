@@ -2,7 +2,6 @@ import {
   Box,
   Card,
   CardBody,
-  Heading,
   Image,
   Link,
   SimpleGrid,
@@ -31,6 +30,7 @@ export default function ProductItemCardList(props: ProductItemCardProps) {
             <Link href={product.url} isExternal>
               <Card
                 boxShadow={'md'}
+                height={'320px'}
                 bgColor={useColorModeValue('dGray.light', '#bababa1e')}>
                 <CardBody>
                   <Image
@@ -42,10 +42,19 @@ export default function ProductItemCardList(props: ProductItemCardProps) {
                     bgGradient="linear(to-l, #7928CA, #FF0080)"
                   />
                   <Stack mt="6" spacing="3">
-                    <Heading noOfLines={2} size="md">
+                    <Text
+                      noOfLines={2}
+                      fontSize={'18px'}
+                      fontWeight={'800'}
+                      height={'54px'}>
                       {product.name}
-                    </Heading>
-                    <Text noOfLines={2}>{product.description}</Text>
+                    </Text>
+                    <Text
+                      noOfLines={2}
+                      fontSize={'14px'}
+                      color={useColorModeValue('dGray.dark', 'dGray.medium')}>
+                      {product.description}
+                    </Text>
                   </Stack>
                 </CardBody>
               </Card>

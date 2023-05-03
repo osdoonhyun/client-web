@@ -18,8 +18,10 @@ import {
   BoardsRegisterProps,
   boardsRegisterSchema,
 } from './Register.types'
+import { useRouter } from 'next/router'
 
 export default function BoardsRegister(props: BoardsRegisterProps) {
+  const router = useRouter()
   const toast = useToast()
   const boardData = props.boardData?.fetchBoard
   const [isLoading, setIsLoading] = useState(false)
@@ -96,7 +98,12 @@ export default function BoardsRegister(props: BoardsRegisterProps) {
               title: data.title ?? '',
               description: data.deskIntroduce ?? '',
               createProductInputs: data.usingItems.map(item => {
-                return { name: item.name, url: item.url }
+                return {
+                  name: item.name,
+                  url: item.og.url,
+                  imageUrl: item.og.imageUrl,
+                  description: item.og.description,
+                }
               }),
               recommend: data.deskRecommendItem,
               hashtags: data.hashTag ?? [],
@@ -105,6 +112,7 @@ export default function BoardsRegister(props: BoardsRegisterProps) {
           },
         })
       })
+      .then(() => router.push('/'))
       .catch(error => {
         if (error instanceof Error) {
           toast({ title: '에러', description: `${error.message}`, status: 'error' })
