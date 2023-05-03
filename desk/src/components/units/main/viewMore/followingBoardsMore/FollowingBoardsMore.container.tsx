@@ -1,6 +1,6 @@
 import FollowingBoardsMoreUI from './FollowingBoardsMore.presenter'
 import { useQuery } from '@apollo/client'
-import { TQuery } from '@/src/commons/types/generated/types'
+import { TBoard, TQuery } from '@/src/commons/types/generated/types'
 import { ExtendedBoard } from './FollowingBoardsMore.types'
 import { FETCH_FOLLOWING_BOARDS } from './followingBoardsMore.queries'
 import CustomSpinner from '@/src/components/ui/customSpinner'
@@ -20,14 +20,17 @@ export default function FollowingBoardsMore() {
     return <ErrorMessage message={error.message} />
   }
 
-  const boards =
-    data?.fetchFollowingBoards
-      .flatMap(following =>
-        following.users.flatMap(user =>
-          user.boards?.map(board => ({ ...board, user: user })),
-        ),
-      )
-      ?.filter((board): board is ExtendedBoard => !!board) ?? []
+  const users = data?.fetchFollowingBoards ?? []
+
+  const boards = users.reduce((acc, user) => {
+    if (user.boards) {
+      const userBoards = user.boards
+        .filter((board): board is TBoard => board !== null && board !== undefined)
+        .map(board => ({ ...board, user: user }))
+      return [...acc, ...userBoards]
+    }
+    return acc
+  }, [] as ExtendedBoard[])
 
   const handleOnLoadMore = () => {
     console.log('더보기')
