@@ -11,15 +11,15 @@ import {
   FormControl,
   FormErrorMessage,
   FormLabel,
-  HStack,
   Heading,
+  HStack,
   Input,
   Link,
   Stack,
   Text,
   Tooltip,
-  VStack,
   useColorModeValue,
+  VStack,
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useRouter } from 'next/router'
@@ -77,7 +77,7 @@ export default function LoginForm() {
   }
 
   async function onClickLoginSubmit(data: AuthFormProps) {
-    await login(data.email, data.password).then(result => {
+    await login(data.email, data.password).then(() => {
       if (isCheckedSaveEmail) {
         setMyEmailSaveLocal(data.email)
       }
@@ -127,7 +127,7 @@ export default function LoginForm() {
                     <FormLabel mt={'20px'}>비밀번호</FormLabel>
                     <Input
                       type="password"
-                      autoFocus={myEmailSaveLocal}
+                      autoFocus={!!myEmailSaveLocal}
                       focusBorderColor={'dPrimary'}
                       placeholder={'비밀번호를 입력해 주세요'}
                       {...register('password')}
