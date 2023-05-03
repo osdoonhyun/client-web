@@ -5,10 +5,13 @@ import { ExtendedBoard } from './FollowingBoardsMore.types'
 import { FETCH_FOLLOWING_BOARDS } from './followingBoardsMore.queries'
 import CustomSpinner from '@/src/components/ui/customSpinner'
 import ErrorMessage from '@/src/components/ui/errorMessage'
+import { useRouter } from 'next/router'
 
 export default function FollowingBoardsMore() {
   const { data, loading, error } =
     useQuery<Pick<TQuery, 'fetchFollowingBoards'>>(FETCH_FOLLOWING_BOARDS)
+
+  const router = useRouter()
 
   if (loading) {
     return <CustomSpinner />
@@ -30,9 +33,22 @@ export default function FollowingBoardsMore() {
     console.log('더보기')
   }
 
+  const onClickBoardDetail = (boardId: string) => {
+    router.push(`/boards/${boardId}`)
+  }
+
+  const onClickUserDetail = (userId: string) => {
+    router.push(`/${userId}`)
+  }
+
   return (
     <>
-      <FollowingBoardsMoreUI onLoadMore={handleOnLoadMore} boards={boards} />
+      <FollowingBoardsMoreUI
+        onLoadMore={handleOnLoadMore}
+        boards={boards}
+        onClickBoardDetail={onClickBoardDetail}
+        onClickUserDetail={onClickUserDetail}
+      />
     </>
   )
 }
