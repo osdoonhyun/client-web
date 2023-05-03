@@ -1,6 +1,6 @@
 import Image from 'next/image'
-import { YoutubeImageStyleProps } from './types'
 import { useEffect, useState } from 'react'
+import { YoutubeImageStyleProps } from './types'
 
 export default function YoutubeImageStyle(props: YoutubeImageStyleProps) {
   const { src, alt } = props
