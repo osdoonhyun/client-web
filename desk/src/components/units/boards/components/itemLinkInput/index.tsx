@@ -4,6 +4,7 @@ import ErrorMessage from '@/src/components/ui/errorMessage'
 import { useLazyQuery } from '@apollo/client'
 import { AddIcon, MinusIcon } from '@chakra-ui/icons'
 import { Button, HStack, Input, Text, VStack, useColorModeValue } from '@chakra-ui/react'
+import { produce } from 'immer'
 import { ChangeEvent, FocusEvent, useEffect, useRef, useState } from 'react'
 import OpenGraphPreview from './OpenGraphPreview'
 import { FETCH_OPEN_GRAPH } from './queries'
@@ -38,6 +39,10 @@ export default function ItemLinkInput(props: ItemLinkInputProps) {
 
   const [fetchOpenGraph, { loading: openGraphLoading }] =
     useLazyQuery<Pick<TQuery, 'getOpenGraph'>>(FETCH_OPEN_GRAPH)
+
+  useEffect(() => {
+    fetchInitOpenGraphData()
+  }, [])
 
   useEffect(() => {
     props.onItems(items)
@@ -79,14 +84,24 @@ export default function ItemLinkInput(props: ItemLinkInputProps) {
     const { id } = onBlur.target
 
     await fetchOpenGraph({ variables: { url: onBlur.target.value } }).then(res => {
-      console.log('######', res.data?.getOpenGraph)
-
       setItems(items =>
         items.map(item =>
           item.id === Number(id) ? { ...item, og: res.data?.getOpenGraph ?? {} } : item,
         ),
       )
     })
+  }
+
+  const fetchInitOpenGraphData = () => {
+    items.map((item, index) =>
+      fetchOpenGraph({ variables: { url: item.url } }).then(res => {
+        setItems(items =>
+          produce(items, draft => {
+            draft[index].og = res.data?.getOpenGraph ?? {}
+          }),
+        )
+      }),
+    )
   }
 
   return (

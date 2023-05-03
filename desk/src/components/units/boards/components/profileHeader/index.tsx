@@ -1,13 +1,27 @@
+import { useAuth } from '@/src/commons/hooks/useAuth'
 import { getConvertedDate } from '@/src/commons/utils/util'
-import { Avatar, Badge, Flex, HStack, Text, useColorModeValue } from '@chakra-ui/react'
+import {
+  Avatar,
+  Badge,
+  Button,
+  Flex,
+  HStack,
+  Text,
+  useColorModeValue,
+} from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { ProfileHeaderProps } from './types'
 
 export default function ProfileHeader(props: ProfileHeaderProps) {
   const router = useRouter()
+  const { isWrittenBy } = useAuth()
 
   const onClickMoveToUserPage = () => {
     router.push(`/${props.userData.id}`)
+  }
+
+  const onClickMoveToDetailPage = () => {
+    router.push(`/boards/${props.boardId}/edit`)
   }
 
   return (
@@ -27,12 +41,23 @@ export default function ProfileHeader(props: ProfileHeaderProps) {
           {props.userData.jobGroup}
         </Badge>
       </HStack>
-      <Text
-        fontSize={14}
-        fontWeight={300}
-        color={useColorModeValue('dGray.dark', 'dGray.light')}>
-        {getConvertedDate(props.createdAt)}
-      </Text>
+      <HStack spacing={'20px'}>
+        <Text
+          fontSize={14}
+          fontWeight={300}
+          color={useColorModeValue('dGray.dark', 'dGray.light')}>
+          {getConvertedDate(props.createdAt)}
+        </Text>
+        {isWrittenBy(props.userData.id) && (
+          <Button
+            bgColor="dPrimary"
+            color="white"
+            size={'sm'}
+            onClick={onClickMoveToDetailPage}>
+            게시물 수정하기
+          </Button>
+        )}
+      </HStack>
     </Flex>
   )
 }

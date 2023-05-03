@@ -16,7 +16,7 @@ export default function BoardDetailCommentWriteUI(props: BoardDetailCommentWrite
 
   return (
     <VStack align={'stretch'}>
-      <Divider mt={'80px'} mb={'50px'} />
+      <Divider mt={'10px'} mb={'50px'} />
       <HStack>
         <Text
           fontSize={16}

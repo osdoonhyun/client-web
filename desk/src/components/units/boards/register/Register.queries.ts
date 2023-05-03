@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client'
 
 export const FETCH_BOARD = gql`
-  query fetchBoard($boardid: String!) {
-    fetchBoard(boardid: $boardid) {
+  query fetchBoard($boardid: String!, $userid: String!) {
+    fetchBoard(boardid: $boardid, userid: $userid) {
       id
       title
       description
@@ -49,7 +49,7 @@ export const CREATE_BOARD = gql`
 
 export const UPDATE_BOARD = gql`
   mutation updateBoard($updateBoardInput: UpdateBoardInput!, $boardid: String!) {
-    createBoard(updateBoardInput: $updateBoardInput, boardid: $boardid) {
+    updateBoard(updateBoardInput: $updateBoardInput, boardid: $boardid) {
       id
     }
   }

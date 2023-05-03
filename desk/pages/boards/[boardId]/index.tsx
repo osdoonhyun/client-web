@@ -23,6 +23,7 @@ export const getServerSideProps: GetServerSideProps<BoardDetailPageProps> = asyn
 
   const result = await graphQLClient.request<Pick<TQuery, 'fetchBoard'>>(FETCH_BOARD, {
     boardid: boardId as string,
+    userid: '', // 빈값으로 진행하기로 함 (2023.05.03)
   })
 
   return {
