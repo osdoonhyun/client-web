@@ -24,7 +24,7 @@ import { useToast } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { useCallback, useEffect } from 'react'
 import { useRecoilState } from 'recoil'
-import { TMutation } from '../types/generated/types'
+import { TMutation, TQuery } from '../types/generated/types'
 
 export function useAuth() {
   const client = useApolloClient()
@@ -37,7 +37,6 @@ export function useAuth() {
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState)
   const [myToken, setMyToken] = useRecoilState(MyToken)
   const [myUserInfo, setMyUserInfo] = useRecoilState(MyUserInfo)
-
   const [loginMutation] = useMutation<Pick<TMutation, 'login'>>(LOGIN)
   const [logoutMutation] = useMutation<Pick<TMutation, 'logOut'>>(LOGOUT)
   const [signoutMutation] = useMutation<Pick<TMutation, 'deleteUser'>>(SIGNOUT)
@@ -53,7 +52,6 @@ export function useAuth() {
 
   /** 유저 정보 */
   useEffect(() => {
-    // console.log('myToken유저정보입니다.' + myToken)
     void fetchUserInfo()
   }, [myToken])
 
@@ -84,7 +82,6 @@ export function useAuth() {
       .then(() => {
         clear()
         setAuthModalType('AFTER_AUTH')
-
         router.push('/')
       })
       .catch(error => {
@@ -101,6 +98,7 @@ export function useAuth() {
 
   /** 로그인 */
   const login = async (email: string, password: string) => {
+    // void clear()
     return await loginMutation({
       variables: {
         loginInput: {
@@ -113,6 +111,7 @@ export function useAuth() {
         setIsLoggedIn(true)
         setMyToken(result.data?.login ?? '')
         setAuthModalType('AFTER_AUTH')
+        location.href = '/'
       })
       .catch(error => {
         if (error instanceof Error) {
@@ -130,10 +129,16 @@ export function useAuth() {
   const fetchUserInfo = async () => {
     if (myToken) {
       setIsLoggedIn(true)
-      const result = await client.query({ query: FETCH_LOGIN_USER })
-      const { id, email, nickName, jobGroup, provider } = result.data?.fetchLoginUser
-
-      setMyUserInfo({ id, email, nickName, jobGroup, provider })
+      const result = await client.query<Pick<TQuery, 'fetchLoginUser'>>({
+        query: FETCH_LOGIN_USER,
+        context: {
+          headers: {
+            Authorization: `Bearer ${myToken}`,
+          },
+        },
+      })
+      setMyUserInfo(result.data.fetchLoginUser)
+      setIsLoggedIn(true)
     }
   }
 
@@ -214,9 +219,8 @@ export function useAuth() {
   // Helper methods
 
   const clear = async () => {
-    // setMyToken('')
+    setMyToken('')
     setIsLoggedIn(false)
-    setMyUserInfo(null)
   }
 
   const openModal = (type: TAuthModalType) => {
@@ -224,8 +228,13 @@ export function useAuth() {
     setAuthModalToggle(prev => !prev)
   }
 
+  const isWrittenBy = (id: string) => {
+    return myUserInfo?.id === id
+  }
+
   return {
     isLoggedIn,
+    isWrittenBy,
     login,
     logout,
     signout,

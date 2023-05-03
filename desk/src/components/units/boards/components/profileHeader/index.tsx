@@ -1,11 +1,18 @@
 import { getConvertedDate } from '@/src/commons/utils/util'
 import { Avatar, Badge, Flex, HStack, Text, useColorModeValue } from '@chakra-ui/react'
+import { useRouter } from 'next/router'
 import { ProfileHeaderProps } from './types'
 
 export default function ProfileHeader(props: ProfileHeaderProps) {
+  const router = useRouter()
+
+  const onClickMoveToUserPage = () => {
+    router.push(`/${props.userData.id}`)
+  }
+
   return (
     <Flex justify={'space-between'} align={'center'}>
-      <HStack spacing={'14px'}>
+      <HStack spacing={'14px'} onClick={onClickMoveToUserPage} cursor={'pointer'}>
         <Avatar
           w={'40px'}
           h={'40px'}

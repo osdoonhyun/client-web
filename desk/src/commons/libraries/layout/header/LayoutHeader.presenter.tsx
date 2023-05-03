@@ -17,8 +17,9 @@ import {
 } from '@chakra-ui/react'
 import { MoonIcon, SunIcon } from '@chakra-ui/icons'
 import { LayoutHeaderUIProps } from './LayoutHeader.types'
-import Logo from '@/src/components/ui/logo'
 import { useAuth } from '@/src/commons/hooks/useAuth'
+import Logo from '@/src/components/ui/logo'
+import SearchBoards from '@/src/components/units/main/components/searchBoards/SearchBoards.container'
 
 const NavLink = ({ children }: { children: ReactNode }) => (
   <Link
@@ -41,6 +42,7 @@ export default function LayoutHeaderUI(props: LayoutHeaderUIProps) {
     myUserInfo,
     LoginModalUI,
     SignupModalUI,
+    signout,
     fetchUserInfo,
     openModal,
     logout,
@@ -57,6 +59,7 @@ export default function LayoutHeaderUI(props: LayoutHeaderUIProps) {
           <Logo />
           <Flex alignItems={'center'}>
             <Stack direction={'row'} spacing={4}>
+              <SearchBoards />
               <Button onClick={toggleColorMode}>
                 {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
               </Button>
@@ -99,6 +102,7 @@ export default function LayoutHeaderUI(props: LayoutHeaderUIProps) {
                         마이페이지
                       </MenuItem>
                       <MenuItem onClick={logout}>로그아웃</MenuItem>
+                      <MenuItem onClick={signout}>회원탈퇴</MenuItem>
                     </>
                   )}
                 </MenuList>

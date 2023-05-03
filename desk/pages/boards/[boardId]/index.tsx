@@ -7,6 +7,7 @@ import BoardDetailCommentWrite from '@/src/components/units/boards/detail/commen
 import { VStack } from '@chakra-ui/react'
 import { GraphQLClient } from 'graphql-request'
 import { GetServerSideProps } from 'next'
+import { useState } from 'react'
 
 type BoardDetailPageProps = {
   boardData: Pick<TQuery, 'fetchBoard'>
@@ -34,6 +35,8 @@ export const getServerSideProps: GetServerSideProps<BoardDetailPageProps> = asyn
 export default function BoardDetailPage(props: BoardDetailPageProps) {
   const boardData = props.boardData.fetchBoard
 
+  const [commentDatas, setCommentDatas] = useState(boardData.comments ?? [])
+
   return (
     <VStack
       maxW={maxWidth.lg}
@@ -42,8 +45,16 @@ export default function BoardDetailPage(props: BoardDetailPageProps) {
       pr={'10px'}
       align={'stretch'}>
       <BoardDetail boardData={boardData} />
-      <BoardDetailCommentWrite />
-      <BoardDetailCommentList />
+      <BoardDetailCommentWrite
+        boardId={boardData.id}
+        userData={boardData.writer}
+        commentDatas={commentDatas}
+        setCommentDatas={setCommentDatas}
+      />
+      <BoardDetailCommentList
+        commentDatas={commentDatas}
+        setCommentDatas={setCommentDatas}
+      />
     </VStack>
   )
 }

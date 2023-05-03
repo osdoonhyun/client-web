@@ -60,6 +60,7 @@ export const FETCH_LOGIN_USER = gql`
       id
       email
       nickName
+      picture
       jobGroup
       provider
     }
