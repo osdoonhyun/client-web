@@ -1,5 +1,5 @@
 import { ChangeEvent, MutableRefObject } from 'react'
-import { TMyUserInfo } from '../auth/Auth.types'
+// import { TMyUserInfo } from '../auth/Auth.types'
 import * as yup from 'yup'
 import { UseFormReturn, useForm } from 'react-hook-form'
 import { TUser } from '@/src/commons/types/generated/types'

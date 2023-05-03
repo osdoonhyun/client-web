@@ -84,7 +84,7 @@ export default function AccountEdit() {
 
   const [myJob, setMyJob] = useState('')
 
-  console.log('##################', myJob)
+  // console.log('##################', myJob)
 
   const onChangeFileUrl = useCallback((fileUrl: string, index: number) => {
     console.log(fileUrl)
@@ -177,7 +177,7 @@ export default function AccountEdit() {
             intro: data.intro,
             picture: data.picture,
             jobGroup: data.jobGroup,
-            snsAccount: [],
+            // snsAccount: data.snsAccount,
           },
         },
       })
