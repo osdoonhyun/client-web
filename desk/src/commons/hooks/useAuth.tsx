@@ -19,11 +19,11 @@ import {
 } from '@/src/components/units/auth/queries/mutation'
 import SignoutIsOpen from '@/src/components/units/auth/signout/Signout.isOpen'
 import SignupIsOpen from '@/src/components/units/auth/signup/Signup.isOpen'
-import { useApolloClient, useLazyQuery, useMutation } from '@apollo/client'
+import { useApolloClient, useMutation } from '@apollo/client'
 import { useToast } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { useCallback, useEffect } from 'react'
-import { useRecoilState, useResetRecoilState } from 'recoil'
+import { useRecoilState } from 'recoil'
 import { TMutation, TQuery } from '../types/generated/types'
 
 export function useAuth() {
@@ -37,8 +37,6 @@ export function useAuth() {
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState)
   const [myToken, setMyToken] = useRecoilState(MyToken)
   const [myUserInfo, setMyUserInfo] = useRecoilState(MyUserInfo)
-  const [fetchInfo, { data }] = useLazyQuery(FETCH_LOGIN_USER)
-  const resetUserInfo = useResetRecoilState(MyUserInfo)
   const [loginMutation] = useMutation<Pick<TMutation, 'login'>>(LOGIN)
   const [logoutMutation] = useMutation<Pick<TMutation, 'logOut'>>(LOGOUT)
   const [signoutMutation] = useMutation<Pick<TMutation, 'deleteUser'>>(SIGNOUT)
@@ -222,8 +220,6 @@ export function useAuth() {
   const clear = async () => {
     setMyToken('')
     setIsLoggedIn(false)
-    // setMyUserInfo(null)
-    resetUserInfo()
   }
 
   const openModal = (type: TAuthModalType) => {
