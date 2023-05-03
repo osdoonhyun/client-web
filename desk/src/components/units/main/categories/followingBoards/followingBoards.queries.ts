@@ -1,29 +1,22 @@
 import { gql } from '@apollo/client'
 
 export const FETCH_FOLLOWING_BOARDS = gql`
-  query fetchFollowingBoards {
+  query {
     fetchFollowingBoards {
-      users {
+      id
+      email
+      nickName
+      picture
+      jobGroup
+      boards {
         id
-        nickName
-        picture
-        followeeStatus
-        boards {
+        title
+        recommend
+        description
+        pictures {
           id
-          title
-          pictures {
-            id
-            url
-            isMain
-          }
-          writer {
-            id
-            nickName
-            picture
-          }
-          createdAt
-          likes
-          views
+          url
+          isMain
         }
       }
     }

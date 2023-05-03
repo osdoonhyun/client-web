@@ -5,6 +5,7 @@ import {
   Container,
   Flex,
   Text,
+  useBreakpointValue,
   useColorModeValue,
 } from '@chakra-ui/react'
 import { RecentMoreUIProps } from './RecentMore.types'
@@ -12,6 +13,16 @@ import MainImageStyle from '@/src/components/ui/mainImageStyle'
 import InfiniteScroll from 'react-infinite-scroller'
 
 export default function RecentMoreUI(props: RecentMoreUIProps) {
+  const categoryTitleFontSize = useBreakpointValue({
+    base: '15pt',
+    md: '18pt',
+  })
+
+  const ml = useBreakpointValue({
+    base: 0,
+    md: '25px',
+  })
+
   return (
     <>
       <Container
@@ -27,11 +38,12 @@ export default function RecentMoreUI(props: RecentMoreUIProps) {
           'scrollbar-width': 'none',
         }}>
         <Text
-          ml="30px"
-          fontSize="18pt"
+          ml={ml}
+          fontSize={categoryTitleFontSize}
+          textAlign={['center', 'left']}
           fontWeight="700"
           color={useColorModeValue('dGray.dark', 'dGray.light')}>
-          최근 게시물
+          ⏱️ 최근 게시물
         </Text>
         <InfiniteScroll
           pageStart={0}
@@ -71,7 +83,6 @@ export default function RecentMoreUI(props: RecentMoreUIProps) {
                     cursor="pointer"
                     onClick={() => props.onClickUserDetail(board.writer.id)}>
                     <Avatar
-                      // size={'xs'}
                       w="20px"
                       h="20px"
                       mr="5px"
