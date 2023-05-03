@@ -59,7 +59,9 @@ export default function UserUI(props: UserUIProps) {
               <Text mb="23px" fontSize="16px" alignItems="center" fontWeight="600">
                 한 줄 소개 : {props.userData.user.intro}
               </Text>
-              {props.userData.user.snsAccounts?.map(snsAccount => (
+
+              {/* FIXME */}
+              {/* {props.userData.user.snsAccounts?.map(snsAccount => (
                 <Link
                   key={snsAccount.id}
                   href={snsAccount.sns}
@@ -68,10 +70,11 @@ export default function UserUI(props: UserUIProps) {
                   fontWeight="600">
                   <Flex alignItems="center" justifyContent="flex-start">
                     <Icon as={BsLink45Deg} mr={1} />
-                    {/* <Text>{snsAccount.sns}</Text> */}
+                    {/* <Text>{snsAccount.sns}</Text> 
                   </Flex>
                 </Link>
-              ))}
+              ))} */}
+
               {/* <Link
                 href="https://www.example.com"
                 isExternal
