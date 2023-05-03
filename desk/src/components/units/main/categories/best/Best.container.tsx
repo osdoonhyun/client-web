@@ -6,7 +6,9 @@ import CustomSpinner from '@/src/components/ui/customSpinner'
 import ErrorMessage from '@/src/components/ui/errorMessage'
 
 export default function Best() {
-  const { data, loading, error } = useQuery<Pick<TQuery, 'fetchTop10'>>(FETCH_TOP10)
+  const { data, loading, error } = useQuery<Pick<TQuery, 'fetchTop10'>>(FETCH_TOP10, {
+    variables: { userid: '' },
+  })
 
   if (loading) {
     return <CustomSpinner />
