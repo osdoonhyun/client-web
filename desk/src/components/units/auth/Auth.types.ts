@@ -52,6 +52,8 @@ export type AuthFormProps = {
 export type MyJob = {
   myJob: string
   setMyJob: (myJob: string) => void
+  // onChange?: (myJob: string) => void
+  onChange?: () => void
 }
 
 const ErrorLog = {

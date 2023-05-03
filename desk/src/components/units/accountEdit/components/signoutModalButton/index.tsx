@@ -1,3 +1,4 @@
+import { useAuth } from '@/src/commons/hooks/useAuth'
 import {
   Modal,
   ModalOverlay,
@@ -18,11 +19,12 @@ import { ChangeEvent, useState } from 'react'
 export default function SignoutModalButton() {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [isChecked, setIsChecked] = useState<boolean>(false)
+  const { signout } = useAuth()
 
   const onClickSignOutButton = () => {
     if (isChecked) {
       // TODO: 회원 탈퇴 로직 추가
-
+      signout()
       onClose()
     }
   }
