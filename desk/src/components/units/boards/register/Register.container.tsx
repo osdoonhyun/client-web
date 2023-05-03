@@ -9,7 +9,8 @@ import { useMutation } from '@apollo/client'
 import { useToast } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { produce } from 'immer'
-import { useCallback, useState } from 'react'
+import { useRouter } from 'next/router'
+import { useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import BoardsRegisterUI from './Register.presenter'
 import { CREATE_BOARD, UPDATE_BOARD } from './Register.queries'
@@ -18,14 +19,19 @@ import {
   BoardsRegisterProps,
   boardsRegisterSchema,
 } from './Register.types'
-import { useRouter } from 'next/router'
 
 export default function BoardsRegister(props: BoardsRegisterProps) {
   const router = useRouter()
   const toast = useToast()
   const boardData = props.boardData?.fetchBoard
   const [isLoading, setIsLoading] = useState(false)
-  const [files, setFiles] = useState<(File | null)[]>([null, null, null, null, null])
+  const [files, setFiles] = useState<(File | string | null)[]>([
+    null,
+    null,
+    null,
+    null,
+    null,
+  ])
   const useFormReturn = useForm<BoardsRegisterInputForm>({
     resolver: yupResolver(boardsRegisterSchema),
     mode: 'onSubmit',
@@ -51,6 +57,16 @@ export default function BoardsRegister(props: BoardsRegisterProps) {
     TMutationUpdateBoardArgs
   >(UPDATE_BOARD)
 
+  useEffect(() => {
+    if (props.isEdit) {
+      initFilesWhenIsEdit()
+    }
+  }, [])
+
+  const initFilesWhenIsEdit = () => {
+    boardData?.pictures.forEach((picture, index) => (files[index] = picture.url))
+  }
+
   const onChangeFile = useCallback((file: File, index: number) => {
     setFiles(
       produce(draft => {
@@ -61,8 +77,17 @@ export default function BoardsRegister(props: BoardsRegisterProps) {
 
   const onClickSubmit = async (data: BoardsRegisterInputForm) => {
     console.log(data)
+
+    if (props.isEdit) {
+      updateBoardSubmit(data)
+    } else {
+      createBoardSubmit(data)
+    }
+  }
+
+  const createBoardSubmit = async (data: BoardsRegisterInputForm) => {
     // 대표사진
-    if (!files[0]?.size) {
+    if (!(files[0] as File).size) {
       toast({
         title: '에러',
         description: '대표사진을 등록해주세요.',
@@ -124,6 +149,57 @@ export default function BoardsRegister(props: BoardsRegisterProps) {
 
     // 테스트용 사용됨.
     // onClickTestSubmit(data)
+  }
+
+  const updateBoardSubmit = async (data: BoardsRegisterInputForm) => {
+    setIsLoading(true)
+
+    let filesBeforeUpload = files
+      .filter(file => file !== null)
+      .filter(file => typeof file !== 'string')
+    let filesAfterUpload: string[] = []
+
+    await uploadFile({ variables: { files: filesBeforeUpload } })
+      .then(res => res.data?.uploadFile)
+      .then(urls => {
+        filesAfterUpload = files
+          .filter(file => file !== null)
+          .filter(file => typeof file === 'string') as string[]
+        filesAfterUpload = [...filesAfterUpload, ...(urls as string[])]
+
+        setFiles(filesAfterUpload)
+      })
+      .then(() => {
+        return updateBoard({
+          variables: {
+            boardid: boardData?.id ?? '',
+            updateBoardInput: {
+              title: data.title ?? '',
+              description: data.deskIntroduce ?? '',
+              recommend: data.deskRecommendItem,
+              hashtags: data.hashTag ?? [],
+              uploadFile: filesAfterUpload,
+              updateProductInputs: data.usingItems.map(item => {
+                return {
+                  name: item.name,
+                  url: item.og.url,
+                  imageUrl: item.og.imageUrl,
+                  description: item.og.description,
+                }
+              }),
+            },
+          },
+        })
+      })
+      .then(() => router.push(`/boards/${boardData?.id}`))
+      .catch(error => {
+        if (error instanceof Error) {
+          toast({ title: '에러', description: `${error.message}`, status: 'error' })
+        }
+      })
+      .finally(() => {
+        setIsLoading(false)
+      })
   }
 
   const onClickTestSubmit = async (data: BoardsRegisterInputForm) => {

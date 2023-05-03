@@ -49,7 +49,7 @@ export const CREATE_BOARD = gql`
 
 export const UPDATE_BOARD = gql`
   mutation updateBoard($updateBoardInput: UpdateBoardInput!, $boardid: String!) {
-    createBoard(updateBoardInput: $updateBoardInput, boardid: $boardid) {
+    updateBoard(updateBoardInput: $updateBoardInput, boardid: $boardid) {
       id
     }
   }
