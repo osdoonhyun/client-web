@@ -48,10 +48,9 @@ export default function NavigationTabs(props: NavigationTabsProps) {
     FETCH_USER_BOARDS,
     { variables: { userid: props.userid as string } },
   )
-  const { data: userLikedBoards } = useQuery<Pick<TQuery, 'fetchBoardsUserLiked'>>(
-    FETCH_BOARDS_USER_LIKED,
-    { variables: { userid: props.userid as string } },
-  )
+  const { data: userLikedBoards, refetch: refetchUserLikedBoards } = useQuery<
+    Pick<TQuery, 'fetchBoardsUserLiked'>
+  >(FETCH_BOARDS_USER_LIKED, { variables: { userid: props.userid as string } })
   const { data: userProducts } = useQuery<Pick<TQuery, 'fetchUserProducts'>>(
     FETCH_USER_PRODUCTS,
     {
@@ -95,6 +94,7 @@ export default function NavigationTabs(props: NavigationTabsProps) {
         handleShowUserPosts()
       } else if (id === TabID.USER_PRODUCT_POSTS) {
         handleShowUserProductPosts()
+        refetchUserLikedBoards()
       } else if (id === TabID.USER_LIKED_POSTS) {
         handleShowLikedPosts()
       }
