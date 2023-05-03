@@ -1,10 +1,16 @@
 import { TAuthModalType } from '@/src/components/units/auth/Auth.types'
 import { atom } from 'recoil'
 import { TUser } from '../types/generated/types'
+import { recoilPersist } from 'recoil-persist'
+
+const { persistAtom: local } = recoilPersist({
+  key: `atomLocal`,
+})
 
 export const MyEmailSave = atom({
   key: `myEmailSave`,
   default: '',
+  effects_UNSTABLE: [local],
 })
 
 export const MyToken = atom<string>({
