@@ -41,11 +41,7 @@ export default function BoardItem(props: BoardItemProps) {
   }
 
   return (
-    <Box
-      key={props.index}
-      pos="relative"
-      cursor="pointer"
-      onClick={() => onClickBoardItem(props.boardId)}>
+    <Box key={props.index} pos="relative" cursor="pointer">
       <Image
         h="250px"
         width={'100%'}
@@ -53,6 +49,7 @@ export default function BoardItem(props: BoardItemProps) {
         src={props.imageUrl ?? ''}
         bg="dGray"
         borderRadius="10px"
+        onClick={() => onClickBoardItem(props.boardId)}
       />
       <Box
         pos="absolute"
