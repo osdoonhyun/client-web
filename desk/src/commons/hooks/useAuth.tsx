@@ -53,7 +53,6 @@ export function useAuth() {
 
   /** 유저 정보 */
   useEffect(() => {
-    setIsLoggedIn(true)
     void fetchUserInfo()
   }, [myToken])
 
@@ -129,11 +128,13 @@ export function useAuth() {
   /** 유저 정보 */
   const fetchUserInfo = async () => {
     if (myToken) {
+      setIsLoggedIn(true)
       const result = await client.query<Pick<TQuery, 'fetchLoginUser'>>({
         query: FETCH_LOGIN_USER,
       })
+      const { id, email, nickName, jobGroup, provider } = result.data?.fetchLoginUser
 
-      setMyUserInfo(result.data.fetchLoginUser)
+      setMyUserInfo({ id, email, nickName, jobGroup, provider })
     }
   }
 
@@ -214,6 +215,7 @@ export function useAuth() {
   // Helper methods
 
   const clear = async () => {
+    setMyToken('')
     setIsLoggedIn(false)
     setMyUserInfo(null)
   }
