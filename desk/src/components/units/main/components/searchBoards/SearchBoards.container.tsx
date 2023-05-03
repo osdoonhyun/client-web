@@ -4,7 +4,7 @@ import { useLazyQuery } from '@apollo/client'
 import { KeyboardEvent, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router'
 import { SEARCH_BOARDS } from './SearchBoards.queries'
-import { Text, useDisclosure } from '@chakra-ui/react'
+import { Text, useDisclosure, useMediaQuery } from '@chakra-ui/react'
 import CustomSpinner from '@/src/components/ui/customSpinner'
 import ErrorMessage from '@/src/components/ui/errorMessage'
 
@@ -27,7 +27,18 @@ const highlightSearchKeyword = (
 }
 
 export default function SearchBoards() {
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const {
+    isOpen: isSearchOpen,
+    onOpen: onSearchOpen,
+    onClose: onSearchClose,
+  } = useDisclosure()
+  const {
+    isOpen: isResultOpen,
+    onOpen: onResultOpen,
+    onClose: onResultClose,
+  } = useDisclosure()
+
+  const [isMobile] = useMediaQuery('(max-width: 480px)')
   const searchInputRef = useRef<HTMLInputElement>(null)
   const router = useRouter()
 
@@ -43,20 +54,23 @@ export default function SearchBoards() {
     if (searchValue) {
       setSearchKeyword(searchValue)
       searchBoards({ variables: { keyword: searchValue } })
-      onOpen()
+      onSearchClose()
+      onResultOpen()
     }
   }
 
   const onClickBoardDetail = (boardId: string) => {
-    onClose()
+    onResultClose()
     router.push(`/boards/${boardId}`)
   }
 
   useEffect(() => {
     if (data) {
       setBoards(data)
+      onResultOpen()
+      onSearchClose()
     }
-  }, [data])
+  }, [data, onResultOpen, onSearchClose])
 
   if (loading) {
     return <CustomSpinner />
@@ -71,15 +85,17 @@ export default function SearchBoards() {
       event.preventDefault()
       const searchInput = searchInputRef.current
       if (searchInput) {
-        setTimeout(() => {
-          const searchValue = searchInput.value
-          if (searchValue) {
-            setSearchKeyword(searchValue)
-            searchBoards({ variables: { keyword: searchValue } })
-            onOpen()
-            searchInput.value = ''
+        const searchValue = searchInput.value
+        if (searchValue) {
+          setSearchKeyword(searchValue)
+          searchBoards({ variables: { keyword: searchValue } })
+          if (isMobile) {
+            onSearchOpen()
+          } else {
+            onResultOpen()
           }
-        }, 0)
+          searchInput.value = ''
+        }
       }
     }
   }
@@ -92,9 +108,12 @@ export default function SearchBoards() {
         loading={loading}
         data={boards}
         searchInputRef={searchInputRef}
-        isOpen={isOpen}
-        onClose={onClose}
-        onOpen={onOpen}
+        isSearchOpen={isSearchOpen}
+        onSearchOpen={onSearchOpen}
+        onSearchClose={onSearchClose}
+        isResultOpen={isResultOpen}
+        onResultOpen={onResultOpen}
+        onResultClose={onResultClose}
         highlightSearchKeyword={highlightSearchKeyword}
         searchKeyword={searchKeyword}
         onKeyDown={onKeyDown}

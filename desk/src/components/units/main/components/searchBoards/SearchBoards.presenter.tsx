@@ -22,15 +22,16 @@ import { SearchBoardsUIProps } from './SearchBoards.types'
 export default function SearchBoardsUI(props: SearchBoardsUIProps) {
   const [isMobile] = useMediaQuery('(max-width: 480px)')
 
-  const onClickSearchButton = async () => {
+  const onClickSearchButton = () => {
     const searchInput = props.searchInputRef.current
     if (searchInput) {
       const searchValue = searchInput.value
       if (searchValue) {
-        await props.onClickSearchBoard(searchValue)
-        searchInput.value = ''
-        if (!isMobile) {
-          props.onOpen()
+        props.onClickSearchBoard(searchValue)
+        if (isMobile) {
+          props.onSearchOpen()
+        } else {
+          props.onResultOpen()
         }
       }
     }
@@ -38,14 +39,14 @@ export default function SearchBoardsUI(props: SearchBoardsUIProps) {
 
   const onClickBoard = (boardId: string) => {
     props.onClickBoardDetail(boardId)
-    props.onClose()
+    props.onResultClose()
   }
 
-  const handleSearchModalOpen = async () => {
+  const handleSearchModalOpen = () => {
     if (isMobile) {
-      props.onOpen()
+      props.onSearchOpen()
     } else {
-      await onClickSearchButton()
+      onClickSearchButton()
     }
   }
 
@@ -85,7 +86,7 @@ export default function SearchBoardsUI(props: SearchBoardsUIProps) {
           </Button>
         )}
       </Stack>
-      <Modal isOpen={props.isOpen} onClose={props.onClose} size="xl">
+      <Modal isOpen={props.isResultOpen} onClose={props.onResultClose} size="xl">
         <ModalOverlay />
         <ModalContent
           h={
@@ -126,14 +127,14 @@ export default function SearchBoardsUI(props: SearchBoardsUIProps) {
           <ModalFooter>
             <Button
               _hover={{ bg: 'dPrimaryHover.transparency', color: 'white' }}
-              onClick={props.onClose}>
+              onClick={props.onResultClose}>
               닫기
             </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
       {isMobile && (
-        <Modal isOpen={props.isOpen} onClose={props.onClose} size="xl">
+        <Modal isOpen={props.isSearchOpen} onClose={props.onSearchClose} size="xl">
           <ModalOverlay />
           <ModalContent p="10px">
             <ModalHeader>검색</ModalHeader>
