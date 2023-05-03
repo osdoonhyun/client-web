@@ -30,13 +30,13 @@ export type AccountEditUIProps = {
   // register: ReturnType<typeof useForm>['register']
   // handleSubmit: ReturnType<typeof useForm>['handleSubmit']
   // useForm: UseFormReturn<AccountEditInputForm, any>
-  useForm: UseFormReturn<AccountEditInputForm, any>
+  // useForm: UseFormReturn<AccountEditInputForm, any>
   register: UseFormReturn<AccountEditInputForm, any>['register']
   handleSubmit: UseFormReturn<AccountEditInputForm, any>['handleSubmit']
   myJob: string
   setMyJob: (myJob: string) => void
-  onChangeMyJob: (myJob: string) => void
-  // onChangeMyJob: (myJob: string) => void
+  // onChangeMyJob: () => () => void
+  // onChangeMyJob: (myJob: string) => () => void
 }
 
 export type AccountEditInputForm = {
