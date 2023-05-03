@@ -1,7 +1,8 @@
 import styled from '@emotion/styled'
-import { useRouter } from 'next/router'
 import { Button, Container } from '@chakra-ui/react'
 import { BsPencil } from 'react-icons/bs'
+import { useRouter } from 'next/router'
+import { useAuth } from '@/src/commons/hooks/useAuth'
 
 const StyledButton = styled(Button)`
   position: fixed;
@@ -16,9 +17,16 @@ const StyledButton = styled(Button)`
 `
 
 export default function boardsRegisterButton() {
+  const { isLoggedIn, openModal } = useAuth()
   const router = useRouter()
-  const onClickMoveToBoardsRegister = () => {
-    router.push('/boards/register')
+
+  const onClickMoveToBoardsRegister = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (!isLoggedIn) {
+      e.preventDefault()
+      openModal('LOGIN')
+    } else {
+      router.push('/boards/register')
+    }
   }
 
   return (
