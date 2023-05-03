@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client'
 
 export const FETCH_BOARD = gql`
-  query fetchBoard($boardid: String!) {
-    fetchBoard(boardid: $boardid) {
+  query fetchBoard($boardid: String!, $userid: String!) {
+    fetchBoard(boardid: $boardid, userid: $userid) {
       id
       title
       description

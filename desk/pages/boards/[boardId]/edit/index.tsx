@@ -12,7 +12,7 @@ export default function BoardsEditPage() {
     Pick<TQuery, 'fetchBoard'>,
     TQueryFetchBoardArgs
   >(FETCH_BOARD, {
-    variables: { boardid: router.query.boardId as string },
+    variables: { boardid: router.query.boardId as string, userid: '' },
   })
 
   if (loading) {

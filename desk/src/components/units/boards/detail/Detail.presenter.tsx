@@ -1,9 +1,10 @@
 import Carousel from '@/src/components/ui/carousel'
 import { Box, Center, HStack, Text, useColorModeValue } from '@chakra-ui/react'
 import { FaQuoteLeft, FaQuoteRight } from 'react-icons/fa'
+import CountStateWithLike from '../components/countStateWithLike'
+import DetailBoardTags from '../components/detailBoardTags'
 import ProductItemCardList from '../components/productItemCardList'
 import ProfileHeader from '../components/profileHeader'
-import TagWithCountState from '../components/tagWithCountState'
 import TitleWithDescription from '../components/titleWithDescription'
 import { BoardDetailUIProps } from './Detail.types'
 
@@ -18,11 +19,12 @@ export default function BoardDetailUI(props: BoardDetailUIProps) {
       </Box>
       <Carousel imageURLs={props.boardData.pictures.map(item => item.url)} />
       <Box pt={'8px'}>
-        <TagWithCountState
+        <CountStateWithLike
+          boardId={props.boardData.id}
           views={props.boardData.views}
           likes={props.boardData.likes}
+          likers={props.boardData.likers ?? []}
           comments={props.boardData.comments?.length}
-          hashTags={props.boardData.hashtags?.map(item => item.hashtag)}
         />
       </Box>
       <Center pt={'60px'} pb={'16px'}>
@@ -58,6 +60,9 @@ export default function BoardDetailUI(props: BoardDetailUIProps) {
           />
         </Box>
       )}
+      <Box pt={'80px'}>
+        <DetailBoardTags hashTags={props.boardData.hashtags?.map(item => item.hashtag)} />
+      </Box>
     </>
   )
 }
