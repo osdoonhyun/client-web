@@ -2,13 +2,31 @@ import {
   Flex,
   IconButton,
   IconButtonProps,
+  position,
   useColorModeValue,
   useEditableControls,
+  useToast,
 } from '@chakra-ui/react'
-import { ChangeEvent, useCallback, useRef, useState } from 'react'
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react'
 import AccountEditUI from './AccountEdit.presenter'
-import { ItemLinkType } from './AccountEdit.types'
+import {
+  AccountEditInputForm,
+  AccountEditSchema,
+  ItemLinkType,
+} from './AccountEdit.types'
 import { CheckIcon, EditIcon } from '@chakra-ui/icons'
+import { useAuth } from '@/src/commons/hooks/useAuth'
+import { useMutation } from '@apollo/client'
+import {
+  TMutation,
+  TMutationUpdateUserArgs,
+  TMutationUploadFileArgs,
+} from '@/src/commons/types/generated/types'
+import { UPDATE_USER } from './AccountEdit.queries'
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { UPLOAD_FILE } from '../../ui/fileUpload/quries'
+import { useRouter } from 'next/router'
 
 const SNS_ACCOUNT_LINKS: ItemLinkType[] = [
   {
@@ -51,12 +69,46 @@ export default function AccountEdit() {
       </Flex>
     )
   }
+  const router = useRouter()
+  const toast = useToast()
+  // const {register, handleSubmit}
+  const [updateUser] = useMutation<
+    Pick<TMutation, 'updateUser'>,
+    TMutationUpdateUserArgs
+  >(UPDATE_USER)
+  const { myUserInfo } = useAuth()
+  const { useFormReturn, register, handleSubmit, setValue, trigger } =
+    useForm<AccountEditInputForm>({
+      resolver: yupResolver(AccountEditSchema),
+      mode: 'onSubmit',
+    })
+
+  const [myJob, setMyJob] = useState('')
 
   const onChangeFileUrl = useCallback((fileUrl: string, index: number) => {
     console.log(fileUrl)
   }, [])
+  // const onChangeFile = useCallback((file: File, index: number) => {
+  //   console.log(file)
+  // }, [])
+
+  // const [file, setFile] = useState<File | null>(null)
+  const [pictureFile, setPictureFile] = useState<string>('')
+
+  const [uploadFile] = useMutation<
+    Pick<TMutation, 'uploadFile'>,
+    TMutationUploadFileArgs
+  >(UPLOAD_FILE)
+
   const onChangeFile = useCallback((file: File, index: number) => {
-    console.log(file)
+    // setFiles(
+    //   produce(draft => {
+    //     draft[index] = file
+    //   }),
+    // )
+    // setPictureFile(file)
+    // setValue('picture', file)
+    // void trigger('picture')
   }, [])
 
   // sns 계정 추가하기
@@ -90,8 +142,60 @@ export default function AccountEdit() {
     fileUploadRef.current?.click()
   }
 
+  // const onChangeMyJob = (myJob: string) => {
+  const onChangeMyJob = () => {
+    setValue('jobGroup', myJob)
+
+    void trigger('jobGroup')
+  }
+
+  const onClickSubmit = async (data: AccountEditInputForm) => {
+    //TODO: Editable로 이동 예정, Toast로 보여줄 예정
+    if (data.nickName.length > 20) {
+      toast({
+        title: '에러',
+        description: '닉네임은 최대 20자까지 입력 가능합니다.',
+        status: 'error',
+        position: 'top',
+      })
+    }
+    if (data.intro.length > 30) {
+      toast({
+        title: '에러',
+        description: '한 줄 소개는 최대 30자까지 입력 가능합니다.',
+        status: 'error',
+        position: 'top',
+      })
+    }
+
+    try {
+      await updateUser({
+        variables: {
+          updateUserInput: {
+            nickName: data.nickName,
+            intro: data.intro,
+            picture: data.picture,
+            jobGroup: data.jobGroup,
+            snsAccount: data.snsAccount,
+          },
+        },
+      })
+    } catch (error) {
+      if (error instanceof Error) {
+        toast({
+          title: '에러',
+          description: error.message,
+          status: 'error',
+          position: 'top',
+        })
+      }
+    }
+    router.back()
+  }
+
   return (
     <AccountEditUI
+      myUserInfo={myUserInfo}
       fileUploadRef={fileUploadRef}
       nextId={nextId}
       snsLinks={snsLinks}
@@ -103,6 +207,13 @@ export default function AccountEdit() {
       deleteSnsLink={deleteSnsLink}
       onChangeLink={onChangeLink}
       onClickUploadButton={onClickUploadButton}
+      onClickSubmit={onClickSubmit}
+      useForm={useFormReturn}
+      register={register}
+      handleSubmit={handleSubmit}
+      myJob={myJob}
+      setMyJob={setMyJob}
+      onChangeMyJob={onChangeMyJob}
     />
   )
 }
