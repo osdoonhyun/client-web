@@ -85,7 +85,7 @@ export default function FollowingBoardsMoreUI(props: FollowingBoardsMoreUIProps)
                     w="20px"
                     h="20px"
                     mr="5px"
-                    src={board.user.picture ?? 'https://bit.ly/broken-link'}
+                    src={board.user.picture || 'https://bit.ly/broken-link'}
                   />
                   {board.user.nickName}
                 </Flex>
