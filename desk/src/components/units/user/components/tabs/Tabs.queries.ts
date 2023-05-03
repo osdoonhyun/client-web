@@ -15,8 +15,8 @@ export const FETCH_USER_BOARDS = gql`
 `
 
 export const FETCH_BOARDS_USER_LIKED = gql`
-  query fetchBoardsUserLiked($userid: String!) {
-    fetchBoardsUserLiked(userid: $userid) {
+  query FetchBoardsUserLiked {
+    fetchBoardsUserLiked {
       id
       pictures {
         id
