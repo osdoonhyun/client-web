@@ -88,7 +88,7 @@ export default function BoardsRegisterUI(props: BoardsRegisterUIProps) {
               <TitleWithInput
                 type="textarea"
                 isRequired={false}
-                title="더 추천하고 싶은 아이템이 있나요?"
+                title="추천하고 싶은 아이템이 있나요?"
                 value={value || ''}
                 maxLength={500}
                 inputHeight={300}
@@ -106,7 +106,7 @@ export default function BoardsRegisterUI(props: BoardsRegisterUIProps) {
                 type="input"
                 isRequired={false}
                 tags={boardData?.hashtags ?? []}
-                title="해시태그를 입력해주세요. ex) 학생데스크셋업, 개발자데스크셋업..."
+                title="해시태그를 입력해주세요."
                 value={value || []}
                 defaultValue={value || []}
                 onChangeInputTags={onChange}
@@ -120,6 +120,7 @@ export default function BoardsRegisterUI(props: BoardsRegisterUIProps) {
             w={'40%'}
             h={'48px'}
             bgColor={'dPrimary'}
+            _hover={{ bg: 'dPrimaryHover.dark' }}
             color={'white'}
             isLoading={props.isLoading}
             loadingText={`${props.isEdit ? '수정' : '등록'} 중...`}>
