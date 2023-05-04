@@ -42,7 +42,6 @@ export default function LayoutHeaderUI(props: LayoutHeaderUIProps) {
     myUserInfo,
     LoginModalUI,
     SignupModalUI,
-    signout,
     fetchUserInfo,
     openModal,
     logout,
@@ -110,7 +109,6 @@ export default function LayoutHeaderUI(props: LayoutHeaderUIProps) {
                         마이페이지
                       </MenuItem>
                       <MenuItem onClick={logout}>로그아웃</MenuItem>
-                      <MenuItem onClick={signout}>회원탈퇴</MenuItem>
                     </>
                   )}
                 </MenuList>
