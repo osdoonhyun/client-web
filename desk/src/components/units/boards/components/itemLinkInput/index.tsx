@@ -81,9 +81,16 @@ export default function ItemLinkInput(props: ItemLinkInputProps) {
   }
 
   const onBlurURL = async (onBlur: FocusEvent<HTMLInputElement>) => {
-    const { id } = onBlur.target
+    const { id, value } = onBlur.target
 
-    await fetchOpenGraph({ variables: { url: onBlur.target.value } }).then(res => {
+    if (value === '') {
+      setItems(items =>
+        items.map(item => (item.id === Number(id) ? { ...item, og: {} } : item)),
+      )
+      return
+    }
+
+    await fetchOpenGraph({ variables: { url: value } }).then(res => {
       setItems(items =>
         items.map(item =>
           item.id === Number(id) ? { ...item, og: res.data?.getOpenGraph ?? {} } : item,
