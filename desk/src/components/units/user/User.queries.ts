@@ -11,10 +11,10 @@ export const FETCH_USER = gql`
         picture
         jobGroup
         provider
-        snsAccounts {
-          id
-          sns
-        }
+        # snsAccounts {
+        #   id
+        #   sns
+        # }
         followingsCount
         followeesCount
         followingStatus

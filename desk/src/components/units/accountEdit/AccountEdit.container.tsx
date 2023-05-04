@@ -77,13 +77,14 @@ export default function AccountEdit() {
     TMutationUpdateUserArgs
   >(UPDATE_USER)
   const { myUserInfo } = useAuth()
-  const { useFormReturn, register, handleSubmit, setValue, trigger } =
-    useForm<AccountEditInputForm>({
-      resolver: yupResolver(AccountEditSchema),
-      mode: 'onSubmit',
-    })
+  const { register, handleSubmit, setValue, trigger } = useForm<AccountEditInputForm>({
+    resolver: yupResolver(AccountEditSchema),
+    mode: 'onSubmit',
+  })
 
   const [myJob, setMyJob] = useState('')
+
+  // console.log('##################', myJob)
 
   const onChangeFileUrl = useCallback((fileUrl: string, index: number) => {
     console.log(fileUrl)
@@ -176,7 +177,7 @@ export default function AccountEdit() {
             intro: data.intro,
             picture: data.picture,
             jobGroup: data.jobGroup,
-            snsAccount: data.snsAccount,
+            // snsAccount: data.snsAccount,
           },
         },
       })
@@ -208,12 +209,12 @@ export default function AccountEdit() {
       onChangeLink={onChangeLink}
       onClickUploadButton={onClickUploadButton}
       onClickSubmit={onClickSubmit}
-      useForm={useFormReturn}
+      // useForm={useFormReturn}
       register={register}
       handleSubmit={handleSubmit}
       myJob={myJob}
       setMyJob={setMyJob}
-      onChangeMyJob={onChangeMyJob}
+      // onChangeMyJob={onChangeMyJob}
     />
   )
 }
