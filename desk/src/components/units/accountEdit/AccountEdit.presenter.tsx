@@ -88,7 +88,7 @@ export default function AccountEditUI(props: AccountEditUIProps) {
               <MyJobSelect
                 setMyJob={props.setMyJob}
                 myJob={props.myJob}
-                onChange={props.onChangeMyJob(props.myJob)}
+                // onChange={props.onChangeMyJob(props.myJob)}
               />
             </Box>
           </Flex>
@@ -163,7 +163,7 @@ export default function AccountEditUI(props: AccountEditUIProps) {
                           {/* {props.myUserInfo?.snsAccounts.map(snsAccounts,index)} */}
                           <Input
                             id={`${link.id}`}
-                            {...props.register('snsAccount')}
+                            // {...props.register('snsAccount')}
                             variant="unstyled"
                             placeholder="SNS 계정 추가 (최대 3개)"
                             onChange={props.onChangeLink}

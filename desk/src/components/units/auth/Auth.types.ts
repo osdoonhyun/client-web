@@ -53,7 +53,7 @@ export type MyJob = {
   myJob: string
   setMyJob: (myJob: string) => void
   // onChange?: (myJob: string) => void
-  onChange?: () => void
+  onChange?: (myJob: string) => void
 }
 
 const ErrorLog = {

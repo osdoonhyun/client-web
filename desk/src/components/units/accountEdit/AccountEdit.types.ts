@@ -1,5 +1,5 @@
 import { ChangeEvent, MutableRefObject } from 'react'
-import { TMyUserInfo } from '../auth/Auth.types'
+// import { TMyUserInfo } from '../auth/Auth.types'
 import * as yup from 'yup'
 import { UseFormReturn, useForm } from 'react-hook-form'
 import { TUser } from '@/src/commons/types/generated/types'
@@ -30,13 +30,13 @@ export type AccountEditUIProps = {
   // register: ReturnType<typeof useForm>['register']
   // handleSubmit: ReturnType<typeof useForm>['handleSubmit']
   // useForm: UseFormReturn<AccountEditInputForm, any>
-  useForm: UseFormReturn<AccountEditInputForm, any>
+  // useForm: UseFormReturn<AccountEditInputForm, any>
   register: UseFormReturn<AccountEditInputForm, any>['register']
   handleSubmit: UseFormReturn<AccountEditInputForm, any>['handleSubmit']
   myJob: string
   setMyJob: (myJob: string) => void
-  onChangeMyJob: (myJob: string) => void
-  // onChangeMyJob: (myJob: string) => void
+  // onChangeMyJob: () => () => void
+  // onChangeMyJob: (myJob: string) => () => void
 }
 
 export type AccountEditInputForm = {
@@ -49,7 +49,7 @@ export type AccountEditInputForm = {
   //   sns: string
   // }
   jobGroup: string
-  snsAccount: string
+  // snsAccount: string
 }
 
 export const AccountEditSchema = yup.object({

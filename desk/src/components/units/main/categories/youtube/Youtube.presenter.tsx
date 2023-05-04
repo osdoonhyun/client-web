@@ -16,8 +16,8 @@ import { YoutubeUIProps } from './Youtube.types'
 import { FiEye } from 'react-icons/fi'
 import CategoryHeader from '../../components/categoryHeader/CategoryHeader.container'
 import ReactPlayer from 'react-player'
-import YoutubeImageStyle from '../../components/youtubeImageStyle'
 import YoutubeSlider from '../../components/youtubeSlider'
+import YoutubeImageStyle from '../../components/youtubeImageStyle'
 
 export default function YoutubeUI(props: YoutubeUIProps) {
   const categoryTitle = '유튜브'
