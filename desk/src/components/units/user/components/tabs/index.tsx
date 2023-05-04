@@ -13,7 +13,7 @@ import {
 import { MdFavorite, MdFavoriteBorder } from 'react-icons/md'
 import { BsColumnsGap } from 'react-icons/bs'
 import { AiOutlineLaptop } from 'react-icons/ai'
-import { NavigationTabsProps, UserData } from './Tabs.types'
+import { NavigationTabsProps, Picture, UserData } from './Tabs.types'
 import ProductItem from '../productItem'
 import BoardItem from '../boardItem'
 import InfiniteScroller from '@/src/components/ui/infiniteScroller'
@@ -137,7 +137,7 @@ export default function NavigationTabs(props: NavigationTabsProps) {
                 <BoardItem
                   index={index}
                   boardId={item.id}
-                  imageUrl={item.pictures[0].url}
+                  imageUrl={item.pictures.find((picture: Picture) => picture.isMain)?.url}
                   isLiked={item.like}
                 />
               )}

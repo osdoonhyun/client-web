@@ -9,3 +9,9 @@ export type UserData = {
   // data: Array<TBoard | TProduct>
   data: any
 }
+
+export type Picture = {
+  id: number //index
+  url: string
+  isMain: boolean
+}
