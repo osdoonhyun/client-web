@@ -2,7 +2,7 @@ import {
   TMutation,
   TMutationUpdateBoardLikerArgs,
 } from '@/src/commons/types/generated/types'
-import { Box, Image } from '@chakra-ui/react'
+import { Box, Image, useToast } from '@chakra-ui/react'
 import { useState } from 'react'
 import { MdFavorite, MdFavoriteBorder } from 'react-icons/md'
 import { useMutation } from '@apollo/client'
@@ -13,30 +13,42 @@ export type BoardItemProps = {
   index: number
   boardId: string
   imageUrl: string
-  isLiked: boolean
+  like: boolean
 }
 
 export default function BoardItem(props: BoardItemProps) {
+  const toast = useToast()
+  const router = useRouter()
+  const [isLiked, setIsLiked] = useState(props.like)
+
   const [updateBoardLiker] = useMutation<
     Pick<TMutation, 'updateBoardLiker'>,
     TMutationUpdateBoardLikerArgs
   >(UPDATE_BOARD_LIKER)
 
-  const onClickLikeButton = async (boardid: string) => {
-    console.log('boardid', boardid)
+  const onClickLikeButton = (boardId: string, index: number) => async () => {
+    console.log('boardid', boardId, index)
     await updateBoardLiker({
       variables: {
-        boardid,
+        boardid: boardId,
       },
     })
-    setIsLiked(prevIsLiked => !prevIsLiked)
+      .then(isLiked => {
+        setIsLiked(Boolean(isLiked))
+      })
+      .catch(error => {
+        if (error instanceof Error) {
+          toast({
+            title: '에러',
+            description: `${error.message}`,
+            status: 'error',
+            position: 'top',
+          })
+        }
+      })
   }
 
-  const [isLiked, setIsLiked] = useState(props.isLiked)
-
-  const router = useRouter()
-
-  const onClickBoardItem = (boardid: string) => {
+  const onClickBoardItem = (boardid: string) => () => {
     router.push(`/boards/${boardid}`)
   }
 
@@ -49,7 +61,7 @@ export default function BoardItem(props: BoardItemProps) {
         src={props.imageUrl ?? ''}
         bg="dGray"
         borderRadius="10px"
-        onClick={() => onClickBoardItem(props.boardId)}
+        onClick={onClickBoardItem(props.boardId)}
       />
       <Box
         pos="absolute"
@@ -58,13 +70,15 @@ export default function BoardItem(props: BoardItemProps) {
         left="88%"
         _hover={
           isLiked
-            ? undefined
+            ? {
+                color: 'red.300',
+              }
             : {
                 color: 'dGray.medium',
               }
         }
         color={isLiked ? 'dRed.400' : '#fff'}
-        onClick={() => onClickLikeButton(props.boardId)}>
+        onClick={onClickLikeButton(props.boardId, props.index)}>
         {isLiked ? <MdFavorite size="20px" /> : <MdFavoriteBorder size="20px" />}
       </Box>
     </Box>

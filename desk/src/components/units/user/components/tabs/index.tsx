@@ -13,11 +13,11 @@ import {
 import { MdFavorite, MdFavoriteBorder } from 'react-icons/md'
 import { BsColumnsGap } from 'react-icons/bs'
 import { AiOutlineLaptop } from 'react-icons/ai'
-import { NavigationTabsProps, Picture, UserData } from './Tabs.types'
+import { NavigationTabsProps } from './Tabs.types'
 import ProductItem from '../productItem'
 import BoardItem from '../boardItem'
 import InfiniteScroller from '@/src/components/ui/infiniteScroller'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useMutation, useQuery } from '@apollo/client'
 import {
   FETCH_BOARDS_USER_LIKED,
@@ -25,8 +25,11 @@ import {
   FETCH_USER_BOARDS,
 } from './Tabs.queries'
 import {
+  TBoard,
   TMutation,
   TMutationUpdateBoardLikerArgs,
+  TPicture,
+  TProduct,
   TQuery,
 } from '@/src/commons/types/generated/types'
 
@@ -40,14 +43,14 @@ export default function NavigationTabs(props: NavigationTabsProps) {
   const [showUserPosts, setShowUserPosts] = useState(true)
   const [showUserProductPosts, setShowUserProductPosts] = useState(false)
   const [showLikedPosts, setShowLikedPosts] = useState(false)
+  const [userData, setUserData] = useState<TBoard[] | TProduct[] | undefined>(undefined)
 
   const MY_PAGE_TAB = [BsColumnsGap, AiOutlineLaptop, MdFavoriteBorder]
   const OTHERS_PAGE_TAB = [BsColumnsGap, AiOutlineLaptop]
 
-  const { data: userBoards } = useQuery<Pick<TQuery, 'fetchUserBoards'>>(
-    FETCH_USER_BOARDS,
-    { variables: { userid: props.userid as string } },
-  )
+  const { data: userBoards, refetch: refetchUserBoards } = useQuery<
+    Pick<TQuery, 'fetchUserBoards'>
+  >(FETCH_USER_BOARDS, { variables: { userid: props.userid as string } })
   const { data: userLikedBoards, refetch: refetchUserLikedBoards } = useQuery<
     Pick<TQuery, 'fetchBoardsUserLiked'>
   >(FETCH_BOARDS_USER_LIKED, { variables: { userid: props.userid as string } })
@@ -60,26 +63,35 @@ export default function NavigationTabs(props: NavigationTabsProps) {
 
   const TABS = props.isMyPage ? MY_PAGE_TAB : OTHERS_PAGE_TAB
 
-  let userData: any
-
-  if (showUserPosts) {
-    userData = userBoards?.fetchUserBoards
-  } else if (showLikedPosts) {
-    userData = userLikedBoards?.fetchBoardsUserLiked
-  } else if (showUserProductPosts) {
-    userData = userProducts?.fetchUserProducts
-  }
+  useEffect(() => {
+    if (showUserPosts) {
+      setUserData(userBoards?.fetchUserBoards)
+    } else if (showLikedPosts) {
+      setUserData(userLikedBoards?.fetchBoardsUserLiked)
+    } else if (showUserProductPosts) {
+      setUserData(userProducts?.fetchUserProducts)
+    }
+  }, [
+    showUserPosts,
+    showLikedPosts,
+    showUserProductPosts,
+    userBoards,
+    userLikedBoards,
+    userProducts,
+  ])
 
   const handleShowUserPosts = () => {
     setShowUserPosts(true)
     setShowUserProductPosts(false)
     setShowLikedPosts(false)
+    refetchUserBoards()
   }
 
   const handleShowLikedPosts = () => {
     setShowUserPosts(false)
     setShowUserProductPosts(false)
     setShowLikedPosts(true)
+    refetchUserLikedBoards()
   }
 
   const handleShowUserProductPosts = () => {
@@ -94,13 +106,14 @@ export default function NavigationTabs(props: NavigationTabsProps) {
         handleShowUserPosts()
       } else if (id === TabID.USER_PRODUCT_POSTS) {
         handleShowUserProductPosts()
-        refetchUserLikedBoards()
       } else if (id === TabID.USER_LIKED_POSTS) {
         handleShowLikedPosts()
       }
     },
     [showUserPosts, showUserProductPosts, showLikedPosts],
   )
+
+  console.log('USER_DATA+++++++', userData)
 
   return (
     <>
@@ -121,9 +134,10 @@ export default function NavigationTabs(props: NavigationTabsProps) {
           ))}
         </TabList>
       </Tabs>
-      {/* API 나오면 수정 작업 필요 */}
+
       <InfiniteScroller loadMore={() => console.log('무한스크롤')} hasMore={true}>
         <SimpleGrid mt="33px" columns={3} spacing="30px">
+          {/* TODO:  TYPE item : TBoard | TProduct | undefined */}
           {userData?.map((item: any, index: number) => (
             <React.Fragment key={index}>
               {showUserProductPosts ? (
@@ -136,9 +150,11 @@ export default function NavigationTabs(props: NavigationTabsProps) {
               ) : (
                 <BoardItem
                   index={index}
-                  boardId={item.id}
-                  imageUrl={item.pictures.find((picture: Picture) => picture.isMain)?.url}
-                  isLiked={item.like}
+                  boardId={item?.id}
+                  imageUrl={
+                    item?.pictures.find((picture: TPicture) => picture.isMain)?.url
+                  }
+                  like={item?.like}
                 />
               )}
             </React.Fragment>
