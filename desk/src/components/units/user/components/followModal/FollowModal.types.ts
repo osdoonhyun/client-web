@@ -1,4 +1,4 @@
-import { TFetchUser } from '@/src/commons/types/generated/types'
+import { TFetchUser, TQuery } from '@/src/commons/types/generated/types'
 
 export type FollowModalType = 'follower' | 'followee'
 
@@ -7,6 +7,8 @@ export type FollowModalProps = {
   userData: TFetchUser
   isLoggedIn: boolean
   type: FollowModalType
+  followingsData: Pick<TQuery, 'fetchFollowings'> | undefined
+  followeesData: Pick<TQuery, 'fetchFollowees'> | undefined
   // followCount: number
 }
 

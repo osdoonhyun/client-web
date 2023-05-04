@@ -18,32 +18,47 @@ import {
   Box,
   Divider,
   Avatar,
+  useToast,
 } from '@chakra-ui/react'
 import { MdPersonOutline } from 'react-icons/md'
 import { FollowModalProps } from './FollowModal.types'
 import { useAuth } from '@/src/commons/hooks/useAuth'
-import { TQuery } from '@/src/commons/types/generated/types'
+import {
+  TMutation,
+  TMutationUpdateFollowingArgs,
+  TQuery,
+  TUser,
+} from '@/src/commons/types/generated/types'
 import { FETCH_FOLLOWEES, FETCH_FOLLOWINGS } from './FollowModal.queries'
-import { useQuery } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client'
 import { useRouter } from 'next/router'
+import { UPDATE_FOLLOWING } from '../../User.queries'
+import { useState } from 'react'
 
 export default function FollowModal(props: FollowModalProps) {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { openModal } = useAuth()
   const router = useRouter()
+  const toast = useToast()
 
-  const { data: followeesData } = useQuery<Pick<TQuery, 'fetchFollowees'>>(
-    FETCH_FOLLOWEES,
-    {
-      variables: { userid: props.userData.user.id as string },
-    },
-  )
-  const { data: followingsData } = useQuery<Pick<TQuery, 'fetchFollowings'>>(
-    FETCH_FOLLOWINGS,
-    {
-      variables: { userid: props.userData.user.id as string },
-    },
-  )
+  const [updateFollowing] = useMutation<
+    Pick<TMutation, 'updateFollowing'>,
+    TMutationUpdateFollowingArgs
+  >(UPDATE_FOLLOWING)
+  const { data: followeesData, refetch: refetchFollowees } = useQuery<
+    Pick<TQuery, 'fetchFollowees'>
+  >(FETCH_FOLLOWEES, {
+    variables: { userid: props.userData.user.id as string },
+  })
+  const { data: followingsData, refetch: refetchFollowings } = useQuery<
+    Pick<TQuery, 'fetchFollowings'>
+  >(FETCH_FOLLOWINGS, {
+    variables: { userid: props.userData.user.id as string },
+  })
+
+  const refetchFollowData = async () => {
+    await Promise.all([refetchFollowees(), refetchFollowings()])
+  }
 
   const followings = followingsData?.fetchFollowings ?? []
   const followees = followeesData?.fetchFollowees ?? []
@@ -65,16 +80,40 @@ export default function FollowModal(props: FollowModalProps) {
     onClose()
   }
 
+  const onClickIconButton = (userId: string, index: number) => async () => {
+    const newFollowData = [...FOLLOW_DATA]
+    const updatedItem = { ...newFollowData[index] }
+    const [_, setIsFollowing] = useState(updatedItem.followingStatus)
+    newFollowData[index] = updatedItem
+
+    await updateFollowing({ variables: { followingid: userId } })
+      .then(() => {
+        setIsFollowing(prevIsFollowing => !prevIsFollowing)
+        refetchFollowData()
+      })
+      .catch(error => {
+        if (error instanceof Error) {
+          toast({
+            title: '에러',
+            description: `${error.message}`,
+            status: 'error',
+            position: 'top',
+          })
+        }
+      })
+  }
+
   return (
     <>
       <Text
         fontSize="18px"
         fontWeight="600"
         cursor="pointer"
-        onClick={() => onClickModalButton()}>
+        _hover={{ bg: 'dGray.light' }}
+        onClick={onClickModalButton}>
         {props.type === 'follower'
-          ? `팔로워 ${followings.length}`
-          : `팔로우 ${followees.length}`}
+          ? `팔로워 ${props.followingsData?.fetchFollowings.length}`
+          : `팔로우 ${props.followeesData?.fetchFollowees.length}`}
       </Text>
 
       <Modal onClose={onClose} size="md" isOpen={isOpen} isCentered>
@@ -86,10 +125,10 @@ export default function FollowModal(props: FollowModalProps) {
           <ModalCloseButton />
           <Divider />
           <ModalBody p="12px 12px 8px" overflow="auto">
-            <InfiniteScroller loadMore={() => console.log('테스트')} hasMore={true}>
+            <InfiniteScroller loadMore={() => console.log('더보기')} hasMore={true}>
               <VStack>
                 {/* 테스트용 FOLLOWERS */}
-                {FOLLOW_DATA.map(data => (
+                {FOLLOW_DATA.map((data: TUser, index: number) => (
                   <Card key={data.id} w="100%" variant="elevated" px="10px">
                     <CardBody p="0px">
                       <Flex py="6px" justify="space-between" align="center">
@@ -121,6 +160,7 @@ export default function FollowModal(props: FollowModalProps) {
                           bg={data.followingStatus ? 'dPrimary' : 'white'}
                           borderColor="dPrimary"
                           _hover={{ color: 'dPrimary.dark' }}
+                          onClick={onClickIconButton(data.id, index)}
                           border="2px"
                           aria-label="follow"
                           fontSize="25px"

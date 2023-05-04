@@ -55,11 +55,15 @@ export default function UserUI(props: UserUIProps) {
                 type="follower"
                 userData={props.userData}
                 isLoggedIn={props.isLoggedIn}
+                followeesData={props.followeesData}
+                followingsData={props.followingsData}
               />
               <FollowModal
                 type="followee"
                 userData={props.userData}
                 isLoggedIn={props.isLoggedIn}
+                followeesData={props.followeesData}
+                followingsData={props.followingsData}
               />
             </Flex>
             <Flex direction="column" mt="26px" ml="50px">
