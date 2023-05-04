@@ -38,12 +38,19 @@ export default function UserUI(props: UserUIProps) {
             <Flex ml="15px" justify="space-between" align="center">
               <Text fontSize="24px" fontWeight="700" alignContent="center">
                 책상주인 : {props.userData.user.nickName}
-                <Badge mx="3" textTransform="uppercase" alignItems="center">
+                <Badge
+                  bg="dPrimary"
+                  color="#fff"
+                  px="6px"
+                  py="3px"
+                  mx="3"
+                  textTransform="uppercase"
+                  alignItems="center">
                   {props.userData.user.jobGroup}
                 </Badge>
               </Text>
             </Flex>
-            <Flex ml="50px" mt="20px" gap="25px">
+            <Flex ml="50px" mt="25px" gap="25px">
               <FollowModal
                 type="follower"
                 userData={props.userData}
@@ -55,9 +62,9 @@ export default function UserUI(props: UserUIProps) {
                 isLoggedIn={props.isLoggedIn}
               />
             </Flex>
-            <Flex direction="column" mt="23px" ml="50px">
+            <Flex direction="column" mt="26px" ml="50px">
               <Text mb="23px" fontSize="16px" alignItems="center" fontWeight="600">
-                한 줄 소개 : {props.userData.user.intro}
+                {props.userData.user.intro}
               </Text>
 
               {/* FIXME */}
@@ -80,8 +87,15 @@ export default function UserUI(props: UserUIProps) {
                 isExternal
                 color={useColorModeValue('#1e5d97', '#c1daf2')}
                 fontWeight="600">
-                <Flex alignItems="center" justifyContent="flex-start">
-                  <Icon as={BsLink45Deg} mr={1} />
+                <Flex
+                  flexDirection={'column'}
+                  alignItems="center"
+                  justifyContent="flex-start">
+                  <Flex>
+                    <Icon as={BsLink45Deg} mr={1} />
+                    <Text>sns 링크로 이동하기</Text>
+                  </Flex>
+                  <Text>sns 링크로 이동하기</Text>
                   <Text>sns 링크로 이동하기</Text>
                 </Flex>
               </Link> */}
