@@ -40,6 +40,7 @@ export default function FollowModal(props: FollowModalProps) {
   const { openModal } = useAuth()
   const router = useRouter()
   const toast = useToast()
+  const [_, setIsFollowing] = useState(false)
 
   const [updateFollowing] = useMutation<
     Pick<TMutation, 'updateFollowing'>,
@@ -83,12 +84,11 @@ export default function FollowModal(props: FollowModalProps) {
   const onClickIconButton = (userId: string, index: number) => async () => {
     const newFollowData = [...FOLLOW_DATA]
     const updatedItem = { ...newFollowData[index] }
-    const [_, setIsFollowing] = useState(updatedItem.followingStatus)
     newFollowData[index] = updatedItem
 
     await updateFollowing({ variables: { followingid: userId } })
-      .then(() => {
-        setIsFollowing(prevIsFollowing => !prevIsFollowing)
+      .then(isFollowing => {
+        setIsFollowing(!isFollowing)
         refetchFollowData()
       })
       .catch(error => {

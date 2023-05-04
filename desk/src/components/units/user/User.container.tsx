@@ -36,7 +36,7 @@ export default function User(props: UserProps) {
 
   const onClickFollowingButton = async () => {
     await updateFollowing({ variables: { followingid: props.userData.user.id } })
-      .then(() => setIsFollowing(prevIsFollowing => !prevIsFollowing))
+      .then(isFollowing => setIsFollowing(!isFollowing))
       .catch(error => {
         if (error instanceof Error) {
           toast({
