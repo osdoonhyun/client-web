@@ -28,7 +28,6 @@ export default function Recent() {
   )
   const boardIds = boards.map((board: TBoard) => board.id)
   const userIds = boards.map((board: TBoard) => board.writer.id)
-  console.log('userIds:', userIds)
 
   return (
     <>
