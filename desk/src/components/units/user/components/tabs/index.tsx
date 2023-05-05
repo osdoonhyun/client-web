@@ -43,7 +43,7 @@ export default function NavigationTabs(props: NavigationTabsProps) {
   const [showUserPosts, setShowUserPosts] = useState(true)
   const [showUserProductPosts, setShowUserProductPosts] = useState(false)
   const [showLikedPosts, setShowLikedPosts] = useState(false)
-  const [userData, setUserData] = useState<TBoard[] | TProduct[] | undefined>(undefined)
+  const [userData, setUserData] = useState<TBoard[] | TProduct[]>([])
 
   const MY_PAGE_TAB = [BsColumnsGap, AiOutlineLaptop, MdFavoriteBorder]
   const OTHERS_PAGE_TAB = [BsColumnsGap, AiOutlineLaptop]
@@ -65,11 +65,11 @@ export default function NavigationTabs(props: NavigationTabsProps) {
 
   useEffect(() => {
     if (showUserPosts) {
-      setUserData(userBoards?.fetchUserBoards)
+      setUserData(userBoards?.fetchUserBoards ?? [])
     } else if (showLikedPosts) {
-      setUserData(userLikedBoards?.fetchBoardsUserLiked)
+      setUserData(userLikedBoards?.fetchBoardsUserLiked ?? [])
     } else if (showUserProductPosts) {
-      setUserData(userProducts?.fetchUserProducts)
+      setUserData(userProducts?.fetchUserProducts ?? [])
     }
   }, [
     showUserPosts,

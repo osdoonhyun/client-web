@@ -3,7 +3,7 @@ import {
   TMutationUpdateBoardLikerArgs,
 } from '@/src/commons/types/generated/types'
 import { Box, Image, useToast } from '@chakra-ui/react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { MdFavorite, MdFavoriteBorder } from 'react-icons/md'
 import { useMutation } from '@apollo/client'
 import { UPDATE_BOARD_LIKER } from './boardItem.queries'
@@ -33,8 +33,9 @@ export default function BoardItem(props: BoardItemProps) {
         boardid: boardId,
       },
     })
-      .then(isLiked => {
-        setIsLiked(Boolean(isLiked))
+      .then(result => {
+        const updatedValue = result?.data?.updateBoardLiker ?? false
+        setIsLiked(updatedValue)
       })
       .catch(error => {
         if (error instanceof Error) {
@@ -47,6 +48,10 @@ export default function BoardItem(props: BoardItemProps) {
         }
       })
   }
+
+  useEffect(() => {
+    setIsLiked(props.like)
+  }, [props.like])
 
   const onClickBoardItem = (boardid: string) => () => {
     router.push(`/boards/${boardid}`)
