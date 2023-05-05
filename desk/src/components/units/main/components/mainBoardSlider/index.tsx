@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react'
 import { IoIosArrowDropleftCircle, IoIosArrowDroprightCircle } from 'react-icons/io'
 import { MainBoardSliderProps } from './types'
-import MainImageStyle from '@/src/components/ui/mainImageStyle'
+import MainImageStyle from '../mainImageStyle'
 import Slider, { CustomArrowProps } from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
@@ -23,7 +23,7 @@ export default function MainBoardSlider({
   writerImages = [],
   boardIds = [],
   userIds = [],
-  children,
+  isLiked,
 }: MainBoardSliderProps) {
   const [slider, setSlider] = useState<Slider | null>(null)
   const [arrowVisible, setArrowVisible] = useState(true)
@@ -60,7 +60,7 @@ export default function MainBoardSlider({
         variant="ghost"
         position="absolute"
         zIndex={2}
-        top="35%"
+        top="30%"
         left="2"
         onClick={onClickPrev}
         color="#f8f8f8c8"
@@ -80,7 +80,7 @@ export default function MainBoardSlider({
         aria-label="right-arrow"
         variant="ghost"
         position="absolute"
-        top="35%"
+        top="30%"
         right={arrowRightPosition}
         onClick={onClickNext}
         color="#f8f8f8c8"
@@ -139,7 +139,12 @@ export default function MainBoardSlider({
             mb="5px"
             onClick={() => onClickBoardDetail(boardIds[index])}
             cursor="pointer">
-            <MainImageStyle src={src} alt={`Image ${index}`} />
+            <MainImageStyle
+              src={src}
+              alt={`Image ${index}`}
+              boardId={boardIds[index]}
+              isLiked={isLiked}
+            />
           </Center>
           <Center>
             <Flex flexDirection="column">
