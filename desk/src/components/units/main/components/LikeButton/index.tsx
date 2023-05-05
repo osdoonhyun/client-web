@@ -8,6 +8,7 @@ import { LikeButtonProps } from './LiksButton.types'
 import { MdFavorite, MdFavoriteBorder } from 'react-icons/md'
 import { Box } from '@chakra-ui/react'
 import { useState } from 'react'
+import { FETCH_BOARDS } from '../../categories/recent/Recent.queries'
 
 export default function LikeButton(props: LikeButtonProps) {
   const [isLiked, setIsLiked] = useState(props.isLiked)
@@ -17,14 +18,25 @@ export default function LikeButton(props: LikeButtonProps) {
     TMutationUpdateBoardLikerArgs
   >(UPDATE_BOARD_LIKER)
 
-  const onClickLikeButton = async (boardid: string) => {
+  const onClickLikeButton = async (
+    e: React.MouseEvent<HTMLDivElement>,
+    boardid: string,
+  ) => {
+    e.stopPropagation()
     console.log('boardid', boardid)
     await updateBoardLiker({
       variables: {
         boardid,
       },
+      refetchQueries: [{ query: FETCH_BOARDS }],
+    }).then(result => {
+      console.log('result', result)
+      if (result.data) {
+        setIsLiked(result.data.updateBoardLiker)
+      } else {
+        console.error('좋아요 업데이트에 실패했습니다.')
+      }
     })
-    setIsLiked(prevIsLiked => !prevIsLiked)
   }
 
   return (
@@ -42,7 +54,7 @@ export default function LikeButton(props: LikeButtonProps) {
               }
         }
         color={isLiked ? 'dRed.400' : '#fff'}
-        onClick={() => onClickLikeButton(props.boardId)}>
+        onClick={e => onClickLikeButton(e, props.boardId)}>
         {isLiked ? <MdFavorite size="20px" /> : <MdFavoriteBorder size="20px" />}
       </Box>
     </>
