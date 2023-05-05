@@ -1,39 +1,19 @@
 import { Flex, HStack, Text, useColorModeValue } from '@chakra-ui/react'
-import { AiOutlineComment, AiOutlineEye, AiOutlineHeart } from 'react-icons/ai'
+import { AiOutlineEye } from 'react-icons/ai'
 import { CountStateWithLikeProps } from './types'
 
 export default function CountStateWithLike(props: CountStateWithLikeProps) {
   return (
     <>
       <Flex justify={'flex-end'} align={'center'}>
-        <HStack spacing={2}>
-          <HStack>
-            <AiOutlineHeart />
-            <Text
-              fontSize={14}
-              fontWeight={600}
-              color={useColorModeValue('dGray.dark', 'dGray.medium')}>
-              {props.likes}
-            </Text>
-          </HStack>
-          <HStack>
-            <AiOutlineEye />
-            <Text
-              fontSize={14}
-              fontWeight={600}
-              color={useColorModeValue('dGray.dark', 'dGray.medium')}>
-              {props.views}
-            </Text>
-          </HStack>
-          <HStack>
-            <AiOutlineComment />
-            <Text
-              fontSize={14}
-              fontWeight={600}
-              color={useColorModeValue('dGray.dark', 'dGray.medium')}>
-              {props.comments}
-            </Text>
-          </HStack>
+        <HStack>
+          <AiOutlineEye />
+          <Text
+            fontSize={16}
+            fontWeight={600}
+            color={useColorModeValue('dGray.dark', 'dGray.medium')}>
+            {props.views}
+          </Text>
         </HStack>
       </Flex>
     </>

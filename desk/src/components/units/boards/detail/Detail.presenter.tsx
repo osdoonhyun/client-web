@@ -1,13 +1,12 @@
-import Carousel from '@/src/components/ui/carousel'
 import { Box, Center, HStack, Text, useColorModeValue } from '@chakra-ui/react'
 import { FaQuoteLeft, FaQuoteRight } from 'react-icons/fa'
 import CountStateWithLike from '../components/countStateWithLike'
+import DetailBoardImages from '../components/detailBoardImages'
 import DetailBoardTags from '../components/detailBoardTags'
 import ProductItemCardList from '../components/productItemCardList'
 import ProfileHeader from '../components/profileHeader'
 import TitleWithDescription from '../components/titleWithDescription'
 import { BoardDetailUIProps } from './Detail.types'
-import DetailBoardImages from '../components/detailBoardImages'
 
 export default function BoardDetailUI(props: BoardDetailUIProps) {
   return (
@@ -24,7 +23,6 @@ export default function BoardDetailUI(props: BoardDetailUIProps) {
         likers={props.boardData.likers ?? []}
         imageURLs={props.boardData.pictures.map(item => item.url)}
       />
-      {/* <Carousel imageURLs={props.boardData.pictures.map(item => item.url)} /> */}
       <Box pt={'8px'}>
         <CountStateWithLike
           boardId={props.boardData.id}
