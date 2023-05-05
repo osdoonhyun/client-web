@@ -5,7 +5,7 @@ import Slider from 'react-slick'
 import { CarouselProps } from './types'
 
 const settings = {
-  dots: true,
+  dots: false,
   arrows: false,
   fade: true,
   infinite: true,
