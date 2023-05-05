@@ -19,7 +19,7 @@ import {
   useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react'
-import { ChangeEvent, MouseEvent, useEffect, useState } from 'react'
+import { ChangeEvent, KeyboardEvent, MouseEvent, useEffect, useState } from 'react'
 import { TitleWithInputTagsProps } from './types'
 
 export default function TitleWithInputTags(props: TitleWithInputTagsProps) {
@@ -37,7 +37,7 @@ export default function TitleWithInputTags(props: TitleWithInputTagsProps) {
     setTagText(event.target.value)
   }
 
-  const onClickInput = (event: MouseEvent<HTMLButtonElement>) => {
+  const onClickInputTag = () => {
     if (tagText === '' || tagTexts.includes(tagText)) {
       return
     }
@@ -45,6 +45,12 @@ export default function TitleWithInputTags(props: TitleWithInputTagsProps) {
     setTagTexts(tags => [...tags, tagText])
     setTagText('')
     onClose()
+  }
+
+  const onKeyupEnter = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      onClickInputTag()
+    }
   }
 
   const onClickRemoveTag = (value: string) => () => {
@@ -99,6 +105,7 @@ export default function TitleWithInputTags(props: TitleWithInputTagsProps) {
                 placeholder="ex) 개발자 데스크, 학생 데스크..."
                 _placeholder={{ color: 'dGray.medium' }}
                 focusBorderColor="dPrimary"
+                onKeyUp={onKeyupEnter}
                 onChange={onChangeTagInput}
               />
               <ButtonGroup display="flex" justifyContent="flex-end">
@@ -112,8 +119,7 @@ export default function TitleWithInputTags(props: TitleWithInputTagsProps) {
                 <Button
                   bgColor={useColorModeValue('dPrimary', 'gray.500')}
                   color={useColorModeValue('dGray.light', 'gray.100')}
-                  _hover={{ bg: 'dPrimaryHover.dark' }}
-                  onClick={onClickInput}>
+                  _hover={{ bg: 'dPrimaryHover.dark' }}>
                   입력
                 </Button>
               </ButtonGroup>

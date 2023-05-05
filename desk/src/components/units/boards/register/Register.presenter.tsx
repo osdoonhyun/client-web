@@ -116,7 +116,7 @@ export default function BoardsRegisterUI(props: BoardsRegisterUIProps) {
         </Box>
         <Center mt={'180px'} mb={'50px'}>
           <Button
-            type="submit"
+            type="button"
             w={'40%'}
             h={'48px'}
             bgColor={'dPrimary'}
