@@ -8,34 +8,17 @@ import BoardsRegisterButton from '@/src/components/units/main/components/boardsR
 import { useAuth } from '@/src/commons/hooks/useAuth'
 
 export default function MainPage() {
-  const { isLoggedIn, openModal } = useAuth()
-
-  const onClickUnAuth = (e: React.MouseEvent) => {
-    e.preventDefault()
-    if (!isLoggedIn) {
-      openModal('LOGIN')
-    }
-  }
+  const { isLoggedIn } = useAuth()
 
   return (
     <>
       <Best />
       <Recent />
-      {isLoggedIn && (
-        <div onClick={onClickUnAuth}>
-          <FollowingBoards />
-        </div>
-      )}
-      {isLoggedIn && (
-        <div onClick={onClickUnAuth}>
-          <Like />
-        </div>
-      )}
+      {isLoggedIn && <FollowingBoards />}
+      {isLoggedIn && <Like />}
       <Youtube />
       <AllProducts />
-      <div onClick={onClickUnAuth}>
-        <BoardsRegisterButton />
-      </div>
+      <BoardsRegisterButton />
     </>
   )
 }
