@@ -144,7 +144,6 @@ export default function MainBoardSlider({
               alt={`Image ${index}`}
               boardId={boardIds[index]}
               isLiked={isLikedArray[index]}
-              isLikedArray={[]}
             />
           </Center>
           <Center>

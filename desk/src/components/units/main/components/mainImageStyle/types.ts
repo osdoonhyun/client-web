@@ -3,5 +3,5 @@ export type MainImageStyleProps = {
   alt: string
   boardId?: string | undefined
   isLiked?: boolean
-  isLikedArray: boolean[]
+  isLikedArray?: boolean[]
 }
