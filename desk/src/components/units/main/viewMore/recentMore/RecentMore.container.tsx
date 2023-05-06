@@ -23,12 +23,9 @@ export default function RecentMore() {
     fetchCurrentUser()
   }, [client])
 
-  const { data, loading, error, fetchMore } = useQuery<Pick<TQuery, 'fetchBoards'>>(
-    FETCH_BOARDS,
-    {
-      variables: { userid: userid || '' },
-    },
-  )
+  const { data, loading, error } = useQuery<Pick<TQuery, 'fetchBoards'>>(FETCH_BOARDS, {
+    variables: { userid: userid || '' },
+  })
   const router = useRouter()
 
   if (loading) {
