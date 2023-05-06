@@ -6,11 +6,18 @@ import ItemLinkInput from '../components/itemLinkInput'
 import TitleWithInput from '../components/titleWithInput'
 import TitleWithInputTags from '../components/titleWithInputTags'
 import { BoardsRegisterUIProps } from './Register.types'
+import { KeyboardEvent } from 'react'
 
 const MIN_ITEMS_COUNT = 2
 
 export default function BoardsRegisterUI(props: BoardsRegisterUIProps) {
   const boardData = props.boardData?.fetchBoard
+
+  const onKeyDownSubmit = (event: KeyboardEvent<HTMLFormElement>) => {
+    if (event.key === 'Enter') {
+      event.preventDefault()
+    }
+  }
 
   return (
     <Flex
@@ -22,7 +29,9 @@ export default function BoardsRegisterUI(props: BoardsRegisterUIProps) {
       <Box mt={140}>
         <ImageUpload imageDatas={boardData?.pictures} onChangeFile={props.onChangeFile} />
       </Box>
-      <form onSubmit={props.useForm.handleSubmit(props.onClickSubmit)}>
+      <form
+        onKeyDown={onKeyDownSubmit}
+        onSubmit={props.useForm.handleSubmit(props.onClickSubmit)}>
         <Box mt={'57px'}>
           <Controller
             name="title"
@@ -117,7 +126,7 @@ export default function BoardsRegisterUI(props: BoardsRegisterUIProps) {
         </Box>
         <Center mt={'180px'} mb={'50px'}>
           <Button
-            type="button"
+            type="submit"
             w={'40%'}
             h={'48px'}
             bgColor={'dPrimary'}
