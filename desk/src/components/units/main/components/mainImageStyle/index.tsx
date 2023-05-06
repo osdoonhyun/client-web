@@ -1,9 +1,27 @@
 import Image from 'next/image'
 import LikeButton from '../LikeButton'
 import { MainImageStyleProps } from './types'
+import { useAuth } from '@/src/commons/hooks/useAuth'
 
 export default function MainImageStyle(props: MainImageStyleProps) {
+  const { isLoggedIn, openModal } = useAuth()
   const { src, alt, boardId, isLiked } = props
+
+  const onClickUnAuth = (e: React.MouseEvent) => {
+    if (!isLoggedIn) {
+      e.stopPropagation()
+      openModal('LOGIN')
+    }
+  }
+
+  const onClickLikeButton = async (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!isLoggedIn) {
+      e.stopPropagation()
+      openModal('LOGIN')
+    } else {
+    }
+  }
+
   return (
     <>
       <div style={{ position: 'relative' }}>
@@ -16,7 +34,14 @@ export default function MainImageStyle(props: MainImageStyleProps) {
           loading="lazy"
           style={{ borderRadius: '10px' }}
         />
-        <LikeButton boardId={boardId} isLiked={isLiked} />
+        <div onClick={onClickUnAuth}>
+          <LikeButton
+            boardId={boardId ?? ''}
+            isLiked={isLiked ?? false}
+            isLoggedIn={isLoggedIn}
+            onClickLikeButton={onClickLikeButton}
+          />
+        </div>
       </div>
     </>
   )
