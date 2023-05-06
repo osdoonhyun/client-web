@@ -53,6 +53,7 @@ export default function ProfileHeader(props: ProfileHeaderProps) {
             bgColor="dPrimary"
             color="white"
             size={'sm'}
+            _hover={{ bg: 'dPrimaryHover.dark' }}
             onClick={onClickMoveToDetailPage}>
             게시물 수정하기
           </Button>

@@ -81,9 +81,16 @@ export default function ItemLinkInput(props: ItemLinkInputProps) {
   }
 
   const onBlurURL = async (onBlur: FocusEvent<HTMLInputElement>) => {
-    const { id } = onBlur.target
+    const { id, value } = onBlur.target
 
-    await fetchOpenGraph({ variables: { url: onBlur.target.value } }).then(res => {
+    if (value === '') {
+      setItems(items =>
+        items.map(item => (item.id === Number(id) ? { ...item, og: {} } : item)),
+      )
+      return
+    }
+
+    await fetchOpenGraph({ variables: { url: value } }).then(res => {
       setItems(items =>
         items.map(item =>
           item.id === Number(id) ? { ...item, og: res.data?.getOpenGraph ?? {} } : item,
@@ -145,13 +152,16 @@ export default function ItemLinkInput(props: ItemLinkInputProps) {
               focusBorderColor="dPrimary"
             />
             {isLastItem(array, item) ? (
-              <HStack spacing={'6px'}>
+              <HStack spacing={'10px'}>
                 <Button
                   w={'40px'}
                   h={'40px'}
                   bgColor={useColorModeValue('dGray.light', '#bababa1e')}
                   onClick={addItem}>
-                  <AddIcon boxSize={3} />
+                  <AddIcon
+                    boxSize={3}
+                    color={useColorModeValue('dGray.dark', 'dGray.light')}
+                  />
                 </Button>
                 <Button
                   id={`${item.id}`}
@@ -160,12 +170,21 @@ export default function ItemLinkInput(props: ItemLinkInputProps) {
                   backgroundColor={'clear'}
                   bgColor={useColorModeValue('dGray.light', '#bababa1e')}
                   onClick={deleteItem(item.id)}>
-                  <MinusIcon boxSize={3} />
+                  <MinusIcon
+                    boxSize={3}
+                    color={useColorModeValue('dGray.dark', 'dGray.light')}
+                  />
                 </Button>
               </HStack>
             ) : (
-              <HStack spacing={'6px'}>
-                <Button colorScheme="clear" />
+              <HStack spacing={'10px'}>
+                <Button
+                  w={'40px'}
+                  h={'40px'}
+                  isDisabled={true}
+                  bgColor={useColorModeValue('dGray.light', '#bababa1e')}>
+                  <AddIcon boxSize={3} color={'gray.500'} />
+                </Button>
                 <Button
                   id={`${item.id}`}
                   w={'40px'}
@@ -173,7 +192,10 @@ export default function ItemLinkInput(props: ItemLinkInputProps) {
                   backgroundColor={'clear'}
                   bgColor={useColorModeValue('dGray.light', '#bababa1e')}
                   onClick={deleteItem(item.id)}>
-                  <MinusIcon boxSize={3} />
+                  <MinusIcon
+                    boxSize={3}
+                    color={useColorModeValue('dGray.dark', 'dGray.light')}
+                  />
                 </Button>
               </HStack>
             )}

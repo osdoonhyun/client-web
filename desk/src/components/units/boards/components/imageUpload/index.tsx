@@ -1,3 +1,4 @@
+import { useAuth } from '@/src/commons/hooks/useAuth'
 import { TPicture } from '@/src/commons/types/generated/types'
 import FileUpload from '@/src/components/ui/fileUpload'
 import { AspectRatio, Badge, Box, Flex, Text, useColorModeValue } from '@chakra-ui/react'
@@ -9,6 +10,8 @@ export type ImageUploadProps = {
 }
 
 function ImageUpload(props: ImageUploadProps) {
+  const { myUserInfo } = useAuth()
+
   return (
     <Flex flexDirection={'column'} ml={'-10px'}>
       <Box>
@@ -18,7 +21,12 @@ function ImageUpload(props: ImageUploadProps) {
           color={useColorModeValue('dGray.dark', 'dGray.light')}
           mb="8px"
           ml={'10px'}>
-          {}님의 책상 사진을 업로드 해주세요.
+          <Text>
+            <Text display={'inline'} color={'dPrimary'} fontSize={16} fontWeight={800}>
+              {myUserInfo?.nickName}
+            </Text>
+            님의 책상 사진을 업로드 해주세요.
+          </Text>
         </Text>
       </Box>
       <Flex flexDirection={'row'} justifyContent={'space-between'} flexWrap={'wrap'}>

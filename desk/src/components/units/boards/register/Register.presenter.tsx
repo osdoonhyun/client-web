@@ -6,11 +6,18 @@ import ItemLinkInput from '../components/itemLinkInput'
 import TitleWithInput from '../components/titleWithInput'
 import TitleWithInputTags from '../components/titleWithInputTags'
 import { BoardsRegisterUIProps } from './Register.types'
+import { KeyboardEvent } from 'react'
 
 const MIN_ITEMS_COUNT = 2
 
 export default function BoardsRegisterUI(props: BoardsRegisterUIProps) {
   const boardData = props.boardData?.fetchBoard
+
+  const onKeyDownSubmit = (event: KeyboardEvent<HTMLFormElement>) => {
+    if (event.key === 'Enter') {
+      event.preventDefault()
+    }
+  }
 
   return (
     <Flex
@@ -22,7 +29,9 @@ export default function BoardsRegisterUI(props: BoardsRegisterUIProps) {
       <Box mt={140}>
         <ImageUpload imageDatas={boardData?.pictures} onChangeFile={props.onChangeFile} />
       </Box>
-      <form onSubmit={props.useForm.handleSubmit(props.onClickSubmit)}>
+      <form
+        onKeyDown={onKeyDownSubmit}
+        onSubmit={props.useForm.handleSubmit(props.onClickSubmit)}>
         <Box mt={'57px'}>
           <Controller
             name="title"
@@ -71,9 +80,10 @@ export default function BoardsRegisterUI(props: BoardsRegisterUIProps) {
                   isRequired={true}
                   onItems={onChange}
                   errorMessage={
-                    ''
-                    // errors.usingItems?.findLast?.(item => item) === undefined ||
-                    // '사용하시는 장비를 자랑해주세요.'
+                    errors.usingItems?.every?.(item => item?.name && item?.url) !==
+                    undefined
+                      ? '사용하시는 장비를 자랑해주세요.'
+                      : ''
                   }
                 />
               )
@@ -88,7 +98,7 @@ export default function BoardsRegisterUI(props: BoardsRegisterUIProps) {
               <TitleWithInput
                 type="textarea"
                 isRequired={false}
-                title="더 추천하고 싶은 아이템이 있나요?"
+                title="추천하고 싶은 아이템이 있나요?"
                 value={value || ''}
                 maxLength={500}
                 inputHeight={300}
@@ -106,7 +116,7 @@ export default function BoardsRegisterUI(props: BoardsRegisterUIProps) {
                 type="input"
                 isRequired={false}
                 tags={boardData?.hashtags ?? []}
-                title="해시태그를 입력해주세요. ex) 학생데스크셋업, 개발자데스크셋업..."
+                title="해시태그를 입력해주세요."
                 value={value || []}
                 defaultValue={value || []}
                 onChangeInputTags={onChange}
@@ -120,6 +130,7 @@ export default function BoardsRegisterUI(props: BoardsRegisterUIProps) {
             w={'40%'}
             h={'48px'}
             bgColor={'dPrimary'}
+            _hover={{ bg: 'dPrimaryHover.dark' }}
             color={'white'}
             isLoading={props.isLoading}
             loadingText={`${props.isEdit ? '수정' : '등록'} 중...`}>
