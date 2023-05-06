@@ -19,6 +19,10 @@ export default function LikeBoards() {
 
   const boards = data?.fetchBoardsUserLiked ?? []
 
+  if (boards.length === 0) {
+    return null
+  }
+
   const categoryTitle = '💜 좋아요 한 게시물 구경하기'
   const titles = boards.map((board: TBoard) => board.title)
   const writers = boards.map((board: TBoard) => board.writer.nickName)
