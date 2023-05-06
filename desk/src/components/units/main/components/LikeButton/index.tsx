@@ -1,24 +1,38 @@
 import {
   TMutation,
   TMutationUpdateBoardLikerArgs,
+  TQuery,
+  TUser,
 } from '@/src/commons/types/generated/types'
-import { useMutation } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client'
 import { UPDATE_BOARD_LIKER } from './LiksButton.queries'
+import { FETCH_BOARDS, FETCH_LOGIN_USER } from '../../categories/recent/Recent.queries'
 import { MdFavorite, MdFavoriteBorder } from 'react-icons/md'
 import { Box } from '@chakra-ui/react'
 import { useState } from 'react'
-import { FETCH_BOARDS } from '../../categories/recent/Recent.queries'
 import { LikeButtonProps } from './LiksButton.types'
 import { useAuth } from '@/src/commons/hooks/useAuth'
 
 export default function LikeButton(props: LikeButtonProps) {
   const [isLiked, setIsLiked] = useState(props.isLiked)
-  const { currentUser, isLoggedIn, openModal } = useAuth()
+  const { isLoggedIn, openModal } = useAuth()
 
   const [updateBoardLiker] = useMutation<
     Pick<TMutation, 'updateBoardLiker'>,
     TMutationUpdateBoardLikerArgs
   >(UPDATE_BOARD_LIKER)
+
+  const [currentUser, setCurrentUser] = useState<TUser | null>(null)
+  const { client } = useQuery<Pick<TQuery, 'fetchLoginUser'>>(FETCH_LOGIN_USER, {
+    skip: !isLoggedIn,
+    onCompleted: data => {
+      setCurrentUser(data.fetchLoginUser)
+    },
+    onError: error => {
+      setCurrentUser(null)
+      console.error(error)
+    },
+  })
 
   const onClickLikeButton = async (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation()
