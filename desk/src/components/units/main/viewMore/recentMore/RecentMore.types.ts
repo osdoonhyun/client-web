@@ -5,4 +5,5 @@ export type RecentMoreUIProps = {
   onLoadMore: () => void
   onClickBoardDetail: (boardId: string) => void
   onClickUserDetail: (userId: string) => void
+  isLikedArray: boolean[]
 }
