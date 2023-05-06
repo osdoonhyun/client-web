@@ -71,9 +71,10 @@ export default function BoardsRegisterUI(props: BoardsRegisterUIProps) {
                   isRequired={true}
                   onItems={onChange}
                   errorMessage={
-                    ''
-                    // errors.usingItems?.findLast?.(item => item) === undefined ||
-                    // '사용하시는 장비를 자랑해주세요.'
+                    errors.usingItems?.every?.(item => item?.name && item?.url) !==
+                    undefined
+                      ? '사용하시는 장비를 자랑해주세요.'
+                      : ''
                   }
                 />
               )
