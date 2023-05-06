@@ -17,10 +17,10 @@ export default function MainProductItems(props: MainProductItemsProps) {
       <Flex justify={'flex-start'} align={'center'} wrap={'wrap'}>
         <Card w="260px" h="270px" bgColor={useColorModeValue('dGray.light', '#a0a0a01e')}>
           <CardBody borderRadius="lg">
-            <Image h="150px" src={props.image} alt="" />
+            <Image w="100%" h="150px" borderRadius="5px" src={props.image} alt="" />
             <Stack mt="5">
               <Center
-                fontSize="13pt"
+                fontSize="12pt"
                 fontWeight="600"
                 w="220px"
                 color={useColorModeValue('dGray.dark', 'dGray.light')}>
