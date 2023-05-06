@@ -1,13 +1,29 @@
 import RecentUI from './Recent.presenter'
-import { useQuery } from '@apollo/client'
+import { useApolloClient, useQuery } from '@apollo/client'
 import { TBoard, TQuery } from '@/src/commons/types/generated/types'
-import { FETCH_BOARDS } from './Recent.queries'
+import { FETCH_BOARDS, FETCH_LOGIN_USER } from './Recent.queries'
 import CustomSpinner from '@/src/components/ui/customSpinner'
 import ErrorMessage from '@/src/components/ui/errorMessage'
+import { useEffect, useState } from 'react'
 
 export default function Recent() {
+  const client = useApolloClient()
+  const [userid, setUserid] = useState('')
+
+  useEffect(() => {
+    const fetchCurrentUser = async () => {
+      try {
+        const { data } = await client.query({ query: FETCH_LOGIN_USER })
+        setUserid(data.fetchLoginUser.id)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    fetchCurrentUser()
+  }, [client])
+
   const { data, loading, error } = useQuery<Pick<TQuery, 'fetchBoards'>>(FETCH_BOARDS, {
-    variables: { userid: '' },
+    variables: { userid: userid || '' },
   })
 
   if (loading) {
@@ -17,7 +33,11 @@ export default function Recent() {
     return <ErrorMessage message={error.message} />
   }
 
-  const boards = data?.fetchBoards ?? []
+  const boards =
+    data?.fetchBoards?.map((board: TBoard) => ({
+      ...board,
+      isLiked: board.like,
+    })) ?? []
 
   const categoryTitle = '⏱️ 최근 게시물'
   const titles = boards.map((board: TBoard) => board.title)
@@ -39,6 +59,7 @@ export default function Recent() {
         writerImages={writerImages}
         boardIds={boardIds}
         userIds={userIds}
+        isLikedArray={boards.map((board: TBoard) => board.like)}
       />
     </>
   )
