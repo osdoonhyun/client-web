@@ -1,6 +1,7 @@
-import { LikeButtonProps } from '../LikeButton/LiksButton.types'
-
-export type MainImageStyleProps = LikeButtonProps & {
+export type MainImageStyleProps = {
   src: string
   alt: string
+  boardId?: string | undefined
+  isLiked?: boolean
+  isLikedArray: boolean[]
 }
