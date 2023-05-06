@@ -6,4 +6,5 @@ export type FollowingBoardsProps = {
   writerImages: (string | null | undefined)[]
   boardIds: string[]
   userIds: string[]
+  isLikedArray: boolean[]
 }

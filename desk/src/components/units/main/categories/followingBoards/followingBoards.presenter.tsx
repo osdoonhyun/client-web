@@ -19,6 +19,7 @@ export default function FollowingBoardsUI(props: FollowingBoardsProps) {
           writerImages={props.writerImages}
           boardIds={props.boardIds}
           userIds={props.userIds}
+          isLikedArray={props.isLikedArray}
         />
       </Center>
     </>
