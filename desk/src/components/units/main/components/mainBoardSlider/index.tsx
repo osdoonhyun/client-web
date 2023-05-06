@@ -26,7 +26,7 @@ export default function MainBoardSlider({
   isLikedArray = [],
 }: MainBoardSliderProps) {
   const [slider, setSlider] = useState<Slider | null>(null)
-  const [arrowVisible, setArrowVisible] = useState(true)
+  const [arrowVisible, setArrowVisible] = useState(false)
   const [currentSlide, setCurrentSlide] = useState(0)
   const router = useRouter()
 
@@ -102,7 +102,6 @@ export default function MainBoardSlider({
     swipeToSlide: isMobile,
     beforeChange: (oldIndex: number, newIndex: number) => {
       setCurrentSlide(newIndex)
-      setArrowVisible(false)
     },
     afterChange: () => setArrowVisible(true),
     prevArrow: <PrevArrow />,
@@ -209,7 +208,10 @@ export default function MainBoardSlider({
               {renderContent()}
             </Flex>
           ) : (
-            <Slider {...settings} ref={slider => setSlider(slider)}>
+            <Slider
+              {...settings}
+              ref={slider => setSlider(slider)}
+              onInit={() => setArrowVisible(true)}>
               {renderContent()}
             </Slider>
           )}
