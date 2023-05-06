@@ -38,7 +38,7 @@ export default function BoardDetailUI(props: BoardDetailUIProps) {
           <Text
             fontSize={26}
             fontWeight={800}
-            color={useColorModeValue('dBlack', 'dGray.medium')}
+            color={useColorModeValue('dGray.dark', 'dGray.medium')}
             pt={'10px'}>
             {props.boardData.title}
           </Text>
