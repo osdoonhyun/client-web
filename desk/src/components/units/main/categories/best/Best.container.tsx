@@ -36,7 +36,7 @@ export default function Best() {
   const bestBoards =
     data?.fetchTop10?.map((board: TBoard) => ({
       ...board,
-      isLiked: userid && board.like,
+      isLiked: board.like,
     })) ?? []
 
   const categoryTitle = '🏆 인기 게시물 TOP 10 🏆'
@@ -59,7 +59,7 @@ export default function Best() {
         writerImages={writerImages}
         boardIds={boardIds}
         userIds={userIds}
-        isLikedArray={bestBoards.map((board: TBoard) => (userid ? board.like : false))}
+        isLikedArray={bestBoards.map((board: TBoard) => board.like)}
       />
     </>
   )
