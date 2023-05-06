@@ -6,4 +6,5 @@ export type LikeBoardsUIProps = {
   writerImages: (string | null | undefined)[]
   boardIds: string[]
   userIds: string[]
+  isLikedArray: boolean[]
 }

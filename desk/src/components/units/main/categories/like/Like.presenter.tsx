@@ -15,6 +15,7 @@ export default function LikeBoardsUI(props: LikeBoardsUIProps) {
           writerImages={props.writerImages}
           boardIds={props.boardIds}
           userIds={props.userIds}
+          isLikedArray={props.isLikedArray}
         />
       </Center>
     </>

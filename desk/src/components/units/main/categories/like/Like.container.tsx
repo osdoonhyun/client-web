@@ -39,6 +39,7 @@ export default function LikeBoards() {
         writerImages={writerImages}
         boardIds={boardIds}
         userIds={userIds}
+        isLikedArray={boards.map((board: TBoard) => board.like)}
       />
     </>
   )
