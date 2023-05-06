@@ -23,7 +23,7 @@ export default function MainBoardSlider({
   writerImages = [],
   boardIds = [],
   userIds = [],
-  isLiked,
+  isLikedArray = [],
 }: MainBoardSliderProps) {
   const [slider, setSlider] = useState<Slider | null>(null)
   const [arrowVisible, setArrowVisible] = useState(true)
@@ -143,7 +143,8 @@ export default function MainBoardSlider({
               src={src}
               alt={`Image ${index}`}
               boardId={boardIds[index]}
-              isLiked={isLiked}
+              isLiked={isLikedArray[index]}
+              isLikedArray={[]}
             />
           </Center>
           <Center>

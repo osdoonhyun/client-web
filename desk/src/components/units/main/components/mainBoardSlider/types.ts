@@ -5,5 +5,5 @@ export type MainBoardSliderProps = {
   writerImages: (string | null | undefined)[]
   boardIds: string[]
   userIds: string[]
-  isLiked: boolean
+  isLikedArray: boolean[]
 }
