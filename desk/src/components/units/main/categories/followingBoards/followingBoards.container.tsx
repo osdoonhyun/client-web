@@ -51,16 +51,18 @@ export default function FollowingBoards() {
 
   return (
     <>
-      <FollowingBoardsUI
-        categoryTitle={categoryTitle}
-        images={uniqueImages}
-        titles={uniqueTitles}
-        writers={uniqueWriters}
-        writerImages={uniqueWriterImages}
-        boardIds={uniqueBoardIds}
-        userIds={uniqueUserIds}
-        isLikedArray={uniqueIsLikedArray}
-      />
+      {uniqueBoardData.length > 0 && (
+        <FollowingBoardsUI
+          categoryTitle={categoryTitle}
+          images={uniqueImages}
+          titles={uniqueTitles}
+          writers={uniqueWriters}
+          writerImages={uniqueWriterImages}
+          boardIds={uniqueBoardIds}
+          userIds={uniqueUserIds}
+          isLikedArray={uniqueIsLikedArray}
+        />
+      )}
     </>
   )
 }
