@@ -4,8 +4,7 @@ import { useLazyQuery } from '@apollo/client'
 import { KeyboardEvent, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router'
 import { SEARCH_BOARDS } from './SearchBoards.queries'
-import { Text, useDisclosure, useMediaQuery } from '@chakra-ui/react'
-import CustomSpinner from '@/src/components/ui/customSpinner'
+import { Button, Text, useDisclosure, useMediaQuery } from '@chakra-ui/react'
 import ErrorMessage from '@/src/components/ui/errorMessage'
 
 const highlightSearchKeyword = (
@@ -73,7 +72,7 @@ export default function SearchBoards() {
   }, [data, onResultOpen, onSearchClose])
 
   if (loading) {
-    return <CustomSpinner />
+    return <Button isLoading color="dPrimary" variant="outline" />
   }
 
   if (error) {
