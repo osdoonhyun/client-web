@@ -80,7 +80,7 @@ export default function SearchBoards() {
   }
 
   const onKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
+    if (event.key === 'Enter' && !event.nativeEvent.isComposing) {
       event.preventDefault()
       const searchInput = searchInputRef.current
       if (searchInput) {

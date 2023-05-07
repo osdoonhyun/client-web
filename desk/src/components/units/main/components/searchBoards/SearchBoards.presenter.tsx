@@ -40,6 +40,11 @@ export default function SearchBoardsUI(props: SearchBoardsUIProps) {
   const onClickSearchModalOpen = () => {
     if (isMobile) {
       props.onSearchOpen()
+      setTimeout(() => {
+        if (props.searchInputRef.current) {
+          props.searchInputRef.current.focus()
+        }
+      }, 0)
     } else {
       onClickSearchButton()
     }
