@@ -152,7 +152,7 @@ export default function NavigationTabs(props: NavigationTabsProps) {
                   index={index}
                   boardId={item?.id}
                   imageUrl={
-                    item?.pictures.find((picture: TPicture) => picture.isMain)?.url
+                    item?.pictures.find((picture: TPicture) => picture.isMain)?.url || ''
                   }
                   like={item?.like}
                 />
