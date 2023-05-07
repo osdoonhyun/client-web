@@ -8,6 +8,7 @@ import { MdFavorite, MdFavoriteBorder } from 'react-icons/md'
 import { useMutation } from '@apollo/client'
 import { UPDATE_BOARD_LIKER } from './boardItem.queries'
 import { useRouter } from 'next/router'
+import { useAuth } from '@/src/commons/hooks/useAuth'
 
 export type BoardItemProps = {
   index: number
@@ -26,7 +27,13 @@ export default function BoardItem(props: BoardItemProps) {
     TMutationUpdateBoardLikerArgs
   >(UPDATE_BOARD_LIKER)
 
+  const { openModal, isLoggedIn } = useAuth()
+
   const onClickLikeButton = (boardId: string, index: number) => async () => {
+    if (!isLoggedIn) {
+      openModal('LOGIN')
+      return
+    }
     console.log('boardid', boardId, index)
     await updateBoardLiker({
       variables: {

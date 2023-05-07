@@ -23,7 +23,7 @@ export default function User(props: UserProps) {
   const [isMyPage, setIsMyPage] = useState(false)
   const [isFollowing, setIsFollowing] = useState<boolean>(false)
 
-  const { isLoggedIn, myUserInfo } = useAuth()
+  const { isLoggedIn, myUserInfo, openModal } = useAuth()
   const [updateFollowing] = useMutation<
     Pick<TMutation, 'updateFollowing'>,
     TMutationUpdateFollowingArgs
@@ -34,6 +34,11 @@ export default function User(props: UserProps) {
   }, [])
 
   const onClickFollowingButton = async () => {
+    if (!isLoggedIn) {
+      openModal('LOGIN')
+      return
+    }
+
     await updateFollowing({ variables: { followingid: props.userData.user.id } })
       .then(result => {
         const updateValue = result.data?.updateFollowing ?? false
