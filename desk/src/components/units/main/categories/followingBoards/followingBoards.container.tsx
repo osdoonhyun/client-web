@@ -32,11 +32,12 @@ export default function FollowingBoards() {
           writerImage: user.picture,
           userId: user.id,
           boardId: board.id,
+          isLiked: board.like,
         }))
       return [...acc, ...userBoards]
     }
     return acc
-  }, [] as { title: string; writer: string; imageUrl: string; writerImage: string | null | undefined; userId: string; boardId: string }[])
+  }, [] as { title: string; writer: string; imageUrl: string; writerImage: string | null | undefined; userId: string; boardId: string; isLiked: boolean }[])
 
   const uniqueBoardData = uniqWith(boardData, isEqual)
 
@@ -46,18 +47,22 @@ export default function FollowingBoards() {
   const uniqueWriterImages = uniqueBoardData.map(data => data.writerImage)
   const uniqueBoardIds = uniqueBoardData.map(data => data.boardId)
   const uniqueUserIds = uniqueBoardData.map(data => data.userId)
+  const uniqueIsLikedArray = uniqueBoardData.map(data => data.isLiked)
 
   return (
     <>
-      <FollowingBoardsUI
-        categoryTitle={categoryTitle}
-        images={uniqueImages}
-        titles={uniqueTitles}
-        writers={uniqueWriters}
-        writerImages={uniqueWriterImages}
-        boardIds={uniqueBoardIds}
-        userIds={uniqueUserIds}
-      />
+      {uniqueBoardData.length > 0 && (
+        <FollowingBoardsUI
+          categoryTitle={categoryTitle}
+          images={uniqueImages}
+          titles={uniqueTitles}
+          writers={uniqueWriters}
+          writerImages={uniqueWriterImages}
+          boardIds={uniqueBoardIds}
+          userIds={uniqueUserIds}
+          isLikedArray={uniqueIsLikedArray}
+        />
+      )}
     </>
   )
 }

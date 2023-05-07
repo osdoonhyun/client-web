@@ -9,7 +9,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react'
 import { RecentMoreUIProps } from './RecentMore.types'
-import MainImageStyle from '@/src/components/ui/mainImageStyle'
+import MainImageStyle from '@/src/components/units/main/components/mainImageStyle'
 import InfiniteScroll from 'react-infinite-scroller'
 
 export default function RecentMoreUI(props: RecentMoreUIProps) {
@@ -61,6 +61,9 @@ export default function RecentMoreUI(props: RecentMoreUIProps) {
                   <MainImageStyle
                     src={board.pictures.find(picture => picture.isMain)?.url ?? ''}
                     alt={`test image${index}`}
+                    boardId={board.id}
+                    isLiked={board.like}
+                    isLikedArray={props.isLikedArray}
                   />
                 </Box>
                 <Center>
