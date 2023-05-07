@@ -27,6 +27,7 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { UPLOAD_FILE } from '../../ui/fileUpload/quries'
 import { useRouter } from 'next/router'
+import { produce } from 'immer'
 
 const SNS_ACCOUNT_LINKS: ItemLinkType[] = [
   {
@@ -94,22 +95,19 @@ export default function AccountEdit() {
   // }, [])
 
   // const [file, setFile] = useState<File | null>(null)
-  const [pictureFile, setPictureFile] = useState<string>('')
+  const [pictureFile, setPictureFile] = useState<(File | string)[]>([''])
 
   const [uploadFile] = useMutation<
     Pick<TMutation, 'uploadFile'>,
     TMutationUploadFileArgs
   >(UPLOAD_FILE)
 
-  const onChangeFile = useCallback((file: File, index: number) => {
-    // setFiles(
-    //   produce(draft => {
-    //     draft[index] = file
-    //   }),
-    // )
-    // setPictureFile(file)
-    // setValue('picture', file)
-    // void trigger('picture')
+  const onChangeFile = useCallback((file: File) => {
+    setPictureFile(
+      produce(draft => {
+        draft[0] = file
+      }),
+    )
   }, [])
 
   // sns 계정 추가하기
@@ -169,29 +167,49 @@ export default function AccountEdit() {
       })
     }
 
-    try {
-      await updateUser({
-        variables: {
-          updateUserInput: {
-            nickName: data.nickName,
-            intro: data.intro,
-            picture: data.picture,
-            jobGroup: data.jobGroup,
-            // snsAccount: data.snsAccount,
-          },
-        },
+    let fileBeforeUpload = pictureFile
+      .filter(file => file !== null)
+      .filter(file => typeof file !== 'string')
+    let fileAfterUpload: string[] = []
+
+    await uploadFile({
+      variables: {
+        files: fileBeforeUpload,
+      },
+    })
+      .then(res => res.data?.uploadFile)
+      .then(url => {
+        fileAfterUpload = pictureFile
+          .filter(file => file !== null)
+          .filter(file => typeof file === 'string') as string[]
+        fileAfterUpload = [...fileAfterUpload, ...(url as string[])]
       })
-    } catch (error) {
-      if (error instanceof Error) {
-        toast({
-          title: '에러',
-          description: error.message,
-          status: 'error',
-          position: 'top',
+      .then(() => {
+        return updateUser({
+          variables: {
+            updateUserInput: {
+              picture: fileAfterUpload[0],
+              nickName: data.nickName,
+              intro: data.intro,
+              jobGroup: data.jobGroup,
+              // snsAccount: data.snsAccount,
+            },
+          },
         })
-      }
-    }
-    router.back()
+      })
+      .catch(error => {
+        if (error instanceof Error) {
+          toast({
+            title: '에러',
+            description: error.message,
+            status: 'error',
+            position: 'top',
+          })
+        }
+      })
+      .finally(() => {
+        router.back()
+      })
   }
 
   return (
