@@ -117,7 +117,7 @@ export default function NavigationTabs(props: NavigationTabsProps) {
 
   return (
     <>
-      <Tabs mt="auto">
+      <Tabs mt="30px">
         <TabList color="dGray.medium">
           {TABS.map((icon, index) => (
             <Tab
