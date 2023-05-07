@@ -12,16 +12,13 @@ export default function TitleWithDescription(props: TitleWithDescriptionProps) {
       <Text
         fontSize={18}
         fontWeight={800}
-        color={useColorModeValue('dBlack', 'dGray.light')}
-        pt={'10px'}>
+        color={useColorModeValue('dBlack', 'dGray.light')}>
         {props.title}
       </Text>
       <Text
         fontSize={16}
         fontWeight={400}
-        color={useColorModeValue('dBlack', 'dGray.light')}
-        pt={'10px'}
-        pb={'10px'}>
+        color={useColorModeValue('dBlack', 'dGray.light')}>
         {props.description}
       </Text>
     </Stack>

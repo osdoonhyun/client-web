@@ -26,7 +26,7 @@ export default function FollowingBoardsMore() {
     if (user.boards) {
       const userBoards = user.boards
         .filter((board): board is TBoard => board !== null && board !== undefined)
-        .map(board => ({ ...board, user: user }))
+        .map(board => ({ ...board, user: user, isLiked: board.like }))
       return [...acc, ...userBoards]
     }
     return acc

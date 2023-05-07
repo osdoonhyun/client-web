@@ -15,6 +15,7 @@ export default function BestUI(props: BestUIProps) {
           writerImages={props.writerImages}
           boardIds={props.boardIds}
           userIds={props.userIds}
+          isLikedArray={props.isLikedArray}
         />
       </Center>
     </>

@@ -4,10 +4,13 @@ import { TBoard, TQuery } from '@/src/commons/types/generated/types'
 import { FETCH_BOARDS } from './Recent.queries'
 import CustomSpinner from '@/src/components/ui/customSpinner'
 import ErrorMessage from '@/src/components/ui/errorMessage'
+import { useAuth } from '@/src/commons/hooks/useAuth'
 
 export default function Recent() {
+  const { myUserInfo } = useAuth()
+
   const { data, loading, error } = useQuery<Pick<TQuery, 'fetchBoards'>>(FETCH_BOARDS, {
-    variables: { userid: '' },
+    variables: { userid: myUserInfo?.id || '' },
   })
 
   if (loading) {
@@ -17,7 +20,11 @@ export default function Recent() {
     return <ErrorMessage message={error.message} />
   }
 
-  const boards = data?.fetchBoards ?? []
+  const boards =
+    data?.fetchBoards?.map((board: TBoard) => ({
+      ...board,
+      isLiked: board.like,
+    })) ?? []
 
   const categoryTitle = '⏱️ 최근 게시물'
   const titles = boards.map((board: TBoard) => board.title)
@@ -28,7 +35,6 @@ export default function Recent() {
   )
   const boardIds = boards.map((board: TBoard) => board.id)
   const userIds = boards.map((board: TBoard) => board.writer.id)
-  console.log('userIds:', userIds)
 
   return (
     <>
@@ -40,6 +46,7 @@ export default function Recent() {
         writerImages={writerImages}
         boardIds={boardIds}
         userIds={userIds}
+        isLikedArray={boards.map((board: TBoard) => board.like)}
       />
     </>
   )

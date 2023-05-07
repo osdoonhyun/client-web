@@ -14,7 +14,7 @@ import { DetailCommentReplyListProps } from '../DetailCommentList.types'
 import DetailCommentReplyItem from './DetailCommentReplyItem'
 
 export default function DetailCommentReplyList(props: DetailCommentReplyListProps) {
-  const { isLoggedIn } = useAuth()
+  const { isLoggedIn, myUserInfo } = useAuth()
   const [replyComment, setReplyComment] = useRecoilState(replyCommentState)
 
   const onChangeInputReplyComment = (event: ChangeEvent<HTMLInputElement>) => {
@@ -36,7 +36,11 @@ export default function DetailCommentReplyList(props: DetailCommentReplyListProp
           ))}
           {/* 대댓글 입력 */}
           <HStack spacing={'16px'} pt={'20px'}>
-            <Avatar w={'34px'} h={'34px'} src={'https://bit.ly/broken-link'} />
+            <Avatar
+              w={'34px'}
+              h={'34px'}
+              src={myUserInfo?.picture || 'https://bit.ly/broken-link'}
+            />
             <Input
               bgColor={useColorModeValue('dGray.light', '#bababa1e')}
               color={useColorModeValue('dBlack', 'dGray.light')}
