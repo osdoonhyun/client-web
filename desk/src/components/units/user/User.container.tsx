@@ -46,9 +46,18 @@ export default function User(props: UserProps) {
     await Promise.all([refetchFollowees(), refetchFollowings()])
   }
 
+  // const onClickMoveToAccountEdit = useCallback(() => {
+  //   router.push('/accountEdit')
+  // }, [
+  //   props.userData.user.id,
+  //   props.userData.user.picture,
+  //   props.userData.user.jobGroup,
+  //   props.userData.user.nickName,
+  //   { ...props.userData.user.snsAccounts },
+  // ])
   const onClickMoveToAccountEdit = useCallback(() => {
     router.push('/accountEdit')
-  }, [])
+  }, [myUserInfo])
 
   const onClickFollowingButton = async () => {
     if (!isLoggedIn) {
@@ -95,6 +104,8 @@ export default function User(props: UserProps) {
   useEffect(() => {
     refetchFollowData()
   }, [isFollowing])
+
+  useEffect(() => {}, [])
 
   return (
     <UserUI
