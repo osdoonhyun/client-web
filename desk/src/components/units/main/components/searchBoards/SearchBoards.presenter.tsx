@@ -52,7 +52,7 @@ export default function SearchBoardsUI(props: SearchBoardsUIProps) {
 
   return (
     <>
-      <Stack spacing={4}>
+      <Stack spacing={4} ml="20px">
         {!isMobile && (
           <InputGroup>
             <InputLeftElement pointerEvents="none">
@@ -60,7 +60,7 @@ export default function SearchBoardsUI(props: SearchBoardsUIProps) {
             </InputLeftElement>
             <Input
               ref={props.searchInputRef}
-              placeholder="search"
+              placeholder="검색어를 입력하세요."
               focusBorderColor="dPrimary"
               onKeyDown={props.onKeyDown}
             />
@@ -146,7 +146,7 @@ export default function SearchBoardsUI(props: SearchBoardsUIProps) {
                 </InputLeftElement>
                 <Input
                   ref={props.searchInputRef}
-                  placeholder="search"
+                  placeholder="검색어를 입력하세요."
                   focusBorderColor="dPrimary"
                   onKeyDown={props.onKeyDown}
                 />
