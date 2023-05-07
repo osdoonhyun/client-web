@@ -95,7 +95,10 @@ export default function AccountEditUI(props: AccountEditUIProps) {
                   <props.EditableControls />
                 </Flex>
               </Editable>
-              <MyJobSelect setMyJob={props.setMyJob} myJob={props.myJob} />
+              <MyJobSelect
+                setMyJob={props.setMyJob}
+                myJob={props.myJob || (props.myUserInfo?.jobGroup as string)}
+              />
             </Box>
           </Flex>
           <Divider border="1px" borderColor="#bababa" />
@@ -111,8 +114,8 @@ export default function AccountEditUI(props: AccountEditUIProps) {
               <Text fontSize="18px" fontWeight="500">
                 <Editable
                   textAlign="start"
-                  placeholder="한 줄 소개해주세요. (최대 30자)"
-                  defaultValue={props.myUserInfo?.intro ?? ''}
+                  placeholder="한 줄 소개해 주세요. (최대 30자)"
+                  defaultValue={props.myUserInfo?.intro || ''}
                   fontSize="20px"
                   fontWeight="400"
                   isPreviewFocusable={false}>
