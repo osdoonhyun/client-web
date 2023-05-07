@@ -1,20 +1,22 @@
 import { Center } from '@chakra-ui/react'
-import MainImageStyle from '@/src/components/ui/mainImageStyle'
 import CategoryHeader from '../../components/categoryHeader/CategoryHeader.container'
+import { LikeBoardsUIProps } from './Like.types'
+import MainBoardSlider from '../../components/mainBoardSlider'
 
-export default function LikeUI() {
-  const categoryTitle = 'Like'
-
+export default function LikeBoardsUI(props: LikeBoardsUIProps) {
   return (
     <>
-      <CategoryHeader categoryTitle={categoryTitle} moreButtonHidden={true} />
+      <CategoryHeader categoryTitle={props.categoryTitle} moreButtonHidden={false} />
       <Center m={2}>
-        {/* 이미지 UI 구성을 위한 임시 Key값. 추후 api 연결 시 수정 예정 */}
-        {[1, 1, 1, 1].map(num => (
-          <Center key={num} m={'10px'}>
-            <MainImageStyle src={`/test${num}.jpeg`} alt={`test image${num}`} />
-          </Center>
-        ))}
+        <MainBoardSlider
+          images={props.images}
+          titles={props.titles}
+          writers={props.writers}
+          writerImages={props.writerImages}
+          boardIds={props.boardIds}
+          userIds={props.userIds}
+          isLikedArray={props.isLikedArray}
+        />
       </Center>
     </>
   )

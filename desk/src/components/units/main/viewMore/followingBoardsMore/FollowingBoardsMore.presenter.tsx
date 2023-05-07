@@ -8,7 +8,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react'
 import { FollowingBoardsMoreUIProps } from './FollowingBoardsMore.types'
-import MainImageStyle from '@/src/components/ui/mainImageStyle'
+import MainImageStyle from '@/src/components/units/main/components/mainImageStyle'
 import InfiniteScroll from 'react-infinite-scroller'
 
 export default function FollowingBoardsMoreUI(props: FollowingBoardsMoreUIProps) {
@@ -60,6 +60,8 @@ export default function FollowingBoardsMoreUI(props: FollowingBoardsMoreUIProps)
                           key={picture.id}
                           src={picture.url}
                           alt={`board image ${board.id}`}
+                          boardId={board.id}
+                          isLiked={board.like}
                         />
                       )
                     }
