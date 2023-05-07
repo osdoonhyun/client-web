@@ -1,4 +1,5 @@
 import {
+  TBoard,
   TMutation,
   TMutationUpdateBoardLikerArgs,
   TQuery,
@@ -44,7 +45,30 @@ export default function LikeButton(props: LikeButtonProps) {
         variables: {
           boardid: props.boardId,
         },
-        refetchQueries: [{ query: FETCH_BOARDS }],
+        update: (cache, { data }) => {
+          const existingBoards: any = cache.readQuery({ query: FETCH_BOARDS })
+
+          if (existingBoards && existingBoards.fetchBoards) {
+            const updatedBoardIndex = existingBoards.fetchBoards.findIndex(
+              (board: TBoard) => board.id === props.boardId,
+            )
+
+            if (updatedBoardIndex > -1) {
+              const updatedBoards = [...existingBoards.fetchBoards]
+              updatedBoards[updatedBoardIndex] = {
+                ...updatedBoards[updatedBoardIndex],
+                like: data?.updateBoardLiker,
+              }
+              cache.writeQuery({
+                query: FETCH_BOARDS,
+                data: {
+                  ...existingBoards,
+                  fetchBoards: updatedBoards,
+                },
+              })
+            }
+          }
+        },
       }).then(result => {
         if (result.data) {
           setIsLiked(result.data.updateBoardLiker)

@@ -1,29 +1,16 @@
 import BestUI from './Best.presenter'
-import { useApolloClient, useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client'
 import { TBoard, TQuery } from '@/src/commons/types/generated/types'
-import { FETCH_LOGIN_USER, FETCH_TOP10 } from './Best.queries'
+import { FETCH_TOP10 } from './Best.queries'
 import CustomSpinner from '@/src/components/ui/customSpinner'
 import ErrorMessage from '@/src/components/ui/errorMessage'
-import { useEffect, useState } from 'react'
+import { useAuth } from '@/src/commons/hooks/useAuth'
 
 export default function Best() {
-  const client = useApolloClient()
-  const [userid, setUserid] = useState('')
-
-  useEffect(() => {
-    const fetchCurrentUser = async () => {
-      try {
-        const { data } = await client.query({ query: FETCH_LOGIN_USER })
-        setUserid(data.fetchLoginUser.id)
-      } catch (error) {
-        console.error(error)
-      }
-    }
-    fetchCurrentUser()
-  }, [client])
+  const { myUserInfo } = useAuth()
 
   const { data, loading, error } = useQuery<Pick<TQuery, 'fetchTop10'>>(FETCH_TOP10, {
-    variables: { userid: userid || '' },
+    variables: { userid: myUserInfo?.id || '' },
   })
 
   if (loading) {
