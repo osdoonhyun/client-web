@@ -21,6 +21,7 @@ import ProductItem from './components/productItem'
 import FollowModal from './components/followModal'
 
 export default function UserUI(props: UserUIProps) {
+  console.log('USERUI 팔로잉', props.isFollowing)
   return (
     <Box
       h="900px"
@@ -52,14 +53,14 @@ export default function UserUI(props: UserUIProps) {
             </Flex>
             <Flex ml="50px" mt="25px" gap="25px">
               <FollowModal
-                type="follower"
+                type="followee"
                 userData={props.userData}
                 isLoggedIn={props.isLoggedIn}
                 followeesData={props.followeesData}
                 followingsData={props.followingsData}
               />
               <FollowModal
-                type="followee"
+                type="following"
                 userData={props.userData}
                 isLoggedIn={props.isLoggedIn}
                 followeesData={props.followeesData}
@@ -144,19 +145,19 @@ export default function UserUI(props: UserUIProps) {
                 fontSize="18px"
                 color={
                   props.isFollowing
-                    ? useColorModeValue('#fff', '#1A202C')
-                    : 'dGray.medium'
+                    ? 'dGray.medium'
+                    : useColorModeValue('#fff', '#1A202C')
                 }
-                bgColor={props.isFollowing ? 'dPrimary' : undefined}
-                borderColor={props.isFollowing ? 'dPrimary' : 'dGray.medium'}
+                bgColor={props.isFollowing ? undefined : 'dPrimary'}
+                borderColor={props.isFollowing ? 'dGray.medium' : 'dPrimary'}
                 _hover={
                   props.isFollowing
-                    ? { bg: 'dPrimaryHover.dark' }
-                    : useColorModeValue({ bg: 'dGray.light' }, { bg: 'dGray.dark' })
+                    ? useColorModeValue({ bg: 'dGray.light' }, { bg: 'dGray.dark' })
+                    : { bg: 'dPrimaryHover.dark' }
                 }
                 onClick={props.onClickFollowingButton}
                 fontWeight="600">
-                {props.isFollowing ? '팔로우' : '팔로잉'}
+                {props.isFollowing ? '팔로잉' : '팔로우'}
               </Button>
             )}
           </Flex>
