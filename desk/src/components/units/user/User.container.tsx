@@ -21,9 +21,8 @@ export default function User(props: UserProps) {
   const toast = useToast()
   // API 받은 후 수정 계획
   const [isMyPage, setIsMyPage] = useState(false)
-  const [isFollowing, setIsFollowing] = useState<boolean>(
-    props.userData.user.followingStatus,
-  )
+  const [isFollowing, setIsFollowing] = useState<boolean>(false)
+
   const { isLoggedIn, myUserInfo } = useAuth()
   const [updateFollowing] = useMutation<
     Pick<TMutation, 'updateFollowing'>,
@@ -36,7 +35,10 @@ export default function User(props: UserProps) {
 
   const onClickFollowingButton = async () => {
     await updateFollowing({ variables: { followingid: props.userData.user.id } })
-      .then(isFollowing => setIsFollowing(!isFollowing))
+      .then(result => {
+        const updateValue = result.data?.updateFollowing ?? false
+        setIsFollowing(updateValue)
+      })
       .catch(error => {
         if (error instanceof Error) {
           toast({
@@ -55,6 +57,7 @@ export default function User(props: UserProps) {
   >(FETCH_FOLLOWEES, {
     variables: { userid: props.userData.user.id as string },
   })
+
   const { data: followingsData, refetch: refetchFollowings } = useQuery<
     Pick<TQuery, 'fetchFollowings'>
   >(FETCH_FOLLOWINGS, {
@@ -72,6 +75,17 @@ export default function User(props: UserProps) {
   const refetchFollowData = async () => {
     await Promise.all([refetchFollowees(), refetchFollowings()])
   }
+
+  useEffect(() => {
+    const targetId = myUserInfo?.id
+    const targetData = followeesData?.fetchFollowees.find(data => data.id === targetId)
+
+    if (targetData?.followeeStatus) {
+      setIsFollowing(true)
+    }
+
+    refetchFollowData()
+  }, [followeesData, myUserInfo])
 
   useEffect(() => {
     refetchFollowData()
