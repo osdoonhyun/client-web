@@ -18,6 +18,8 @@ export const FETCH_FOLLOWING_BOARDS = gql`
           url
           isMain
         }
+        like
+        likes
       }
     }
   }

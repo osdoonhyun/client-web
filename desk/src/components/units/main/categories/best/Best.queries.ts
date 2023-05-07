@@ -19,8 +19,21 @@ export const FETCH_TOP10 = gql`
         jobGroup
       }
       views
+      like
       likes
       createdAt
+    }
+  }
+`
+export const FETCH_LOGIN_USER = gql`
+  query {
+    fetchLoginUser {
+      id
+      email
+      nickName
+      picture
+      jobGroup
+      provider
     }
   }
 `

@@ -1,11 +1,11 @@
-import { Box, IconButton, Image, useBreakpointValue } from '@chakra-ui/react'
+import { AspectRatio, Box, IconButton, Image, useBreakpointValue } from '@chakra-ui/react'
 import { useState } from 'react'
 import { BiLeftArrowAlt, BiRightArrowAlt } from 'react-icons/bi'
 import Slider from 'react-slick'
 import { CarouselProps } from './types'
 
 const settings = {
-  dots: true,
+  dots: false,
   arrows: false,
   fade: true,
   infinite: true,
@@ -23,12 +23,7 @@ export default function Carousel(props: CarouselProps) {
   const side = useBreakpointValue({ base: '30%', md: '20px' })
 
   return (
-    <Box
-      position={'relative'}
-      height={{ base: '500px', md: '600px' }}
-      width={'full'}
-      borderRadius={'14px'}
-      overflow={'hidden'}>
+    <Box position={'relative'} width={'full'} borderRadius={'14px'} overflow={'hidden'}>
       <link
         rel="stylesheet"
         type="text/css"
@@ -76,14 +71,9 @@ export default function Carousel(props: CarouselProps) {
       {/* Slider */}
       <Slider {...settings} ref={slider => setSlider(slider)}>
         {props.imageURLs.map((url, index) => (
-          <Image
-            key={index}
-            src={url}
-            height={'6xl'}
-            position="relative"
-            backgroundPosition="center"
-            backgroundRepeat="no-repeat"
-            backgroundSize="cover"></Image>
+          <AspectRatio key={index} maxW={'100%'} ratio={16 / 9}>
+            <Image src={url} position="relative" objectFit={'cover'} />
+          </AspectRatio>
         ))}
       </Slider>
     </Box>

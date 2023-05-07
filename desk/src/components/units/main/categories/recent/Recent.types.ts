@@ -6,4 +6,5 @@ export type RecentUIProps = {
   writerImages: (string | null | undefined)[]
   boardIds: string[]
   userIds: string[]
+  isLikedArray: boolean[]
 }

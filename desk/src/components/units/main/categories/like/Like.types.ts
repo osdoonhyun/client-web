@@ -1,4 +1,5 @@
-export type MainBoardSliderProps = {
+export type LikeBoardsUIProps = {
+  categoryTitle: string
   images: string[]
   titles: string[]
   writers: string[]
