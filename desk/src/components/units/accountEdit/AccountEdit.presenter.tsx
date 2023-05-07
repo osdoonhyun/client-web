@@ -66,9 +66,10 @@ export default function AccountEditUI(props: AccountEditUIProps) {
                   px="6px"
                   py="3px"
                   mx="3"
+                  defaultValue={props.myUserInfo?.jobGroup}
                   textTransform="uppercase"
                   alignItems="center">
-                  {props.myUserInfo?.jobGroup}
+                  {props.myJob || props.myUserInfo?.jobGroup}
                 </Badge>
               </Center>
             </Box>
@@ -94,11 +95,7 @@ export default function AccountEditUI(props: AccountEditUIProps) {
                   <props.EditableControls />
                 </Flex>
               </Editable>
-              <MyJobSelect
-                setMyJob={props.setMyJob}
-                myJob={props.myJob}
-                // onChange={props.onChangeMyJob(props.myJob)}
-              />
+              <MyJobSelect setMyJob={props.setMyJob} myJob={props.myJob} />
             </Box>
           </Flex>
           <Divider border="1px" borderColor="#bababa" />

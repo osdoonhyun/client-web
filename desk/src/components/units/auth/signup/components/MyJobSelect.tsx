@@ -32,7 +32,6 @@ export default function MyJobSelect(props: MyJob) {
       <Select
         focusBorderColor={'dPrimary'}
         color={textColor}
-        defaultValue={props.myJob ?? ''}
         placeholder="직군을 선택해 주세요 *"
         onChange={onChangeMySelectJob}
         isRequired>
