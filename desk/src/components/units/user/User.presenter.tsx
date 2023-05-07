@@ -19,6 +19,7 @@ import { UserUIProps } from './User.types'
 import NavigationTab from './components/tabs'
 import ProductItem from './components/productItem'
 import FollowModal from './components/followModal'
+import { TSnsAccount } from '@/src/commons/types/generated/types'
 
 export default function UserUI(props: UserUIProps) {
   console.log('USERUI 팔로잉', props.isFollowing)
@@ -72,8 +73,7 @@ export default function UserUI(props: UserUIProps) {
                 {props.userData.user.intro}
               </Text>
 
-              {/* FIXME */}
-              {/* {props.userData.user.snsAccounts?.map(snsAccount => (
+              {props.userData.user.snsAccounts?.map((snsAccount: TSnsAccount) => (
                 <Link
                   key={snsAccount.id}
                   href={snsAccount.sns}
@@ -82,10 +82,10 @@ export default function UserUI(props: UserUIProps) {
                   fontWeight="600">
                   <Flex alignItems="center" justifyContent="flex-start">
                     <Icon as={BsLink45Deg} mr={1} />
-                    {/* <Text>{snsAccount.sns}</Text> 
+                    <Text>{snsAccount.sns}</Text>
                   </Flex>
                 </Link>
-              ))} */}
+              ))}
 
               {/* <Link
                 href="https://www.example.com"
