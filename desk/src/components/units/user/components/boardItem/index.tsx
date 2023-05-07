@@ -2,13 +2,13 @@ import {
   TMutation,
   TMutationUpdateBoardLikerArgs,
 } from '@/src/commons/types/generated/types'
-import { Box, Image, useToast } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
-import { MdFavorite, MdFavoriteBorder } from 'react-icons/md'
-import { useMutation } from '@apollo/client'
-import { UPDATE_BOARD_LIKER } from './boardItem.queries'
 import { useRouter } from 'next/router'
 import { useAuth } from '@/src/commons/hooks/useAuth'
+import { useMutation } from '@apollo/client'
+import { Box, Image, useToast } from '@chakra-ui/react'
+import { UPDATE_BOARD_LIKER } from './boardItem.queries'
+import { MdFavorite, MdFavoriteBorder } from 'react-icons/md'
 
 export type BoardItemProps = {
   index: number
@@ -18,23 +18,23 @@ export type BoardItemProps = {
 }
 
 export default function BoardItem(props: BoardItemProps) {
+  const [isLiked, setIsLiked] = useState(props.like)
+
   const toast = useToast()
   const router = useRouter()
-  const [isLiked, setIsLiked] = useState(props.like)
+  const { openModal, isLoggedIn } = useAuth()
 
   const [updateBoardLiker] = useMutation<
     Pick<TMutation, 'updateBoardLiker'>,
     TMutationUpdateBoardLikerArgs
   >(UPDATE_BOARD_LIKER)
 
-  const { openModal, isLoggedIn } = useAuth()
-
   const onClickLikeButton = (boardId: string, index: number) => async () => {
     if (!isLoggedIn) {
       openModal('LOGIN')
       return
     }
-    console.log('boardid', boardId, index)
+
     await updateBoardLiker({
       variables: {
         boardid: boardId,
@@ -56,13 +56,13 @@ export default function BoardItem(props: BoardItemProps) {
       })
   }
 
-  useEffect(() => {
-    setIsLiked(props.like)
-  }, [props.like])
-
   const onClickBoardItem = (boardid: string) => () => {
     router.push(`/boards/${boardid}`)
   }
+
+  useEffect(() => {
+    setIsLiked(props.like)
+  }, [props.like])
 
   return (
     <Box key={props.index} pos="relative" cursor="pointer">

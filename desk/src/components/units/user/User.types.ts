@@ -1,5 +1,4 @@
-import { TQuery, TUser } from '@/src/commons/types/generated/types'
-import { FollowingsData, FolloweesData } from './components/followModal/FollowModal.types'
+import { TQuery } from '@/src/commons/types/generated/types'
 import { TFetchUser } from '@/src/commons/types/generated/types'
 
 export type UserProps = {

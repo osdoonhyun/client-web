@@ -1,7 +1,7 @@
-import { Toast, useBoolean, useToast } from '@chakra-ui/react'
-import { useCallback, useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
 import UserUI from './User.presenter'
+import { useCallback, useEffect, useState } from 'react'
+import { useToast } from '@chakra-ui/react'
+import { useRouter } from 'next/router'
 import { useAuth } from '@/src/commons/hooks/useAuth'
 import { UserProps } from './User.types'
 import { useMutation, useQuery } from '@apollo/client'
@@ -19,15 +19,32 @@ import {
 export default function User(props: UserProps) {
   const router = useRouter()
   const toast = useToast()
-  // API 받은 후 수정 계획
+
   const [isMyPage, setIsMyPage] = useState(false)
   const [isFollowing, setIsFollowing] = useState<boolean>(false)
-
   const { isLoggedIn, myUserInfo, openModal } = useAuth()
+
   const [updateFollowing] = useMutation<
     Pick<TMutation, 'updateFollowing'>,
     TMutationUpdateFollowingArgs
   >(UPDATE_FOLLOWING)
+
+  // 여기서 쿼리를 가져온 이유: 필로우 버튼 클릭 시 refetch 시켜주기 위해
+  const { data: followeesData, refetch: refetchFollowees } = useQuery<
+    Pick<TQuery, 'fetchFollowees'>
+  >(FETCH_FOLLOWEES, {
+    variables: { userid: props.userData.user.id as string },
+  })
+
+  const { data: followingsData, refetch: refetchFollowings } = useQuery<
+    Pick<TQuery, 'fetchFollowings'>
+  >(FETCH_FOLLOWINGS, {
+    variables: { userid: props.userData.user.id as string },
+  })
+
+  const refetchFollowData = async () => {
+    await Promise.all([refetchFollowees(), refetchFollowings()])
+  }
 
   const onClickMoveToAccountEdit = useCallback(() => {
     router.push('/accountEdit')
@@ -56,19 +73,6 @@ export default function User(props: UserProps) {
       })
   }
 
-  // 여기서 쿼리를 가져온 이유: 필로우 버튼 클릭 시 refetch 시켜주기 위해
-  const { data: followeesData, refetch: refetchFollowees } = useQuery<
-    Pick<TQuery, 'fetchFollowees'>
-  >(FETCH_FOLLOWEES, {
-    variables: { userid: props.userData.user.id as string },
-  })
-
-  const { data: followingsData, refetch: refetchFollowings } = useQuery<
-    Pick<TQuery, 'fetchFollowings'>
-  >(FETCH_FOLLOWINGS, {
-    variables: { userid: props.userData.user.id as string },
-  })
-
   useEffect(() => {
     if (myUserInfo?.id === props.userData?.user.id) {
       setIsMyPage(true)
@@ -76,10 +80,6 @@ export default function User(props: UserProps) {
       setIsMyPage(false)
     }
   }, [myUserInfo?.id, props.userData?.user.id])
-
-  const refetchFollowData = async () => {
-    await Promise.all([refetchFollowees(), refetchFollowings()])
-  }
 
   useEffect(() => {
     const targetId = myUserInfo?.id

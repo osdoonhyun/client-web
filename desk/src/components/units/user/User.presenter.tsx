@@ -4,25 +4,19 @@ import {
   Box,
   Button,
   Flex,
-  Image,
   Link,
-  SimpleGrid,
   Text,
   Icon,
-  useColorMode,
   useColorModeValue,
 } from '@chakra-ui/react'
-import { MdFavoriteBorder, MdFavorite } from 'react-icons/md'
 import { GoPencil } from 'react-icons/go'
 import { BsLink45Deg } from 'react-icons/bs'
 import { UserUIProps } from './User.types'
 import NavigationTab from './components/tabs'
-import ProductItem from './components/productItem'
 import FollowModal from './components/followModal'
 import { TSnsAccount } from '@/src/commons/types/generated/types'
 
 export default function UserUI(props: UserUIProps) {
-  console.log('USERUI 팔로잉', props.isFollowing)
   return (
     <Box
       h="900px"

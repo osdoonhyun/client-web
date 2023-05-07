@@ -1,84 +1,49 @@
-import {
-  Tabs,
-  TabList,
-  Tab,
-  Icon,
-  SimpleGrid,
-  Box,
-  Image,
-  Card,
-  CardBody,
-  Text,
-} from '@chakra-ui/react'
-import { MdFavorite, MdFavoriteBorder } from 'react-icons/md'
-import { BsColumnsGap } from 'react-icons/bs'
-import { AiOutlineLaptop } from 'react-icons/ai'
-import { NavigationTabsProps } from './Tabs.types'
-import ProductItem from '../productItem'
-import BoardItem from '../boardItem'
-import InfiniteScroller from '@/src/components/ui/infiniteScroller'
+import { Tabs, TabList, Tab, Icon, SimpleGrid } from '@chakra-ui/react'
 import React, { useCallback, useEffect, useState } from 'react'
-import { useMutation, useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client'
+import { NavigationTabsProps } from './Tabs.types'
 import {
   FETCH_BOARDS_USER_LIKED,
   FETCH_USER_PRODUCTS,
   FETCH_USER_BOARDS,
 } from './Tabs.queries'
-import {
-  TBoard,
-  TMutation,
-  TMutationUpdateBoardLikerArgs,
-  TPicture,
-  TProduct,
-  TQuery,
-} from '@/src/commons/types/generated/types'
+import ProductItem from '../productItem'
+import BoardItem from '../boardItem'
+import InfiniteScroller from '@/src/components/ui/infiniteScroller'
+import { TBoard, TPicture, TProduct, TQuery } from '@/src/commons/types/generated/types'
+import { MdFavoriteBorder } from 'react-icons/md'
+import { BsColumnsGap } from 'react-icons/bs'
+import { AiOutlineLaptop } from 'react-icons/ai'
 
 const TabID = {
   USER_POSTS: 0,
   USER_PRODUCT_POSTS: 1,
   USER_LIKED_POSTS: 2,
 }
+const MY_PAGE_TAB = [BsColumnsGap, AiOutlineLaptop, MdFavoriteBorder]
+const OTHERS_PAGE_TAB = [BsColumnsGap, AiOutlineLaptop]
 
 export default function NavigationTabs(props: NavigationTabsProps) {
+  const [userData, setUserData] = useState<TBoard[] | TProduct[]>([])
+
   const [showUserPosts, setShowUserPosts] = useState(true)
   const [showUserProductPosts, setShowUserProductPosts] = useState(false)
   const [showLikedPosts, setShowLikedPosts] = useState(false)
-  const [userData, setUserData] = useState<TBoard[] | TProduct[]>([])
-
-  const MY_PAGE_TAB = [BsColumnsGap, AiOutlineLaptop, MdFavoriteBorder]
-  const OTHERS_PAGE_TAB = [BsColumnsGap, AiOutlineLaptop]
 
   const { data: userBoards, refetch: refetchUserBoards } = useQuery<
     Pick<TQuery, 'fetchUserBoards'>
   >(FETCH_USER_BOARDS, { variables: { userid: props.userid as string } })
+
   const { data: userLikedBoards, refetch: refetchUserLikedBoards } = useQuery<
     Pick<TQuery, 'fetchBoardsUserLiked'>
   >(FETCH_BOARDS_USER_LIKED, { variables: { userid: props.userid as string } })
+
   const { data: userProducts } = useQuery<Pick<TQuery, 'fetchUserProducts'>>(
     FETCH_USER_PRODUCTS,
     {
       variables: { userid: props.userid as string },
     },
   )
-
-  const TABS = props.isMyPage ? MY_PAGE_TAB : OTHERS_PAGE_TAB
-
-  useEffect(() => {
-    if (showUserPosts) {
-      setUserData(userBoards?.fetchUserBoards ?? [])
-    } else if (showLikedPosts) {
-      setUserData(userLikedBoards?.fetchBoardsUserLiked ?? [])
-    } else if (showUserProductPosts) {
-      setUserData(userProducts?.fetchUserProducts ?? [])
-    }
-  }, [
-    showUserPosts,
-    showLikedPosts,
-    showUserProductPosts,
-    userBoards,
-    userLikedBoards,
-    userProducts,
-  ])
 
   const handleShowUserPosts = () => {
     setShowUserPosts(true)
@@ -113,7 +78,24 @@ export default function NavigationTabs(props: NavigationTabsProps) {
     [showUserPosts, showUserProductPosts, showLikedPosts],
   )
 
-  console.log('USER_DATA+++++++', userData)
+  useEffect(() => {
+    if (showUserPosts) {
+      setUserData(userBoards?.fetchUserBoards ?? [])
+    } else if (showLikedPosts) {
+      setUserData(userLikedBoards?.fetchBoardsUserLiked ?? [])
+    } else if (showUserProductPosts) {
+      setUserData(userProducts?.fetchUserProducts ?? [])
+    }
+  }, [
+    showUserPosts,
+    showLikedPosts,
+    showUserProductPosts,
+    userBoards,
+    userLikedBoards,
+    userProducts,
+  ])
+
+  const TABS = props.isMyPage ? MY_PAGE_TAB : OTHERS_PAGE_TAB
 
   return (
     <>
