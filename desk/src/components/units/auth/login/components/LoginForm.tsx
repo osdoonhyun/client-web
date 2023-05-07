@@ -139,8 +139,9 @@ export default function LoginForm() {
                       align={'start'}
                       justify={'space-between'}>
                       <Checkbox
-                        iconColor={'white'}
-                        borderColor={'dPrimary'}
+                        iconColor="red.300"
+                        borderColor="dPrimary"
+                        colorScheme="whiteAlpha"
                         onChange={onChangeMyEmailCheckboxToggle}>
                         저장하기
                       </Checkbox>
