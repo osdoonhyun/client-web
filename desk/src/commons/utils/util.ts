@@ -21,7 +21,6 @@ export function getDateToRelative(value: string) {
 }
 
 // formatNumber - 조회수
-
 export const formatNumber = (number: number): string => {
   return Intl.NumberFormat().format(number)
 }

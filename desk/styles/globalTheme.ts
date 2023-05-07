@@ -13,7 +13,7 @@ export const globalTheme = extendTheme({
       500: '#E53E3E',
     },
     dGray: {
-      dark: '#232323B3',
+      dark: '#232323d5',
       medium: '#BABABA',
       light: '#F8F8F8',
     },
