@@ -13,13 +13,8 @@ import MainImageStyle from '@/src/components/units/main/components/mainImageStyl
 import InfiniteScroll from 'react-infinite-scroller'
 
 export default function RecentMoreUI(props: RecentMoreUIProps) {
-  const categoryTitleFontSize = useBreakpointValue({
-    base: '15pt',
-    md: '18pt',
-  })
-
   const ml = useBreakpointValue({
-    base: 0,
+    base: '30px',
     md: '25px',
   })
 
@@ -39,9 +34,10 @@ export default function RecentMoreUI(props: RecentMoreUIProps) {
         }}>
         <Text
           ml={ml}
-          fontSize={categoryTitleFontSize}
-          textAlign={['center', 'left']}
+          mb={4}
+          textAlign="left"
           fontWeight="700"
+          fontSize={{ base: 'lg', md: 'xl' }}
           color={useColorModeValue('dGray.dark', 'dGray.light')}>
           ⏱️ 최근 게시물
         </Text>
@@ -54,9 +50,10 @@ export default function RecentMoreUI(props: RecentMoreUIProps) {
             {props.boards.map((board, index) => (
               <Box
                 key={index}
-                m={'15px'}
-                maxW={{ base: '100%', md: '25%' }}
-                textAlign="center">
+                m="15px"
+                textAlign="center"
+                maxW={{ base: '40%', md: '25%' }}
+                color={useColorModeValue('dGray.dark', 'dGray.light')}>
                 <Box onClick={() => props.onClickBoardDetail(board.id)} cursor="pointer">
                   <MainImageStyle
                     src={board.pictures.find(picture => picture.isMain)?.url ?? ''}
@@ -68,11 +65,11 @@ export default function RecentMoreUI(props: RecentMoreUIProps) {
                 </Box>
                 <Center>
                   <Text
+                    mt={2}
                     w="235px"
                     noOfLines={2}
-                    fontSize="13pt"
+                    fontSize={{ base: 'sm', md: 'md' }}
                     fontWeight="bold"
-                    mt={2}
                     cursor="pointer"
                     onClick={() => props.onClickBoardDetail(board.id)}>
                     {board.title.substring(0, 35)}
@@ -94,7 +91,10 @@ export default function RecentMoreUI(props: RecentMoreUIProps) {
                     {board.writer.nickName}
                   </Text>
                 </Center>
-                <Text fontSize="sm" mt={1} color="dGray.dark">
+                <Text
+                  fontSize={{ base: 'xs', md: 'sm' }}
+                  color={useColorModeValue('#757575', 'dGray.light')}
+                  mt={1}>
                   {`조회수: ${board.views}`}
                 </Text>
               </Box>
