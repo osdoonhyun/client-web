@@ -18,7 +18,6 @@ export default function MainImageStyle(props: MainImageStyleProps) {
     if (!isLoggedIn) {
       e.stopPropagation()
       openModal('LOGIN')
-    } else {
     }
   }
 
