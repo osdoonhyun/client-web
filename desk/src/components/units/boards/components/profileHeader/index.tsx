@@ -8,13 +8,23 @@ import {
   HStack,
   Text,
   useColorModeValue,
+  useToast,
 } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { ProfileHeaderProps } from './types'
+import { useMutation } from '@apollo/client'
+import { DELETE_BOARD } from '../../detail/Detail.queries'
+import { TMutation, TMutationDeleteBoardArgs } from '@/src/commons/types/generated/types'
 
 export default function ProfileHeader(props: ProfileHeaderProps) {
   const router = useRouter()
+  const toast = useToast()
   const { isWrittenBy } = useAuth()
+
+  const [deleteBoard] = useMutation<
+    Pick<TMutation, 'deleteBoard'>,
+    TMutationDeleteBoardArgs
+  >(DELETE_BOARD)
 
   const onClickMoveToUserPage = () => {
     router.push(`/${props.userData.id}`)
@@ -22,6 +32,33 @@ export default function ProfileHeader(props: ProfileHeaderProps) {
 
   const onClickMoveToDetailPage = () => {
     router.push(`/boards/${props.boardId}/edit`)
+  }
+
+  const onClickDeleteDetailPage = () => {
+    deleteBoard({ variables: { boardid: props.boardId } })
+      .then(res => res.data?.deleteBoard)
+      .then(isCompletion => {
+        if (isCompletion) {
+          toast({
+            title: '성공',
+            description: '삭제 완료',
+            status: 'success',
+            position: 'top',
+          })
+
+          router.push(`/`)
+        }
+      })
+      .catch(error => {
+        if (error instanceof Error) {
+          toast({
+            title: '에러',
+            description: error.message,
+            status: 'error',
+            position: 'top',
+          })
+        }
+      })
   }
 
   return (
@@ -41,7 +78,7 @@ export default function ProfileHeader(props: ProfileHeaderProps) {
           {props.userData.jobGroup}
         </Badge>
       </HStack>
-      <HStack spacing={'20px'}>
+      <HStack spacing={'10px'}>
         <Text
           fontSize={14}
           fontWeight={300}
@@ -49,14 +86,25 @@ export default function ProfileHeader(props: ProfileHeaderProps) {
           {getConvertedDate(props.createdAt)}
         </Text>
         {isWrittenBy(props.userData.id) && (
-          <Button
-            bgColor="dPrimary"
-            color="white"
-            size={'sm'}
-            _hover={{ bg: 'dPrimaryHover.dark' }}
-            onClick={onClickMoveToDetailPage}>
-            게시물 수정하기
-          </Button>
+          <>
+            <Button
+              color="white"
+              bgColor="green.500"
+              colorScheme="green"
+              size={'sm'}
+              onClick={onClickMoveToDetailPage}>
+              수정
+            </Button>
+            <Button
+              variant={'outline'}
+              color="dRed.500"
+              borderColor={'dRed.500'}
+              colorScheme="dRed"
+              size={'sm'}
+              onClick={onClickDeleteDetailPage}>
+              삭제
+            </Button>
+          </>
         )}
       </HStack>
     </Flex>
