@@ -1,5 +1,5 @@
 import { useAuth } from '@/src/commons/hooks/useAuth'
-import { MyEmailSave } from '@/src/commons/store/atom'
+import { MyEmailSave, MyLastLogined } from '@/src/commons/store/atom'
 import { AuthFormProps, loginSchema } from '@/src/components/units/auth/Auth.types'
 import ForgotPassword from '@/src/components/units/auth/forgotPassword/ForgotPassword.container'
 import SignupForm from '@/src/components/units/auth/signup/components/signupForm'
@@ -49,6 +49,7 @@ export default function LoginForm() {
   const [currentModalType, setCurrentModalType] = useState<TCurrentModalType>('LOGIN')
   const [myEmailSaveLocal, setMyEmailSaveLocal] = useRecoilState(MyEmailSave)
   const [isCheckedSaveEmail, setIsCheckedSaveEmail] = useState(false)
+  const [myLastLogined, setMyLastLogined] = useRecoilState(MyLastLogined)
 
   const {
     register,
@@ -129,7 +130,7 @@ export default function LoginForm() {
                       placeholder={'비밀번호를 입력해 주세요'}
                       {...register('password')}
                     />
-                    <FormErrorMessage>
+                    <FormErrorMessage w={265}>
                       {errors.password && errors.password.message}
                     </FormErrorMessage>
                   </FormControl>
@@ -154,15 +155,8 @@ export default function LoginForm() {
                       </Link>
                     </Stack>
 
-                    {myUserInfo?.provider === 'dechive' ? (
-                      <Tooltip
-                        hasArrow
-                        label="마지막 로그인"
-                        border={'solid'}
-                        borderColor={'red.300'}
-                        bg="dPrimary"
-                        mt={1}
-                        isOpen>
+                    {myLastLogined === 'dechive' ? (
+                      <Tooltip hasArrow label="마지막 로그인" isOpen>
                         <Button
                           type={'submit'}
                           bg={'dPrimary'}
@@ -180,25 +174,26 @@ export default function LoginForm() {
                         로그인
                       </Button>
                     )}
-                    <Flex justifyContent={'space-between'} py={7}>
+                    <Flex justifyContent={'space-between'}>
                       {snsLinks?.map(({ buttonColor, leftIcon, name }) => {
                         return (
                           <Link href={`https://mobomobo.shop/login/${name}`} key={name}>
-                            {myUserInfo?.provider === name ? (
-                              <Tooltip
-                                mt={1}
-                                hasArrow
-                                label="마지막 로그인"
-                                border={'solid'}
-                                borderColor={'red.300'}
-                                bg="dPrimary"
-                                isOpen>
-                                <Button colorScheme={buttonColor} leftIcon={leftIcon}>
+                            {myLastLogined === name ? (
+                              <Tooltip hasArrow label="마지막 로그인" isOpen>
+                                <Button
+                                  // size={'lg'}
+                                  colorScheme={buttonColor}
+                                  leftIcon={leftIcon}>
                                   {name.charAt(0).toUpperCase() + name.slice(1)}
                                 </Button>
                               </Tooltip>
                             ) : (
-                              <Button colorScheme={buttonColor} leftIcon={leftIcon}>
+                              <Button
+                                // size={'lg'}
+                                w={130}
+                                h={10}
+                                colorScheme={buttonColor}
+                                leftIcon={leftIcon}>
                                 {name.charAt(0).toUpperCase() + name.slice(1)}
                               </Button>
                             )}

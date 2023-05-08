@@ -13,6 +13,12 @@ export const MyEmailSave = atom({
   effects_UNSTABLE: [local],
 })
 
+export const MyLastLogined = atom({
+  key: `myLastLogined`,
+  default: '',
+  effects_UNSTABLE: [local],
+})
+
 export const MyToken = atom<string>({
   key: `myToken`,
   default: '',
@@ -31,7 +37,6 @@ export const AuthModalToggle = atom({
 export const MyUserInfo = atom<TUser | null>({
   key: 'myUserInfo',
   default: null,
-  effects_UNSTABLE: [local],
 })
 
 export const isLoggedInState = atom<boolean>({
