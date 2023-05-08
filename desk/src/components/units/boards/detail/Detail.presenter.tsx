@@ -23,7 +23,7 @@ export default function BoardDetailUI(props: BoardDetailUIProps) {
         likers={props.boardData.likers ?? []}
         imageURLs={props.boardData.pictures.map(item => item.url)}
       />
-      <Box pt={'8px'}>
+      <Box>
         <CountStateWithLike
           boardId={props.boardData.id}
           views={props.boardData.views}
@@ -36,7 +36,7 @@ export default function BoardDetailUI(props: BoardDetailUIProps) {
         <HStack>
           <FaQuoteLeft size={12} color={useColorModeValue('#232323B3', '#BABABA')} />
           <Text
-            fontSize={26}
+            fontSize={{ base: 'xl', md: '2xl', lg: '3xl' }}
             fontWeight={800}
             color={useColorModeValue('dGray.dark', 'dGray.medium')}
             pt={'10px'}>

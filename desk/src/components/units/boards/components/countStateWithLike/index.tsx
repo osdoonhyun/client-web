@@ -9,7 +9,7 @@ export default function CountStateWithLike(props: CountStateWithLikeProps) {
         <HStack>
           <AiOutlineEye />
           <Text
-            fontSize={16}
+            fontSize={{ base: 'xs' }}
             fontWeight={600}
             color={useColorModeValue('dGray.dark', 'dGray.medium')}>
             {props.views}
