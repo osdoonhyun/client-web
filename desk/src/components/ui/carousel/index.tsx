@@ -23,7 +23,7 @@ export default function Carousel(props: CarouselProps) {
   const side = useBreakpointValue({ base: '30%', md: '20px' })
 
   return (
-    <Box position={'relative'} width={'full'} borderRadius={'14px'} overflow={'hidden'}>
+    <Box position={'relative'} width={'full'}>
       <link
         rel="stylesheet"
         type="text/css"
@@ -72,7 +72,12 @@ export default function Carousel(props: CarouselProps) {
       <Slider {...settings} ref={slider => setSlider(slider)}>
         {props.imageURLs.map((url, index) => (
           <AspectRatio key={index} maxW={'100%'} ratio={16 / 9}>
-            <Image src={url} position="relative" objectFit={'cover'} />
+            <Image
+              src={url}
+              position="relative"
+              objectFit={'cover'}
+              borderRadius={'16px'}
+            />
           </AspectRatio>
         ))}
       </Slider>
