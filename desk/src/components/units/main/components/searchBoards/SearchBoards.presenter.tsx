@@ -91,7 +91,11 @@ export default function SearchBoardsUI(props: SearchBoardsUIProps) {
           </Button>
         )}
       </Stack>
-      <Modal isOpen={props.isResultOpen} onClose={props.onResultClose} size="xl">
+      <Modal
+        isOpen={props.isResultOpen}
+        onClose={props.onResultClose}
+        size="xl"
+        isCentered>
         <ModalOverlay />
         <ModalContent
           h={
