@@ -182,48 +182,46 @@ export default function AccountEdit() {
     let fileBeforeUpload = pictureFile
       .filter(file => file !== null)
       .filter(file => typeof file !== 'string')
-
     let fileAfterUpload: string[] = []
 
-    await uploadFile({
-      variables: {
-        files: fileBeforeUpload,
-      },
-    })
-      .then(res => res.data?.uploadFile)
-      .then(url => {
-        fileAfterUpload = pictureFile
-          .filter(file => file !== null)
-          .filter(file => typeof file === 'string') as string[]
-        fileAfterUpload = [...fileAfterUpload, ...(url as string[])]
+    try {
+      await uploadFile({
+        variables: {
+          files: fileBeforeUpload,
+        },
       })
-      .then(() => {
-        return updateUser({
-          variables: {
-            updateUserInput: {
-              ...(fileAfterUpload[0] && { picture: fileAfterUpload[0] }),
-              ...(data.nickName && { nickName: data.nickName }),
-              intro: data.intro,
-              jobGroup: data.jobGroup,
-              snsAccount: data.snsAccounts.map(sns => sns.link) ?? [],
-            },
-          },
+        .then(res => res.data?.uploadFile)
+        .then(url => {
+          fileAfterUpload = pictureFile
+            .filter(file => file !== null)
+            .filter(file => typeof file === 'string') as string[]
+          fileAfterUpload = [...fileAfterUpload, ...(url as string[])]
         })
-      })
-      .catch(error => {
-        if (error instanceof Error) {
-          toast({
-            title: '에러',
-            description: error.message,
-            status: 'error',
-            position: 'top',
+        .then(() => {
+          return updateUser({
+            variables: {
+              updateUserInput: {
+                ...(fileAfterUpload[0] && { picture: fileAfterUpload[0] }),
+                ...(data.nickName && { nickName: data.nickName }),
+                intro: data.intro,
+                jobGroup: data.jobGroup,
+                snsAccount: data.snsAccounts.map(sns => sns.link) ?? [],
+              },
+            },
           })
-          return
-        }
-      })
-      .finally(() => {
-        router.back()
-      })
+        })
+      router.back()
+    } catch (error) {
+      if (error instanceof Error) {
+        toast({
+          title: '에러',
+          description: error.message,
+          status: 'error',
+          position: 'top',
+        })
+        return
+      }
+    }
   }
 
   return (
