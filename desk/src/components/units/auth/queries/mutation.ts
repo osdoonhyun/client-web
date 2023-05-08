@@ -64,6 +64,8 @@ export const FETCH_LOGIN_USER = gql`
       picture
       jobGroup
       provider
+      followingsCount
+      followeesCount
       snsAccounts {
         id
         sns
