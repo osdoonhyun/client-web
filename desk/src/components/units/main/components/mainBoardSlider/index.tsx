@@ -30,7 +30,7 @@ export default function MainBoardSlider({
   const [currentSlide, setCurrentSlide] = useState(0)
   const router = useRouter()
 
-  const [isMobile] = useMediaQuery('(max-width: 767px)')
+  const [isMobile] = useMediaQuery('(max-width: 768px)')
 
   const onClickBoardDetail = (boardId: string) => {
     router.push(`/boards/${boardId}`)

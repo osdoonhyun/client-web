@@ -20,6 +20,7 @@ export const FETCH_FOLLOWING_BOARDS = gql`
         }
         like
         likes
+        views
       }
     }
   }
