@@ -25,7 +25,7 @@ export type AccountEditUIProps = {
   addSnsLink: () => void
   deleteSnsLink: (id: number) => void
   onChangeLink: (event: ChangeEvent<HTMLInputElement>) => void
-  onClickUploadButton: (e: React.MouseEvent<HTMLDivElement>) => void
+  onClickUploadButton: (e: React.MouseEvent<HTMLButtonElement>) => void
   onClickSubmit: (data: AccountEditInputForm) => void
   // register: ReturnType<typeof useForm>['register']
   // handleSubmit: ReturnType<typeof useForm>['handleSubmit']

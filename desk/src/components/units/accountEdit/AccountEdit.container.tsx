@@ -137,7 +137,7 @@ export default function AccountEdit() {
   // 프로필 이미지 버튼
   const fileUploadRef = useRef<HTMLInputElement>(null)
 
-  const onClickUploadButton = (e: React.MouseEvent<HTMLDivElement>) => {
+  const onClickUploadButton = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation()
     fileUploadRef.current?.click()
   }
