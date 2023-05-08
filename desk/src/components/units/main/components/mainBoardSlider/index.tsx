@@ -148,7 +148,7 @@ export default function MainBoardSlider({
           <Center>
             <Flex flexDirection="column">
               <Center
-                fontSize={{ base: 'sm', md: 'md' }}
+                fontSize={{ base: '11pt', md: 'md' }}
                 fontWeight="bold"
                 textAlign="center"
                 mt={2}

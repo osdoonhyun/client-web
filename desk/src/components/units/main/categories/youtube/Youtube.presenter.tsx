@@ -24,7 +24,7 @@ export default function YoutubeUI(props: YoutubeUIProps) {
 
   const getTitleSubstringLength = () => {
     if (isMobile) {
-      return 25
+      return 30
     }
     return 30
   }
@@ -44,10 +44,11 @@ export default function YoutubeUI(props: YoutubeUIProps) {
                 onClick={() => props.onClickSelectedVideo(youtube.videoUrl)}>
                 <YoutubeImageStyle src={youtube.thumbnailUrl} alt={youtube.videoUrl} />
                 <Flex
+                  mt={1}
                   justifyContent="center"
                   alignItems="center"
-                  fontSize="13pt"
-                  fontWeight="700"
+                  fontSize="11pt"
+                  fontWeight="600"
                   color={useColorModeValue('dGray.dark', 'dGray.light')}>
                   <Box>
                     {youtube.title.substring(0, getTitleSubstringLength())}
