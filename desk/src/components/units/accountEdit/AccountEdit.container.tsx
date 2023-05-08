@@ -195,7 +195,6 @@ export default function AccountEdit() {
         .then(() => {
           const updateUserInput: UpdateUserInput = {
             intro: data.intro,
-            jobGroup: data.jobGroup,
             snsAccount: data.snsAccounts.map(sns => sns.link) ?? [],
           }
 
@@ -203,11 +202,18 @@ export default function AccountEdit() {
             updateUserInput.picture = fileAfterUpload[0]
           }
 
+          const currentMyJob = myUserInfo?.jobGroup
+          const updateUserMyJob = myJob
+
+          if (currentMyJob !== updateUserMyJob) {
+            updateUserInput.jobGroup = updateUserMyJob
+          }
+
           const currentUserNickName = myUserInfo?.nickName
           const updateUserNickName = data.nickName
 
           if (currentUserNickName !== updateUserNickName) {
-            updateUserInput.nickName = data.nickName
+            updateUserInput.nickName = updateUserNickName
           }
           return updateUser({
             variables: { updateUserInput },

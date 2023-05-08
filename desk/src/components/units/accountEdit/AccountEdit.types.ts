@@ -57,7 +57,7 @@ export type UpdateUserInput = {
   picture?: string
   nickName?: string
   intro: string
-  jobGroup: string
+  jobGroup?: string
   snsAccount: string[]
 }
 
