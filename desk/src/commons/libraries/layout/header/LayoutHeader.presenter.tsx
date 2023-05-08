@@ -88,14 +88,29 @@ export default function LayoutHeaderUI(props: LayoutHeaderUIProps) {
                     {!isLoggedIn && <p>닉네임</p>}
                     {isLoggedIn && (
                       <div>
-                        <Center>{myUserInfo?.nickName}</Center>
-                        <Center>{myUserInfo?.email}</Center>
-                        <Center>
-                          <div>팔로우 : {myUserInfo?.followeesCount}</div>
+                        <Center mb={2} fontSize={'mb'} fontWeight="600">
+                          {myUserInfo?.nickName}
                         </Center>
-                        <Center>
-                          <div>팔로잉 : {myUserInfo?.followingsCount}</div>
+                        <Center
+                          mb={2}
+                          fontSize={'11pt'}
+                          color={useColorModeValue('dGray.dark', 'dGray.light')}>
+                          {myUserInfo?.email}
                         </Center>
+                        <Flex mb={2} justifyContent="space-around">
+                          <Center>
+                            팔로우
+                            <Box ml={1} color="#232323d5" fontWeight="700">
+                              {myUserInfo?.followeesCount}
+                            </Box>
+                          </Center>
+                          <Center>
+                            팔로잉
+                            <Box ml={1} color="#232323d5" fontWeight="700">
+                              {myUserInfo?.followingsCount}
+                            </Box>
+                          </Center>
+                        </Flex>
                       </div>
                     )}
                   </Center>
@@ -103,7 +118,10 @@ export default function LayoutHeaderUI(props: LayoutHeaderUIProps) {
                   <MenuDivider />
                   {!isLoggedIn ? (
                     <>
-                      <MenuItem pl={10} onClick={() => openModal('LOGIN')}>
+                      <MenuItem
+                        pl={10}
+                        textAlign="center"
+                        onClick={() => openModal('LOGIN')}>
                         로그인
                       </MenuItem>
                       <MenuItem pl={10} onClick={() => openModal('SIGNUP')}>
@@ -128,7 +146,6 @@ export default function LayoutHeaderUI(props: LayoutHeaderUIProps) {
           </Flex>
         </Flex>
       </Box>
-
       <LoginModalUI />
       <SignupModalUI />
     </>
