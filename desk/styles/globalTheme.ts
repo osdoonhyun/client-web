@@ -18,4 +18,10 @@ export const globalTheme = extendTheme({
       light: '#F8F8F8',
     },
   },
+
+  fonts: {
+    body: "'IBM Plex Sans KR', sans-serif",
+    heading: "'Noto Sans KR', sans-serif",
+    // heading: "'Roboto', sans-serif",
+  },
 })
