@@ -1,5 +1,5 @@
-import { TQuery } from '@/src/commons/types/generated/types'
 import User from '@/src/components/units/user/User.container'
+import { TQuery } from '@/src/commons/types/generated/types'
 import { FETCH_USER } from '@/src/components/units/user/User.queries'
 import { GraphQLClient } from 'graphql-request'
 import { GetServerSideProps } from 'next'
@@ -29,10 +29,6 @@ export const getServerSideProps: GetServerSideProps<UserPageProps> = async ({
 
 export default function UserPage(props: UserPageProps) {
   const userData = props.userData.fetchUser
-
-  // if(userData.user.id === 로그인한 유저의 id) {
-  //   isMyPage = true
-  // }
 
   return <User userData={userData} />
 }

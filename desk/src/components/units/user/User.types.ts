@@ -1,3 +1,4 @@
+import { TQuery } from '@/src/commons/types/generated/types'
 import { TFetchUser } from '@/src/commons/types/generated/types'
 
 export type UserProps = {
@@ -11,4 +12,6 @@ export type UserUIProps = {
   isFollowing: boolean
   onClickMoveToAccountEdit: () => void
   onClickFollowingButton: () => void
+  followingsData: Pick<TQuery, 'fetchFollowings'> | undefined
+  followeesData: Pick<TQuery, 'fetchFollowees'> | undefined
 }
