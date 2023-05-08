@@ -206,6 +206,7 @@ export default function AccountEdit() {
             status: 'error',
             position: 'top',
           })
+          return
         }
       })
       .finally(() => {
