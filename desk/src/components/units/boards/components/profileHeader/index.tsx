@@ -62,11 +62,10 @@ export default function ProfileHeader(props: ProfileHeaderProps) {
   }
 
   return (
-    <Flex justify={'space-between'} align={'center'}>
-      <HStack spacing={'14px'} onClick={onClickMoveToUserPage} cursor={'pointer'}>
+    <Flex justify={'space-between'} align={'center'} mt={2} mb={3}>
+      <HStack spacing={'10px'} onClick={onClickMoveToUserPage} cursor={'pointer'}>
         <Avatar
-          w={'40px'}
-          h={'40px'}
+          size={'sm'}
           src={
             props.userData.picture ? props.userData.picture : 'https://bit.ly/broken-link'
           }
@@ -80,7 +79,8 @@ export default function ProfileHeader(props: ProfileHeaderProps) {
       </HStack>
       <HStack spacing={'10px'}>
         <Text
-          fontSize={14}
+          mr={2}
+          fontSize={'11pt'}
           fontWeight={300}
           color={useColorModeValue('dGray.dark', 'dGray.light')}>
           {getConvertedDate(props.createdAt)}
@@ -88,10 +88,11 @@ export default function ProfileHeader(props: ProfileHeaderProps) {
         {isWrittenBy(props.userData.id) && (
           <>
             <Button
-              color="white"
-              bgColor="green.500"
-              colorScheme="green"
+              variant={'outline'}
+              color={'dGray.dark'}
+              borderColor={'dGray.dark'}
               size={'sm'}
+              h="28px"
               onClick={onClickMoveToDetailPage}>
               수정
             </Button>
@@ -101,6 +102,7 @@ export default function ProfileHeader(props: ProfileHeaderProps) {
               borderColor={'dRed.500'}
               colorScheme="dRed"
               size={'sm'}
+              h="28px"
               onClick={onClickDeleteDetailPage}>
               삭제
             </Button>
