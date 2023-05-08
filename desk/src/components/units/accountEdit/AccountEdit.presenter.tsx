@@ -102,7 +102,7 @@ export default function AccountEditUI(props: AccountEditUIProps) {
             </Box>
           </Flex>
           <Divider border="1px" borderColor="#bababa" />
-          <Flex>
+          <Flex align="center">
             <Box w="40%">
               <Center flexDirection="column" w="80%">
                 <Text fontSize="20px" fontWeight="500">
@@ -133,7 +133,7 @@ export default function AccountEditUI(props: AccountEditUIProps) {
             </Box>
           </Flex>
           <Divider border="1px" borderColor="#bababa" />
-          <Flex>
+          <Flex align="cennter">
             <Box w="40%">
               <Center flexDirection="column" w="80%">
                 <Text fontSize="20px" fontWeight="500">
@@ -146,7 +146,7 @@ export default function AccountEditUI(props: AccountEditUIProps) {
             </Box>
           </Flex>
           <Divider border="1px" borderColor="#bababa" />
-          <Flex>
+          <Flex align="center">
             <Box w="40%">
               <Center flexDirection="column" w="80%">
                 <Text fontSize="20px" fontWeight="500">
@@ -224,10 +224,10 @@ export default function AccountEditUI(props: AccountEditUIProps) {
             </Box>
           </Flex>
           <Divider border="1px" borderColor="#bababa" />
-          <Flex>
+          <Flex align="center">
             <Box w="40%">
               <Center flexDirection="column" w="80%">
-                <Text fontSize="20px" fontWeight="600">
+                <Text fontSize="20px" fontWeight="500">
                   회원 탈퇴
                 </Text>
               </Center>
