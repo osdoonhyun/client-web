@@ -14,7 +14,7 @@ import InfiniteScroll from 'react-infinite-scroller'
 
 export default function FollowingBoardsMoreUI(props: FollowingBoardsMoreUIProps) {
   const ml = useBreakpointValue({
-    base: '30px',
+    base: '28px',
     md: '25px',
   })
 
@@ -52,7 +52,7 @@ export default function FollowingBoardsMoreUI(props: FollowingBoardsMoreUIProps)
                 key={index}
                 m={'15px'}
                 textAlign="center"
-                maxW={{ base: '40%', md: '25%' }}
+                maxW={{ base: '42%', md: '25%' }}
                 color={useColorModeValue('dGray.dark', 'dGray.light')}>
                 <Box onClick={() => props.onClickBoardDetail(board.id)} cursor="pointer">
                   {board.pictures.map(picture => {
