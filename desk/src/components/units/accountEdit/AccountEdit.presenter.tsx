@@ -26,6 +26,8 @@ import { AccountEditUIProps } from './AccountEdit.types'
 import MyJobSelect from '../auth/signup/components/MyJobSelect'
 
 export default function AccountEditUI(props: AccountEditUIProps) {
+  console.log('ACCOUNTUI', props.myUserInfo)
+  // console.log(props.myUserInfo.)
   return (
     <Box maxW="776px" m={'120px auto 0'} p={'0 20px 0'}>
       <form onSubmit={props.handleSubmit(props.onClickSubmit)}>
@@ -160,7 +162,7 @@ export default function AccountEditUI(props: AccountEditUIProps) {
                 {/* <Text fontSize="16px">sns 링크로 이동하기</Text> */}
                 {/* SNS 계정 추가하기 */}
                 <VStack align="stretch">
-                  {props.snsLinks.map(link => (
+                  {props.myUserInfo?.snsAccounts?.map((link, index) => (
                     <Flex
                       key={link.id}
                       direction="row"
@@ -169,7 +171,31 @@ export default function AccountEditUI(props: AccountEditUIProps) {
                       <Flex align="center">
                         <Icon size="16px" as={BsLink45Deg} mr={1} />
                         <Link>
-                          {/* {props.myUserInfo?.snsAccounts.map(snsAccounts,index)} */}
+                          <Input
+                            color="##718096"
+                            fontSize="18px"
+                            // TODO: SNS register
+                            {...props.register(`snsAccounts.${index}.link`)}
+                            defaultValue={link.sns || ''}
+                            variant="unstyled"
+                            placeholder="SNS 계정 추가"
+                          />
+                        </Link>
+                      </Flex>
+                    </Flex>
+                  ))}
+
+                  {/* <SnsLinks /> */}
+
+                  {/* {props.snsLinks.map(link => (
+                    <Flex
+                      key={link.id}
+                      direction="row"
+                      justifyContent="space-between"
+                      align="center">
+                      <Flex align="center">
+                        <Icon size="16px" as={BsLink45Deg} mr={1} />
+                        <Link>
                           <Input
                             fontSize="18px"
                             id={`${link.id}`}
@@ -218,7 +244,7 @@ export default function AccountEditUI(props: AccountEditUIProps) {
                         </Button>
                       )}
                     </Flex>
-                  ))}
+                  ))} */}
                 </VStack>
               </Flex>
             </Box>

@@ -2,11 +2,11 @@ import { ChangeEvent, MutableRefObject } from 'react'
 // import { TMyUserInfo } from '../auth/Auth.types'
 import * as yup from 'yup'
 import { UseFormReturn, useForm } from 'react-hook-form'
-import { TUser } from '@/src/commons/types/generated/types'
+import { TSnsAccount, TUser } from '@/src/commons/types/generated/types'
 
 //sns 계정 추가 타입
 export type ItemLinkType = {
-  id: number
+  id: string
   link: string
 }
 
@@ -14,7 +14,7 @@ export type AccountEditUIProps = {
   myUserInfo: TUser | null
   fileUploadRef: React.RefObject<HTMLInputElement>
   nextId: MutableRefObject<number>
-  snsLinks: ItemLinkType[]
+  snsLinks: Array<ItemLinkType> | undefined
   SnsLinkCount: {
     MAX: number
     MIN: number
@@ -44,6 +44,7 @@ export type AccountEditInputForm = {
   intro: string
   picture: string
   // TODO: 이걸로 변경 예정
+  snsAccounts: ItemLinkType[]
   // snsAccount: {
   //   id: string
   //   sns: string

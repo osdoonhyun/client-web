@@ -31,7 +31,15 @@ import { produce } from 'immer'
 
 const SNS_ACCOUNT_LINKS: ItemLinkType[] = [
   {
-    id: 1,
+    id: '',
+    link: '',
+  },
+  {
+    id: '',
+    link: '',
+  },
+  {
+    id: '',
     link: '',
   },
 ]
@@ -120,18 +128,21 @@ export default function AccountEdit() {
     }
 
     nextId.current += 1
-    setSnsLinks(prev => [...prev, { id: nextId.current, link: '' }])
+    // setSnsLinks(prev => [...prev, { id: nextId.current, link: '' }])
   }
 
   const deleteSnsLink = (id: number) => () => {
-    setSnsLinks(links => links.filter(link => link.id !== id))
+    // if(SnsLinkCount.MIN = snsLinks.length){
+    //   return
+    // }
+    // setSnsLinks(links => links.filter((link => link.id !== id))
   }
 
   const onChangeLink = (event: ChangeEvent<HTMLInputElement>) => {
     const { id, value } = event.target
-    setSnsLinks(links =>
-      links.map(link => (link.id === Number(id) ? { ...link, link: value } : link)),
-    )
+    // setSnsLinks(links =>
+    //   links.map(link => (link.id === Number(id) ? { ...link, link: value } : link)),
+    // )
   }
 
   // 프로필 이미지 버튼
@@ -171,6 +182,7 @@ export default function AccountEdit() {
     let fileBeforeUpload = pictureFile
       .filter(file => file !== null)
       .filter(file => typeof file !== 'string')
+
     let fileAfterUpload: string[] = []
 
     await uploadFile({
@@ -189,11 +201,11 @@ export default function AccountEdit() {
         return updateUser({
           variables: {
             updateUserInput: {
-              picture: fileAfterUpload[0],
-              nickName: data.nickName,
+              ...(fileAfterUpload[0] && { picture: fileAfterUpload[0] }),
+              ...(data.nickName && { nickName: data.nickName }),
               intro: data.intro,
               jobGroup: data.jobGroup,
-              // snsAccount: data.snsAccount,
+              snsAccount: data.snsAccounts.map(sns => sns.link) ?? [],
             },
           },
         })
