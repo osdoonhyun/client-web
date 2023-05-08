@@ -13,6 +13,7 @@ import {
   AccountEditInputForm,
   AccountEditSchema,
   ItemLinkType,
+  UpdateUserInput,
 } from './AccountEdit.types'
 import { CheckIcon, EditIcon } from '@chakra-ui/icons'
 import { useAuth } from '@/src/commons/hooks/useAuth'
@@ -192,16 +193,30 @@ export default function AccountEdit() {
           fileAfterUpload = [...fileAfterUpload, ...(url as string[])]
         })
         .then(() => {
+          const updateUserInput: UpdateUserInput = {
+            intro: data.intro,
+            snsAccount: data.snsAccounts.map(sns => sns.link) ?? [],
+          }
+
+          if (fileAfterUpload[0]) {
+            updateUserInput.picture = fileAfterUpload[0]
+          }
+
+          const currentMyJob = myUserInfo?.jobGroup
+          const updateUserMyJob = myJob
+
+          if (currentMyJob !== updateUserMyJob) {
+            updateUserInput.jobGroup = updateUserMyJob
+          }
+
+          const currentUserNickName = myUserInfo?.nickName
+          const updateUserNickName = data.nickName
+
+          if (currentUserNickName !== updateUserNickName) {
+            updateUserInput.nickName = updateUserNickName
+          }
           return updateUser({
-            variables: {
-              updateUserInput: {
-                ...(fileAfterUpload[0] && { picture: fileAfterUpload[0] }),
-                ...(data.nickName && { nickName: data.nickName }),
-                intro: data.intro,
-                jobGroup: data.jobGroup,
-                snsAccount: data.snsAccounts.map(sns => sns.link) ?? [],
-              },
-            },
+            variables: { updateUserInput },
           })
         })
       router.back()
@@ -213,8 +228,8 @@ export default function AccountEdit() {
           status: 'error',
           position: 'top',
         })
-        return
       }
+      return
     }
   }
 
