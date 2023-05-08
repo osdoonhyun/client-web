@@ -12,7 +12,6 @@ import {
   FormErrorMessage,
   FormLabel,
   Heading,
-  HStack,
   Input,
   Link,
   Stack,
@@ -27,7 +26,6 @@ import { ChangeEvent, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { AiFillGoogleCircle } from 'react-icons/ai'
 import { RiKakaoTalkFill } from 'react-icons/ri'
-import { SiNaver } from 'react-icons/si'
 import { useRecoilState } from 'recoil'
 
 type TCurrentModalType = 'LOGIN' | 'SIGNUP' | 'FORGOT_PASSWORD'
@@ -40,7 +38,7 @@ type TSnsLinksProps = {
 
 const snsLinks: TSnsLinksProps[] = [
   { name: 'kakao', buttonColor: 'yellow', leftIcon: <RiKakaoTalkFill /> },
-  { name: 'naver', buttonColor: 'green', leftIcon: <SiNaver /> },
+  // { name: 'naver', buttonColor: 'green', leftIcon: <SiNaver /> },
   { name: 'google', buttonColor: 'gray', leftIcon: <AiFillGoogleCircle /> },
 ]
 
@@ -141,8 +139,9 @@ export default function LoginForm() {
                       align={'start'}
                       justify={'space-between'}>
                       <Checkbox
-                        iconColor={'white'}
-                        borderColor={'dPrimary'}
+                        iconColor="red.300"
+                        borderColor="dPrimary"
+                        colorScheme="whiteAlpha"
                         onChange={onChangeMyEmailCheckboxToggle}>
                         저장하기
                       </Checkbox>
@@ -156,7 +155,14 @@ export default function LoginForm() {
                     </Stack>
 
                     {myUserInfo?.provider === 'dechive' ? (
-                      <Tooltip hasArrow label="마지막 로그인" bg="red.300" isOpen>
+                      <Tooltip
+                        hasArrow
+                        label="마지막 로그인"
+                        border={'solid'}
+                        borderColor={'red.300'}
+                        bg="dPrimary"
+                        mt={1}
+                        isOpen>
                         <Button
                           type={'submit'}
                           bg={'dPrimary'}
@@ -174,12 +180,19 @@ export default function LoginForm() {
                         로그인
                       </Button>
                     )}
-                    <HStack>
+                    <Flex justifyContent={'space-between'} py={7}>
                       {snsLinks?.map(({ buttonColor, leftIcon, name }) => {
                         return (
                           <Link href={`https://mobomobo.shop/login/${name}`} key={name}>
                             {myUserInfo?.provider === name ? (
-                              <Tooltip hasArrow label="마지막 로그인" bg="red.300" isOpen>
+                              <Tooltip
+                                mt={1}
+                                hasArrow
+                                label="마지막 로그인"
+                                border={'solid'}
+                                borderColor={'red.300'}
+                                bg="dPrimary"
+                                isOpen>
                                 <Button colorScheme={buttonColor} leftIcon={leftIcon}>
                                   {name.charAt(0).toUpperCase() + name.slice(1)}
                                 </Button>
@@ -192,7 +205,7 @@ export default function LoginForm() {
                           </Link>
                         )
                       })}
-                    </HStack>
+                    </Flex>
                     <Button
                       name="buttonJoinMember"
                       onClick={() => {

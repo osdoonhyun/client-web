@@ -42,7 +42,6 @@ export default function LayoutHeaderUI(props: LayoutHeaderUIProps) {
     myUserInfo,
     LoginModalUI,
     SignupModalUI,
-    signout,
     fetchUserInfo,
     openModal,
     logout,
@@ -73,10 +72,11 @@ export default function LayoutHeaderUI(props: LayoutHeaderUIProps) {
                   <Avatar
                     mr={2}
                     size={'sm'}
+                    bgColor={'gray.400'}
                     src={
                       isLoggedIn && myUserInfo?.picture
                         ? myUserInfo.picture
-                        : 'https://avatars.dicebear.com/api/male/username.svg'
+                        : 'https://bit.ly/broken-link'
                     }
                   />
                 </MenuButton>
@@ -84,33 +84,56 @@ export default function LayoutHeaderUI(props: LayoutHeaderUIProps) {
                   <br />
                   <Center>
                     <Avatar
+                      bgColor={'gray.400'}
                       size={'xl'}
                       src={
                         isLoggedIn && myUserInfo?.picture
                           ? myUserInfo.picture
-                          : 'https://avatars.dicebear.com/api/male/username.svg'
+                          : 'https://bit.ly/broken-link'
                       }
                     />
                   </Center>
                   <br />
                   <Center>
                     {!isLoggedIn && <p>닉네임</p>}
-                    {isLoggedIn && <p>{myUserInfo?.nickName}</p>}
+                    {isLoggedIn && (
+                      <div>
+                        <Center>{myUserInfo?.nickName}</Center>
+                        <Center>{myUserInfo?.email}</Center>
+                        <Center>
+                          {myUserInfo?.followeesCount && (
+                            <div>팔로우 : {myUserInfo?.followeesCount}</div>
+                          )}
+                        </Center>
+                        <Center>
+                          {myUserInfo?.followingsCount && (
+                            <div>팔로잉 : {myUserInfo?.followingsCount}</div>
+                          )}
+                        </Center>
+                      </div>
+                    )}
                   </Center>
                   <br />
                   <MenuDivider />
                   {!isLoggedIn ? (
                     <>
-                      <MenuItem onClick={() => openModal('LOGIN')}>로그인</MenuItem>
-                      <MenuItem onClick={() => openModal('SIGNUP')}>회원가입</MenuItem>
+                      <MenuItem pl={10} onClick={() => openModal('LOGIN')}>
+                        로그인
+                      </MenuItem>
+                      <MenuItem pl={10} onClick={() => openModal('SIGNUP')}>
+                        회원가입
+                      </MenuItem>
                     </>
                   ) : (
                     <>
-                      <MenuItem onClick={props.onClickMoveToUser(myUserInfo?.id ?? '')}>
+                      <MenuItem
+                        pl={10}
+                        onClick={props.onClickMoveToUser(myUserInfo?.id ?? '')}>
                         마이페이지
                       </MenuItem>
-                      <MenuItem onClick={logout}>로그아웃</MenuItem>
-                      <MenuItem onClick={signout}>회원탈퇴</MenuItem>
+                      <MenuItem pl={10} onClick={logout}>
+                        로그아웃
+                      </MenuItem>
                     </>
                   )}
                 </MenuList>
