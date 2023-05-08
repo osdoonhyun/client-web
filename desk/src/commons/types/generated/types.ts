@@ -247,6 +247,7 @@ export type TQuery = {
   fetchUser: TFetchUser;
   fetchUserBoards: Array<TBoard>;
   fetchUserProducts: Array<TProduct>;
+  fetchUsers: Array<TUser>;
   fetchYoutube: Array<TYoutube>;
   getOpenGraph: TOpenGraph;
   searchBoards: Array<TBoard>;

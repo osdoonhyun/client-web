@@ -5,19 +5,14 @@ import {
   Container,
   Flex,
   Text,
-  useBreakpointValue,
   useColorModeValue,
 } from '@chakra-ui/react'
 import { RecentMoreUIProps } from './RecentMore.types'
 import MainImageStyle from '@/src/components/units/main/components/mainImageStyle'
 import InfiniteScroll from 'react-infinite-scroller'
+import { formatNumber } from '@/src/commons/utils/util'
 
 export default function RecentMoreUI(props: RecentMoreUIProps) {
-  const ml = useBreakpointValue({
-    base: '30px',
-    md: '25px',
-  })
-
   return (
     <>
       <Container
@@ -33,7 +28,7 @@ export default function RecentMoreUI(props: RecentMoreUIProps) {
           'scrollbar-width': 'none',
         }}>
         <Text
-          ml={ml}
+          ml={6}
           mb={4}
           textAlign="left"
           fontWeight="700"
@@ -50,9 +45,10 @@ export default function RecentMoreUI(props: RecentMoreUIProps) {
             {props.boards.map((board, index) => (
               <Box
                 key={index}
-                m="15px"
-                textAlign="center"
-                maxW={{ base: '40%', md: '25%' }}
+                m={{ base: '8px', md: '15px' }}
+                mb={'20px'}
+                textAlign={'center'}
+                maxW={{ base: '45%', md: '25%' }}
                 color={useColorModeValue('dGray.dark', 'dGray.light')}>
                 <Box onClick={() => props.onClickBoardDetail(board.id)} cursor="pointer">
                   <MainImageStyle
@@ -76,26 +72,29 @@ export default function RecentMoreUI(props: RecentMoreUIProps) {
                     {board.title.length > 35 ? '...' : ''}
                   </Text>
                 </Center>
-                <Center>
-                  <Text
-                    fontSize="11pt"
+                <Center w="100%">
+                  <Flex
                     mt={2}
+                    alignItems="center"
+                    fontSize={{ base: 'xs', md: '11pt' }}
                     cursor="pointer"
                     onClick={() => props.onClickUserDetail(board.writer.id)}>
                     <Avatar
+                      mr="5px"
                       w="20px"
                       h="20px"
-                      mr="5px"
+                      size={'xs'}
+                      name={board.writer.nickName}
                       src={board.writer.picture || 'https://bit.ly/broken-link'}
                     />
                     {board.writer.nickName}
-                  </Text>
+                  </Flex>
                 </Center>
                 <Text
                   fontSize={{ base: 'xs', md: 'sm' }}
                   color={useColorModeValue('#757575', 'dGray.light')}
                   mt={1}>
-                  {`조회수: ${board.views}`}
+                  조회수: {formatNumber(board.views)}
                 </Text>
               </Box>
             ))}

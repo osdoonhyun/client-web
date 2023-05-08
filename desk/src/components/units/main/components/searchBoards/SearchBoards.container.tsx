@@ -38,13 +38,15 @@ export default function SearchBoards() {
   } = useDisclosure()
 
   const [isMobile] = useMediaQuery('(max-width: 480px)')
+  const [searchKeyword, setSearchKeyword] = useState('')
+  const [isMobileSearch, setIsMobileSearch] = useState(false)
+
   const searchInputRef = useRef<HTMLInputElement>(null)
   const router = useRouter()
 
   const [searchBoards, { data, error, loading }] =
     useLazyQuery<Pick<TQuery, 'searchBoards'>>(SEARCH_BOARDS)
 
-  const [searchKeyword, setSearchKeyword] = useState('')
   const [boards, setBoards] = useState<Pick<TQuery, 'searchBoards'> | undefined>(
     undefined,
   )
@@ -66,10 +68,13 @@ export default function SearchBoards() {
   useEffect(() => {
     if (data) {
       setBoards(data)
-      onResultOpen()
-      onSearchClose()
+      if (isMobileSearch) {
+        onResultOpen()
+        onSearchClose()
+        setIsMobileSearch(false)
+      }
     }
-  }, [data, onResultOpen, onSearchClose])
+  }, [data, onResultOpen, onSearchClose, isMobileSearch])
 
   if (loading) {
     return <Button isLoading color="dPrimary" variant="outline" />
@@ -89,6 +94,7 @@ export default function SearchBoards() {
           setSearchKeyword(searchValue)
           searchBoards({ variables: { keyword: searchValue } })
           if (isMobile) {
+            setIsMobileSearch(true)
             onSearchOpen()
           } else {
             onResultOpen()

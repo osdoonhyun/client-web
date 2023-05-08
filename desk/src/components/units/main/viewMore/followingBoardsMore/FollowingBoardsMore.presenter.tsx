@@ -5,19 +5,14 @@ import {
   Container,
   Flex,
   Text,
-  useBreakpointValue,
   useColorModeValue,
 } from '@chakra-ui/react'
 import { FollowingBoardsMoreUIProps } from './FollowingBoardsMore.types'
 import MainImageStyle from '@/src/components/units/main/components/mainImageStyle'
 import InfiniteScroll from 'react-infinite-scroller'
+import { formatNumber } from '@/src/commons/utils/util'
 
 export default function FollowingBoardsMoreUI(props: FollowingBoardsMoreUIProps) {
-  const ml = useBreakpointValue({
-    base: '30px',
-    md: '25px',
-  })
-
   return (
     <>
       <Container
@@ -33,7 +28,7 @@ export default function FollowingBoardsMoreUI(props: FollowingBoardsMoreUIProps)
           'scrollbar-width': 'none',
         }}>
         <Text
-          ml={ml}
+          ml={6}
           mb={4}
           textAlign="left"
           fontWeight="700"
@@ -50,9 +45,10 @@ export default function FollowingBoardsMoreUI(props: FollowingBoardsMoreUIProps)
             {props.boards.map((board, index) => (
               <Box
                 key={index}
-                m={'15px'}
-                textAlign="center"
-                maxW={{ base: '40%', md: '25%' }}
+                m={{ base: '8px', md: '15px' }}
+                mb={'20px'}
+                textAlign={'center'}
+                maxW={{ base: '45%', md: '25%' }}
                 color={useColorModeValue('dGray.dark', 'dGray.light')}>
                 <Box onClick={() => props.onClickBoardDetail(board.id)} cursor="pointer">
                   {board.pictures.map(picture => {
@@ -82,25 +78,29 @@ export default function FollowingBoardsMoreUI(props: FollowingBoardsMoreUIProps)
                     {board.title.length > 35 ? '...' : ''}
                   </Text>
                 </Center>
-                <Center>
-                  <Text
-                    fontSize={{ base: 'xs', md: 'sm' }}
-                    onClick={() => props.onClickUserDetail(board.user.id)}
-                    mt={2}>
+                <Center w="100%">
+                  <Flex
+                    mt={2}
+                    alignItems="center"
+                    fontSize={{ base: 'xs', md: '11pt' }}
+                    cursor="pointer"
+                    onClick={() => props.onClickUserDetail(board.user.id)}>
                     <Avatar
+                      mr="5px"
                       w="20px"
                       h="20px"
-                      mr="5px"
+                      size={'xs'}
+                      name={board.user.nickName}
                       src={board.user.picture || 'https://bit.ly/broken-link'}
                     />
                     {board.user.nickName}
-                  </Text>
+                  </Flex>
                 </Center>
                 <Text
                   fontSize={{ base: 'xs', md: 'sm' }}
                   color={useColorModeValue('#757575', 'dGray.light')}
                   mt={1}>
-                  {`조회수: ${board.views}`}
+                  조회수: {formatNumber(board.views)}
                 </Text>
               </Box>
             ))}
