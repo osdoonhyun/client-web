@@ -104,8 +104,10 @@ export default function ProfileHeader(props: ProfileHeaderProps) {
           <>
             <Button
               variant={'outline'}
-              color={'dGray.dark'}
-              borderColor={'dGray.dark'}
+              // color={'dGray.dark'}
+              color={useColorModeValue('dGray.dark', 'dGray.medium')}
+              borderColor={useColorModeValue('dGray.dark', 'dGray.medium')}
+              // borderColor={'dGray.dark'}
               size={'sm'}
               h="28px"
               onClick={onClickMoveToDetailPage}>
