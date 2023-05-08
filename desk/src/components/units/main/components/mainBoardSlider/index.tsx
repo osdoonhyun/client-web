@@ -168,17 +168,18 @@ export default function MainBoardSlider({
                 }}>
                 {titles[index] ?? ''}
               </Center>
-
               <Center
-                fontSize={{ base: 'xs', md: 'sm' }}
                 w="100%"
                 mt={1}
                 cursor="pointer"
+                fontSize={{ base: 'xs', md: '11pt' }}
                 onClick={() => onClickUserDetail(userIds[index])}>
                 <Avatar
+                  mr="5px"
                   w="20px"
                   h="20px"
-                  mr="5px"
+                  size={'xs'}
+                  name={writers[index]}
                   src={writerImages[index] || 'https://bit.ly/broken-link'}
                 />
                 {writers[index] ?? ''}
@@ -192,7 +193,7 @@ export default function MainBoardSlider({
 
   return (
     <>
-      <Box position="relative" w="full" h="350px" overflow="hidden">
+      <Box position="relative" w="full" h="360px" overflow="hidden" mb="1">
         <Box width={{ base: '100%', md: '80%', lg: '1090px' }} mx="auto">
           {isMobile ? (
             <Flex
