@@ -11,6 +11,7 @@ export default function CategoryHeaderUI(props: CategoryHeaderUIProps) {
         justifyContent="space-between"
         alignContent="center"
         mt="40px"
+        mb="10px"
         fontSize="14pt"
         fontWeight="700"
         color={useColorModeValue('dGray.dark', 'dGray.light')}>
@@ -22,8 +23,9 @@ export default function CategoryHeaderUI(props: CategoryHeaderUIProps) {
               cursor="pointer"
               fontSize="12pt"
               mt="5px"
-              _hover={{ color: 'dPrimary' }}>
-              더보기 {`>`}
+              mr="-5px"
+              color="dPrimary">
+              더보기
             </Box>
           </Link>
         )}
