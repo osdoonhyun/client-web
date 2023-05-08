@@ -48,7 +48,7 @@ export default function User(props: UserProps) {
 
   const onClickMoveToAccountEdit = useCallback(() => {
     router.push('/accountEdit')
-  }, [])
+  }, [myUserInfo])
 
   const onClickFollowingButton = async () => {
     if (!isLoggedIn) {
@@ -95,6 +95,8 @@ export default function User(props: UserProps) {
   useEffect(() => {
     refetchFollowData()
   }, [isFollowing])
+
+  useEffect(() => {}, [])
 
   return (
     <UserUI
