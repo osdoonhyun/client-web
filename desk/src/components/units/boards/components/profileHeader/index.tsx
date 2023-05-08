@@ -9,12 +9,19 @@ import {
   Text,
   useColorModeValue,
   useToast,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
 } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { ProfileHeaderProps } from './types'
 import { useMutation } from '@apollo/client'
 import { DELETE_BOARD } from '../../detail/Detail.queries'
 import { TMutation, TMutationDeleteBoardArgs } from '@/src/commons/types/generated/types'
+import { useState } from 'react'
 
 export default function ProfileHeader(props: ProfileHeaderProps) {
   const router = useRouter()
@@ -34,7 +41,13 @@ export default function ProfileHeader(props: ProfileHeaderProps) {
     router.push(`/boards/${props.boardId}/edit`)
   }
 
+  const [showConfirmModal, setShowConfirmModal] = useState(false)
+
   const onClickDeleteDetailPage = () => {
+    setShowConfirmModal(true)
+  }
+
+  const onClickDeleteConfirm = () => {
     deleteBoard({ variables: { boardid: props.boardId } })
       .then(res => res.data?.deleteBoard)
       .then(isCompletion => {
@@ -59,6 +72,7 @@ export default function ProfileHeader(props: ProfileHeaderProps) {
           })
         }
       })
+    setShowConfirmModal(false)
   }
 
   return (
@@ -77,6 +91,7 @@ export default function ProfileHeader(props: ProfileHeaderProps) {
           {props.userData.jobGroup}
         </Badge>
       </HStack>
+
       <HStack spacing={'10px'}>
         <Text
           mr={2}
@@ -109,6 +124,27 @@ export default function ProfileHeader(props: ProfileHeaderProps) {
           </>
         )}
       </HStack>
+
+      {/* 삭제 확인 모달창 추가 */}
+      <Modal isOpen={showConfirmModal} onClose={() => setShowConfirmModal(false)}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>삭제 확인</ModalHeader>
+          <ModalBody>
+            <Text fontSize="11pt" color="dGray.dark">
+              삭제한 게시물은 다시 복구할 수 없습니다. 정말 삭제하시겠습니까?
+            </Text>
+          </ModalBody>
+          <ModalFooter>
+            <Button variant="ghost" onClick={() => setShowConfirmModal(false)}>
+              취소
+            </Button>
+            <Button colorScheme="red" ml={3} onClick={onClickDeleteConfirm}>
+              삭제
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Flex>
   )
 }
