@@ -1,11 +1,10 @@
-import { ReactNode, useEffect } from 'react'
+import { useEffect } from 'react'
 import {
   Avatar,
   Box,
   Button,
   Center,
   Flex,
-  Link,
   Menu,
   MenuButton,
   MenuDivider,
@@ -20,23 +19,12 @@ import { LayoutHeaderUIProps } from './LayoutHeader.types'
 import { useAuth } from '@/src/commons/hooks/useAuth'
 import Logo from '@/src/components/ui/logo'
 import SearchBoards from '@/src/components/units/main/components/searchBoards/SearchBoards.container'
-
-const NavLink = ({ children }: { children: ReactNode }) => (
-  <Link
-    px={2}
-    py={1}
-    rounded={'md'}
-    _hover={{
-      textDecoration: 'none',
-      bg: useColorModeValue('gray.200', 'gray.700'),
-    }}
-    href={'#'}>
-    {children}
-  </Link>
-)
+import { useRecoilState } from 'recoil'
+import { MyLastLogined } from '@/src/commons/store/atom'
 
 export default function LayoutHeaderUI(props: LayoutHeaderUIProps) {
   const { colorMode, toggleColorMode } = useColorMode()
+  const [myLastLogined, setMyLastLogined] = useRecoilState(MyLastLogined)
   const {
     isLoggedIn,
     myUserInfo,
@@ -73,11 +61,7 @@ export default function LayoutHeaderUI(props: LayoutHeaderUIProps) {
                     mr={2}
                     size={'sm'}
                     bgColor={'gray.400'}
-                    src={
-                      isLoggedIn && myUserInfo?.picture
-                        ? myUserInfo.picture
-                        : 'https://bit.ly/broken-link'
-                    }
+                    src={isLoggedIn && myUserInfo?.picture ? myUserInfo.picture : ''}
                   />
                 </MenuButton>
                 <MenuList alignItems={'center'}>
@@ -86,11 +70,7 @@ export default function LayoutHeaderUI(props: LayoutHeaderUIProps) {
                     <Avatar
                       bgColor={'gray.400'}
                       size={'xl'}
-                      src={
-                        isLoggedIn && myUserInfo?.picture
-                          ? myUserInfo.picture
-                          : 'https://bit.ly/broken-link'
-                      }
+                      src={isLoggedIn && myUserInfo?.picture ? myUserInfo.picture : ''}
                     />
                   </Center>
                   <br />
@@ -101,14 +81,10 @@ export default function LayoutHeaderUI(props: LayoutHeaderUIProps) {
                         <Center>{myUserInfo?.nickName}</Center>
                         <Center>{myUserInfo?.email}</Center>
                         <Center>
-                          {myUserInfo?.followeesCount && (
-                            <div>팔로우 : {myUserInfo?.followeesCount}</div>
-                          )}
+                          <div>팔로우 : {myUserInfo?.followeesCount}</div>
                         </Center>
                         <Center>
-                          {myUserInfo?.followingsCount && (
-                            <div>팔로잉 : {myUserInfo?.followingsCount}</div>
-                          )}
+                          <div>팔로잉 : {myUserInfo?.followingsCount}</div>
                         </Center>
                       </div>
                     )}
