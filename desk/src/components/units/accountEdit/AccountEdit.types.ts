@@ -53,6 +53,14 @@ export type AccountEditInputForm = {
   // snsAccount: string
 }
 
+export type UpdateUserInput = {
+  picture?: string
+  nickName?: string
+  intro: string
+  jobGroup: string
+  snsAccount: string[]
+}
+
 export const AccountEditSchema = yup.object({
   nickName: yup.string().max(20, '닉네임은 최대 20자까지 입력 가능합니다.'),
   intro: yup.string().max(30, '한 줄 소개는 최대 30자까지 입력 가능합니다.'),
