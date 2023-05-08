@@ -33,7 +33,7 @@ export default function AllProductsUI(props: AllProductsUIProps) {
               direction="row"
               overflowX="auto"
               w="410px"
-              css={{
+              sx={{
                 '&::-webkit-scrollbar': {
                   display: 'none',
                 },

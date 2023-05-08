@@ -30,7 +30,7 @@ export default function YoutubeSlider({
 
     return (
       <IconButton
-        css={{ '&:hover, &:focus': { background: 'none', color: '#666bffd2' } }}
+        sx={{ '&:hover, &:focus': { background: 'none', color: '#666bffd2' } }}
         aria-label="left-arrow"
         variant="ghost"
         position="absolute"
@@ -49,7 +49,7 @@ export default function YoutubeSlider({
 
     return (
       <IconButton
-        css={{ '&:hover, &:focus': { background: 'none', color: '#666bffd2' } }}
+        sx={{ '&:hover, &:focus': { background: 'none', color: '#666bffd2' } }}
         aria-label="right-arrow"
         variant="ghost"
         position="absolute"
