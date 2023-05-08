@@ -14,6 +14,7 @@ import {
   Heading,
   Input,
   Link,
+  SimpleGrid,
   Stack,
   Text,
   Tooltip,
@@ -174,24 +175,19 @@ export default function LoginForm() {
                         로그인
                       </Button>
                     )}
-                    <Flex justifyContent={'space-between'}>
-                      {snsLinks?.map(({ buttonColor, leftIcon, name }) => {
+                    <SimpleGrid columns={2} gap={3}>
+                      {snsLinks?.map(({ buttonColor, leftIcon, name }, index) => {
                         return (
                           <Link href={`https://mobomobo.shop/login/${name}`} key={name}>
                             {myLastLogined === name ? (
                               <Tooltip hasArrow label="마지막 로그인" isOpen>
-                                <Button
-                                  // size={'lg'}
-                                  colorScheme={buttonColor}
-                                  leftIcon={leftIcon}>
+                                <Button colorScheme={buttonColor} leftIcon={leftIcon}>
                                   {name.charAt(0).toUpperCase() + name.slice(1)}
                                 </Button>
                               </Tooltip>
                             ) : (
                               <Button
-                                // size={'lg'}
-                                w={130}
-                                h={10}
+                                width={'100%'}
                                 colorScheme={buttonColor}
                                 leftIcon={leftIcon}>
                                 {name.charAt(0).toUpperCase() + name.slice(1)}
@@ -200,7 +196,7 @@ export default function LoginForm() {
                           </Link>
                         )
                       })}
-                    </Flex>
+                    </SimpleGrid>
                     <Button
                       name="buttonJoinMember"
                       onClick={() => {

@@ -59,9 +59,14 @@ export default function LayoutHeaderUI(props: LayoutHeaderUIProps) {
                   minW={0}>
                   <Avatar
                     mr={2}
+                    name={myUserInfo?.nickName}
                     size={'sm'}
                     bgColor={'gray.400'}
-                    src={isLoggedIn && myUserInfo?.picture ? myUserInfo.picture : ''}
+                    src={
+                      isLoggedIn && myUserInfo?.picture
+                        ? myUserInfo.picture
+                        : 'https://bit.ly/broken-link'
+                    }
                   />
                 </MenuButton>
                 <MenuList alignItems={'center'}>
@@ -70,7 +75,12 @@ export default function LayoutHeaderUI(props: LayoutHeaderUIProps) {
                     <Avatar
                       bgColor={'gray.400'}
                       size={'xl'}
-                      src={isLoggedIn && myUserInfo?.picture ? myUserInfo.picture : ''}
+                      name={myUserInfo?.nickName}
+                      src={
+                        isLoggedIn && myUserInfo?.picture
+                          ? myUserInfo.picture
+                          : 'https://bit.ly/broken-link'
+                      }
                     />
                   </Center>
                   <br />
