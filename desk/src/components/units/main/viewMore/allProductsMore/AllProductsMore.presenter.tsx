@@ -34,7 +34,12 @@ export default function AllProductsMoreUI(props: AllProductsMoreUIProps) {
           useWindow={false}>
           <Flex flexWrap="wrap" justifyContent="center" m={2}>
             {props.allProducts.map((product, index) => (
-              <Box key={index} m="10px" textAlign="center">
+              <Box
+                key={index}
+                m="10px"
+                cursor="pointer"
+                textAlign="center"
+                onClick={() => props.onClickBoardDetail({ id: product.board.id })}>
                 <MainProductItems
                   title={product.name ?? ''}
                   image={product.picture ?? ''}
