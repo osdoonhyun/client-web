@@ -1,3 +1,4 @@
+import { formatNumber } from '@/src/commons/utils/util'
 import { Flex, HStack, Text, useColorModeValue } from '@chakra-ui/react'
 import { AiOutlineEye } from 'react-icons/ai'
 import { CountStateWithLikeProps } from './types'
@@ -5,14 +6,14 @@ import { CountStateWithLikeProps } from './types'
 export default function CountStateWithLike(props: CountStateWithLikeProps) {
   return (
     <>
-      <Flex justify={'flex-end'} align={'center'}>
+      <Flex justify={'flex-end'} align={'center'} mr={2}>
         <HStack>
           <AiOutlineEye />
           <Text
-            fontSize={{ base: 'xs' }}
+            fontSize={{ base: 'sm' }}
             fontWeight={600}
             color={useColorModeValue('dGray.dark', 'dGray.medium')}>
-            {props.views}
+            {formatNumber(props.views)}
           </Text>
         </HStack>
       </Flex>

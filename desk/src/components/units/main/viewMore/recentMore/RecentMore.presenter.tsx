@@ -10,6 +10,7 @@ import {
 import { RecentMoreUIProps } from './RecentMore.types'
 import MainImageStyle from '@/src/components/units/main/components/mainImageStyle'
 import InfiniteScroll from 'react-infinite-scroller'
+import { formatNumber } from '@/src/commons/utils/util'
 
 export default function RecentMoreUI(props: RecentMoreUIProps) {
   return (
@@ -93,7 +94,7 @@ export default function RecentMoreUI(props: RecentMoreUIProps) {
                   fontSize={{ base: 'xs', md: 'sm' }}
                   color={useColorModeValue('#757575', 'dGray.light')}
                   mt={1}>
-                  {`조회수: ${board.views}`}
+                  조회수: {formatNumber(board.views)}
                 </Text>
               </Box>
             ))}
