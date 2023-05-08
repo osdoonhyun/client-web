@@ -98,13 +98,13 @@ export default function LayoutHeaderUI(props: LayoutHeaderUIProps) {
                           {myUserInfo?.email}
                         </Center>
                         <Flex mb={2} justifyContent="space-around">
-                          <Center>
+                          <Center mx={2}>
                             팔로우
                             <Box ml={1} color="#232323d5" fontWeight="700">
                               {myUserInfo?.followeesCount}
                             </Box>
                           </Center>
-                          <Center>
+                          <Center mx={2}>
                             팔로잉
                             <Box ml={1} color="#232323d5" fontWeight="700">
                               {myUserInfo?.followingsCount}

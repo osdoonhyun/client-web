@@ -99,7 +99,7 @@ export default function TitleWithInputTags(props: TitleWithInputTagsProps) {
             <PopoverArrow bgColor={useColorModeValue('dGray.light', 'gray.700')} />
             <Stack spacing={4}>
               <Input
-                bgColor={useColorModeValue('white', 'gray.100')}
+                bgColor={useColorModeValue('white', 'gray.600')}
                 color={'dBlack'}
                 value={tagText}
                 placeholder="ex) 개발자 데스크, 학생 데스크..."
