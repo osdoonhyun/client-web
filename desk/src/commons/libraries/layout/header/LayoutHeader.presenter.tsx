@@ -65,7 +65,7 @@ export default function LayoutHeaderUI(props: LayoutHeaderUIProps) {
                     src={
                       isLoggedIn && myUserInfo?.picture
                         ? myUserInfo.picture
-                        : 'https://bit.ly/tioluwani-kolawole'
+                        : 'https://bit.ly/broken-link'
                     }
                   />
                 </MenuButton>
@@ -79,7 +79,7 @@ export default function LayoutHeaderUI(props: LayoutHeaderUIProps) {
                       src={
                         isLoggedIn && myUserInfo?.picture
                           ? myUserInfo.picture
-                          : 'https://bit.ly/tioluwani-kolawole'
+                          : 'https://bit.ly/broken-link'
                       }
                     />
                   </Center>
