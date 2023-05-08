@@ -67,3 +67,9 @@ export const UPDATE_BOARD_LIKER = gql`
     updateBoardLiker(boardid: $boardid)
   }
 `
+
+export const DELETE_BOARD = gql`
+  mutation deleteBoard($boardid: String!) {
+    deleteBoard(boardid: $boardid)
+  }
+`
