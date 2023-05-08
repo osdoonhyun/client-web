@@ -26,8 +26,6 @@ import { AccountEditUIProps } from './AccountEdit.types'
 import MyJobSelect from '../auth/signup/components/MyJobSelect'
 
 export default function AccountEditUI(props: AccountEditUIProps) {
-  console.log('ACCOUNTUI', props.myUserInfo)
-  // console.log(props.myUserInfo.)
   return (
     <Box maxW="776px" m={'120px auto 0'} p={'0 20px 0'}>
       <form onSubmit={props.handleSubmit(props.onClickSubmit)}>

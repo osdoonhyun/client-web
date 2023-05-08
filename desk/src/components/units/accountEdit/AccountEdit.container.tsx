@@ -93,16 +93,10 @@ export default function AccountEdit() {
 
   const [myJob, setMyJob] = useState('')
 
-  // console.log('##################', myJob)
-
   const onChangeFileUrl = useCallback((fileUrl: string, index: number) => {
     console.log(fileUrl)
   }, [])
-  // const onChangeFile = useCallback((file: File, index: number) => {
-  //   console.log(file)
-  // }, [])
 
-  // const [file, setFile] = useState<File | null>(null)
   const [pictureFile, setPictureFile] = useState<(File | string)[]>([''])
 
   const [uploadFile] = useMutation<
