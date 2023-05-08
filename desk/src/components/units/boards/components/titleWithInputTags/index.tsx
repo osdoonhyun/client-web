@@ -69,10 +69,10 @@ export default function TitleWithInputTags(props: TitleWithInputTagsProps) {
           <span style={{ color: '#666CFF', fontSize: '14px' }}>{' *'}</span>
         )}
       </Text>
-      <HStack spacing={4}>
+      <HStack spacing={3} wrap={'wrap'}>
         {tagTexts.map((tag, index) => (
           <Tag
-            size={'lg'}
+            size={{ base: 'md', md: 'lg' }}
             key={index}
             borderRadius="full"
             variant="solid"
@@ -119,7 +119,8 @@ export default function TitleWithInputTags(props: TitleWithInputTagsProps) {
                 <Button
                   bgColor={useColorModeValue('dPrimary', 'gray.500')}
                   color={useColorModeValue('dGray.light', 'gray.100')}
-                  _hover={{ bg: 'dPrimaryHover.dark' }}>
+                  _hover={{ bg: 'dPrimaryHover.dark' }}
+                  onClick={onClickInputTag}>
                   입력
                 </Button>
               </ButtonGroup>
