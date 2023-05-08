@@ -40,6 +40,11 @@ export default function SearchBoardsUI(props: SearchBoardsUIProps) {
   const onClickSearchModalOpen = () => {
     if (isMobile) {
       props.onSearchOpen()
+      setTimeout(() => {
+        if (props.searchInputRef.current) {
+          props.searchInputRef.current.focus()
+        }
+      }, 0)
     } else {
       onClickSearchButton()
     }
@@ -52,7 +57,7 @@ export default function SearchBoardsUI(props: SearchBoardsUIProps) {
 
   return (
     <>
-      <Stack spacing={4}>
+      <Stack spacing={4} ml="20px">
         {!isMobile && (
           <InputGroup>
             <InputLeftElement pointerEvents="none">
@@ -60,7 +65,7 @@ export default function SearchBoardsUI(props: SearchBoardsUIProps) {
             </InputLeftElement>
             <Input
               ref={props.searchInputRef}
-              placeholder="search"
+              placeholder="검색어를 입력하세요."
               focusBorderColor="dPrimary"
               onKeyDown={props.onKeyDown}
             />
@@ -146,7 +151,7 @@ export default function SearchBoardsUI(props: SearchBoardsUIProps) {
                 </InputLeftElement>
                 <Input
                   ref={props.searchInputRef}
-                  placeholder="search"
+                  placeholder="검색어를 입력하세요."
                   focusBorderColor="dPrimary"
                   onKeyDown={props.onKeyDown}
                 />

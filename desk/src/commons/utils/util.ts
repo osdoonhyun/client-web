@@ -19,3 +19,8 @@ export function getDateToRelative(value: string) {
 
   return DateTime.fromISO(value).toRelative()
 }
+
+// formatNumber - 조회수
+export const formatNumber = (number: number): string => {
+  return Intl.NumberFormat().format(number)
+}

@@ -17,7 +17,12 @@ export default function CategoryHeaderUI(props: CategoryHeaderUIProps) {
         <Text>{props.categoryTitle}</Text>
         {props.moreButtonHidden && (
           <Link href={props.moreButtonLink || '#'}>
-            <Box as="a" cursor="pointer" fontSize="12pt" mt="5px">
+            <Box
+              as="a"
+              cursor="pointer"
+              fontSize="12pt"
+              mt="5px"
+              _hover={{ color: 'dPrimary' }}>
               더보기 {`>`}
             </Box>
           </Link>
