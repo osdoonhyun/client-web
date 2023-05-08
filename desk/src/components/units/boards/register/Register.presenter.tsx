@@ -25,8 +25,10 @@ export default function BoardsRegisterUI(props: BoardsRegisterUIProps) {
       direction={'column'}
       justify={'flex-start'}
       align={'stretch'}
-      margin={'0 auto'}>
-      <Box mt={140}>
+      margin={'0 auto'}
+      pl={'10px'}
+      pr={'10px'}>
+      <Box mt={'60px'}>
         <ImageUpload imageDatas={boardData?.pictures} onChangeFile={props.onChangeFile} />
       </Box>
       <form
