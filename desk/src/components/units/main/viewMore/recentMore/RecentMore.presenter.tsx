@@ -82,7 +82,12 @@ export default function RecentMoreUI(props: RecentMoreUIProps) {
                     mt={2}
                     cursor="pointer"
                     onClick={() => props.onClickUserDetail(board.writer.id)}>
-                    <Avatar w="20px" h="20px" mr="5px" src={board.writer.picture || ''} />
+                    <Avatar
+                      w="20px"
+                      h="20px"
+                      mr="5px"
+                      src={board.writer.picture || 'https://bit.ly/broken-link'}
+                    />
                     {board.writer.nickName}
                   </Text>
                 </Center>
