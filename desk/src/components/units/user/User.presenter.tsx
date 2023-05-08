@@ -67,19 +67,22 @@ export default function UserUI(props: UserUIProps) {
                 {props.userData.user.intro}
               </Text>
 
-              {props.userData.user.snsAccounts?.map((snsAccount: TSnsAccount) => (
-                <Link
-                  key={snsAccount.id}
-                  href={snsAccount.sns}
-                  isExternal
-                  color={useColorModeValue('#1e5d97', '#c1daf2')}
-                  fontWeight="600">
-                  <Flex alignItems="center" justifyContent="flex-start">
-                    <Icon as={BsLink45Deg} mr={1} />
-                    <Text>{snsAccount.sns}</Text>
-                  </Flex>
-                </Link>
-              ))}
+              {props.userData.user.snsAccounts?.map(
+                (snsAccount: TSnsAccount) =>
+                  snsAccount.sns && (
+                    <Link
+                      key={snsAccount.id}
+                      href={snsAccount.sns}
+                      isExternal
+                      color={useColorModeValue('#1e5d97', '#c1daf2')}
+                      fontWeight="600">
+                      <Flex alignItems="center" justifyContent="flex-start">
+                        <Icon as={BsLink45Deg} mr={1} />
+                        <Text>{snsAccount.sns}</Text>
+                      </Flex>
+                    </Link>
+                  ),
+              )}
 
               {/* <Link
                 href="https://www.example.com"
@@ -106,6 +109,7 @@ export default function UserUI(props: UserUIProps) {
               objectFit="cover"
               background="dGray.medium"
               boxSize="170px"
+              name={props.userData.user.nickName}
               src={props.userData.user.picture ?? 'https://bit.ly/broken-link'}
             />
             {props.isMyPage ? ( // 나의 페이지면 프로필 수정하기 버튼 / 아니면 팔로우 버튼

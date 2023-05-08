@@ -27,10 +27,19 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { UPLOAD_FILE } from '../../ui/fileUpload/quries'
 import { useRouter } from 'next/router'
+import { produce } from 'immer'
 
 const SNS_ACCOUNT_LINKS: ItemLinkType[] = [
   {
-    id: 1,
+    id: '',
+    link: '',
+  },
+  {
+    id: '',
+    link: '',
+  },
+  {
+    id: '',
     link: '',
   },
 ]
@@ -84,32 +93,23 @@ export default function AccountEdit() {
 
   const [myJob, setMyJob] = useState('')
 
-  // console.log('##################', myJob)
-
   const onChangeFileUrl = useCallback((fileUrl: string, index: number) => {
     console.log(fileUrl)
   }, [])
-  // const onChangeFile = useCallback((file: File, index: number) => {
-  //   console.log(file)
-  // }, [])
 
-  // const [file, setFile] = useState<File | null>(null)
-  const [pictureFile, setPictureFile] = useState<string>('')
+  const [pictureFile, setPictureFile] = useState<(File | string)[]>([''])
 
   const [uploadFile] = useMutation<
     Pick<TMutation, 'uploadFile'>,
     TMutationUploadFileArgs
   >(UPLOAD_FILE)
 
-  const onChangeFile = useCallback((file: File, index: number) => {
-    // setFiles(
-    //   produce(draft => {
-    //     draft[index] = file
-    //   }),
-    // )
-    // setPictureFile(file)
-    // setValue('picture', file)
-    // void trigger('picture')
+  const onChangeFile = useCallback((file: File) => {
+    setPictureFile(
+      produce(draft => {
+        draft[0] = file
+      }),
+    )
   }, [])
 
   // sns 계정 추가하기
@@ -122,24 +122,28 @@ export default function AccountEdit() {
     }
 
     nextId.current += 1
-    setSnsLinks(prev => [...prev, { id: nextId.current, link: '' }])
+    // setSnsLinks(prev => [...prev, { id: nextId.current, link: '' }])
   }
 
   const deleteSnsLink = (id: number) => () => {
-    setSnsLinks(links => links.filter(link => link.id !== id))
+    // if(SnsLinkCount.MIN = snsLinks.length){
+    //   return
+    // }
+    // setSnsLinks(links => links.filter((link => link.id !== id))
   }
 
   const onChangeLink = (event: ChangeEvent<HTMLInputElement>) => {
     const { id, value } = event.target
-    setSnsLinks(links =>
-      links.map(link => (link.id === Number(id) ? { ...link, link: value } : link)),
-    )
+    // setSnsLinks(links =>
+    //   links.map(link => (link.id === Number(id) ? { ...link, link: value } : link)),
+    // )
   }
 
   // 프로필 이미지 버튼
   const fileUploadRef = useRef<HTMLInputElement>(null)
 
-  const onClickUploadButton = () => {
+  const onClickUploadButton = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation()
     fileUploadRef.current?.click()
   }
 
@@ -169,18 +173,38 @@ export default function AccountEdit() {
       })
     }
 
+    let fileBeforeUpload = pictureFile
+      .filter(file => file !== null)
+      .filter(file => typeof file !== 'string')
+    let fileAfterUpload: string[] = []
+
     try {
-      await updateUser({
+      await uploadFile({
         variables: {
-          updateUserInput: {
-            nickName: data.nickName,
-            intro: data.intro,
-            picture: data.picture,
-            jobGroup: data.jobGroup,
-            // snsAccount: data.snsAccount,
-          },
+          files: fileBeforeUpload,
         },
       })
+        .then(res => res.data?.uploadFile)
+        .then(url => {
+          fileAfterUpload = pictureFile
+            .filter(file => file !== null)
+            .filter(file => typeof file === 'string') as string[]
+          fileAfterUpload = [...fileAfterUpload, ...(url as string[])]
+        })
+        .then(() => {
+          return updateUser({
+            variables: {
+              updateUserInput: {
+                ...(fileAfterUpload[0] && { picture: fileAfterUpload[0] }),
+                ...(data.nickName && { nickName: data.nickName }),
+                intro: data.intro,
+                jobGroup: data.jobGroup,
+                snsAccount: data.snsAccounts.map(sns => sns.link) ?? [],
+              },
+            },
+          })
+        })
+      router.back()
     } catch (error) {
       if (error instanceof Error) {
         toast({
@@ -189,9 +213,9 @@ export default function AccountEdit() {
           status: 'error',
           position: 'top',
         })
+        return
       }
     }
-    router.back()
   }
 
   return (
