@@ -14,15 +14,16 @@ export default function OpenGraphPreview(props: OpenGraphPreviewProps) {
           color={useColorModeValue('dBlack', 'dGray.light')}
           borderColor={useColorModeValue('gray.200', '#bababa1e')}>
           <VStack align={'flex-start'} width={'70%'} p={'16px'}>
-            <Text fontSize={'16px'} fontWeight={500}>
+            <Text fontSize={{ base: 'sm', md: '16px' }} fontWeight={500} noOfLines={1}>
               {props.item.og.name}
             </Text>
             <Text
-              fontSize={'14px'}
-              color={useColorModeValue('dGray.dark', 'dGray.medium')}>
+              fontSize={{ base: 'xs', md: '14px' }}
+              color={useColorModeValue('dGray.dark', 'dGray.medium')}
+              noOfLines={1}>
               {props.item.og.description}
             </Text>
-            <Text fontSize={'14px'} pt={'8px'}>
+            <Text fontSize={{ base: 'xs', md: '14px' }} pt={'8px'} noOfLines={1}>
               {props.item.og.url}
             </Text>
           </VStack>
