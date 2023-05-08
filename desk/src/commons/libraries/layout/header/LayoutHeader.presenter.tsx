@@ -41,10 +41,10 @@ export default function LayoutHeaderUI(props: LayoutHeaderUIProps) {
 
   return (
     <>
-      <Box bg={useColorModeValue('dGray.light', 'gray.900')} px={4}>
+      <Box bg={useColorModeValue('dGray.light', 'gray.900')} px={4} position={'relative'}>
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
           <Logo />
-          <Flex alignItems={'center'}>
+          <Flex alignItems={'center'} zIndex={999}>
             <Stack direction={'row'} spacing={4}>
               <SearchBoards />
               <Button onClick={toggleColorMode}>
