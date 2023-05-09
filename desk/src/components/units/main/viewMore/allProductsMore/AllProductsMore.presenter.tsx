@@ -8,7 +8,7 @@ export default function AllProductsMoreUI(props: AllProductsMoreUIProps) {
     <>
       <Container
         maxW="1200px"
-        h="900px"
+        h="85vh"
         mt="50px"
         overflow="auto"
         sx={{

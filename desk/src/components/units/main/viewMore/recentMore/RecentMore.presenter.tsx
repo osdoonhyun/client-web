@@ -17,7 +17,7 @@ export default function RecentMoreUI(props: RecentMoreUIProps) {
     <>
       <Container
         maxW="1170px"
-        h="900px"
+        h="85vh"
         mt="50px"
         overflow="auto"
         sx={{
