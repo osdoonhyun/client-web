@@ -5,6 +5,7 @@ import { FETCH_BOARDS } from './Recent.queries'
 import CustomSpinner from '@/src/components/ui/customSpinner'
 import ErrorMessage from '@/src/components/ui/errorMessage'
 import { useAuth } from '@/src/commons/hooks/useAuth'
+import { Center } from '@chakra-ui/react'
 
 export default function Recent() {
   const { myUserInfo } = useAuth()
@@ -14,7 +15,13 @@ export default function Recent() {
   })
 
   if (loading) {
-    return <CustomSpinner />
+    return (
+      <>
+        <Center h="370px">
+          <CustomSpinner />
+        </Center>
+      </>
+    )
   }
   if (error) {
     return <ErrorMessage message={error.message} />
