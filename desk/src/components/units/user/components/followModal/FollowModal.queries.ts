@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client'
 
 export const FETCH_FOLLOWEES = gql`
-  query fetchFollowees($userid: String!) {
-    fetchFollowees(userid: $userid) {
+  query fetchFollowees($FetchFollowees: FetchFollowees!) {
+    fetchFollowees(FetchFollowees: $FetchFollowees) {
       id
       nickName
       picture
@@ -14,8 +14,8 @@ export const FETCH_FOLLOWEES = gql`
   }
 `
 export const FETCH_FOLLOWINGS = gql`
-  query fetchFollowings($userid: String!) {
-    fetchFollowings(userid: $userid) {
+  query fetchFollowings($FetchFollowings: FetchFollowings!) {
+    fetchFollowings(FetchFollowings: $FetchFollowings) {
       id
       nickName
       picture

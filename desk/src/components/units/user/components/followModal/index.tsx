@@ -37,7 +37,7 @@ import { useEffect, useState } from 'react'
 
 export default function FollowModal(props: FollowModalProps) {
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const { isLoggedIn } = useAuth()
+  const { isLoggedIn, myUserInfo } = useAuth()
   const router = useRouter()
   const toast = useToast()
   const [isFollowing, setIsFollowing] = useState(false)
@@ -46,15 +46,26 @@ export default function FollowModal(props: FollowModalProps) {
     Pick<TMutation, 'updateFollowing'>,
     TMutationUpdateFollowingArgs
   >(UPDATE_FOLLOWING)
+
   const { data: followeesData, refetch: refetchFollowees } = useQuery<
     Pick<TQuery, 'fetchFollowees'>
   >(FETCH_FOLLOWEES, {
-    variables: { userid: props.userData.user.id as string },
+    variables: {
+      FetchFollowees: {
+        userid: props.userData.user.id as string,
+        loginUserid: isLoggedIn ? myUserInfo?.id ?? '' : '',
+      },
+    },
   })
   const { data: followingsData, refetch: refetchFollowings } = useQuery<
     Pick<TQuery, 'fetchFollowings'>
   >(FETCH_FOLLOWINGS, {
-    variables: { userid: props.userData.user.id as string },
+    variables: {
+      FetchFollowings: {
+        userid: props.userData.user.id as string,
+        loginUserid: isLoggedIn ? myUserInfo?.id ?? '' : '',
+      },
+    },
   })
 
   const refetchFollowData = async () => {
@@ -111,8 +122,8 @@ export default function FollowModal(props: FollowModalProps) {
         _hover={{ bg: 'dGray.light' }}
         onClick={onClickModalButton}>
         {props.type === 'followee'
-          ? `팔로워 ${followeesData?.fetchFollowees.length}`
-          : `팔로우 ${followingsData?.fetchFollowings.length}`}
+          ? `팔로워 ${followeesData?.fetchFollowees.length ?? 0}`
+          : `팔로우 ${followingsData?.fetchFollowings.length ?? 0}`}
       </Text>
 
       <Modal onClose={onClose} size="md" isOpen={isOpen} isCentered>

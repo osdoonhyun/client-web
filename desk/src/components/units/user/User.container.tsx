@@ -33,13 +33,23 @@ export default function User(props: UserProps) {
   const { data: followeesData, refetch: refetchFollowees } = useQuery<
     Pick<TQuery, 'fetchFollowees'>
   >(FETCH_FOLLOWEES, {
-    variables: { userid: props.userData.user.id as string },
+    variables: {
+      FetchFollowees: {
+        userid: props.userData.user.id as string,
+        loginUserid: isLoggedIn ? myUserInfo?.id ?? '' : '',
+      },
+    },
   })
 
   const { data: followingsData, refetch: refetchFollowings } = useQuery<
     Pick<TQuery, 'fetchFollowings'>
   >(FETCH_FOLLOWINGS, {
-    variables: { userid: props.userData.user.id as string },
+    variables: {
+      FetchFollowings: {
+        userid: props.userData.user.id as string,
+        loginUserid: isLoggedIn ? myUserInfo?.id ?? '' : '',
+      },
+    },
   })
 
   const refetchFollowData = async () => {
@@ -95,8 +105,6 @@ export default function User(props: UserProps) {
   useEffect(() => {
     refetchFollowData()
   }, [isFollowing])
-
-  useEffect(() => {}, [])
 
   return (
     <UserUI
