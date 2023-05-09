@@ -8,7 +8,7 @@ export default function CustomSpinner() {
           thickness="5px"
           speed="0.65s"
           emptyColor="gray.200"
-          color="dPrimary"
+          color="dPrimaryHover.transparency"
           size="lg"
         />
       </Center>

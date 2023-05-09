@@ -5,6 +5,7 @@ import { FETCH_TOP10 } from './Best.queries'
 import CustomSpinner from '@/src/components/ui/customSpinner'
 import ErrorMessage from '@/src/components/ui/errorMessage'
 import { useAuth } from '@/src/commons/hooks/useAuth'
+import { Center } from '@chakra-ui/react'
 
 export default function Best() {
   const { myUserInfo } = useAuth()
@@ -12,13 +13,6 @@ export default function Best() {
   const { data, loading, error } = useQuery<Pick<TQuery, 'fetchTop10'>>(FETCH_TOP10, {
     variables: { userid: myUserInfo?.id || '' },
   })
-
-  if (loading) {
-    return <CustomSpinner />
-  }
-  if (error) {
-    return <ErrorMessage message={error.message} />
-  }
 
   const bestBoards =
     data?.fetchTop10?.map((board: TBoard) => ({
@@ -35,6 +29,19 @@ export default function Best() {
   )
   const boardIds = bestBoards.map((board: TBoard) => board.id)
   const userIds = bestBoards.map((board: TBoard) => board.writer.id)
+
+  if (loading) {
+    return (
+      <>
+        <Center h="370px">
+          <CustomSpinner />
+        </Center>
+      </>
+    )
+  }
+  if (error) {
+    return <ErrorMessage message={error.message} />
+  }
 
   return (
     <>
