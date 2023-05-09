@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client'
 
 export const FETCH_USER_BOARDS = gql`
-  query fetchUserBoards($userid: String!) {
-    fetchUserBoards(userid: $userid) {
+  query fetchUserBoards($userid: String!, $searchid: String!) {
+    fetchUserBoards(userid: $userid, searchid: $searchid) {
       id
       pictures {
         id
