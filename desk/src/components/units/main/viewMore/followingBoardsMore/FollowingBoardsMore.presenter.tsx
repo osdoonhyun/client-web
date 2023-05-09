@@ -17,7 +17,7 @@ export default function FollowingBoardsMoreUI(props: FollowingBoardsMoreUIProps)
     <>
       <Container
         maxW="1170px"
-        h="900px"
+        h="85vh"
         mt="50px"
         overflow="auto"
         sx={{

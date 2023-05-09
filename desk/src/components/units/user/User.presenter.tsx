@@ -19,7 +19,7 @@ import { TSnsAccount } from '@/src/commons/types/generated/types'
 export default function UserUI(props: UserUIProps) {
   return (
     <Box
-      h="900px"
+      h="85vh"
       overflow="auto"
       sx={{
         '&::-webkit-scrollbar': {
