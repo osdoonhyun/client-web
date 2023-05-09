@@ -15,12 +15,13 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react'
 import { MoonIcon, SunIcon } from '@chakra-ui/icons'
+import { TbMail } from 'react-icons/tb'
 import { LayoutHeaderUIProps } from './LayoutHeader.types'
 import { useAuth } from '@/src/commons/hooks/useAuth'
-import Logo from '@/src/components/ui/logo'
-import SearchBoards from '@/src/components/units/main/components/searchBoards/SearchBoards.container'
 import { useRecoilState } from 'recoil'
 import { MyLastLogined } from '@/src/commons/store/atom'
+import Logo from '@/src/components/ui/logo'
+import SearchBoards from '@/src/components/units/main/components/searchBoards/SearchBoards.container'
 
 export default function LayoutHeaderUI(props: LayoutHeaderUIProps) {
   const { colorMode, toggleColorMode } = useColorMode()
@@ -70,8 +71,7 @@ export default function LayoutHeaderUI(props: LayoutHeaderUIProps) {
                   />
                 </MenuButton>
                 <MenuList alignItems={'center'}>
-                  <br />
-                  <Center>
+                  <Center mt={'30px'}>
                     <Avatar
                       bgColor={'gray.400'}
                       size={'xl'}
@@ -91,22 +91,27 @@ export default function LayoutHeaderUI(props: LayoutHeaderUIProps) {
                         <Center mb={2} fontSize={'mb'} fontWeight="600">
                           {myUserInfo?.nickName}
                         </Center>
-                        <Center
+                        <Flex
                           mb={2}
-                          fontSize={'11pt'}
+                          alignItems={'center'}
                           color={useColorModeValue('dGray.dark', 'dGray.light')}>
-                          {myUserInfo?.email}
-                        </Center>
-                        <Flex mb={2} justifyContent="space-around">
+                          <TbMail />
+                          <Center ml={1} fontSize={'11pt'}>
+                            {myUserInfo?.email}
+                          </Center>
+                        </Flex>
+                        <Flex
+                          justifyContent="space-around"
+                          color={useColorModeValue('#232323d5', 'dGray.light')}>
                           <Center mx={2}>
                             팔로우
-                            <Box ml={1} color="#232323d5" fontWeight="700">
+                            <Box ml={1} fontWeight="700">
                               {myUserInfo?.followeesCount}
                             </Box>
                           </Center>
                           <Center mx={2}>
                             팔로잉
-                            <Box ml={1} color="#232323d5" fontWeight="700">
+                            <Box ml={1} fontWeight="700">
                               {myUserInfo?.followingsCount}
                             </Box>
                           </Center>
