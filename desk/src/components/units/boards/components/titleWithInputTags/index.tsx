@@ -3,7 +3,6 @@ import { EditIcon } from '@chakra-ui/icons'
 import {
   Box,
   Button,
-  ButtonGroup,
   HStack,
   IconButton,
   Input,
@@ -19,7 +18,7 @@ import {
   useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react'
-import { ChangeEvent, KeyboardEvent, MouseEvent, useEffect, useState } from 'react'
+import { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react'
 import { TitleWithInputTagsProps } from './types'
 
 export default function TitleWithInputTags(props: TitleWithInputTagsProps) {
@@ -97,6 +96,7 @@ export default function TitleWithInputTags(props: TitleWithInputTagsProps) {
           </PopoverTrigger>
           <PopoverContent p={5} bgColor={useColorModeValue('dGray.light', 'gray.700')}>
             <PopoverArrow bgColor={useColorModeValue('dGray.light', 'gray.700')} />
+
             <Stack spacing={4}>
               <Input
                 bgColor={useColorModeValue('white', 'gray.600')}
@@ -108,7 +108,7 @@ export default function TitleWithInputTags(props: TitleWithInputTagsProps) {
                 onKeyUp={onKeyupEnter}
                 onChange={onChangeTagInput}
               />
-              <ButtonGroup display="flex" justifyContent="flex-end">
+              <HStack display="flex" justifyContent="flex-end">
                 <Button
                   variant="outline"
                   borderColor={'gray.400'}
@@ -123,7 +123,7 @@ export default function TitleWithInputTags(props: TitleWithInputTagsProps) {
                   onClick={onClickInputTag}>
                   입력
                 </Button>
-              </ButtonGroup>
+              </HStack>
             </Stack>
           </PopoverContent>
         </Popover>

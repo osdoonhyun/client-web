@@ -80,6 +80,16 @@ export type TCreateUserInput = {
   provider?: InputMaybe<Scalars['String']>;
 };
 
+export type TFetchFollowees = {
+  loginUserid?: InputMaybe<Scalars['String']>;
+  userid: Scalars['String'];
+};
+
+export type TFetchFollowings = {
+  loginUserid?: InputMaybe<Scalars['String']>;
+  userid: Scalars['String'];
+};
+
 export type TFetchUser = {
   __typename?: 'FetchUser';
   boardCount: Scalars['Int'];
@@ -225,7 +235,7 @@ export type TPicture = {
 
 export type TProduct = {
   __typename?: 'Product';
-  board: TBoard;
+  board?: Maybe<TBoard>;
   description?: Maybe<Scalars['String']>;
   id: Scalars['String'];
   name?: Maybe<Scalars['String']>;
@@ -266,12 +276,12 @@ export type TQueryFetchBoardsArgs = {
 
 
 export type TQueryFetchFolloweesArgs = {
-  userid: Scalars['String'];
+  FetchFollowees: TFetchFollowees;
 };
 
 
 export type TQueryFetchFollowingsArgs = {
-  userid: Scalars['String'];
+  FetchFollowings: TFetchFollowings;
 };
 
 

@@ -14,7 +14,12 @@ export default function BoardsRegisterUI(props: BoardsRegisterUIProps) {
   const boardData = props.boardData?.fetchBoard
 
   const onKeyDownSubmit = (event: KeyboardEvent<HTMLFormElement>) => {
+    const { id } = event.target as Element
     if (event.key === 'Enter') {
+      if (id === 'desk-textarea') {
+        return
+      }
+
       event.preventDefault()
     }
   }
