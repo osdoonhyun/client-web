@@ -24,3 +24,11 @@ export function getDateToRelative(value: string) {
 export const formatNumber = (number: number): string => {
   return Intl.NumberFormat().format(number)
 }
+
+// 유저 상대 경로 -> 절대 URL
+export const makeAbsoluteUrl = (url: string) => {
+  if (!/^https?:\/\//i.test(url)) {
+    url = `https://${url}`
+  }
+  return url
+}
