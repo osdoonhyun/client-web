@@ -39,7 +39,7 @@ export default function AllProductsMoreUI(props: AllProductsMoreUIProps) {
                 m="10px"
                 cursor="pointer"
                 textAlign="center"
-                onClick={() => props.onClickBoardDetail({ id: product.board.id })}>
+                onClick={() => props.onClickBoardDetail({ id: product.board?.id ?? '' })}>
                 <MainProductItems
                   title={product.name ?? ''}
                   image={product.picture ?? ''}
