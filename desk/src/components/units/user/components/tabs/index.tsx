@@ -15,6 +15,7 @@ import { MdFavoriteBorder } from 'react-icons/md'
 import { BsColumnsGap } from 'react-icons/bs'
 import { AiOutlineLaptop } from 'react-icons/ai'
 import { useAuth } from '@/src/commons/hooks/useAuth'
+import { useRouter } from 'next/router'
 
 const TabID = {
   USER_POSTS: 0,
@@ -31,6 +32,8 @@ export default function NavigationTabs(props: NavigationTabsProps) {
   const [showUserPosts, setShowUserPosts] = useState(true)
   const [showUserProductPosts, setShowUserProductPosts] = useState(false)
   const [showLikedPosts, setShowLikedPosts] = useState(false)
+
+  const router = useRouter()
 
   const { data: userBoards, refetch: refetchUserBoards } = useQuery<
     Pick<TQuery, 'fetchUserBoards'>
@@ -85,6 +88,10 @@ export default function NavigationTabs(props: NavigationTabsProps) {
     [showUserPosts, showUserProductPosts, showLikedPosts],
   )
 
+  const onClickProductItem = (boardId: string) => {
+    router.push(`boards/${boardId}`)
+  }
+
   useEffect(() => {
     if (showUserPosts) {
       setUserData(userBoards?.fetchUserBoards ?? [])
@@ -133,8 +140,10 @@ export default function NavigationTabs(props: NavigationTabsProps) {
                 <ProductItem
                   index={index}
                   productId={item.id}
+                  boardId={item.board?.id}
                   imageUrl={item.picture}
                   productName={item.name}
+                  onClickProductItem={onClickProductItem}
                 />
               ) : (
                 <BoardItem

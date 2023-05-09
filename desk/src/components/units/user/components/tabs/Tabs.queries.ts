@@ -34,6 +34,9 @@ export const FETCH_USER_PRODUCTS = gql`
       id
       name
       picture
+      board {
+        id
+      }
     }
   }
 `
