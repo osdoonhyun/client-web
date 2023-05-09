@@ -63,8 +63,7 @@ export function useAuth() {
       .then(() => {
         clear()
         setAuthModalType('AFTER_AUTH')
-
-        router.push('/')
+        location.href = '/'
       })
       .catch(error => {
         if (error instanceof Error) {
