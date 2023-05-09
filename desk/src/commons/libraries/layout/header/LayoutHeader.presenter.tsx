@@ -94,6 +94,7 @@ export default function LayoutHeaderUI(props: LayoutHeaderUIProps) {
                         <Flex
                           mb={2}
                           alignItems={'center'}
+                          justifyContent={'center'}
                           color={useColorModeValue('dGray.dark', 'dGray.light')}>
                           <TbMail />
                           <Center ml={1} fontSize={'11pt'}>

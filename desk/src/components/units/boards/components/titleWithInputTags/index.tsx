@@ -76,7 +76,7 @@ export default function TitleWithInputTags(props: TitleWithInputTagsProps) {
             key={index}
             borderRadius="full"
             variant="solid"
-            colorScheme="green">
+            bg="dPrimaryHover.darker">
             <TagLabel>{tag}</TagLabel>
             <TagCloseButton onClick={onClickRemoveTag(tag)} />
           </Tag>
@@ -117,9 +117,9 @@ export default function TitleWithInputTags(props: TitleWithInputTagsProps) {
                   닫기
                 </Button>
                 <Button
-                  bgColor={useColorModeValue('dPrimary', 'gray.500')}
+                  bgColor={useColorModeValue('gray.400', 'gray.500')}
                   color={useColorModeValue('dGray.light', 'gray.100')}
-                  _hover={{ bg: 'dPrimaryHover.dark' }}
+                  _hover={{ bg: 'gray.500' }}
                   onClick={onClickInputTag}>
                   입력
                 </Button>

@@ -5,6 +5,7 @@ export const globalTheme = extendTheme({
     dPrimary: '#666CFF',
     dPrimaryHover: {
       dark: '#575ce0',
+      darker: '#555cd8',
       transparency: '#666bffd2',
     },
     dBlack: '#242424',
