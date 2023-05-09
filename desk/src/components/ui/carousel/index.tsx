@@ -34,40 +34,44 @@ export default function Carousel(props: CarouselProps) {
         type="text/css"
         href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
       />
-      {/* Left Icon */}
-      <IconButton
-        aria-label="left-arrow"
-        variant="ghost"
-        position="absolute"
-        left={side}
-        top={top}
-        transform={'translate(0%, -50%)'}
-        zIndex={2}
-        bgColor={'rgba(35, 35, 35, 0.3)'}
-        borderRadius={'full'}
-        onClick={() => slider?.slickPrev()}
-        _hover={{
-          bg: 'rgba(35, 35, 35, 0.5)',
-        }}>
-        <BiLeftArrowAlt size="20px" color="white" />
-      </IconButton>
-      {/* Right Icon */}
-      <IconButton
-        aria-label="right-arrow"
-        variant="ghost"
-        position="absolute"
-        right={side}
-        top={top}
-        transform={'translate(0%, -50%)'}
-        zIndex={2}
-        bgColor={'rgba(35, 35, 35, 0.3)'}
-        borderRadius={'full'}
-        onClick={() => slider?.slickNext()}
-        _hover={{
-          bg: 'rgba(35, 35, 35, 0.5)',
-        }}>
-        <BiRightArrowAlt size="20px" color="white" />
-      </IconButton>
+      {props.imageURLs.length > 1 && (
+        <>
+          {/* Left Icon */}
+          <IconButton
+            aria-label="left-arrow"
+            variant="ghost"
+            position="absolute"
+            left={side}
+            top={top}
+            transform={'translate(0%, -50%)'}
+            zIndex={2}
+            bgColor={'rgba(35, 35, 35, 0.3)'}
+            borderRadius={'full'}
+            onClick={() => slider?.slickPrev()}
+            _hover={{
+              bg: 'rgba(35, 35, 35, 0.5)',
+            }}>
+            <BiLeftArrowAlt size="20px" color="white" />
+          </IconButton>
+          {/* Right Icon */}
+          <IconButton
+            aria-label="right-arrow"
+            variant="ghost"
+            position="absolute"
+            right={side}
+            top={top}
+            transform={'translate(0%, -50%)'}
+            zIndex={2}
+            bgColor={'rgba(35, 35, 35, 0.3)'}
+            borderRadius={'full'}
+            onClick={() => slider?.slickNext()}
+            _hover={{
+              bg: 'rgba(35, 35, 35, 0.5)',
+            }}>
+            <BiRightArrowAlt size="20px" color="white" />
+          </IconButton>
+        </>
+      )}
       {/* Slider */}
       <Slider {...settings} ref={slider => setSlider(slider)}>
         {props.imageURLs.map((url, index) => (
