@@ -16,6 +16,7 @@ export default function TitleWithDescription(props: TitleWithDescriptionProps) {
         {props.title}
       </Text>
       <Text
+        whiteSpace={'pre-line'}
         fontSize={{ base: 'md', lg: 'lg' }}
         fontWeight={400}
         color={useColorModeValue('dBlack', 'dGray.light')}>

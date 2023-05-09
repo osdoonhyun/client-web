@@ -34,6 +34,7 @@ export default function TitleWithInput(props: TitleWithInputProps) {
       ) : (
         <>
           <Textarea
+            id="desk-textarea"
             bgColor={useColorModeValue('dGray.light', '#bababa1e')}
             color={useColorModeValue('dBlack', 'dGray.light')}
             value={props.value}
