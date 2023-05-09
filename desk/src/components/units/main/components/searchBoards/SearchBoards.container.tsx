@@ -4,8 +4,7 @@ import { useLazyQuery } from '@apollo/client'
 import { KeyboardEvent, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router'
 import { SEARCH_BOARDS } from './SearchBoards.queries'
-import { Text, useDisclosure, useMediaQuery } from '@chakra-ui/react'
-import CustomSpinner from '@/src/components/ui/customSpinner'
+import { Button, Text, useDisclosure, useMediaQuery } from '@chakra-ui/react'
 import ErrorMessage from '@/src/components/ui/errorMessage'
 
 const highlightSearchKeyword = (
@@ -39,13 +38,15 @@ export default function SearchBoards() {
   } = useDisclosure()
 
   const [isMobile] = useMediaQuery('(max-width: 480px)')
+  const [searchKeyword, setSearchKeyword] = useState('')
+  const [isMobileSearch, setIsMobileSearch] = useState(false)
+
   const searchInputRef = useRef<HTMLInputElement>(null)
   const router = useRouter()
 
   const [searchBoards, { data, error, loading }] =
     useLazyQuery<Pick<TQuery, 'searchBoards'>>(SEARCH_BOARDS)
 
-  const [searchKeyword, setSearchKeyword] = useState('')
   const [boards, setBoards] = useState<Pick<TQuery, 'searchBoards'> | undefined>(
     undefined,
   )
@@ -67,13 +68,16 @@ export default function SearchBoards() {
   useEffect(() => {
     if (data) {
       setBoards(data)
-      onResultOpen()
-      onSearchClose()
+      if (isMobileSearch) {
+        onResultOpen()
+        onSearchClose()
+        setIsMobileSearch(false)
+      }
     }
-  }, [data, onResultOpen, onSearchClose])
+  }, [data, onResultOpen, onSearchClose, isMobileSearch])
 
   if (loading) {
-    return <CustomSpinner />
+    return <Button isLoading color="dPrimary" variant="outline" />
   }
 
   if (error) {
@@ -81,7 +85,7 @@ export default function SearchBoards() {
   }
 
   const onKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
+    if (event.key === 'Enter' && !event.nativeEvent.isComposing) {
       event.preventDefault()
       const searchInput = searchInputRef.current
       if (searchInput) {
@@ -90,6 +94,7 @@ export default function SearchBoards() {
           setSearchKeyword(searchValue)
           searchBoards({ variables: { keyword: searchValue } })
           if (isMobile) {
+            setIsMobileSearch(true)
             onSearchOpen()
           } else {
             onResultOpen()

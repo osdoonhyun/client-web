@@ -6,6 +6,7 @@ import { useState, useCallback } from 'react'
 import { TQuery, TYoutube } from '@/src/commons/types/generated/types'
 import { FETCH_YOUTUBE } from './Youtube.queries'
 import { YoutubeUIProps } from './Youtube.types'
+import { Center } from '@chakra-ui/react'
 
 export default function Youtube() {
   const { loading, error, data } = useQuery<Pick<TQuery, 'fetchYoutube'>>(FETCH_YOUTUBE)
@@ -19,13 +20,6 @@ export default function Youtube() {
     setSelectedVideo('')
   }, [])
 
-  if (loading) {
-    return <CustomSpinner />
-  }
-  if (error) {
-    return <ErrorMessage message={error.message} />
-  }
-
   const youtubeData: TYoutube[] = data?.fetchYoutube || []
   const youtubeUIProps: YoutubeUIProps = {
     youtubeData,
@@ -33,5 +27,19 @@ export default function Youtube() {
     onClickSelectedVideo,
     onClickCloseModal,
   }
+
+  if (loading) {
+    return (
+      <>
+        <Center h="370px">
+          <CustomSpinner />
+        </Center>
+      </>
+    )
+  }
+  if (error) {
+    return <ErrorMessage message={error.message} />
+  }
+
   return <YoutubeUI {...youtubeUIProps} />
 }

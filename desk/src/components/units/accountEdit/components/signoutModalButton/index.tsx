@@ -36,6 +36,7 @@ export default function SignoutModalButton() {
   return (
     <>
       <Button
+        px="10px"
         color={useColorModeValue('#fff', '#1A202C')}
         bg={'dGray.medium'}
         _hover={{ bg: useColorModeValue('dGray.dark', 'dGray.light') }}

@@ -2,6 +2,7 @@ import {
   AuthModalToggle,
   AuthModalType,
   isLoggedInState,
+  MyLastLogined,
   MyToken,
   MyUserInfo,
 } from '@/src/commons/store/atom'
@@ -46,6 +47,7 @@ export function useAuth() {
   const [createUserMutation] = useMutation<Pick<TMutation, 'createUser'>>(CREATE_USER)
   const [resetUserPasswordMutation] =
     useMutation<Pick<TMutation, 'resetUserPassword'>>(RESET_USER_PASSWORD)
+  const [myLastLogined, setMyLastLogined] = useRecoilState(MyLastLogined)
 
   ////////////////////////////////////////////////////
   // 로그인 관련 APIs
@@ -61,8 +63,7 @@ export function useAuth() {
       .then(() => {
         clear()
         setAuthModalType('AFTER_AUTH')
-
-        router.push('/')
+        location.href = '/'
       })
       .catch(error => {
         if (error instanceof Error) {
@@ -138,6 +139,7 @@ export function useAuth() {
         },
       })
       setMyUserInfo(result.data.fetchLoginUser)
+      setMyLastLogined(result.data.fetchLoginUser.provider)
       setIsLoggedIn(true)
     }
   }

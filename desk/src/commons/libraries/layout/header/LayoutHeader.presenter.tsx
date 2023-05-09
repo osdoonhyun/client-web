@@ -1,11 +1,10 @@
-import { ReactNode, useEffect } from 'react'
+import { useEffect } from 'react'
 import {
   Avatar,
   Box,
   Button,
   Center,
   Flex,
-  Link,
   Menu,
   MenuButton,
   MenuDivider,
@@ -16,33 +15,22 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react'
 import { MoonIcon, SunIcon } from '@chakra-ui/icons'
+import { TbMail } from 'react-icons/tb'
 import { LayoutHeaderUIProps } from './LayoutHeader.types'
 import { useAuth } from '@/src/commons/hooks/useAuth'
+import { useRecoilState } from 'recoil'
+import { MyLastLogined } from '@/src/commons/store/atom'
 import Logo from '@/src/components/ui/logo'
 import SearchBoards from '@/src/components/units/main/components/searchBoards/SearchBoards.container'
 
-const NavLink = ({ children }: { children: ReactNode }) => (
-  <Link
-    px={2}
-    py={1}
-    rounded={'md'}
-    _hover={{
-      textDecoration: 'none',
-      bg: useColorModeValue('gray.200', 'gray.700'),
-    }}
-    href={'#'}>
-    {children}
-  </Link>
-)
-
 export default function LayoutHeaderUI(props: LayoutHeaderUIProps) {
   const { colorMode, toggleColorMode } = useColorMode()
+  const [myLastLogined, setMyLastLogined] = useRecoilState(MyLastLogined)
   const {
     isLoggedIn,
     myUserInfo,
     LoginModalUI,
     SignupModalUI,
-    signout,
     fetchUserInfo,
     openModal,
     logout,
@@ -54,10 +42,10 @@ export default function LayoutHeaderUI(props: LayoutHeaderUIProps) {
 
   return (
     <>
-      <Box bg={useColorModeValue('dGray.light', 'gray.900')} px={4}>
+      <Box bg={useColorModeValue('dGray.light', 'gray.900')} px={4} position={'relative'}>
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
           <Logo />
-          <Flex alignItems={'center'}>
+          <Flex alignItems={'center'} zIndex={999}>
             <Stack direction={'row'} spacing={4}>
               <SearchBoards />
               <Button onClick={toggleColorMode}>
@@ -72,45 +60,90 @@ export default function LayoutHeaderUI(props: LayoutHeaderUIProps) {
                   minW={0}>
                   <Avatar
                     mr={2}
+                    name={myUserInfo?.nickName}
                     size={'sm'}
+                    bgColor={'gray.400'}
                     src={
                       isLoggedIn && myUserInfo?.picture
                         ? myUserInfo.picture
-                        : 'https://avatars.dicebear.com/api/male/username.svg'
+                        : 'https://bit.ly/broken-link'
                     }
                   />
                 </MenuButton>
                 <MenuList alignItems={'center'}>
-                  <br />
-                  <Center>
+                  <Center mt={'30px'}>
                     <Avatar
+                      bgColor={'gray.400'}
                       size={'xl'}
+                      name={myUserInfo?.nickName}
                       src={
                         isLoggedIn && myUserInfo?.picture
                           ? myUserInfo.picture
-                          : 'https://avatars.dicebear.com/api/male/username.svg'
+                          : 'https://bit.ly/broken-link'
                       }
                     />
                   </Center>
                   <br />
                   <Center>
                     {!isLoggedIn && <p>닉네임</p>}
-                    {isLoggedIn && <p>{myUserInfo?.nickName}</p>}
+                    {isLoggedIn && (
+                      <div>
+                        <Center mb={2} fontSize={'mb'} fontWeight="600">
+                          {myUserInfo?.nickName}
+                        </Center>
+                        <Flex
+                          mb={2}
+                          alignItems={'center'}
+                          justifyContent={'center'}
+                          color={useColorModeValue('dGray.dark', 'dGray.light')}>
+                          <TbMail />
+                          <Center ml={1} fontSize={'11pt'}>
+                            {myUserInfo?.email}
+                          </Center>
+                        </Flex>
+                        <Flex
+                          justifyContent="space-around"
+                          color={useColorModeValue('#232323d5', 'dGray.light')}>
+                          <Center mx={2}>
+                            팔로우
+                            <Box ml={1} fontWeight="700">
+                              {myUserInfo?.followeesCount}
+                            </Box>
+                          </Center>
+                          <Center mx={2}>
+                            팔로잉
+                            <Box ml={1} fontWeight="700">
+                              {myUserInfo?.followingsCount}
+                            </Box>
+                          </Center>
+                        </Flex>
+                      </div>
+                    )}
                   </Center>
                   <br />
                   <MenuDivider />
                   {!isLoggedIn ? (
                     <>
-                      <MenuItem onClick={() => openModal('LOGIN')}>로그인</MenuItem>
-                      <MenuItem onClick={() => openModal('SIGNUP')}>회원가입</MenuItem>
+                      <MenuItem
+                        pl={10}
+                        textAlign="center"
+                        onClick={() => openModal('LOGIN')}>
+                        로그인
+                      </MenuItem>
+                      <MenuItem pl={10} onClick={() => openModal('SIGNUP')}>
+                        회원가입
+                      </MenuItem>
                     </>
                   ) : (
                     <>
-                      <MenuItem onClick={props.onClickMoveToUser(myUserInfo?.id ?? '')}>
+                      <MenuItem
+                        pl={10}
+                        onClick={props.onClickMoveToUser(myUserInfo?.id ?? '')}>
                         마이페이지
                       </MenuItem>
-                      <MenuItem onClick={logout}>로그아웃</MenuItem>
-                      <MenuItem onClick={signout}>회원탈퇴</MenuItem>
+                      <MenuItem pl={10} onClick={logout}>
+                        로그아웃
+                      </MenuItem>
                     </>
                   )}
                 </MenuList>
@@ -119,7 +152,6 @@ export default function LayoutHeaderUI(props: LayoutHeaderUIProps) {
           </Flex>
         </Flex>
       </Box>
-
       <LoginModalUI />
       <SignupModalUI />
     </>

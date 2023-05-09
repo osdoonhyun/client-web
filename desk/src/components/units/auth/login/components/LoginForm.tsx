@@ -1,5 +1,5 @@
 import { useAuth } from '@/src/commons/hooks/useAuth'
-import { MyEmailSave } from '@/src/commons/store/atom'
+import { MyEmailSave, MyLastLogined } from '@/src/commons/store/atom'
 import { AuthFormProps, loginSchema } from '@/src/components/units/auth/Auth.types'
 import ForgotPassword from '@/src/components/units/auth/forgotPassword/ForgotPassword.container'
 import SignupForm from '@/src/components/units/auth/signup/components/signupForm'
@@ -12,9 +12,9 @@ import {
   FormErrorMessage,
   FormLabel,
   Heading,
-  HStack,
   Input,
   Link,
+  SimpleGrid,
   Stack,
   Text,
   Tooltip,
@@ -27,7 +27,6 @@ import { ChangeEvent, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { AiFillGoogleCircle } from 'react-icons/ai'
 import { RiKakaoTalkFill } from 'react-icons/ri'
-import { SiNaver } from 'react-icons/si'
 import { useRecoilState } from 'recoil'
 
 type TCurrentModalType = 'LOGIN' | 'SIGNUP' | 'FORGOT_PASSWORD'
@@ -40,7 +39,7 @@ type TSnsLinksProps = {
 
 const snsLinks: TSnsLinksProps[] = [
   { name: 'kakao', buttonColor: 'yellow', leftIcon: <RiKakaoTalkFill /> },
-  { name: 'naver', buttonColor: 'green', leftIcon: <SiNaver /> },
+  // { name: 'naver', buttonColor: 'green', leftIcon: <SiNaver /> },
   { name: 'google', buttonColor: 'gray', leftIcon: <AiFillGoogleCircle /> },
 ]
 
@@ -51,6 +50,7 @@ export default function LoginForm() {
   const [currentModalType, setCurrentModalType] = useState<TCurrentModalType>('LOGIN')
   const [myEmailSaveLocal, setMyEmailSaveLocal] = useRecoilState(MyEmailSave)
   const [isCheckedSaveEmail, setIsCheckedSaveEmail] = useState(false)
+  const [myLastLogined, setMyLastLogined] = useRecoilState(MyLastLogined)
 
   const {
     register,
@@ -131,7 +131,7 @@ export default function LoginForm() {
                       placeholder={'비밀번호를 입력해 주세요'}
                       {...register('password')}
                     />
-                    <FormErrorMessage>
+                    <FormErrorMessage w={265}>
                       {errors.password && errors.password.message}
                     </FormErrorMessage>
                   </FormControl>
@@ -141,8 +141,9 @@ export default function LoginForm() {
                       align={'start'}
                       justify={'space-between'}>
                       <Checkbox
-                        iconColor={'white'}
-                        borderColor={'dPrimary'}
+                        iconColor="red.300"
+                        borderColor="dPrimary"
+                        colorScheme="whiteAlpha"
                         onChange={onChangeMyEmailCheckboxToggle}>
                         저장하기
                       </Checkbox>
@@ -155,8 +156,8 @@ export default function LoginForm() {
                       </Link>
                     </Stack>
 
-                    {myUserInfo?.provider === 'dechive' ? (
-                      <Tooltip hasArrow label="마지막 로그인" bg="red.300" isOpen>
+                    {myLastLogined === 'dechive' ? (
+                      <Tooltip hasArrow label="마지막 로그인" isOpen>
                         <Button
                           type={'submit'}
                           bg={'dPrimary'}
@@ -174,25 +175,28 @@ export default function LoginForm() {
                         로그인
                       </Button>
                     )}
-                    <HStack>
-                      {snsLinks?.map(({ buttonColor, leftIcon, name }) => {
+                    <SimpleGrid columns={2} gap={3}>
+                      {snsLinks?.map(({ buttonColor, leftIcon, name }, index) => {
                         return (
                           <Link href={`https://mobomobo.shop/login/${name}`} key={name}>
-                            {myUserInfo?.provider === name ? (
-                              <Tooltip hasArrow label="마지막 로그인" bg="red.300" isOpen>
+                            {myLastLogined === name ? (
+                              <Tooltip hasArrow label="마지막 로그인" isOpen>
                                 <Button colorScheme={buttonColor} leftIcon={leftIcon}>
                                   {name.charAt(0).toUpperCase() + name.slice(1)}
                                 </Button>
                               </Tooltip>
                             ) : (
-                              <Button colorScheme={buttonColor} leftIcon={leftIcon}>
+                              <Button
+                                width={'100%'}
+                                colorScheme={buttonColor}
+                                leftIcon={leftIcon}>
                                 {name.charAt(0).toUpperCase() + name.slice(1)}
                               </Button>
                             )}
                           </Link>
                         )
                       })}
-                    </HStack>
+                    </SimpleGrid>
                     <Button
                       name="buttonJoinMember"
                       onClick={() => {

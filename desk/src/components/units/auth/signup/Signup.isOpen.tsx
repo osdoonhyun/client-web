@@ -29,7 +29,7 @@ export default function SignupIsOpen() {
 
   return (
     <Box>
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent>
           <ModalCloseButton />

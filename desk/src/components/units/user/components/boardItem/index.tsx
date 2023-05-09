@@ -2,43 +2,67 @@ import {
   TMutation,
   TMutationUpdateBoardLikerArgs,
 } from '@/src/commons/types/generated/types'
-import { Box, Image } from '@chakra-ui/react'
-import { useState } from 'react'
-import { MdFavorite, MdFavoriteBorder } from 'react-icons/md'
-import { useMutation } from '@apollo/client'
-import { UPDATE_BOARD_LIKER } from './boardItem.queries'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
+import { useAuth } from '@/src/commons/hooks/useAuth'
+import { useMutation } from '@apollo/client'
+import { Box, Image, useToast } from '@chakra-ui/react'
+import { UPDATE_BOARD_LIKER } from './boardItem.queries'
+import { MdFavorite, MdFavoriteBorder } from 'react-icons/md'
 
 export type BoardItemProps = {
   index: number
   boardId: string
   imageUrl: string
-  isLiked: boolean
+  like: boolean
 }
 
 export default function BoardItem(props: BoardItemProps) {
+  const [isLiked, setIsLiked] = useState(props.like)
+
+  const toast = useToast()
+  const router = useRouter()
+  const { openModal, isLoggedIn } = useAuth()
+
   const [updateBoardLiker] = useMutation<
     Pick<TMutation, 'updateBoardLiker'>,
     TMutationUpdateBoardLikerArgs
   >(UPDATE_BOARD_LIKER)
 
-  const onClickLikeButton = async (boardid: string) => {
-    console.log('boardid', boardid)
+  const onClickLikeButton = (boardId: string, index: number) => async () => {
+    if (!isLoggedIn) {
+      openModal('LOGIN')
+      return
+    }
+
     await updateBoardLiker({
       variables: {
-        boardid,
+        boardid: boardId,
       },
     })
-    setIsLiked(prevIsLiked => !prevIsLiked)
+      .then(result => {
+        const updatedValue = result?.data?.updateBoardLiker ?? false
+        setIsLiked(updatedValue)
+      })
+      .catch(error => {
+        if (error instanceof Error) {
+          toast({
+            title: '에러',
+            description: `${error.message}`,
+            status: 'error',
+            position: 'top',
+          })
+        }
+      })
   }
 
-  const [isLiked, setIsLiked] = useState(props.isLiked)
-
-  const router = useRouter()
-
-  const onClickBoardItem = (boardid: string) => {
+  const onClickBoardItem = (boardid: string) => () => {
     router.push(`/boards/${boardid}`)
   }
+
+  useEffect(() => {
+    setIsLiked(props.like)
+  }, [props.like])
 
   return (
     <Box key={props.index} pos="relative" cursor="pointer">
@@ -49,7 +73,7 @@ export default function BoardItem(props: BoardItemProps) {
         src={props.imageUrl ?? ''}
         bg="dGray"
         borderRadius="10px"
-        onClick={() => onClickBoardItem(props.boardId)}
+        onClick={onClickBoardItem(props.boardId)}
       />
       <Box
         pos="absolute"
@@ -58,13 +82,15 @@ export default function BoardItem(props: BoardItemProps) {
         left="88%"
         _hover={
           isLiked
-            ? undefined
+            ? {
+                color: 'red.300',
+              }
             : {
                 color: 'dGray.medium',
               }
         }
         color={isLiked ? 'dRed.400' : '#fff'}
-        onClick={() => onClickLikeButton(props.boardId)}>
+        onClick={onClickLikeButton(props.boardId, props.index)}>
         {isLiked ? <MdFavorite size="20px" /> : <MdFavoriteBorder size="20px" />}
       </Box>
     </Box>
