@@ -45,8 +45,10 @@ export default function ProductItemCardList(props: ProductItemCardProps) {
                     <Text
                       noOfLines={2}
                       fontSize={'18px'}
-                      fontWeight={'800'}
-                      height={'54px'}>
+                      fontWeight={'700'}
+                      height={'54px'}
+                      textAlign="center"
+                      color={useColorModeValue('dGray.dark', 'dGray.light')}>
                       {product.name}
                     </Text>
                     <Text
