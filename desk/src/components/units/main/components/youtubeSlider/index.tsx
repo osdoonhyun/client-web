@@ -86,33 +86,24 @@ export default function YoutubeSlider({
           flexShrink="0"
           cursor="pointer"
           h="320px"
+          maxW="335px"
           onClick={() => onClickSelectedVideo(youtube.videoUrl)}>
           <YoutubeImageStyle src={youtube.thumbnailUrl} alt={youtube.videoUrl} />
           <Flex
-            pl="3px"
-            width="332px"
+            mt={1}
+            pl={1}
             justifyContent="center"
-            textAlign="center"
             fontSize="mb"
             fontWeight="700"
             color={useColorModeValue('dGray.dark', 'dGray.light')}>
-            <Box noOfLines={1}>
-              {youtube.title.substring(0, 40)}
-              {youtube.title.length > 40 ? '...' : ''}
-            </Box>
+            <Box noOfLines={2}>{youtube.title}</Box>
           </Flex>
           <Flex
-            justifyContent="center"
-            alignItems="center"
-            pr="5px"
-            color={useColorModeValue('#8e9193', 'dGray.light')}
-            fontWeight="500"></Flex>
-          <Flex
-            justifyContent="end"
+            pl={1}
+            mt="5px"
+            justifyContent="start"
             fontSize="10pt"
             fontWeight="500"
-            mr="22px"
-            mt="5px"
             color={useColorModeValue('dGray.dark', 'dGray.light')}>
             조회수: {formatNumber(youtube.views)}
           </Flex>
