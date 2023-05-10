@@ -36,10 +36,10 @@ import { UPDATE_FOLLOWING } from '../../User.queries'
 import { useEffect, useState } from 'react'
 
 export default function FollowModal(props: FollowModalProps) {
-  const { isOpen, onOpen, onClose } = useDisclosure()
-  const { isLoggedIn, myUserInfo } = useAuth()
   const router = useRouter()
   const toast = useToast()
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { isLoggedIn, myUserInfo } = useAuth()
   const [isFollowing, setIsFollowing] = useState(false)
 
   const [updateFollowing] = useMutation<
@@ -68,19 +68,17 @@ export default function FollowModal(props: FollowModalProps) {
     },
   })
 
+  const followings = followingsData?.fetchFollowings ?? [] // 팔로우
+  const followees = followeesData?.fetchFollowees ?? [] // 팔로워
+  const followData = props.type === 'followee' ? followees : followings
+
   const refetchFollowData = async () => {
     await Promise.all([refetchFollowees(), refetchFollowings()])
   }
 
-  const followings = followingsData?.fetchFollowings ?? [] // 팔로우
-  const followees = followeesData?.fetchFollowees ?? [] // 팔로워
-
-  const followData = props.type === 'followee' ? followees : followings
-
-  const onClickModalButton = () => {
-    // 로그인 시 팔로워/팔로우 모달 창 오픈
-    onOpen()
-  }
+  useEffect(() => {
+    refetchFollowData()
+  }, [isFollowing])
 
   const onClickMoveToOtherUserPage = (userid: string) => () => {
     router.push(`/${userid}`)
@@ -109,9 +107,6 @@ export default function FollowModal(props: FollowModalProps) {
         }
       })
   }
-  useEffect(() => {
-    refetchFollowData()
-  }, [isFollowing])
 
   return (
     <>
@@ -120,7 +115,7 @@ export default function FollowModal(props: FollowModalProps) {
         fontWeight="600"
         cursor="pointer"
         _hover={{ bg: 'dGray.light' }}
-        onClick={onClickModalButton}>
+        onClick={() => onOpen()}>
         {props.type === 'followee'
           ? `팔로워 ${followeesData?.fetchFollowees.length ?? 0}`
           : `팔로우 ${followingsData?.fetchFollowings.length ?? 0}`}
