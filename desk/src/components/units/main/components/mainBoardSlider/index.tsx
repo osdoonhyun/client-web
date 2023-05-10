@@ -166,7 +166,7 @@ export default function MainBoardSlider({
                   margin: '0 auto',
                   whiteSpace: 'normal',
                 }}>
-                {titles[index] ?? ''}
+                <Box noOfLines={2}>{titles[index] ?? ''}</Box>
               </Center>
               <Center
                 w="100%"
