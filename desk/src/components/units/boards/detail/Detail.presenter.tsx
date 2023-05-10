@@ -36,10 +36,10 @@ export default function BoardDetailUI(props: BoardDetailUIProps) {
         <HStack>
           <FaQuoteLeft size={12} color={useColorModeValue('#232323B3', '#BABABA')} />
           <Text
+            pt={'10px'}
+            fontWeight={700}
             fontSize={{ base: 'xl', md: '2xl', lg: '3xl' }}
-            fontWeight={800}
-            color={useColorModeValue('dGray.dark', 'dGray.medium')}
-            pt={'10px'}>
+            color={useColorModeValue('dGray.dark', 'dGray.medium')}>
             {props.boardData.title}
           </Text>
           <FaQuoteRight size={12} color={useColorModeValue('#232323B3', '#BABABA')} />
@@ -49,7 +49,10 @@ export default function BoardDetailUI(props: BoardDetailUIProps) {
         <TitleWithDescription title="" description={props.boardData.description} />
       </Box>
       <Box pt={'60px'}>
-        <ProductItemCardList title="사용중인 장비" products={props.boardData.products} />
+        <ProductItemCardList
+          title="📌 사용 중인 장비"
+          products={props.boardData.products}
+        />
       </Box>
       {props.boardData.recommend && (
         <Box pt={'60px'}>
