@@ -20,14 +20,14 @@ import { formatNumber } from '@/src/commons/utils/util'
 
 export default function YoutubeUI(props: YoutubeUIProps) {
   const categoryTitle = '유튜브'
-  const [isMobile] = useMediaQuery('(max-width: 768px)')
+  const [isMobile] = useMediaQuery('(max-width: 992px)')
 
   return (
     <>
       <CategoryHeader categoryTitle={categoryTitle} moreButtonHidden={false} />
       {isMobile ? (
         <Center>
-          <Flex m="2" pl="2px" pr="2px" maxWidth="1080px" overflowX="auto">
+          <Flex m="2" pl="2px" pr="2px" overflowX="auto">
             {props.youtubeData.map((youtube: TYoutube, index: number) => (
               <Box
                 key={youtube.videoUrl}

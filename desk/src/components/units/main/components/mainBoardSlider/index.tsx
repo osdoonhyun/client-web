@@ -30,7 +30,7 @@ export default function MainBoardSlider({
   const [currentSlide, setCurrentSlide] = useState(0)
   const router = useRouter()
 
-  const [isMobile] = useMediaQuery('(max-width: 768px)')
+  const [isMobile] = useMediaQuery('(max-width: 992px)')
 
   const onClickBoardDetail = (boardId: string) => {
     router.push(`/boards/${boardId}`)
@@ -194,7 +194,7 @@ export default function MainBoardSlider({
   return (
     <>
       <Box position="relative" w="full" h="360px" overflow="hidden" mb="1">
-        <Box width={{ base: '100%', md: '80%', lg: '1090px' }} mx="auto">
+        <Box width={{ base: '100%', md: '100%', lg: '1090px' }} mx="auto">
           {isMobile ? (
             <Flex
               flexDirection="row"
