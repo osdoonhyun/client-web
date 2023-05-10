@@ -61,7 +61,7 @@ export default function MainBoardSlider({
         position="absolute"
         zIndex={2}
         top="30%"
-        left="2"
+        left="5px"
         onClick={onClickPrev}
         color="#f8f8f8c8"
         display={arrowVisible ? 'block' : 'none'}>
@@ -72,7 +72,7 @@ export default function MainBoardSlider({
 
   const NextArrow = (props: CustomArrowProps) => {
     const { onClick, className } = props
-    const arrowRightPosition = isMobile ? '-8px' : '0'
+    const arrowRightPosition = isMobile ? '-8px' : '4px'
 
     return (
       <IconButton
