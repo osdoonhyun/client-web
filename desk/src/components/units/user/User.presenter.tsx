@@ -15,6 +15,7 @@ import { UserUIProps } from './User.types'
 import NavigationTab from './components/tabs'
 import FollowModal from './components/followModal'
 import { TSnsAccount } from '@/src/commons/types/generated/types'
+import { makeAbsoluteUrl } from '@/src/commons/utils/util'
 
 export default function UserUI(props: UserUIProps) {
   return (
@@ -72,7 +73,7 @@ export default function UserUI(props: UserUIProps) {
                   snsAccount.sns && (
                     <Link
                       key={snsAccount.id}
-                      href={snsAccount.sns}
+                      href={makeAbsoluteUrl(snsAccount.sns)}
                       isExternal
                       color={useColorModeValue('#1e5d97', '#c1daf2')}
                       fontWeight="600">

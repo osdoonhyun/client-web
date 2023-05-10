@@ -14,6 +14,8 @@ import { TBoard, TPicture, TProduct, TQuery } from '@/src/commons/types/generate
 import { MdFavoriteBorder } from 'react-icons/md'
 import { BsColumnsGap } from 'react-icons/bs'
 import { AiOutlineLaptop } from 'react-icons/ai'
+import { useAuth } from '@/src/commons/hooks/useAuth'
+import { useRouter } from 'next/router'
 
 const TabID = {
   USER_POSTS: 0,
@@ -24,15 +26,23 @@ const MY_PAGE_TAB = [BsColumnsGap, AiOutlineLaptop, MdFavoriteBorder]
 const OTHERS_PAGE_TAB = [BsColumnsGap, AiOutlineLaptop]
 
 export default function NavigationTabs(props: NavigationTabsProps) {
+  const { isLoggedIn, myUserInfo } = useAuth()
   const [userData, setUserData] = useState<TBoard[] | TProduct[]>([])
 
   const [showUserPosts, setShowUserPosts] = useState(true)
   const [showUserProductPosts, setShowUserProductPosts] = useState(false)
   const [showLikedPosts, setShowLikedPosts] = useState(false)
 
+  const router = useRouter()
+
   const { data: userBoards, refetch: refetchUserBoards } = useQuery<
     Pick<TQuery, 'fetchUserBoards'>
-  >(FETCH_USER_BOARDS, { variables: { userid: props.userid as string } })
+  >(FETCH_USER_BOARDS, {
+    variables: {
+      userid: isLoggedIn ? myUserInfo?.id || '' : '',
+      searchid: props.userid as string,
+    },
+  })
 
   const { data: userLikedBoards, refetch: refetchUserLikedBoards } = useQuery<
     Pick<TQuery, 'fetchBoardsUserLiked'>
@@ -77,6 +87,10 @@ export default function NavigationTabs(props: NavigationTabsProps) {
     },
     [showUserPosts, showUserProductPosts, showLikedPosts],
   )
+
+  const onClickProductItem = (boardId: string) => {
+    router.push(`boards/${boardId}`)
+  }
 
   useEffect(() => {
     if (showUserPosts) {
@@ -126,8 +140,10 @@ export default function NavigationTabs(props: NavigationTabsProps) {
                 <ProductItem
                   index={index}
                   productId={item.id}
+                  boardId={item.board?.id}
                   imageUrl={item.picture}
                   productName={item.name}
+                  onClickProductItem={onClickProductItem}
                 />
               ) : (
                 <BoardItem
