@@ -1,9 +1,9 @@
 import { useState } from 'react'
-import { Box, Flex, IconButton, Text, useColorModeValue } from '@chakra-ui/react'
-import { FiEye } from 'react-icons/fi'
+import { Box, Flex, IconButton, useColorModeValue } from '@chakra-ui/react'
 import { TYoutube } from '@/src/commons/types/generated/types'
 import { YoutubeSliderProps } from './types'
 import { IoIosArrowDropleftCircle, IoIosArrowDroprightCircle } from 'react-icons/io'
+import { formatNumber } from '@/src/commons/utils/util'
 import YoutubeImageStyle from '@/src/components/units/main/components/youtubeImageStyle'
 import Slider, { CustomArrowProps } from 'react-slick'
 import 'slick-carousel/slick/slick.css'
@@ -30,7 +30,7 @@ export default function YoutubeSlider({
 
     return (
       <IconButton
-        css={{ '&:hover, &:focus': { background: 'none', color: '#666bffd2' } }}
+        sx={{ '&:hover, &:focus': { background: 'none', color: '#666bffd2' } }}
         aria-label="left-arrow"
         variant="ghost"
         position="absolute"
@@ -49,7 +49,7 @@ export default function YoutubeSlider({
 
     return (
       <IconButton
-        css={{ '&:hover, &:focus': { background: 'none', color: '#666bffd2' } }}
+        sx={{ '&:hover, &:focus': { background: 'none', color: '#666bffd2' } }}
         aria-label="right-arrow"
         variant="ghost"
         position="absolute"
@@ -89,12 +89,12 @@ export default function YoutubeSlider({
           onClick={() => onClickSelectedVideo(youtube.videoUrl)}>
           <YoutubeImageStyle src={youtube.thumbnailUrl} alt={youtube.videoUrl} />
           <Flex
+            pl="3px"
+            width="332px"
             justifyContent="center"
             textAlign="center"
-            fontSize="13pt"
+            fontSize="mb"
             fontWeight="700"
-            width="330px"
-            pl="3px"
             color={useColorModeValue('dGray.dark', 'dGray.light')}>
             <Box noOfLines={1}>
               {youtube.title.substring(0, 40)}
@@ -106,10 +106,15 @@ export default function YoutubeSlider({
             alignItems="center"
             pr="5px"
             color={useColorModeValue('#8e9193', 'dGray.light')}
-            fontWeight="500">
-            <br />
-            <FiEye />
-            <Text ml="5px">{youtube.views} views</Text>
+            fontWeight="500"></Flex>
+          <Flex
+            justifyContent="end"
+            fontSize="10pt"
+            fontWeight="500"
+            mr="22px"
+            mt="5px"
+            color={useColorModeValue('dGray.dark', 'dGray.light')}>
+            조회수: {formatNumber(youtube.views)}
           </Flex>
         </Box>
       ))}

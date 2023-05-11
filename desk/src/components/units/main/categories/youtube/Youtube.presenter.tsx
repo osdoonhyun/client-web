@@ -2,7 +2,6 @@ import {
   Box,
   Center,
   Flex,
-  Text,
   useColorModeValue,
   Modal,
   ModalOverlay,
@@ -13,11 +12,11 @@ import {
 } from '@chakra-ui/react'
 import { TYoutube } from '@/src/commons/types/generated/types'
 import { YoutubeUIProps } from './Youtube.types'
-import { FiEye } from 'react-icons/fi'
 import CategoryHeader from '../../components/categoryHeader/CategoryHeader.container'
 import ReactPlayer from 'react-player'
 import YoutubeSlider from '../../components/youtubeSlider'
 import YoutubeImageStyle from '../../components/youtubeImageStyle'
+import { formatNumber } from '@/src/commons/utils/util'
 
 export default function YoutubeUI(props: YoutubeUIProps) {
   const categoryTitle = '유튜브'
@@ -25,7 +24,7 @@ export default function YoutubeUI(props: YoutubeUIProps) {
 
   const getTitleSubstringLength = () => {
     if (isMobile) {
-      return 25
+      return 30
     }
     return 30
   }
@@ -45,10 +44,11 @@ export default function YoutubeUI(props: YoutubeUIProps) {
                 onClick={() => props.onClickSelectedVideo(youtube.videoUrl)}>
                 <YoutubeImageStyle src={youtube.thumbnailUrl} alt={youtube.videoUrl} />
                 <Flex
+                  mt={1}
                   justifyContent="center"
                   alignItems="center"
-                  fontSize="13pt"
-                  fontWeight="700"
+                  fontSize="11pt"
+                  fontWeight="600"
                   color={useColorModeValue('dGray.dark', 'dGray.light')}>
                   <Box>
                     {youtube.title.substring(0, getTitleSubstringLength())}
@@ -60,10 +60,15 @@ export default function YoutubeUI(props: YoutubeUIProps) {
                   alignItems="center"
                   pr="5px"
                   color={useColorModeValue('#8e9193', 'dGray.light')}
-                  fontWeight="500">
-                  <br />
-                  <FiEye />
-                  <Text ml="5px">{youtube.views} views</Text>
+                  fontWeight="500"></Flex>
+                <Flex
+                  justifyContent="end"
+                  fontSize="10pt"
+                  fontWeight="500"
+                  mr="5px"
+                  mt="5px"
+                  color={useColorModeValue('dGray.dark', 'dGray.light')}>
+                  조회수: {formatNumber(youtube.views)}
                 </Flex>
               </Box>
             ))}

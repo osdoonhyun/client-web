@@ -19,6 +19,7 @@ export default function RecentUI(props: RecentUIProps) {
           writerImages={props.writerImages}
           boardIds={props.boardIds}
           userIds={props.userIds}
+          isLikedArray={props.isLikedArray}
         />
       </Center>
     </>

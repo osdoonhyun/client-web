@@ -60,7 +60,17 @@ export default function AccountEditUI(props: AccountEditUIProps) {
                 <Text mb="30px" fontSize="26px" fontWeight="700">
                   책상 주인
                 </Text>
-                <Badge>{props.myUserInfo?.jobGroup}</Badge>
+                <Badge
+                  bg="dPrimary"
+                  color="#fff"
+                  px="6px"
+                  py="3px"
+                  mx="3"
+                  defaultValue={props.myUserInfo?.jobGroup}
+                  textTransform="uppercase"
+                  alignItems="center">
+                  {props.myJob || props.myUserInfo?.jobGroup}
+                </Badge>
               </Center>
             </Box>
             <Box w="60%" ml="55px" mb="10px">
@@ -68,13 +78,13 @@ export default function AccountEditUI(props: AccountEditUIProps) {
                 mb="20px"
                 textAlign="start"
                 defaultValue={props.myUserInfo?.nickName}
-                fontSize="26px"
+                fontSize="24px"
                 fontWeight="700"
                 isPreviewFocusable={false}>
                 <Flex
                   justify={'space-between'}
                   align="center"
-                  fontSize="26px"
+                  fontSize="24px"
                   fontWeight="700">
                   <EditablePreview />
                   <Input
@@ -87,13 +97,12 @@ export default function AccountEditUI(props: AccountEditUIProps) {
               </Editable>
               <MyJobSelect
                 setMyJob={props.setMyJob}
-                myJob={props.myJob}
-                // onChange={props.onChangeMyJob(props.myJob)}
+                myJob={props.myJob || (props.myUserInfo?.jobGroup as string)}
               />
             </Box>
           </Flex>
           <Divider border="1px" borderColor="#bababa" />
-          <Flex>
+          <Flex align="center">
             <Box w="40%">
               <Center flexDirection="column" w="80%">
                 <Text fontSize="20px" fontWeight="500">
@@ -102,15 +111,15 @@ export default function AccountEditUI(props: AccountEditUIProps) {
               </Center>
             </Box>
             <Box w="60%" ml="55px">
-              <Text fontSize="20px" fontWeight="500">
+              <Text fontSize="18px" fontWeight="500">
                 <Editable
                   textAlign="start"
-                  placeholder="한 줄 소개해주세요. (최대 30자)"
-                  defaultValue={props.myUserInfo?.intro ?? ''}
+                  placeholder="한 줄 소개해 주세요. (최대 30자)"
+                  defaultValue={props.myUserInfo?.intro || ''}
                   fontSize="20px"
-                  fontWeight="500"
+                  fontWeight="400"
                   isPreviewFocusable={false}>
-                  <Flex justify={'space-between'} fontSize="20px" fontWeight="500">
+                  <Flex justify={'space-between'} fontSize="18px" fontWeight="400">
                     <EditablePreview />
                     <Input
                       {...props.register('intro')}
@@ -124,10 +133,10 @@ export default function AccountEditUI(props: AccountEditUIProps) {
             </Box>
           </Flex>
           <Divider border="1px" borderColor="#bababa" />
-          <Flex>
+          <Flex align="cennter">
             <Box w="40%">
               <Center flexDirection="column" w="80%">
-                <Text fontSize="18px" fontWeight="500">
+                <Text fontSize="20px" fontWeight="500">
                   email
                 </Text>
               </Center>
@@ -137,10 +146,10 @@ export default function AccountEditUI(props: AccountEditUIProps) {
             </Box>
           </Flex>
           <Divider border="1px" borderColor="#bababa" />
-          <Flex>
+          <Flex align="center">
             <Box w="40%">
               <Center flexDirection="column" w="80%">
-                <Text fontSize="18px" fontWeight="500">
+                <Text fontSize="20px" fontWeight="500">
                   SNS 계정
                 </Text>
               </Center>
@@ -151,7 +160,7 @@ export default function AccountEditUI(props: AccountEditUIProps) {
                 {/* <Text fontSize="16px">sns 링크로 이동하기</Text> */}
                 {/* SNS 계정 추가하기 */}
                 <VStack align="stretch">
-                  {props.snsLinks.map(link => (
+                  {props.myUserInfo?.snsAccounts?.map((link, index) => (
                     <Flex
                       key={link.id}
                       direction="row"
@@ -160,8 +169,33 @@ export default function AccountEditUI(props: AccountEditUIProps) {
                       <Flex align="center">
                         <Icon size="16px" as={BsLink45Deg} mr={1} />
                         <Link>
-                          {/* {props.myUserInfo?.snsAccounts.map(snsAccounts,index)} */}
                           <Input
+                            color="##718096"
+                            fontSize="18px"
+                            // TODO: SNS register
+                            {...props.register(`snsAccounts.${index}.link`)}
+                            defaultValue={link.sns || ''}
+                            variant="unstyled"
+                            placeholder="SNS 계정 추가"
+                          />
+                        </Link>
+                      </Flex>
+                    </Flex>
+                  ))}
+
+                  {/* <SnsLinks /> */}
+
+                  {/* {props.snsLinks.map(link => (
+                    <Flex
+                      key={link.id}
+                      direction="row"
+                      justifyContent="space-between"
+                      align="center">
+                      <Flex align="center">
+                        <Icon size="16px" as={BsLink45Deg} mr={1} />
+                        <Link>
+                          <Input
+                            fontSize="18px"
                             id={`${link.id}`}
                             // {...props.register('snsAccount')}
                             variant="unstyled"
@@ -208,16 +242,16 @@ export default function AccountEditUI(props: AccountEditUIProps) {
                         </Button>
                       )}
                     </Flex>
-                  ))}
+                  ))} */}
                 </VStack>
               </Flex>
             </Box>
           </Flex>
           <Divider border="1px" borderColor="#bababa" />
-          <Flex>
+          <Flex align="center">
             <Box w="40%">
               <Center flexDirection="column" w="80%">
-                <Text fontSize="18px" fontWeight="500">
+                <Text fontSize="20px" fontWeight="500">
                   회원 탈퇴
                 </Text>
               </Center>
@@ -227,9 +261,9 @@ export default function AccountEditUI(props: AccountEditUIProps) {
             </Box>
           </Flex>
         </Flex>
-        <Center mt="30px">
+        <Center mt="50px">
           <Button w="300px" type="submit">
-            제출하기
+            수정 완료
           </Button>
         </Center>
       </form>

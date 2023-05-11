@@ -4,26 +4,22 @@ import {
   Box,
   Button,
   Flex,
-  Image,
   Link,
-  SimpleGrid,
   Text,
   Icon,
-  useColorMode,
   useColorModeValue,
 } from '@chakra-ui/react'
-import { MdFavoriteBorder, MdFavorite } from 'react-icons/md'
 import { GoPencil } from 'react-icons/go'
 import { BsLink45Deg } from 'react-icons/bs'
 import { UserUIProps } from './User.types'
 import NavigationTab from './components/tabs'
-import ProductItem from './components/productItem'
 import FollowModal from './components/followModal'
+import { TSnsAccount } from '@/src/commons/types/generated/types'
 
 export default function UserUI(props: UserUIProps) {
   return (
     <Box
-      h="900px"
+      h="85vh"
       overflow="auto"
       sx={{
         '&::-webkit-scrollbar': {
@@ -38,50 +34,70 @@ export default function UserUI(props: UserUIProps) {
             <Flex ml="15px" justify="space-between" align="center">
               <Text fontSize="24px" fontWeight="700" alignContent="center">
                 책상주인 : {props.userData.user.nickName}
-                <Badge mx="3" textTransform="uppercase" alignItems="center">
+                <Badge
+                  bg="dPrimary"
+                  color="#fff"
+                  px="6px"
+                  py="3px"
+                  mx="3"
+                  textTransform="uppercase"
+                  alignItems="center">
                   {props.userData.user.jobGroup}
                 </Badge>
               </Text>
             </Flex>
-            <Flex ml="50px" mt="20px" gap="25px">
-              <FollowModal
-                type="follower"
-                userData={props.userData}
-                isLoggedIn={props.isLoggedIn}
-              />
+            <Flex ml="50px" mt="25px" gap="25px">
               <FollowModal
                 type="followee"
                 userData={props.userData}
                 isLoggedIn={props.isLoggedIn}
+                followeesData={props.followeesData}
+                followingsData={props.followingsData}
+              />
+              <FollowModal
+                type="following"
+                userData={props.userData}
+                isLoggedIn={props.isLoggedIn}
+                followeesData={props.followeesData}
+                followingsData={props.followingsData}
               />
             </Flex>
-            <Flex direction="column" mt="23px" ml="50px">
+            <Flex direction="column" mt="26px" ml="50px">
               <Text mb="23px" fontSize="16px" alignItems="center" fontWeight="600">
-                한 줄 소개 : {props.userData.user.intro}
+                {props.userData.user.intro}
               </Text>
 
-              {/* FIXME */}
-              {/* {props.userData.user.snsAccounts?.map(snsAccount => (
-                <Link
-                  key={snsAccount.id}
-                  href={snsAccount.sns}
-                  isExternal
-                  color={useColorModeValue('#1e5d97', '#c1daf2')}
-                  fontWeight="600">
-                  <Flex alignItems="center" justifyContent="flex-start">
-                    <Icon as={BsLink45Deg} mr={1} />
-                    {/* <Text>{snsAccount.sns}</Text> 
-                  </Flex>
-                </Link>
-              ))} */}
+              {props.userData.user.snsAccounts?.map(
+                (snsAccount: TSnsAccount) =>
+                  snsAccount.sns && (
+                    <Link
+                      key={snsAccount.id}
+                      href={snsAccount.sns}
+                      isExternal
+                      color={useColorModeValue('#1e5d97', '#c1daf2')}
+                      fontWeight="600">
+                      <Flex alignItems="center" justifyContent="flex-start">
+                        <Icon as={BsLink45Deg} mr={1} />
+                        <Text>{snsAccount.sns}</Text>
+                      </Flex>
+                    </Link>
+                  ),
+              )}
 
               {/* <Link
                 href="https://www.example.com"
                 isExternal
                 color={useColorModeValue('#1e5d97', '#c1daf2')}
                 fontWeight="600">
-                <Flex alignItems="center" justifyContent="flex-start">
-                  <Icon as={BsLink45Deg} mr={1} />
+                <Flex
+                  flexDirection={'column'}
+                  alignItems="center"
+                  justifyContent="flex-start">
+                  <Flex>
+                    <Icon as={BsLink45Deg} mr={1} />
+                    <Text>sns 링크로 이동하기</Text>
+                  </Flex>
+                  <Text>sns 링크로 이동하기</Text>
                   <Text>sns 링크로 이동하기</Text>
                 </Flex>
               </Link> */}
@@ -93,6 +109,7 @@ export default function UserUI(props: UserUIProps) {
               objectFit="cover"
               background="dGray.medium"
               boxSize="170px"
+              name={props.userData.user.nickName}
               src={props.userData.user.picture ?? 'https://bit.ly/broken-link'}
             />
             {props.isMyPage ? ( // 나의 페이지면 프로필 수정하기 버튼 / 아니면 팔로우 버튼
@@ -126,19 +143,19 @@ export default function UserUI(props: UserUIProps) {
                 fontSize="18px"
                 color={
                   props.isFollowing
-                    ? useColorModeValue('#fff', '#1A202C')
-                    : 'dGray.medium'
+                    ? 'dGray.medium'
+                    : useColorModeValue('#fff', '#1A202C')
                 }
-                bgColor={props.isFollowing ? 'dPrimary' : undefined}
-                borderColor={props.isFollowing ? 'dPrimary' : 'dGray.medium'}
+                bgColor={props.isFollowing ? undefined : 'dPrimary'}
+                borderColor={props.isFollowing ? 'dGray.medium' : 'dPrimary'}
                 _hover={
                   props.isFollowing
-                    ? { bg: 'dPrimaryHover.dark' }
-                    : useColorModeValue({ bg: 'dGray.light' }, { bg: 'dGray.dark' })
+                    ? useColorModeValue({ bg: 'dGray.light' }, { bg: 'dGray.dark' })
+                    : { bg: 'dPrimaryHover.dark' }
                 }
                 onClick={props.onClickFollowingButton}
                 fontWeight="600">
-                {props.isFollowing ? '팔로우' : '팔로잉'}
+                {props.isFollowing ? '팔로잉' : '팔로우'}
               </Button>
             )}
           </Flex>

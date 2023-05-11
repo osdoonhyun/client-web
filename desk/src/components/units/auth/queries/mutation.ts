@@ -60,9 +60,16 @@ export const FETCH_LOGIN_USER = gql`
       id
       email
       nickName
+      intro
       picture
       jobGroup
       provider
+      followingsCount
+      followeesCount
+      snsAccounts {
+        id
+        sns
+      }
     }
   }
 `

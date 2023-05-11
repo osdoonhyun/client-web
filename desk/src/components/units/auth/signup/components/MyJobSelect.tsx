@@ -27,12 +27,14 @@ export default function MyJobSelect(props: MyJob) {
     setTextColor('')
   }
 
+  const selectedMyJob = JOB_LIST.find(job => job.shortName === props.myJob)
+
   return (
     <>
       <Select
         focusBorderColor={'dPrimary'}
         color={textColor}
-        defaultValue={props.myJob ?? ''}
+        defaultValue={selectedMyJob?.fullName}
         placeholder="직군을 선택해 주세요 *"
         onChange={onChangeMySelectJob}
         isRequired>

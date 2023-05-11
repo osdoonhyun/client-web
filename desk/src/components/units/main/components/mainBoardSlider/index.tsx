@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react'
 import { IoIosArrowDropleftCircle, IoIosArrowDroprightCircle } from 'react-icons/io'
 import { MainBoardSliderProps } from './types'
-import MainImageStyle from '@/src/components/ui/mainImageStyle'
+import MainImageStyle from '../mainImageStyle'
 import Slider, { CustomArrowProps } from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
@@ -23,14 +23,14 @@ export default function MainBoardSlider({
   writerImages = [],
   boardIds = [],
   userIds = [],
-  children,
+  isLikedArray = [],
 }: MainBoardSliderProps) {
   const [slider, setSlider] = useState<Slider | null>(null)
-  const [arrowVisible, setArrowVisible] = useState(true)
+  const [arrowVisible, setArrowVisible] = useState(false)
   const [currentSlide, setCurrentSlide] = useState(0)
   const router = useRouter()
 
-  const [isMobile] = useMediaQuery('(max-width: 767px)')
+  const [isMobile] = useMediaQuery('(max-width: 768px)')
 
   const onClickBoardDetail = (boardId: string) => {
     router.push(`/boards/${boardId}`)
@@ -55,12 +55,12 @@ export default function MainBoardSlider({
 
     return (
       <IconButton
-        css={{ '&:hover, &:focus': { background: 'none', color: '#666bffd2' } }}
+        sx={{ '&:hover, &:focus': { background: 'none', color: '#666bffd2' } }}
         aria-label="left-arrow"
         variant="ghost"
         position="absolute"
         zIndex={2}
-        top="35%"
+        top="30%"
         left="2"
         onClick={onClickPrev}
         color="#f8f8f8c8"
@@ -76,11 +76,11 @@ export default function MainBoardSlider({
 
     return (
       <IconButton
-        css={{ '&:hover, &:focus': { background: 'none', color: '#666bffd2' } }}
+        sx={{ '&:hover, &:focus': { background: 'none', color: '#666bffd2' } }}
         aria-label="right-arrow"
         variant="ghost"
         position="absolute"
-        top="35%"
+        top="30%"
         right={arrowRightPosition}
         onClick={onClickNext}
         color="#f8f8f8c8"
@@ -102,7 +102,6 @@ export default function MainBoardSlider({
     swipeToSlide: isMobile,
     beforeChange: (oldIndex: number, newIndex: number) => {
       setCurrentSlide(newIndex)
-      setArrowVisible(false)
     },
     afterChange: () => setArrowVisible(true),
     prevArrow: <PrevArrow />,
@@ -139,12 +138,17 @@ export default function MainBoardSlider({
             mb="5px"
             onClick={() => onClickBoardDetail(boardIds[index])}
             cursor="pointer">
-            <MainImageStyle src={src} alt={`Image ${index}`} />
+            <MainImageStyle
+              src={src}
+              alt={`Image ${index}`}
+              boardId={boardIds[index]}
+              isLiked={isLikedArray[index]}
+            />
           </Center>
           <Center>
             <Flex flexDirection="column">
               <Center
-                fontSize={{ base: 'sm', md: 'md' }}
+                fontSize={{ base: '11pt', md: 'md' }}
                 fontWeight="bold"
                 textAlign="center"
                 mt={2}
@@ -164,17 +168,18 @@ export default function MainBoardSlider({
                 }}>
                 {titles[index] ?? ''}
               </Center>
-
               <Center
-                fontSize={{ base: 'xs', md: 'sm' }}
                 w="100%"
                 mt={1}
                 cursor="pointer"
+                fontSize={{ base: 'xs', md: '11pt' }}
                 onClick={() => onClickUserDetail(userIds[index])}>
                 <Avatar
+                  mr="5px"
                   w="20px"
                   h="20px"
-                  mr="5px"
+                  size={'xs'}
+                  name={writers[index]}
                   src={writerImages[index] || 'https://bit.ly/broken-link'}
                 />
                 {writers[index] ?? ''}
@@ -188,14 +193,14 @@ export default function MainBoardSlider({
 
   return (
     <>
-      <Box position="relative" w="full" h="350px" overflow="hidden">
+      <Box position="relative" w="full" h="360px" overflow="hidden" mb="1">
         <Box width={{ base: '100%', md: '80%', lg: '1090px' }} mx="auto">
           {isMobile ? (
             <Flex
               flexDirection="row"
               overflowX="scroll"
               overflowY="hidden"
-              css={{
+              sx={{
                 '&::-webkit-scrollbar': {
                   display: 'none',
                 },
@@ -204,7 +209,10 @@ export default function MainBoardSlider({
               {renderContent()}
             </Flex>
           ) : (
-            <Slider {...settings} ref={slider => setSlider(slider)}>
+            <Slider
+              {...settings}
+              ref={slider => setSlider(slider)}
+              onInit={() => setArrowVisible(true)}>
               {renderContent()}
             </Slider>
           )}

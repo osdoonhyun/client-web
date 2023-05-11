@@ -17,7 +17,7 @@ export default function Layout(props: LayoutProps) {
   return (
     <>
       <LayoutHeader />
-      <div style={{ height: '100%' }}>{props.children}</div>
+      <div style={{ minHeight: 'calc(100vh - 200px)' }}>{props.children}</div>
       <LayoutFooter />
     </>
   )

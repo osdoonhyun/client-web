@@ -16,9 +16,9 @@ export default function ProductItemCardList(props: ProductItemCardProps) {
   return (
     <VStack align={'stretch'}>
       <Text
-        fontSize={18}
+        fontSize={{ base: 'lg', lg: 'xl' }}
         fontWeight={800}
-        color={useColorModeValue('dBlack', 'dGray.light')}
+        color={useColorModeValue('dGray.dark', 'dGray.light')}
         pt={'10px'}>
         {props.title}
       </Text>

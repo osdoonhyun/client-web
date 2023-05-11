@@ -3,7 +3,6 @@ import { EditIcon } from '@chakra-ui/icons'
 import {
   Box,
   Button,
-  ButtonGroup,
   HStack,
   IconButton,
   Input,
@@ -19,7 +18,7 @@ import {
   useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react'
-import { ChangeEvent, MouseEvent, useEffect, useState } from 'react'
+import { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react'
 import { TitleWithInputTagsProps } from './types'
 
 export default function TitleWithInputTags(props: TitleWithInputTagsProps) {
@@ -37,7 +36,7 @@ export default function TitleWithInputTags(props: TitleWithInputTagsProps) {
     setTagText(event.target.value)
   }
 
-  const onClickInput = (event: MouseEvent<HTMLButtonElement>) => {
+  const onClickInputTag = () => {
     if (tagText === '' || tagTexts.includes(tagText)) {
       return
     }
@@ -45,6 +44,12 @@ export default function TitleWithInputTags(props: TitleWithInputTagsProps) {
     setTagTexts(tags => [...tags, tagText])
     setTagText('')
     onClose()
+  }
+
+  const onKeyupEnter = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      onClickInputTag()
+    }
   }
 
   const onClickRemoveTag = (value: string) => () => {
@@ -63,14 +68,14 @@ export default function TitleWithInputTags(props: TitleWithInputTagsProps) {
           <span style={{ color: '#666CFF', fontSize: '14px' }}>{' *'}</span>
         )}
       </Text>
-      <HStack spacing={4}>
+      <HStack spacing={3} wrap={'wrap'}>
         {tagTexts.map((tag, index) => (
           <Tag
-            size={'lg'}
+            size={{ base: 'md', md: 'lg' }}
             key={index}
             borderRadius="full"
             variant="solid"
-            colorScheme="green">
+            bg="dPrimaryHover.darker">
             <TagLabel>{tag}</TagLabel>
             <TagCloseButton onClick={onClickRemoveTag(tag)} />
           </Tag>
@@ -84,29 +89,41 @@ export default function TitleWithInputTags(props: TitleWithInputTagsProps) {
           <PopoverTrigger>
             <IconButton
               aria-label="Add to tag"
-              size={'sm'}
+              size={'md'}
               icon={<EditIcon />}
               bgColor={useColorModeValue('dGray.light', '#bababa1e')}
             />
           </PopoverTrigger>
-          <PopoverContent p={5} bgColor={useColorModeValue('dGray.light', '#bababa1e')}>
-            <PopoverArrow />
+          <PopoverContent p={5} bgColor={useColorModeValue('dGray.light', 'gray.700')}>
+            <PopoverArrow bgColor={useColorModeValue('dGray.light', 'gray.700')} />
+
             <Stack spacing={4}>
               <Input
-                bgColor={'white'}
+                bgColor={useColorModeValue('white', 'gray.600')}
                 color={'dBlack'}
                 value={tagText}
-                placeholder="해시태그를 입력해주세요."
+                placeholder="ex) 개발자 데스크, 학생 데스크..."
                 _placeholder={{ color: 'dGray.medium' }}
                 focusBorderColor="dPrimary"
+                onKeyUp={onKeyupEnter}
                 onChange={onChangeTagInput}
               />
-              <ButtonGroup display="flex" justifyContent="flex-end">
-                <Button variant="outline" onClick={onClose}>
+              <HStack display="flex" justifyContent="flex-end">
+                <Button
+                  variant="outline"
+                  borderColor={'gray.400'}
+                  color={useColorModeValue('dGray.dark', 'gray.100')}
+                  onClick={onClose}>
                   닫기
                 </Button>
-                <Button onClick={onClickInput}>입력</Button>
-              </ButtonGroup>
+                <Button
+                  bgColor={useColorModeValue('gray.400', 'gray.500')}
+                  color={useColorModeValue('dGray.light', 'gray.100')}
+                  _hover={{ bg: 'gray.500' }}
+                  onClick={onClickInputTag}>
+                  입력
+                </Button>
+              </HStack>
             </Stack>
           </PopoverContent>
         </Popover>

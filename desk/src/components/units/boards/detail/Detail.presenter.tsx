@@ -1,7 +1,7 @@
-import Carousel from '@/src/components/ui/carousel'
 import { Box, Center, HStack, Text, useColorModeValue } from '@chakra-ui/react'
 import { FaQuoteLeft, FaQuoteRight } from 'react-icons/fa'
 import CountStateWithLike from '../components/countStateWithLike'
+import DetailBoardImages from '../components/detailBoardImages'
 import DetailBoardTags from '../components/detailBoardTags'
 import ProductItemCardList from '../components/productItemCardList'
 import ProfileHeader from '../components/profileHeader'
@@ -18,8 +18,12 @@ export default function BoardDetailUI(props: BoardDetailUIProps) {
           userData={props.boardData.writer}
         />
       </Box>
-      <Carousel imageURLs={props.boardData.pictures.map(item => item.url)} />
-      <Box pt={'8px'}>
+      <DetailBoardImages
+        boardId={props.boardData.id}
+        likers={props.boardData.likers ?? []}
+        imageURLs={props.boardData.pictures.map(item => item.url)}
+      />
+      <Box>
         <CountStateWithLike
           boardId={props.boardData.id}
           views={props.boardData.views}
@@ -32,9 +36,9 @@ export default function BoardDetailUI(props: BoardDetailUIProps) {
         <HStack>
           <FaQuoteLeft size={12} color={useColorModeValue('#232323B3', '#BABABA')} />
           <Text
-            fontSize={26}
+            fontSize={{ base: 'xl', md: '2xl', lg: '3xl' }}
             fontWeight={800}
-            color={useColorModeValue('dBlack', 'dGray.medium')}
+            color={useColorModeValue('dGray.dark', 'dGray.medium')}
             pt={'10px'}>
             {props.boardData.title}
           </Text>
@@ -42,23 +46,14 @@ export default function BoardDetailUI(props: BoardDetailUIProps) {
         </HStack>
       </Center>
       <Box pt={'20px'}>
-        <TitleWithDescription
-          title="책상을 자랑해주세요."
-          description={props.boardData.description}
-        />
+        <TitleWithDescription title="" description={props.boardData.description} />
       </Box>
       <Box pt={'60px'}>
-        <ProductItemCardList
-          title="어떤 장비를 사용하시나요?"
-          products={props.boardData.products}
-        />
+        <ProductItemCardList title="사용중인 장비" products={props.boardData.products} />
       </Box>
       {props.boardData.recommend && (
         <Box pt={'60px'}>
-          <TitleWithDescription
-            title="추천하고 싶은 아이템이 있나요?"
-            description={props.boardData.recommend ?? ''}
-          />
+          <TitleWithDescription title="" description={props.boardData.recommend ?? ''} />
         </Box>
       )}
       <Box pt={'80px'}>

@@ -64,12 +64,11 @@ export default function LayoutFooterUI() {
     <Box
       bg={useColorModeValue('white', 'gray.900')}
       color={useColorModeValue('gray.700', 'gray.200')}
-      mb={2}
-      mt={100}>
+      py={4}
+      mt={12}>
       <Container
         as={Stack}
         maxW={'8xl'}
-        py={4}
         direction={{ base: 'column', md: 'row' }}
         spacing={4}
         justify={{ base: 'center', md: 'space-between' }}

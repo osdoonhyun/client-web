@@ -19,9 +19,23 @@ export const FETCH_BOARDS = gql`
         picture
         jobGroup
       }
-      createdAt
       views
+      like
       likes
+      createdAt
+    }
+  }
+`
+
+export const FETCH_LOGIN_USER = gql`
+  query {
+    fetchLoginUser {
+      id
+      email
+      nickName
+      picture
+      jobGroup
+      provider
     }
   }
 `

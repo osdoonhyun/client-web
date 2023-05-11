@@ -19,7 +19,11 @@ export default function DetailCommentReplyItem(props: DetailCommentReplyItemProp
     <VStack align={'stretch'}>
       <HStack spacing={'12px'} justifyContent={'space-between'} pt={'10px'}>
         <HStack spacing={'16px'}>
-          <Avatar w={'34px'} h={'34px'} src={'https://bit.ly/broken-link'} />
+          <Avatar
+            w={'34px'}
+            h={'34px'}
+            src={props.reply.user.picture || 'https://bit.ly/broken-link'}
+          />
           <Text
             fontWeight={700}
             fontSize={16}

@@ -130,6 +130,7 @@ export default function SignupForm() {
       status: 'success',
       duration: 9000,
       isClosable: true,
+      position: 'top',
     })
   }
 
