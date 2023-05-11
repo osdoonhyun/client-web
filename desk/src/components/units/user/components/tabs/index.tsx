@@ -17,11 +17,12 @@ import { AiOutlineLaptop } from 'react-icons/ai'
 import { useAuth } from '@/src/commons/hooks/useAuth'
 import { useRouter } from 'next/router'
 
-const TabID = {
-  USER_POSTS: 0,
-  USER_PRODUCT_POSTS: 1,
-  USER_LIKED_POSTS: 2,
+const TabID: Record<number, string> = {
+  0: 'UserPosts',
+  1: 'UserProducts',
+  2: 'UserLikedPosts',
 }
+
 const MY_PAGE_TAB = [BsColumnsGap, AiOutlineLaptop, MdFavoriteBorder]
 const OTHERS_PAGE_TAB = [BsColumnsGap, AiOutlineLaptop]
 
@@ -29,11 +30,9 @@ export default function NavigationTabs(props: NavigationTabsProps) {
   const { isLoggedIn, myUserInfo } = useAuth()
   const [userData, setUserData] = useState<TBoard[] | TProduct[]>([])
 
-  const [showUserPosts, setShowUserPosts] = useState(true)
-  const [showUserProductPosts, setShowUserProductPosts] = useState(false)
-  const [showLikedPosts, setShowLikedPosts] = useState(false)
-
   const router = useRouter()
+
+  const [activeTab, setActiveTab] = useState<string>('UserPosts')
 
   const { data: userBoards, refetch: refetchUserBoards } = useQuery<
     Pick<TQuery, 'fetchUserBoards'>
@@ -55,59 +54,37 @@ export default function NavigationTabs(props: NavigationTabsProps) {
     },
   )
 
-  const handleShowUserPosts = () => {
-    setShowUserPosts(true)
-    setShowUserProductPosts(false)
-    setShowLikedPosts(false)
-    refetchUserBoards()
-  }
-
-  const handleShowLikedPosts = () => {
-    setShowUserPosts(false)
-    setShowUserProductPosts(false)
-    setShowLikedPosts(true)
-    refetchUserLikedBoards()
-  }
-
-  const handleShowUserProductPosts = () => {
-    setShowUserPosts(false)
-    setShowUserProductPosts(true)
-    setShowLikedPosts(false)
-  }
-
-  const onClickTab = useCallback(
-    (id: number) => {
-      if (id === TabID.USER_POSTS) {
-        handleShowUserPosts()
-      } else if (id === TabID.USER_PRODUCT_POSTS) {
-        handleShowUserProductPosts()
-      } else if (id === TabID.USER_LIKED_POSTS) {
-        handleShowLikedPosts()
+  useEffect(() => {
+    const fetchData = () => {
+      switch (activeTab) {
+        case 'UserPosts':
+          setUserData(userBoards?.fetchUserBoards ?? [])
+          refetchUserBoards()
+          break
+        case 'UserProducts':
+          setUserData(userProducts?.fetchUserProducts ?? [])
+          break
+        case 'UserLikedPosts':
+          setUserData(userLikedBoards?.fetchBoardsUserLiked ?? [])
+          refetchUserLikedBoards()
+          break
+        default:
+          setUserData(userBoards?.fetchUserBoards ?? [])
       }
-    },
-    [showUserPosts, showUserProductPosts, showLikedPosts],
-  )
+    }
+
+    fetchData()
+  }, [userBoards, userLikedBoards, activeTab])
+
+  const onClickTab = (index: number) => {
+    setActiveTab(TabID[index])
+  }
 
   const onClickProductItem = (boardId: string) => {
     router.push(`boards/${boardId}`)
   }
 
-  useEffect(() => {
-    if (showUserPosts) {
-      setUserData(userBoards?.fetchUserBoards ?? [])
-    } else if (showLikedPosts) {
-      setUserData(userLikedBoards?.fetchBoardsUserLiked ?? [])
-    } else if (showUserProductPosts) {
-      setUserData(userProducts?.fetchUserProducts ?? [])
-    }
-  }, [
-    showUserPosts,
-    showLikedPosts,
-    showUserProductPosts,
-    userBoards,
-    userLikedBoards,
-    userProducts,
-  ])
+  console.log('USERDATA', userData)
 
   const TABS = props.isMyPage ? MY_PAGE_TAB : OTHERS_PAGE_TAB
 
@@ -136,7 +113,7 @@ export default function NavigationTabs(props: NavigationTabsProps) {
           {/* TODO:  TYPE item : TBoard | TProduct | undefined */}
           {userData?.map((item: any, index: number) => (
             <React.Fragment key={index}>
-              {showUserProductPosts ? (
+              {activeTab === 'UserProducts' ? (
                 <ProductItem
                   index={index}
                   productId={item.id}
