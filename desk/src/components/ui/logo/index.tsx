@@ -1,4 +1,4 @@
-import { Box, Text } from '@chakra-ui/react'
+import { Flex, Image } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { MouseEventHandler } from 'react'
 
@@ -12,24 +12,17 @@ export default function Logo(props: LogoProps) {
   const onClickMoveToMain: MouseEventHandler<HTMLDivElement> = event => {
     router.push('/main')
   }
+
   return (
-    <Box mb={4} ml={5}>
-      <Text
-        as="b"
-        fontSize="30px"
-        color="dPrimary"
-        cursor="pointer"
-        onClick={onClickMoveToMain}>
-        dechive
-        <Text
-          as="b"
-          fontSize="50px"
-          color="dPrimary"
-          marginLeft="5px"
-          marginBottom="50px">
-          .
-        </Text>
-      </Text>
-    </Box>
+    <>
+      <Flex alignItems={'center'} pl={{ base: '1', md: '4' }} cursor="pointer">
+        <Image
+          src="/logo.png"
+          width={'190px'}
+          height={'50px'}
+          onClick={onClickMoveToMain}
+        />
+      </Flex>
+    </>
   )
 }
