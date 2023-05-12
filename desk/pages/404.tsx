@@ -27,7 +27,6 @@ export default function Error404Page() {
       </Text>
       <Button
         mt={'30px'}
-        colorScheme="blue"
         bgGradient="linear(to-r, #9397ff, dPrimary,dPrimaryHover.darker)"
         color="white"
         variant="solid"
