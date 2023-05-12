@@ -18,8 +18,8 @@ export default function Logo(props: LogoProps) {
       <Flex alignItems={'center'} pl={{ base: '1', md: '4' }} cursor="pointer">
         <Image
           src="/logo.png"
-          width={'190px'}
-          height={'50px'}
+          width={{ base: '145px', md: '185px' }}
+          height={{ base: '40px', md: '50px' }}
           onClick={onClickMoveToMain}
         />
       </Flex>
