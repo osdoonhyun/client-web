@@ -36,7 +36,7 @@ export default function YoutubeSlider({
         position="absolute"
         zIndex={2}
         top="35%"
-        left="2"
+        left="10px"
         onClick={onClickPrev}
         color="#f8f8f8c8">
         <IoIosArrowDropleftCircle size="50px" />
@@ -55,7 +55,7 @@ export default function YoutubeSlider({
         position="absolute"
         zIndex={2}
         top="35%"
-        right="0"
+        right="5px"
         onClick={onClickNext}
         color="#f8f8f8c8">
         <IoIosArrowDroprightCircle size="50px" />
@@ -83,10 +83,10 @@ export default function YoutubeSlider({
         <Box
           key={youtube.videoUrl}
           m="2"
+          h="340px"
+          maxW="335px"
           flexShrink="0"
           cursor="pointer"
-          h="320px"
-          maxW="335px"
           onClick={() => onClickSelectedVideo(youtube.videoUrl)}>
           <YoutubeImageStyle src={youtube.thumbnailUrl} alt={youtube.videoUrl} />
           <Flex

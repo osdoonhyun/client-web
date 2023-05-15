@@ -27,11 +27,22 @@ export default function YoutubeUI(props: YoutubeUIProps) {
       <CategoryHeader categoryTitle={categoryTitle} moreButtonHidden={false} />
       {isMobile ? (
         <Center>
-          <Flex m="2" pl="2px" pr="2px" overflowX="auto">
+          <Flex
+            m="2"
+            pl="2px"
+            pr="2px"
+            overflowX="auto"
+            sx={{
+              '&::-webkit-scrollbar': {
+                display: 'none',
+              },
+              scrollbarWidth: 'none',
+            }}>
             {props.youtubeData.map((youtube: TYoutube, index: number) => (
               <Box
                 key={youtube.videoUrl}
                 m="2"
+                h="335px"
                 flexShrink="0"
                 cursor="pointer"
                 onClick={() => props.onClickSelectedVideo(youtube.videoUrl)}>
