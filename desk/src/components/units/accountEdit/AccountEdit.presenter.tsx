@@ -119,7 +119,11 @@ export default function AccountEditUI(props: AccountEditUIProps) {
                   fontSize="20px"
                   fontWeight="400"
                   isPreviewFocusable={false}>
-                  <Flex justify={'space-between'} fontSize="18px" fontWeight="400">
+                  <Flex
+                    justify={'space-between'}
+                    align="center"
+                    fontSize="18px"
+                    fontWeight="400">
                     <EditablePreview />
                     <Input
                       {...props.register('intro')}
