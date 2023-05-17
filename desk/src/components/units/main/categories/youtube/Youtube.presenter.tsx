@@ -28,7 +28,7 @@ export default function YoutubeUI(props: YoutubeUIProps) {
       {isMobile ? (
         <Center>
           <Flex
-            m="2"
+            mx="2"
             pl="2px"
             pr="2px"
             overflowX="auto"
@@ -74,7 +74,7 @@ export default function YoutubeUI(props: YoutubeUIProps) {
         </Center>
       ) : (
         <Center>
-          <Box m="2" maxWidth="1100px" pr="5px">
+          <Box m="2" maxWidth="1100px" pr="5px" mt={-2}>
             <YoutubeSlider
               youtubeData={props.youtubeData}
               onClickSelectedVideo={props.onClickSelectedVideo}
