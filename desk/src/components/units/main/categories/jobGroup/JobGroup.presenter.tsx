@@ -11,10 +11,10 @@ export default function JobGroupUI(props: JobGroupUIProps) {
       </Box>
       <Flex pb={6} m="auto" maxW="1080px" justifyContent="center">
         <SimpleGrid columns={7} gap={4}>
-          {props.jobGroupName.map((job, index) => (
+          {props.jobGroupName.map((jobGroup, index) => (
             <JobGroupCategoryBox
               key={index}
-              job={job}
+              jobGroup={jobGroup}
               onClick={props.onClickMoveToJobGroupMore}
             />
           ))}
