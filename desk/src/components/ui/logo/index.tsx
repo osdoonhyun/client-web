@@ -13,17 +13,17 @@ export default function Logo(props: LogoProps) {
     router.push('/main')
   }
   return (
-    <Box mb={4} ml={5}>
+    <Box mb={4}>
       <Text
         as="b"
-        fontSize="30px"
+        fontSize={{ base: '22px', sm: '26px', md: '30px' }}
         color="dPrimary"
         cursor="pointer"
         onClick={onClickMoveToMain}>
         dechive
         <Text
           as="b"
-          fontSize="50px"
+          fontSize={{ base: '40px', sm: '46px', md: '50px' }}
           color="dPrimary"
           marginLeft="5px"
           marginBottom="50px">
