@@ -15,7 +15,11 @@ export default function JobGroupUI(props: JobGroupUIProps) {
             <JobGroupCategoryBox
               key={index}
               jobGroup={jobGroup}
-              onClick={props.onClickMoveToJobGroupMore}
+              onClick={
+                typeof jobGroup === 'string'
+                  ? () => props.onClickMoveToJobGroupMore(jobGroup)
+                  : undefined
+              }
             />
           ))}
         </SimpleGrid>
