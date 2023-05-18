@@ -111,7 +111,8 @@ export default function FollowModal(props: FollowModalProps) {
   return (
     <>
       <Text
-        fontSize="18px"
+        fontSize={{ base: '14px', md: '16px', lg: '18px' }}
+        // fontSize="18px"
         fontWeight="600"
         cursor="pointer"
         _hover={{ bg: 'dGray.light' }}
@@ -121,10 +122,14 @@ export default function FollowModal(props: FollowModalProps) {
           : `팔로우 ${followingsData?.fetchFollowings.length ?? 0}`}
       </Text>
 
-      <Modal onClose={onClose} size="md" isOpen={isOpen} isCentered>
+      <Modal onClose={onClose} size={{ base: 'sm', md: 'md' }} isOpen={isOpen} isCentered>
         <ModalOverlay />
         <ModalContent h="400px">
-          <ModalHeader mx="auto" p="12px">
+          <ModalHeader
+            mx="auto"
+            p="12px"
+            fontSize={{ base: 'md', md: 'lg' }}
+            alignContent="center">
             {props.type === 'followee' ? '팔로워' : '팔로우'}
           </ModalHeader>
           <ModalCloseButton />
@@ -132,7 +137,6 @@ export default function FollowModal(props: FollowModalProps) {
           <ModalBody p="12px 12px 8px" overflow="auto">
             <InfiniteScroller loadMore={() => console.log('더보기')} hasMore={true}>
               <VStack>
-                {/* 테스트용 FOLLOWERS */}
                 {followData.map((data: TUser, index: number) => (
                   <Card key={data.id} w="100%" variant="elevated" px="10px">
                     <CardBody p="0px">
@@ -147,7 +151,7 @@ export default function FollowModal(props: FollowModalProps) {
                           />
                           <VStack align="flex-start">
                             <Text
-                              fontSize="14px"
+                              fontSize={{ base: 'sm', md: 'md' }}
                               fontWeight="600"
                               cursor="pointer"
                               onClick={onClickMoveToOtherUserPage(data.id)}>

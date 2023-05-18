@@ -90,7 +90,7 @@ export default function NavigationTabs(props: NavigationTabsProps) {
 
   return (
     <>
-      <Tabs mt="30px">
+      <Tabs mt={{ base: '20px', md: '30px' }}>
         <TabList color="dGray.medium">
           {TABS.map((icon, index) => (
             <Tab
@@ -100,7 +100,7 @@ export default function NavigationTabs(props: NavigationTabsProps) {
               h="28px"
               py="25px"
               _selected={{ color: 'dPrimary', borderBottomColor: 'dPrimary' }}
-              fontSize="22px"
+              fontSize={{ base: '18px', lg: '22px' }}
               fontWeight="700">
               <Icon as={icon} mr={1} />
             </Tab>
@@ -109,7 +109,10 @@ export default function NavigationTabs(props: NavigationTabsProps) {
       </Tabs>
 
       <InfiniteScroller loadMore={() => console.log('무한스크롤')} hasMore={true}>
-        <SimpleGrid mt="33px" columns={3} spacing="30px">
+        <SimpleGrid
+          mt={{ base: '22px', md: '33px' }}
+          columns={{ base: 2, md: 3 }}
+          spacing={{ base: '15px', md: '25px' }}>
           {/* TODO:  TYPE item : TBoard | TProduct | undefined */}
           {userData?.map((item: any, index: number) => (
             <React.Fragment key={index}>
