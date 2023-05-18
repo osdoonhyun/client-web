@@ -6,6 +6,7 @@ export default function JobGroupCategoryBox(props: JobGroupCategoryBoxProps) {
     <>
       <Box
         my={3}
+        px={3}
         w="140px"
         h="120px"
         bg="rgba(167, 167, 167, 0.13)"

@@ -1,4 +1,4 @@
 export type JobGroupCategoryBoxProps = {
-  jobGroup: string | JSX.Element
+  jobGroup: string
   onClick?: () => void
 }
