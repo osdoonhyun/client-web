@@ -1,4 +1,6 @@
 import {
+  Box,
+  Center,
   Container,
   SimpleGrid,
   Tab,
@@ -11,9 +13,11 @@ import ProfileCard from '../../components/userProfileCard'
 import InfiniteScroll from 'react-infinite-scroller'
 
 type JobGroupMoreUIProps = {
+  userData: TUser[] | undefined
   jobGroupData: string[]
-  userData: TUser[]
+  selectedJobGroup: string
   onLoadMore: () => void
+  onJobGroupChange: (jobGroup: string) => void
   onClickUserDetail: (userId: string) => void
 }
 
@@ -25,7 +29,7 @@ export default function JobGroupMoreUI(props: JobGroupMoreUIProps) {
       <Container
         pt={5}
         h="85vh"
-        maxW={'1090px'}
+        maxW={'1100px'}
         overflow="auto"
         sx={{
           '&::-webkit-scrollbar': {
@@ -34,12 +38,12 @@ export default function JobGroupMoreUI(props: JobGroupMoreUIProps) {
           '-ms-overflow-style': 'none',
           'scrollbar-width': 'none',
         }}>
-        <Tabs mt="30px">
+        <Tabs mt="30px" onChange={index => props.onJobGroupChange(TABS[index])}>
           <TabList color={useColorModeValue('dGray.dark', 'dGray.light')}>
             {TABS.map((tab, index) => (
               <Tab
                 key={index}
-                w={'15%'}
+                w={'12.5%'}
                 h="28px"
                 py="25px"
                 _selected={{
@@ -59,19 +63,28 @@ export default function JobGroupMoreUI(props: JobGroupMoreUIProps) {
           loadMore={props.onLoadMore}
           hasMore={true}
           useWindow={false}>
-          <SimpleGrid mt="33px" columns={3} spacing="30px">
-            {props.userData.map((user, index) => (
-              <ProfileCard
-                key={index}
-                image={user.picture}
-                nickName={user.nickName}
-                followeesCount={user.followeesCount}
-                followingsCount={user.followingsCount}
-                jobGroup={user.jobGroup}
-                onClick={() => props.onClickUserDetail(user.id)}
-              />
-            ))}
-          </SimpleGrid>
+          {props.userData && props.userData.length > 0 ? (
+            <SimpleGrid mt="33px" columns={3} spacing="30px">
+              {props.userData?.map((user, index) => (
+                <ProfileCard
+                  key={index}
+                  image={user.picture}
+                  nickName={user.nickName}
+                  followeesCount={user.followeesCount}
+                  followingsCount={user.followingsCount}
+                  jobGroup={user.jobGroup}
+                  onClick={() => props.onClickUserDetail(user.id)}
+                />
+              ))}
+            </SimpleGrid>
+          ) : (
+            <Center
+              mt={'160px'}
+              fontSize={{ base: 'sm', md: 'md' }}
+              color={useColorModeValue('dGray.dark', 'dGray.light')}>
+              해당 직군에 등록된 유저 정보가 없습니다.
+            </Center>
+          )}
         </InfiniteScroll>
       </Container>
     </>
