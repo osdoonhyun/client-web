@@ -43,12 +43,12 @@ export default function LayoutHeaderUI(props: LayoutHeaderUIProps) {
   return (
     <>
       <Box bg={useColorModeValue('dGray.light', 'gray.900')} px={4} position={'relative'}>
-        <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
+        <Flex h={16} pt={2} alignItems={'center'} justifyContent={'space-between'}>
           <Logo />
           <Flex alignItems={'center'} zIndex={999}>
             <Stack direction={'row'} spacing={4}>
               <SearchBoards />
-              <Button onClick={toggleColorMode}>
+              <Button onClick={toggleColorMode} size={{ base: 'sm', sm: 'md' }}>
                 {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
               </Button>
               <Menu>
