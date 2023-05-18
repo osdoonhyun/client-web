@@ -120,21 +120,35 @@ export default function AccountEdit() {
 
   const onClickSubmit = async (data: AccountEditInputForm) => {
     //TODO: Editable로 이동 예정, Toast로 보여줄 예정
+    if (data.nickName.length < 1) {
+      toast({
+        title: '에러',
+        description: '닉네임은 최소 1자 이상 입력해야 합니다.',
+        status: 'error',
+        duration: 2000,
+        position: 'top',
+      })
+      return
+    }
     if (data.nickName.length > 20) {
       toast({
         title: '에러',
         description: '닉네임은 최대 20자까지 입력 가능합니다.',
         status: 'error',
+        duration: 2000,
         position: 'top',
       })
+      return
     }
     if (data.intro.length > 30) {
       toast({
         title: '에러',
         description: '한 줄 소개는 최대 30자까지 입력 가능합니다.',
         status: 'error',
+        duration: 2000,
         position: 'top',
       })
+      return
     }
 
     let fileBeforeUpload = pictureFile
@@ -188,6 +202,7 @@ export default function AccountEdit() {
           title: '에러',
           description: error.message,
           status: 'error',
+          duration: 2000,
           position: 'top',
         })
       }
