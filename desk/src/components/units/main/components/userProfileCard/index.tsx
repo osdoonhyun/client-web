@@ -60,7 +60,7 @@ export default function ProfileCard(props: ProfileCardProps) {
                 {props.nickName}
               </Center>
               <Center
-                mt={4}
+                mt={3}
                 w={'100%'}
                 fontWeight="600"
                 fontSize={{ base: 'xs', md: 'md' }}
@@ -68,13 +68,13 @@ export default function ProfileCard(props: ProfileCardProps) {
                 <Flex
                   justifyContent="space-around"
                   color={useColorModeValue('#232323d5', 'dGray.light')}>
-                  <Center mx={3}>
+                  <Center mx={{ base: '8px', md: '15px' }}>
                     팔로우
                     <Box ml={1} fontWeight="800">
                       {props.followeesCount}
                     </Box>
                   </Center>
-                  <Center mx={3}>
+                  <Center mx={{ base: '8px', md: '15px' }}>
                     팔로잉
                     <Box ml={1} fontWeight="800">
                       {props.followingsCount}
