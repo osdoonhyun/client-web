@@ -46,7 +46,7 @@ export default function SnsAccountEdit(props: SnsAccountEditProps) {
         <VStack align="stretch">
           {snsLinks.map((link, index) => (
             <Flex
-              key={index + 1}
+              key={index}
               direction="row"
               justifyContent="space-between"
               align="center">
@@ -54,14 +54,18 @@ export default function SnsAccountEdit(props: SnsAccountEditProps) {
                 <Icon size="16px" as={BsLink45Deg} mr={1} />
                 <Link>
                   <Input
-                    id={`${index + 1}`}
+                    id={link.id || `${index}`}
                     color="#718096"
                     fontSize="18px"
                     {...props.register(`snsAccounts.${index}.link`)}
                     defaultValue={link.link || ''}
                     variant="unstyled"
+                    onChange={() => props.onChangeInputEdited()}
+                    onBlur={e => props.onChangeInputNotEdited(e, link.link)}
+                    onKeyDown={props.onChangeKeyDown}
                     placeholder="SNS 계정 추가"
                     focusBorderColor="dPrimary"
+                    tabIndex={-1} // Tab 키로 넘어가지 않도록 설정
                   />
                 </Link>
               </Flex>

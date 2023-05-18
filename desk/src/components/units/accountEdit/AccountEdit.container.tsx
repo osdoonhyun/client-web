@@ -6,7 +6,7 @@ import {
   useEditableControls,
   useToast,
 } from '@chakra-ui/react'
-import { useCallback, useRef, useState } from 'react'
+import { ChangeEvent, useCallback, useRef, useState } from 'react'
 import AccountEditUI from './AccountEdit.presenter'
 import {
   AccountEditInputForm,
@@ -66,6 +66,21 @@ export default function AccountEdit() {
   })
 
   const [myJob, setMyJob] = useState('')
+  const [isEdited, setIsEdited] = useState(false)
+
+  const onChangeInputEdited = useCallback(() => {
+    setIsEdited(true)
+  }, [])
+  const onChangeInputNotEdited = useCallback(
+    (event: ChangeEvent<HTMLInputElement>, defaultData: any) => {
+      const { value: InputData } = event.target
+
+      if (defaultData === InputData) {
+        setIsEdited(false)
+      }
+    },
+    [],
+  )
 
   const onChangeFileUrl = useCallback((fileUrl: string, index: number) => {
     console.log(fileUrl)
@@ -84,6 +99,7 @@ export default function AccountEdit() {
         draft[0] = file
       }),
     )
+    onChangeInputEdited()
   }, [])
 
   // 프로필 이미지 버튼
@@ -92,6 +108,14 @@ export default function AccountEdit() {
   const onClickUploadButton = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation()
     fileUploadRef.current?.click()
+  }
+
+  const onChangeKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    // 엔터 쳐도 onBlur 속성 실행시킴
+    if (event.key === 'Enter') {
+      event.preventDefault() // onSubmit 막음
+      event.currentTarget.blur()
+    }
   }
 
   const onClickSubmit = async (data: AccountEditInputForm) => {
@@ -183,6 +207,10 @@ export default function AccountEdit() {
       handleSubmit={handleSubmit}
       myJob={myJob}
       setMyJob={setMyJob}
+      isEdited={isEdited}
+      onChangeInputEdited={onChangeInputEdited}
+      onChangeInputNotEdited={onChangeInputNotEdited}
+      onChangeKeyDown={onChangeKeyDown}
     />
   )
 }

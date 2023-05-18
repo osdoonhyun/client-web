@@ -9,7 +9,6 @@ export type SnsAccountProps = {
 }
 
 export default function SnsAccount(props: SnsAccountProps) {
-  console.log('sns계쩡', props.snsAccounts)
   return (
     <>
       {props.snsAccounts?.map(

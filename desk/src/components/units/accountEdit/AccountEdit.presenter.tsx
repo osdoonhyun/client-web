@@ -71,6 +71,7 @@ export default function AccountEditUI(props: AccountEditUIProps) {
                 defaultValue={props.myUserInfo?.nickName}
                 fontSize="24px"
                 fontWeight="700"
+                onEdit={props.onChangeInputEdited}
                 isPreviewFocusable={false}>
                 <Flex
                   justify={'space-between'}
@@ -81,6 +82,10 @@ export default function AccountEditUI(props: AccountEditUIProps) {
                   <Input
                     {...props.register('nickName')}
                     as={EditableInput}
+                    onBlur={e =>
+                      props.onChangeInputNotEdited(e, props.myUserInfo?.nickName)
+                    }
+                    onKeyDown={props.onChangeKeyDown}
                     focusBorderColor={'dPrimary'}
                   />
                   <props.EditableControls />
@@ -88,7 +93,9 @@ export default function AccountEditUI(props: AccountEditUIProps) {
               </Editable>
               <MyJobSelect
                 setMyJob={props.setMyJob}
+                onChangeInputNotEdited={props.onChangeInputNotEdited}
                 myJob={props.myJob || (props.myUserInfo?.jobGroup as string)}
+                onChangeInputEdited={props.onChangeInputEdited}
               />
             </Box>
           </Flex>
@@ -109,6 +116,7 @@ export default function AccountEditUI(props: AccountEditUIProps) {
                   defaultValue={props.myUserInfo?.intro || ''}
                   fontSize="20px"
                   fontWeight="400"
+                  onEdit={props.onChangeInputEdited}
                   isPreviewFocusable={false}>
                   <Flex
                     justify={'space-between'}
@@ -119,6 +127,10 @@ export default function AccountEditUI(props: AccountEditUIProps) {
                     <Input
                       {...props.register('intro')}
                       as={EditableInput}
+                      onBlur={e =>
+                        props.onChangeInputNotEdited(e, props.myUserInfo?.intro)
+                      }
+                      onKeyDown={props.onChangeKeyDown}
                       focusBorderColor={'dPrimary'}
                     />
                     <props.EditableControls />
@@ -151,7 +163,10 @@ export default function AccountEditUI(props: AccountEditUIProps) {
             </Box>
             <Box w="60%" ml="55px">
               <SnsAccountEdit
+                onChangeInputNotEdited={props.onChangeInputNotEdited}
+                onChangeInputEdited={props.onChangeInputEdited}
                 snsAccounts={props.myUserInfo?.snsAccounts || []}
+                onChangeKeyDown={props.onChangeKeyDown}
                 register={props.register}
               />
             </Box>
@@ -171,7 +186,15 @@ export default function AccountEditUI(props: AccountEditUIProps) {
           </Flex>
         </Flex>
         <Center mt="50px">
-          <Button w="300px" type="submit">
+          <Button
+            w="300px"
+            color={props.isEdited ? '#fff' : '#232323'}
+            backgroundColor={props.isEdited ? 'dPrimary' : ''}
+            // _hover={{ bg: 'dPrimaryHover.dark' }}
+            _hover={
+              props.isEdited ? { bg: 'dPrimaryHover.dark' } : { bg: 'dGray.medium' }
+            }
+            type="submit">
             수정 완료
           </Button>
         </Center>

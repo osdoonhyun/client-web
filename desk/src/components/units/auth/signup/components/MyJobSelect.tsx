@@ -29,9 +29,11 @@ export default function MyJobSelect(props: MyJob) {
 
   const onChangeMySelectJob = (e: ChangeEvent<HTMLSelectElement>) => {
     const { value: shortName } = e.target
-    console.log('onChange 이름', shortName)
     props.setMyJob(shortName)
     setTextColor('')
+    if (shortName !== props.myJob) {
+      props.onChangeInputEdited()
+    }
   }
 
   const selectedMyJob = JOB_LIST.find(job => job.shortName === props.myJob)
