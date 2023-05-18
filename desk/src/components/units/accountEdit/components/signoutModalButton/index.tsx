@@ -44,7 +44,7 @@ export default function SignoutModalButton() {
         회원 탈퇴
       </Button>
 
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>회원 탈퇴</ModalHeader>
