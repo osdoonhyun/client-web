@@ -5,6 +5,8 @@ import {
   TabList,
   Tabs,
   Tab,
+  useMediaQuery,
+  useBreakpointValue,
   useColorModeValue,
 } from '@chakra-ui/react'
 import { JobGroupMoreUIProps } from './JobGroupMore.types'
@@ -14,6 +16,11 @@ import InfiniteScroll from 'react-infinite-scroller'
 export default function JobGroupMoreUI(props: JobGroupMoreUIProps) {
   const TABS = props.jobGroupData.map((job: string, index: number) => job)
   const selectedIndex = TABS.indexOf(props.selectedJobGroup)
+
+  const [isSmallScreen] = useMediaQuery('(max-width: 628px)')
+  const [isExtraSmallScreen] = useMediaQuery('(max-width: 425px)')
+
+  const tabFontSize = useBreakpointValue({ base: 'sm', md: 'md' })
 
   return (
     <>
@@ -45,7 +52,7 @@ export default function JobGroupMoreUI(props: JobGroupMoreUIProps) {
                   color: 'dPrimary',
                   borderBottomColor: 'dPrimary',
                 }}
-                fontSize="md"
+                fontSize={isSmallScreen ? 'xs' : tabFontSize}
                 fontWeight="600">
                 {tab}
               </Tab>
@@ -58,7 +65,10 @@ export default function JobGroupMoreUI(props: JobGroupMoreUIProps) {
           hasMore={true}
           useWindow={false}>
           {props.userData && props.userData.length > 0 ? (
-            <SimpleGrid mt="33px" columns={3} spacing="30px">
+            <SimpleGrid
+              mt="33px"
+              columns={isExtraSmallScreen ? 1 : isSmallScreen ? 2 : 3}
+              spacing="30px">
               {props.userData?.map((user, index) => (
                 <ProfileCard
                   key={index}
