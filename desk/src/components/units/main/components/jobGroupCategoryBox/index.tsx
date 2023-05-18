@@ -1,14 +1,17 @@
-import { Box, useColorModeValue } from '@chakra-ui/react'
+import { Box, useColorModeValue, useMediaQuery } from '@chakra-ui/react'
 import { JobGroupCategoryBoxProps } from './types'
 
 export default function JobGroupCategoryBox(props: JobGroupCategoryBoxProps) {
+  const [isMobile] = useMediaQuery('(max-width: 950px)')
+  const boxSize = isMobile ? '88%' : '140px'
+
   return (
     <>
       <Box
         my={3}
-        px={3}
-        w="140px"
-        h="120px"
+        px={5}
+        w={boxSize}
+        h={isMobile ? boxSize : '110px'}
         bg="rgba(167, 167, 167, 0.13)"
         borderWidth="2px"
         borderStyle="solid"
@@ -23,6 +26,7 @@ export default function JobGroupCategoryBox(props: JobGroupCategoryBoxProps) {
         alignItems="center"
         justifyContent="center"
         fontWeight="bolder"
+        fontSize={{ base: 'sm', md: '12pt' }}
         color={useColorModeValue('dGray.dark', 'dGray.light')}
         _hover={{
           borderWidth: '2px',
