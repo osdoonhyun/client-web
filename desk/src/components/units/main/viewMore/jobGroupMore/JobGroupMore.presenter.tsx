@@ -1,28 +1,19 @@
 import {
-  Box,
   Center,
   Container,
   SimpleGrid,
-  Tab,
   TabList,
   Tabs,
+  Tab,
   useColorModeValue,
 } from '@chakra-ui/react'
-import { TUser } from '@/src/commons/types/generated/types'
+import { JobGroupMoreUIProps } from './JobGroupMore.types'
 import ProfileCard from '../../components/userProfileCard'
 import InfiniteScroll from 'react-infinite-scroller'
 
-type JobGroupMoreUIProps = {
-  userData: TUser[] | undefined
-  jobGroupData: string[]
-  selectedJobGroup: string
-  onLoadMore: () => void
-  onJobGroupChange: (jobGroup: string) => void
-  onClickUserDetail: (userId: string) => void
-}
-
 export default function JobGroupMoreUI(props: JobGroupMoreUIProps) {
   const TABS = props.jobGroupData.map((job: string, index: number) => job)
+  const selectedIndex = TABS.indexOf(props.selectedJobGroup)
 
   return (
     <>
@@ -38,7 +29,10 @@ export default function JobGroupMoreUI(props: JobGroupMoreUIProps) {
           '-ms-overflow-style': 'none',
           'scrollbar-width': 'none',
         }}>
-        <Tabs mt="30px" onChange={index => props.onJobGroupChange(TABS[index])}>
+        <Tabs
+          mt="30px"
+          onChange={index => props.onJobGroupChange(TABS[index])}
+          defaultIndex={selectedIndex}>
           <TabList color={useColorModeValue('dGray.dark', 'dGray.light')}>
             {TABS.map((tab, index) => (
               <Tab

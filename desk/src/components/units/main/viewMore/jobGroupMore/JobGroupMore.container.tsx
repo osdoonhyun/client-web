@@ -16,18 +16,23 @@ export default function JobGroupMore() {
     'IT',
     '마케팅 / 광고',
     '디자인',
-    '미디어',
+    '미디어 / 엔터',
     '교육',
     '학생',
     '기타',
     '전체',
   ]
-  const [selectedJobGroup, setSelectedJobGroup] = useState(JOB_GROUP[0])
+
+  const initialJobGroup = Array.isArray(router.query.jobGroup)
+    ? router.query.jobGroup[0]
+    : router.query.jobGroup || JOB_GROUP[0]
+
+  const [selectedJobGroup, setSelectedJobGroup] = useState(initialJobGroup)
 
   const jobGroupMapping: Record<string, string> = {
     '마케팅 / 광고': '마케팅',
+    '미디어 / 엔터': '미디어',
     디자인: '디자인',
-    미디어: '미디어',
     교육: '교육',
     학생: '학생',
     개발자: 'IT',
@@ -56,7 +61,7 @@ export default function JobGroupMore() {
   if (loading) {
     return (
       <>
-        <Center h="500px">
+        <Center h="600px">
           <CustomSpinner />
         </Center>
       </>
