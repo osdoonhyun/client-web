@@ -6,7 +6,6 @@ import {
   Tabs,
   Tab,
   useMediaQuery,
-  useBreakpointValue,
   useColorModeValue,
 } from '@chakra-ui/react'
 import { JobGroupMoreUIProps } from './JobGroupMore.types'
@@ -20,7 +19,9 @@ export default function JobGroupMoreUI(props: JobGroupMoreUIProps) {
   const [isSmallScreen] = useMediaQuery('(max-width: 628px)')
   const [isExtraSmallScreen] = useMediaQuery('(max-width: 425px)')
 
-  const tabFontSize = useBreakpointValue({ base: 'sm', md: 'md' })
+  const modifiedTabs = isSmallScreen
+    ? Array.from(Array(8).keys()).map(index => (index + 1).toString())
+    : TABS
 
   return (
     <>
@@ -41,7 +42,7 @@ export default function JobGroupMoreUI(props: JobGroupMoreUIProps) {
           onChange={index => props.onJobGroupChange(TABS[index])}
           defaultIndex={selectedIndex}>
           <TabList color={useColorModeValue('dGray.dark', 'dGray.light')}>
-            {TABS.map((tab, index) => (
+            {modifiedTabs.map((tab, index) => (
               <Tab
                 key={index}
                 w={'12.5%'}
@@ -52,7 +53,7 @@ export default function JobGroupMoreUI(props: JobGroupMoreUIProps) {
                   color: 'dPrimary',
                   borderBottomColor: 'dPrimary',
                 }}
-                fontSize={isSmallScreen ? 'xs' : tabFontSize}
+                fontSize={{ base: 'sm', md: 'md' }}
                 fontWeight="600">
                 {tab}
               </Tab>
