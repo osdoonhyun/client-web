@@ -57,7 +57,7 @@ export default function ProfileCard(props: ProfileCardProps) {
                 fontWeight="700"
                 fontSize={{ base: 'sm', md: '13pt' }}
                 color={useColorModeValue('dGray.dark', 'dGray.light')}>
-                {props.nickName}
+                <Box noOfLines={1}>{props.nickName}</Box>
               </Center>
               <Center
                 mt={3}
