@@ -188,12 +188,11 @@ export default function AccountEditUI(props: AccountEditUIProps) {
         <Center mt="50px">
           <Button
             w="300px"
-            color={props.isEdited ? '#fff' : '#232323'}
-            backgroundColor={props.isEdited ? 'dPrimary' : ''}
-            // _hover={{ bg: 'dPrimaryHover.dark' }}
-            _hover={
-              props.isEdited ? { bg: 'dPrimaryHover.dark' } : { bg: 'dGray.medium' }
+            color={props.isEdited ? useColorModeValue('#fff', '#1A202C') : '#1A202C'}
+            backgroundColor={
+              props.isEdited ? 'dPrimary' : useColorModeValue('', 'gray.500')
             }
+            _hover={props.isEdited ? { bg: 'dPrimaryHover.dark' } : { bg: 'gray.300' }}
             type="submit">
             수정 완료
           </Button>
