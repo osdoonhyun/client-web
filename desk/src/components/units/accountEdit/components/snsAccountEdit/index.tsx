@@ -4,36 +4,38 @@ import { ItemLinkType } from '../../AccountEdit.types'
 import { SnsAccountEditProps } from './types'
 import { BsLink45Deg } from 'react-icons/bs'
 
-const SNS_ACCOUNT_LINKS: ItemLinkType[] = [
-  {
-    id: '',
-    link: '',
-  },
-  {
-    id: '',
-    link: '',
-  },
-  {
-    id: '',
-    link: '',
-  },
-]
+const SNS_ACCOUNT_LINKS: ItemLinkType[] = Array.from({ length: 3 }, () => ({
+  id: '',
+  link: '',
+}))
 
 export default function SnsAccountEdit(props: SnsAccountEditProps) {
   const [snsLinks, setSnsLinks] = useState<ItemLinkType[]>(SNS_ACCOUNT_LINKS)
 
   useEffect(() => {
+    //TODO: reduce 함수 써서 리팩토링 재시도할 것
     if (props.snsAccounts) {
-      const updatedLinks = SNS_ACCOUNT_LINKS.map((link, index) => {
-        if (props?.snsAccounts[index]) {
-          return {
-            id: props.snsAccounts[index].id,
-            link: props.snsAccounts[index].sns || '',
-          }
-        } else {
-          return link
+      const updatedLinks: ItemLinkType[] = []
+
+      for (let i = 0; i < props.snsAccounts.length; i++) {
+        const snsAccount = props.snsAccounts[i]
+
+        if (snsAccount.sns !== '') {
+          updatedLinks.push({
+            id: snsAccount.id,
+            link: snsAccount.sns,
+          })
         }
-      })
+
+        if (updatedLinks.length === 3) {
+          break
+        }
+      }
+
+      while (updatedLinks.length < 3) {
+        updatedLinks.push({ id: '', link: '' })
+      }
+
       setSnsLinks(updatedLinks)
     }
   }, [props.snsAccounts])
