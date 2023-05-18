@@ -17,7 +17,7 @@ export default function JobGroupMoreUI(props: JobGroupMoreUIProps) {
   const selectedIndex = TABS.indexOf(props.selectedJobGroup)
 
   const [isSmallScreen] = useMediaQuery('(max-width: 628px)')
-  const [isExtraSmallScreen] = useMediaQuery('(max-width: 425px)')
+  const [isExtraSmallScreen] = useMediaQuery('(max-width: 385px)')
 
   const modifiedTabs = isSmallScreen
     ? Array.from(Array(8).keys()).map(index => (index + 1).toString())
