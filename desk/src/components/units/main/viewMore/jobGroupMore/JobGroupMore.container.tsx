@@ -39,6 +39,7 @@ export default function JobGroupMore() {
     IT: 'IT',
     기타: '기타',
     미선택: '기타',
+    '': '기타',
   }
 
   const filteredUsers =
