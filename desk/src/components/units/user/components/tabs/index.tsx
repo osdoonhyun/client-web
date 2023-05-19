@@ -1,4 +1,12 @@
-import { Tabs, TabList, Tab, Icon, SimpleGrid } from '@chakra-ui/react'
+import {
+  Tabs,
+  TabList,
+  Tab,
+  Icon,
+  SimpleGrid,
+  Center,
+  useColorModeValue,
+} from '@chakra-ui/react'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useQuery } from '@apollo/client'
 import { NavigationTabsProps } from './Tabs.types'
@@ -84,7 +92,16 @@ export default function NavigationTabs(props: NavigationTabsProps) {
     router.push(`boards/${boardId}`)
   }
 
-  console.log('USERDATA', userData)
+  const emptyPostMessage = (activeTab: string) => {
+    switch (activeTab) {
+      case 'UserPosts':
+        return '아직 등록된 게시물이 없습니다.'
+      case 'UserProducts':
+        return '아직 등록된 장비가 없습니다.'
+      case 'UserLikedPosts':
+        return "아직 '좋아요'한 게시물이 없습니다."
+    }
+  }
 
   const TABS = props.isMyPage ? MY_PAGE_TAB : OTHERS_PAGE_TAB
 
@@ -109,35 +126,45 @@ export default function NavigationTabs(props: NavigationTabsProps) {
       </Tabs>
 
       <InfiniteScroller loadMore={() => console.log('무한스크롤')} hasMore={true}>
-        <SimpleGrid
-          mt={{ base: '22px', md: '33px' }}
-          columns={{ base: 2, md: 3 }}
-          spacing={{ base: '15px', md: '25px' }}>
-          {/* TODO:  TYPE item : TBoard | TProduct | undefined */}
-          {userData?.map((item: any, index: number) => (
-            <React.Fragment key={index}>
-              {activeTab === 'UserProducts' ? (
-                <ProductItem
-                  index={index}
-                  productId={item.id}
-                  boardId={item.board?.id}
-                  imageUrl={item.picture}
-                  productName={item.name}
-                  onClickProductItem={onClickProductItem}
-                />
-              ) : (
-                <BoardItem
-                  index={index}
-                  boardId={item?.id}
-                  imageUrl={
-                    item?.pictures?.find((picture: TPicture) => picture.isMain)?.url ?? ''
-                  }
-                  like={item?.like}
-                />
-              )}
-            </React.Fragment>
-          ))}
-        </SimpleGrid>
+        {userData.length > 0 ? (
+          <SimpleGrid
+            mt={{ base: '22px', md: '33px' }}
+            columns={{ base: 2, md: 3 }}
+            spacing={{ base: '15px', md: '25px' }}>
+            {/* TODO:  TYPE item : TBoard | TProduct | undefined */}
+            {userData?.map((item: any, index: number) => (
+              <React.Fragment key={index}>
+                {activeTab === 'UserProducts' ? (
+                  <ProductItem
+                    index={index}
+                    productId={item.id}
+                    boardId={item.board?.id}
+                    imageUrl={item.picture}
+                    productName={item.name}
+                    onClickProductItem={onClickProductItem}
+                  />
+                ) : (
+                  <BoardItem
+                    index={index}
+                    boardId={item?.id}
+                    imageUrl={
+                      item?.pictures?.find((picture: TPicture) => picture.isMain)?.url ??
+                      ''
+                    }
+                    like={item?.like}
+                  />
+                )}
+              </React.Fragment>
+            ))}
+          </SimpleGrid>
+        ) : (
+          <Center
+            mt={'160px'}
+            fontSize={{ base: 'sm', md: 'md' }}
+            color={useColorModeValue('dGray.dark', 'dGray.light')}>
+            {emptyPostMessage(activeTab)}
+          </Center>
+        )}
       </InfiniteScroller>
     </>
   )
