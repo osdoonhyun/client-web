@@ -235,7 +235,7 @@ export type TPicture = {
 
 export type TProduct = {
   __typename?: 'Product';
-  board?: Maybe<TBoard>;
+  board: TBoard;
   description?: Maybe<Scalars['String']>;
   id: Scalars['String'];
   name?: Maybe<Scalars['String']>;
@@ -296,6 +296,7 @@ export type TQueryFetchUserArgs = {
 
 
 export type TQueryFetchUserBoardsArgs = {
+  searchid: Scalars['String'];
   userid: Scalars['String'];
 };
 

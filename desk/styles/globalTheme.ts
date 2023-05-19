@@ -23,6 +23,5 @@ export const globalTheme = extendTheme({
   fonts: {
     body: "'IBM Plex Sans KR', sans-serif",
     heading: "'Noto Sans KR', sans-serif",
-    // heading: "'Roboto', sans-serif",
   },
 })
