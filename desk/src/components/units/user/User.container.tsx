@@ -19,11 +19,9 @@ import {
 export default function User(props: UserProps) {
   const router = useRouter()
   const toast = useToast()
-
+  const { isLoggedIn, myUserInfo, openModal } = useAuth()
   const [isMyPage, setIsMyPage] = useState(false)
   const [isFollowing, setIsFollowing] = useState<boolean>(false)
-  const { isLoggedIn, myUserInfo, openModal } = useAuth()
-
   const [updateFollowing] = useMutation<
     Pick<TMutation, 'updateFollowing'>,
     TMutationUpdateFollowingArgs
@@ -56,6 +54,29 @@ export default function User(props: UserProps) {
     await Promise.all([refetchFollowees(), refetchFollowings()])
   }
 
+  useEffect(() => {
+    if (myUserInfo?.id === props.userData?.user.id) {
+      setIsMyPage(true)
+    } else {
+      setIsMyPage(false)
+    }
+  }, [myUserInfo?.id, props.userData?.user.id])
+
+  useEffect(() => {
+    const targetId = myUserInfo?.id
+    const targetData = followeesData?.fetchFollowees.find(data => data.id === targetId)
+
+    if (targetData?.followeeStatus) {
+      setIsFollowing(true)
+    }
+
+    refetchFollowData()
+  }, [followeesData, myUserInfo])
+
+  useEffect(() => {
+    refetchFollowData()
+  }, [isFollowing])
+
   const onClickMoveToAccountEdit = useCallback(() => {
     router.push('/accountEdit')
   }, [myUserInfo])
@@ -83,39 +104,16 @@ export default function User(props: UserProps) {
       })
   }
 
-  useEffect(() => {
-    if (myUserInfo?.id === props.userData?.user.id) {
-      setIsMyPage(true)
-    } else {
-      setIsMyPage(false)
-    }
-  }, [myUserInfo?.id, props.userData?.user.id])
-
-  useEffect(() => {
-    const targetId = myUserInfo?.id
-    const targetData = followeesData?.fetchFollowees.find(data => data.id === targetId)
-
-    if (targetData?.followeeStatus) {
-      setIsFollowing(true)
-    }
-
-    refetchFollowData()
-  }, [followeesData, myUserInfo])
-
-  useEffect(() => {
-    refetchFollowData()
-  }, [isFollowing])
-
   return (
     <UserUI
       userData={props.userData}
       isLoggedIn={isLoggedIn}
       isMyPage={isMyPage}
       isFollowing={isFollowing}
-      onClickMoveToAccountEdit={onClickMoveToAccountEdit}
-      onClickFollowingButton={onClickFollowingButton}
       followeesData={followeesData}
       followingsData={followingsData}
+      onClickMoveToAccountEdit={onClickMoveToAccountEdit}
+      onClickFollowingButton={onClickFollowingButton}
     />
   )
 }

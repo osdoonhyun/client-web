@@ -21,20 +21,30 @@ export default function MyJobSelect(props: MyJob) {
     }
   }, [props.myJob])
 
+  useEffect(() => {
+    if (defaultValue) {
+      props.setMyJob(selectedMyJob?.shortName || '')
+    }
+  }, [])
+
   const onChangeMySelectJob = (e: ChangeEvent<HTMLSelectElement>) => {
     const { value: shortName } = e.target
     props.setMyJob(shortName)
     setTextColor('')
+    if (shortName !== props.myJob) {
+      props.onChangeInputEdited()
+    }
   }
 
   const selectedMyJob = JOB_LIST.find(job => job.shortName === props.myJob)
+  const defaultValue = selectedMyJob?.shortName ? selectedMyJob?.fullName : ''
 
   return (
     <>
       <Select
         focusBorderColor={'dPrimary'}
         color={textColor}
-        defaultValue={selectedMyJob?.fullName}
+        value={props.myJob || defaultValue}
         placeholder="직군을 선택해 주세요 *"
         onChange={onChangeMySelectJob}
         isRequired>

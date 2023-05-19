@@ -4,18 +4,14 @@ import {
   Box,
   Button,
   Flex,
-  Link,
   Text,
-  Icon,
   useColorModeValue,
 } from '@chakra-ui/react'
 import { GoPencil } from 'react-icons/go'
-import { BsLink45Deg } from 'react-icons/bs'
 import { UserUIProps } from './User.types'
 import NavigationTab from './components/tabs'
 import FollowModal from './components/followModal'
-import { TSnsAccount } from '@/src/commons/types/generated/types'
-import { makeAbsoluteUrl } from '@/src/commons/utils/util'
+import SnsAccount from './components/snsAccount'
 
 export default function UserUI(props: UserUIProps) {
   return (
@@ -67,41 +63,7 @@ export default function UserUI(props: UserUIProps) {
               <Text mb="23px" fontSize="16px" alignItems="center" fontWeight="600">
                 {props.userData.user.intro}
               </Text>
-
-              {props.userData.user.snsAccounts?.map(
-                (snsAccount: TSnsAccount) =>
-                  snsAccount.sns && (
-                    <Link
-                      key={snsAccount.id}
-                      href={makeAbsoluteUrl(snsAccount.sns)}
-                      isExternal
-                      color={useColorModeValue('#1e5d97', '#c1daf2')}
-                      fontWeight="600">
-                      <Flex alignItems="center" justifyContent="flex-start">
-                        <Icon as={BsLink45Deg} mr={1} />
-                        <Text>{snsAccount.sns}</Text>
-                      </Flex>
-                    </Link>
-                  ),
-              )}
-
-              {/* <Link
-                href="https://www.example.com"
-                isExternal
-                color={useColorModeValue('#1e5d97', '#c1daf2')}
-                fontWeight="600">
-                <Flex
-                  flexDirection={'column'}
-                  alignItems="center"
-                  justifyContent="flex-start">
-                  <Flex>
-                    <Icon as={BsLink45Deg} mr={1} />
-                    <Text>sns 링크로 이동하기</Text>
-                  </Flex>
-                  <Text>sns 링크로 이동하기</Text>
-                  <Text>sns 링크로 이동하기</Text>
-                </Flex>
-              </Link> */}
+              <SnsAccount snsAccounts={props.userData?.user.snsAccounts || []} />
             </Flex>
           </Flex>
           <Flex mr="34px" direction="column" justify="center" align="center">
@@ -113,7 +75,7 @@ export default function UserUI(props: UserUIProps) {
               name={props.userData.user.nickName}
               src={props.userData.user.picture ?? 'https://bit.ly/broken-link'}
             />
-            {props.isMyPage ? ( // 나의 페이지면 프로필 수정하기 버튼 / 아니면 팔로우 버튼
+            {props.isMyPage ? (
               <Button
                 alignItems="center"
                 textAlign="center"
@@ -133,7 +95,6 @@ export default function UserUI(props: UserUIProps) {
                 <span style={{ padding: '0 2px' }}>
                   <GoPencil color="dPrimary" />
                 </span>
-                {/* 자신의 페이지일 경우만 보이도록 */}
                 프로필 수정하기
               </Button>
             ) : (
@@ -161,8 +122,6 @@ export default function UserUI(props: UserUIProps) {
             )}
           </Flex>
         </Flex>
-        {/* 게시글, 팔로우, 팔로워 분리 예정 */}
-        {/* TODO:props drilling 최적화 예정 */}
         <NavigationTab isMyPage={props.isMyPage} userid={props.userData.user.id} />
       </Box>
     </Box>
