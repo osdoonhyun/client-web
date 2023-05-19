@@ -79,8 +79,6 @@ export default function UserUI(props: UserUIProps) {
             <Avatar
               borderRadius="full"
               objectFit="cover"
-              background="dGray.medium"
-              // boxSize="170px"
               boxSize={{ base: '140px', md: '170px' }}
               name={props.userData.user.nickName}
               src={props.userData.user.picture ?? 'https://bit.ly/broken-link'}
