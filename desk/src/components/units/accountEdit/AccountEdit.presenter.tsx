@@ -68,6 +68,7 @@ export default function AccountEditUI(props: AccountEditUIProps) {
               <Editable
                 mb="20px"
                 textAlign="start"
+                placeholder="닉네임을 작성해 주세요. (최대 16자) *"
                 defaultValue={props.myUserInfo?.nickName}
                 fontSize={{ base: '20px', lg: '24px' }}
                 fontWeight="700"
@@ -87,6 +88,7 @@ export default function AccountEditUI(props: AccountEditUIProps) {
                     }
                     onKeyDown={props.onChangeKeyDown}
                     focusBorderColor={'dPrimary'}
+                    maxLength={16}
                   />
                   <props.EditableControls />
                 </Flex>
@@ -132,6 +134,7 @@ export default function AccountEditUI(props: AccountEditUIProps) {
                       }
                       onKeyDown={props.onChangeKeyDown}
                       focusBorderColor={'dPrimary'}
+                      maxLength={30}
                     />
                     <props.EditableControls />
                   </Flex>
