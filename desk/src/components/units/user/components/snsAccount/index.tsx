@@ -17,6 +17,7 @@ export default function SnsAccount(props: SnsAccountProps) {
             <Link
               id={snsAccount.id}
               key={snsAccount.id}
+              fontSize={{ base: 'sm', md: 'md' }}
               href={makeAbsoluteUrl(snsAccount.sns)}
               isExternal
               color={useColorModeValue('#1e5d97', '#c1daf2')}

@@ -56,7 +56,7 @@ export default function SnsAccountEdit(props: SnsAccountEditProps) {
                   <Input
                     id={link.id || `${index}`}
                     color="#718096"
-                    fontSize="18px"
+                    fontSize={{ base: '16px', lg: '18px' }}
                     {...props.register(`snsAccounts.${index}.link`)}
                     defaultValue={link.link || ''}
                     variant="unstyled"

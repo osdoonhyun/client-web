@@ -18,7 +18,7 @@ import SignoutModalButton from '@/src/components/units/accountEdit/components/si
 
 export default function AccountEditUI(props: AccountEditUIProps) {
   return (
-    <Box maxW="776px" m={'120px auto 0'} p={'0 20px 0'}>
+    <Box maxW="776px" minW="486px" m={'120px auto 0'} p={'0 20px 0'}>
       <form onSubmit={props.handleSubmit(props.onClickSubmit)}>
         <Flex direction="column" justify={'space-between'} gap="25px">
           <Flex>
@@ -48,7 +48,7 @@ export default function AccountEditUI(props: AccountEditUIProps) {
           <Flex>
             <Box w="40%">
               <Center flexDirection="column" w="80%">
-                <Text mb="30px" fontSize="26px" fontWeight="700">
+                <Text mb="30px" fontSize={{ base: '22px', lg: '26px' }} fontWeight="700">
                   책상 주인
                 </Text>
                 <Badge
@@ -69,14 +69,14 @@ export default function AccountEditUI(props: AccountEditUIProps) {
                 mb="20px"
                 textAlign="start"
                 defaultValue={props.myUserInfo?.nickName}
-                fontSize="24px"
+                fontSize={{ base: '20px', lg: '24px' }}
                 fontWeight="700"
                 onEdit={props.onChangeInputEdited}
                 isPreviewFocusable={false}>
                 <Flex
                   justify={'space-between'}
                   align="center"
-                  fontSize="24px"
+                  fontSize={{ base: '20px', lg: '24px' }}
                   fontWeight="700">
                   <EditablePreview />
                   <Input
@@ -103,7 +103,7 @@ export default function AccountEditUI(props: AccountEditUIProps) {
           <Flex align="center">
             <Box w="40%">
               <Center flexDirection="column" w="80%">
-                <Text fontSize="20px" fontWeight="500">
+                <Text fontSize={{ base: '18px', lg: '20px' }} fontWeight="500">
                   한 줄 소개
                 </Text>
               </Center>
@@ -114,14 +114,14 @@ export default function AccountEditUI(props: AccountEditUIProps) {
                   textAlign="start"
                   placeholder="한 줄 소개해 주세요. (최대 30자)"
                   defaultValue={props.myUserInfo?.intro || ''}
-                  fontSize="20px"
+                  fontSize={{ base: '18px', lg: '20px' }}
                   fontWeight="400"
                   onEdit={props.onChangeInputEdited}
                   isPreviewFocusable={false}>
                   <Flex
                     justify={'space-between'}
                     align="center"
-                    fontSize="18px"
+                    fontSize={{ base: '16px', lg: '18px' }}
                     fontWeight="400">
                     <EditablePreview />
                     <Input
@@ -143,20 +143,22 @@ export default function AccountEditUI(props: AccountEditUIProps) {
           <Flex align="cennter">
             <Box w="40%">
               <Center flexDirection="column" w="80%">
-                <Text fontSize="20px" fontWeight="500">
+                <Text fontSize={{ base: '18px', lg: '20px' }} fontWeight="500">
                   email
                 </Text>
               </Center>
             </Box>
             <Box w="60%" ml="55px">
-              <Text fontSize="18px">{props.myUserInfo?.email}</Text>
+              <Text fontSize={{ base: '16px', lg: '18px' }}>
+                {props.myUserInfo?.email}
+              </Text>
             </Box>
           </Flex>
           <Divider border="1px" borderColor="#bababa" />
           <Flex align="center">
             <Box w="40%">
               <Center flexDirection="column" w="80%">
-                <Text fontSize="20px" fontWeight="500">
+                <Text fontSize={{ base: '18px', lg: '20px' }} fontWeight="500">
                   SNS 계정
                 </Text>
               </Center>
@@ -175,7 +177,7 @@ export default function AccountEditUI(props: AccountEditUIProps) {
           <Flex align="center">
             <Box w="40%">
               <Center flexDirection="column" w="80%">
-                <Text fontSize="20px" fontWeight="500">
+                <Text fontSize={{ base: '18px', lg: '20px' }} fontWeight="500">
                   회원 탈퇴
                 </Text>
               </Center>

@@ -18,7 +18,7 @@ export default function ProductItem(props: ProductItemProps) {
         onClick={() => props.onClickProductItem(props.boardId)}>
         <CardBody>
           <Image
-            height={'150px'}
+            height="150px"
             width={'100%'}
             objectFit={'cover'}
             src={props.imageUrl ?? ''}
