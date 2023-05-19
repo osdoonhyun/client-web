@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import LikeButton from '../LikeButton'
+import LikeButton from '../likeButton'
 import { MainImageStyleProps } from './types'
 import { useAuth } from '@/src/commons/hooks/useAuth'
 
