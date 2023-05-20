@@ -12,6 +12,7 @@ import { UserUIProps } from './User.types'
 import NavigationTab from './components/tabs'
 import FollowModal from './components/followModal'
 import SnsAccount from './components/snsAccount'
+import { JOB_LIST } from '@/src/commons/utils/util'
 
 export default function UserUI(props: UserUIProps) {
   return (
@@ -35,7 +36,10 @@ export default function UserUI(props: UserUIProps) {
                 alignContent="center">
                 책상주인 : {props.userData.user.nickName}
                 <Badge
-                  bg="dPrimary"
+                  bg={
+                    JOB_LIST.find(item => item.shortName === props.userData.user.jobGroup)
+                      ?.bg
+                  }
                   color="#fff"
                   fontSize={{ base: '9px', md: 'xs' }}
                   px="6px"
