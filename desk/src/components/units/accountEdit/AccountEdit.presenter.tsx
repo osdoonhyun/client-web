@@ -15,6 +15,7 @@ import MyJobSelect from '../auth/signup/components/MyJobSelect'
 import SnsAccountEdit from './components/snsAccountEdit'
 import FileUpload from '@/src/components/ui/fileUpload'
 import SignoutModalButton from '@/src/components/units/accountEdit/components/signoutModalButton'
+import { JOB_LIST } from '@/src/commons/utils/util'
 
 export default function AccountEditUI(props: AccountEditUIProps) {
   return (
@@ -52,7 +53,12 @@ export default function AccountEditUI(props: AccountEditUIProps) {
                   책상 주인
                 </Text>
                 <Badge
-                  bg="dPrimary"
+                  bg={
+                    JOB_LIST.find(
+                      item =>
+                        item.shortName === (props.myJob || props.myUserInfo?.jobGroup),
+                    )?.bg
+                  }
                   color="#fff"
                   px="6px"
                   py="3px"
@@ -68,6 +74,7 @@ export default function AccountEditUI(props: AccountEditUIProps) {
               <Editable
                 mb="20px"
                 textAlign="start"
+                placeholder="닉네임을 작성해 주세요. (최대 16자) *"
                 defaultValue={props.myUserInfo?.nickName}
                 fontSize={{ base: '20px', lg: '24px' }}
                 fontWeight="700"
@@ -87,6 +94,7 @@ export default function AccountEditUI(props: AccountEditUIProps) {
                     }
                     onKeyDown={props.onChangeKeyDown}
                     focusBorderColor={'dPrimary'}
+                    maxLength={16}
                   />
                   <props.EditableControls />
                 </Flex>
@@ -132,6 +140,7 @@ export default function AccountEditUI(props: AccountEditUIProps) {
                       }
                       onKeyDown={props.onChangeKeyDown}
                       focusBorderColor={'dPrimary'}
+                      maxLength={30}
                     />
                     <props.EditableControls />
                   </Flex>

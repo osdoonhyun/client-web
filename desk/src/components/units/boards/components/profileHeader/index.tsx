@@ -1,6 +1,6 @@
 import { useAuth } from '@/src/commons/hooks/useAuth'
 import { TMutation, TMutationDeleteBoardArgs } from '@/src/commons/types/generated/types'
-import { getConvertedDate } from '@/src/commons/utils/util'
+import { JOB_LIST, getConvertedDate } from '@/src/commons/utils/util'
 import { useMutation } from '@apollo/client'
 import {
   Avatar,
@@ -116,7 +116,10 @@ export default function ProfileHeader(props: ProfileHeaderProps) {
           <Text fontWeight={700} fontSize={16}>
             {props.userData.nickName}
           </Text>
-          <Badge bgColor="dPrimary" color="white" fontWeight={'bold'}>
+          <Badge
+            bg={JOB_LIST.find(item => item.shortName === props.userData.jobGroup)?.bg}
+            color="white"
+            fontWeight={'bold'}>
             {props.userData.jobGroup}
           </Badge>
         </HStack>
