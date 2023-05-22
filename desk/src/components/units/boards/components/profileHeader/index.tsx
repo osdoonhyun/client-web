@@ -1,6 +1,6 @@
 import { useAuth } from '@/src/commons/hooks/useAuth'
 import { TMutation, TMutationDeleteBoardArgs } from '@/src/commons/types/generated/types'
-import { JOB_LIST, getConvertedDate } from '@/src/commons/utils/util'
+import { getConvertedDate } from '@/src/commons/utils/util'
 import { useMutation } from '@apollo/client'
 import {
   Avatar,
@@ -23,6 +23,7 @@ import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { DELETE_BOARD } from '../../detail/Detail.queries'
 import { ProfileHeaderProps } from './types'
+import { JOB_LIST } from '@/src/components/ui/userBadge'
 
 export default function ProfileHeader(props: ProfileHeaderProps) {
   const router = useRouter()

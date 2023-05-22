@@ -1,7 +1,7 @@
 import { Select } from '@chakra-ui/react'
 import { MyJob } from '@/src/components/units/auth/Auth.types'
 import { ChangeEvent, useEffect, useState } from 'react'
-import { JOB_LIST } from '@/src/commons/utils/util'
+import { JOB_LIST } from '@/src/components/ui/userBadge'
 
 export default function MyJobSelect(props: MyJob) {
   const [textColor, setTextColor] = useState('red.200')

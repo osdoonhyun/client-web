@@ -15,7 +15,8 @@ import MyJobSelect from '../auth/signup/components/MyJobSelect'
 import SnsAccountEdit from './components/snsAccountEdit'
 import FileUpload from '@/src/components/ui/fileUpload'
 import SignoutModalButton from '@/src/components/units/accountEdit/components/signoutModalButton'
-import { JOB_LIST } from '@/src/commons/utils/util'
+// import { JOB_LIST } from '@/src/commons/utils/util'
+import UserBadge from '../../ui/userBadge'
 
 export default function AccountEditUI(props: AccountEditUIProps) {
   return (
@@ -52,7 +53,7 @@ export default function AccountEditUI(props: AccountEditUIProps) {
                 <Text mb="30px" fontSize={{ base: '22px', lg: '26px' }} fontWeight="700">
                   책상 주인
                 </Text>
-                <Badge
+                {/* <Badge
                   bg={
                     JOB_LIST.find(
                       item =>
@@ -67,7 +68,8 @@ export default function AccountEditUI(props: AccountEditUIProps) {
                   textTransform="uppercase"
                   alignItems="center">
                   {props.myJob || props.myUserInfo?.jobGroup}
-                </Badge>
+                </Badge> */}
+                <UserBadge job={props.myJob || props.myUserInfo?.jobGroup} />
               </Center>
             </Box>
             <Box w="60%" ml="55px" mb="10px">
