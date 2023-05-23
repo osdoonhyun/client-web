@@ -61,7 +61,7 @@ export default function MainBoardSlider({
         position="absolute"
         zIndex={2}
         top="30%"
-        left="5px"
+        left="12px"
         onClick={onClickPrev}
         color="#f8f8f8c8"
         display={arrowVisible ? 'block' : 'none'}>
@@ -72,7 +72,6 @@ export default function MainBoardSlider({
 
   const NextArrow = (props: CustomArrowProps) => {
     const { onClick, className } = props
-    const arrowRightPosition = isMobile ? '-8px' : '4px'
 
     return (
       <IconButton
@@ -81,7 +80,7 @@ export default function MainBoardSlider({
         variant="ghost"
         position="absolute"
         top="30%"
-        right={arrowRightPosition}
+        right="4px"
         onClick={onClickNext}
         color="#f8f8f8c8"
         display={arrowVisible ? 'block' : 'none'}>
@@ -92,7 +91,8 @@ export default function MainBoardSlider({
 
   const settings = {
     dots: false,
-    infinite: images.length > 4,
+    // infinite: images.length > 4,
+    infinite: false,
     speed: 500,
     slidesToShow: 4.15,
     slidesToScroll: isMobile ? 2 : 4,
@@ -106,8 +106,6 @@ export default function MainBoardSlider({
     afterChange: () => setArrowVisible(true),
     prevArrow: <PrevArrow />,
     nextArrow: <NextArrow />,
-    centerMode: true,
-    centerPadding: '2rem',
     responsive: [
       {
         breakpoint: 768,
@@ -129,12 +127,11 @@ export default function MainBoardSlider({
         p={1}
         color={useColorModeValue('dGray.dark', 'dGray.light')}
         w={isMobile ? 'calc(50% -3px)' : 'auto'}
-        mr={isMobile ? '8px' : '0'}
         mb={isMobile ? '8px' : '0'}
         flexShrink={0}>
         <Flex flexDirection="column">
           <Center
-            pl="5px"
+            ml="5px"
             mb="5px"
             onClick={() => onClickBoardDetail(boardIds[index])}
             cursor="pointer">
