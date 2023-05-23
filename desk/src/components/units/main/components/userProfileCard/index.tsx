@@ -16,16 +16,8 @@ export default function ProfileCard(props: ProfileCardProps) {
   const cardWidth = useBreakpointValue({ base: '100%', md: '250px' })
   const cardHeight = useBreakpointValue({ base: 'auto', md: '295px' })
 
-  let bgColor = 'gray.400'
-
-  if (props.jobGroup === '개발자') {
-    bgColor = 'teal.500'
-  } else {
-    const job = JOB_LIST.find(item => item.shortName === props.jobGroup)
-    if (job) {
-      bgColor = job.bg
-    }
-  }
+  const job = JOB_LIST.find(item => item.shortName === props.jobGroup)
+  const bgColor = job ? job.bg : 'gray.400'
 
   return (
     <VStack>
