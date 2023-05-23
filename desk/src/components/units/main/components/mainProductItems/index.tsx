@@ -15,12 +15,12 @@ export default function MainProductItems(props: MainProductItemsProps) {
   return (
     <VStack align={'flex-start'} m="2">
       <Flex justify={'flex-start'} align={'center'} wrap={'wrap'}>
-        <Card w="250px" h="270px" bgColor={useColorModeValue('dGray.light', '#a0a0a01e')}>
+        <Card w="245px" h="270px" bgColor={useColorModeValue('dGray.light', '#a0a0a01e')}>
           <CardBody borderRadius="lg">
             <Image w="100%" h="150px" borderRadius="5px" src={props.image} alt="" />
             <Stack mt="5">
               <Center
-                w="210px"
+                w="205px"
                 fontWeight="600"
                 fontSize={{ base: 'sm', md: 'md' }}
                 color={useColorModeValue('dGray.dark', 'dGray.light')}>

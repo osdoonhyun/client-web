@@ -19,8 +19,8 @@ export default function AllProductsMoreUI(props: AllProductsMoreUIProps) {
           'scrollbar-width': 'none',
         }}>
         <Text
-          ml={'30px'}
           mb={4}
+          ml={{ base: '35px', md: '55px' }}
           fontSize={{ base: 'lg', md: 'xl' }}
           textAlign="left"
           fontWeight="700"
@@ -32,11 +32,14 @@ export default function AllProductsMoreUI(props: AllProductsMoreUIProps) {
           loadMore={props.onLoadMore}
           hasMore={true}
           useWindow={false}>
-          <Flex flexWrap="wrap" justifyContent="center" m={2}>
+          <Flex
+            m={2}
+            flexWrap="wrap"
+            justifyContent={{ base: 'space-around', md: 'center' }}>
             {props.allProducts.map((product, index) => (
               <Box
                 key={index}
-                m="10px"
+                m={{ base: '10px', md: '5px' }}
                 cursor="pointer"
                 textAlign="center"
                 onClick={() => props.onClickBoardDetail({ id: product.board?.id ?? '' })}>
