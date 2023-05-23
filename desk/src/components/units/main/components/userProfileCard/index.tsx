@@ -1,3 +1,4 @@
+import { JOB_LIST } from '@/src/commons/utils/util'
 import {
   Card,
   CardBody,
@@ -14,6 +15,17 @@ import { ProfileCardProps } from './types'
 export default function ProfileCard(props: ProfileCardProps) {
   const cardWidth = useBreakpointValue({ base: '100%', md: '250px' })
   const cardHeight = useBreakpointValue({ base: 'auto', md: '295px' })
+
+  let bgColor = 'gray.400'
+
+  if (props.jobGroup === '개발자') {
+    bgColor = 'teal.500'
+  } else {
+    const job = JOB_LIST.find(item => item.shortName === props.jobGroup)
+    if (job) {
+      bgColor = job.bg
+    }
+  }
 
   return (
     <VStack>
@@ -42,8 +54,8 @@ export default function ProfileCard(props: ProfileCardProps) {
                 <Center
                   p={'2px 8px 1px 8px'}
                   w="fit-content"
-                  bg="dPrimary"
-                  color="white"
+                  bg={bgColor}
+                  color={'white'}
                   borderRadius={'4px'}
                   fontWeight="700"
                   letterSpacing={1}
