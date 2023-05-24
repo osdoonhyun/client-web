@@ -67,7 +67,8 @@ export default function BoardItem(props: BoardItemProps) {
   return (
     <Box key={props.index} pos="relative" cursor="pointer">
       <Image
-        h="250px"
+        h={'auto'}
+        aspectRatio="1"
         width={'100%'}
         objectFit={'cover'}
         src={props.imageUrl ?? ''}

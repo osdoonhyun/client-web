@@ -60,7 +60,11 @@ export default function SnsAccountEdit(props: SnsAccountEditProps) {
                     {...props.register(`snsAccounts.${index}.link`)}
                     defaultValue={link.link || ''}
                     variant="unstyled"
-                    onChange={() => props.onChangeInputEdited()}
+                    // onChange={props.onChangeInputEdited}
+                    // onChange={() => {
+                    //   props.onChangeInputEdited()
+                    //   props.register(`snsAccounts.${index}.link`)
+                    // }}
                     onBlur={e => props.onChangeInputNotEdited(e, link.link)}
                     onKeyDown={props.onChangeKeyDown}
                     placeholder="SNS 계정 추가"
