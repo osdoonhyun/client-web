@@ -59,10 +59,11 @@ export default function AccountEditUI(props: AccountEditUIProps) {
                         item.shortName === (props.myJob || props.myUserInfo?.jobGroup),
                     )?.bg
                   }
-                  color="#fff"
+                  color="white"
                   px="6px"
                   py="3px"
                   mx="3"
+                  borderRadius={'4px'}
                   defaultValue={props.myUserInfo?.jobGroup}
                   textTransform="uppercase"
                   alignItems="center">

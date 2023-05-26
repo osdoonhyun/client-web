@@ -8,6 +8,16 @@ import {
   useMediaQuery,
   useColorModeValue,
 } from '@chakra-ui/react'
+import { BiBorderAll } from 'react-icons/bi'
+import {
+  MdComputer,
+  MdDesignServices,
+  MdPermMedia,
+  MdSchool,
+  MdSubject,
+} from 'react-icons/md'
+import { RiCustomerService2Fill } from 'react-icons/ri'
+import { FaChalkboardTeacher } from 'react-icons/fa'
 import { JobGroupMoreUIProps } from './JobGroupMore.types'
 import ProfileCard from '../../components/userProfileCard'
 import InfiniteScroll from 'react-infinite-scroller'
@@ -19,8 +29,19 @@ export default function JobGroupMoreUI(props: JobGroupMoreUIProps) {
   const [isSmallScreen] = useMediaQuery('(max-width: 628px)')
   const [isExtraSmallScreen] = useMediaQuery('(max-width: 385px)')
 
+  const iconMapping: { [key: string]: JSX.Element } = {
+    '1': <BiBorderAll />,
+    '2': <MdComputer />,
+    '3': <RiCustomerService2Fill />,
+    '4': <MdDesignServices />,
+    '5': <MdPermMedia />,
+    '6': <FaChalkboardTeacher />,
+    '7': <MdSchool />,
+    '8': <MdSubject />,
+  }
+
   const modifiedTabs = isSmallScreen
-    ? Array.from(Array(8).keys()).map(index => (index + 1).toString())
+    ? Array.from(Array(8).keys()).map(index => iconMapping[(index + 1).toString()])
     : TABS
 
   return (
@@ -55,7 +76,7 @@ export default function JobGroupMoreUI(props: JobGroupMoreUIProps) {
                 }}
                 fontSize={{ base: 'sm', md: 'md' }}
                 fontWeight="600">
-                {tab}
+                {iconMapping[tab as string]} {tab}
               </Tab>
             ))}
           </TabList>

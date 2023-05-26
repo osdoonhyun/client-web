@@ -13,6 +13,7 @@ export default function JobGroupMore() {
   const router = useRouter()
 
   const JOB_GROUP = [
+    '전체',
     'IT',
     '마케팅 / 광고',
     '디자인',
@@ -20,7 +21,6 @@ export default function JobGroupMore() {
     '교육',
     '학생',
     '기타',
-    '전체',
   ]
 
   const initialJobGroup = Array.isArray(router.query.jobGroup)

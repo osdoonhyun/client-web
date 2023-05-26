@@ -40,11 +40,12 @@ export default function UserUI(props: UserUIProps) {
                     JOB_LIST.find(item => item.shortName === props.userData.user.jobGroup)
                       ?.bg
                   }
-                  color="#fff"
-                  fontSize={{ base: '9px', md: 'xs' }}
+                  color="white"
                   px="6px"
                   py="3px"
                   mx="3"
+                  borderRadius={'4px'}
+                  fontSize={{ base: '9px', md: 'xs' }}
                   textTransform="uppercase"
                   alignItems="center">
                   {props.userData.user.jobGroup}
@@ -70,7 +71,6 @@ export default function UserUI(props: UserUIProps) {
             <Flex direction="column" mt="26px" ml={{ base: '40px', md: '50px' }}>
               <Text
                 mb="23px"
-                // fontSize="16px"
                 fontSize={{ base: 'sm', md: 'md', lg: '16px' }}
                 alignItems="center"
                 fontWeight="600">
