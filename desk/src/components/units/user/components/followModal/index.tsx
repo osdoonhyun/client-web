@@ -36,10 +36,10 @@ import { UPDATE_FOLLOWING } from '../../User.queries'
 import { useEffect, useState } from 'react'
 
 export default function FollowModal(props: FollowModalProps) {
-  const { isOpen, onOpen, onClose } = useDisclosure()
-  const { isLoggedIn, myUserInfo } = useAuth()
   const router = useRouter()
   const toast = useToast()
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { isLoggedIn, myUserInfo } = useAuth()
   const [isFollowing, setIsFollowing] = useState(false)
 
   const [updateFollowing] = useMutation<
@@ -68,19 +68,17 @@ export default function FollowModal(props: FollowModalProps) {
     },
   })
 
+  const followings = followingsData?.fetchFollowings ?? [] // 팔로우
+  const followees = followeesData?.fetchFollowees ?? [] // 팔로워
+  const followData = props.type === 'followee' ? followees : followings
+
   const refetchFollowData = async () => {
     await Promise.all([refetchFollowees(), refetchFollowings()])
   }
 
-  const followings = followingsData?.fetchFollowings ?? [] // 팔로우
-  const followees = followeesData?.fetchFollowees ?? [] // 팔로워
-
-  const followData = props.type === 'followee' ? followees : followings
-
-  const onClickModalButton = () => {
-    // 로그인 시 팔로워/팔로우 모달 창 오픈
-    onOpen()
-  }
+  useEffect(() => {
+    refetchFollowData()
+  }, [isFollowing])
 
   const onClickMoveToOtherUserPage = (userid: string) => () => {
     router.push(`/${userid}`)
@@ -109,27 +107,29 @@ export default function FollowModal(props: FollowModalProps) {
         }
       })
   }
-  useEffect(() => {
-    refetchFollowData()
-  }, [isFollowing])
 
   return (
     <>
       <Text
-        fontSize="18px"
+        fontSize={{ base: '14px', md: '16px', lg: '18px' }}
+        // fontSize="18px"
         fontWeight="600"
         cursor="pointer"
         _hover={{ bg: 'dGray.light' }}
-        onClick={onClickModalButton}>
+        onClick={() => onOpen()}>
         {props.type === 'followee'
           ? `팔로워 ${followeesData?.fetchFollowees.length ?? 0}`
           : `팔로우 ${followingsData?.fetchFollowings.length ?? 0}`}
       </Text>
 
-      <Modal onClose={onClose} size="md" isOpen={isOpen} isCentered>
+      <Modal onClose={onClose} size={{ base: 'sm', md: 'md' }} isOpen={isOpen} isCentered>
         <ModalOverlay />
         <ModalContent h="400px">
-          <ModalHeader mx="auto" p="12px">
+          <ModalHeader
+            mx="auto"
+            p="12px"
+            fontSize={{ base: 'md', md: 'lg' }}
+            alignContent="center">
             {props.type === 'followee' ? '팔로워' : '팔로우'}
           </ModalHeader>
           <ModalCloseButton />
@@ -137,7 +137,6 @@ export default function FollowModal(props: FollowModalProps) {
           <ModalBody p="12px 12px 8px" overflow="auto">
             <InfiniteScroller loadMore={() => console.log('더보기')} hasMore={true}>
               <VStack>
-                {/* 테스트용 FOLLOWERS */}
                 {followData.map((data: TUser, index: number) => (
                   <Card key={data.id} w="100%" variant="elevated" px="10px">
                     <CardBody p="0px">
@@ -152,7 +151,7 @@ export default function FollowModal(props: FollowModalProps) {
                           />
                           <VStack align="flex-start">
                             <Text
-                              fontSize="14px"
+                              fontSize={{ base: 'sm', md: 'md' }}
                               fontWeight="600"
                               cursor="pointer"
                               onClick={onClickMoveToOtherUserPage(data.id)}>

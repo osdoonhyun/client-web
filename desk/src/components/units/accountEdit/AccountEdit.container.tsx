@@ -2,58 +2,35 @@ import {
   Flex,
   IconButton,
   IconButtonProps,
-  position,
   useColorModeValue,
   useEditableControls,
   useToast,
 } from '@chakra-ui/react'
-import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react'
+import { ChangeEvent, useCallback, useRef, useState } from 'react'
 import AccountEditUI from './AccountEdit.presenter'
 import {
   AccountEditInputForm,
   AccountEditSchema,
-  ItemLinkType,
   UpdateUserInput,
 } from './AccountEdit.types'
 import { CheckIcon, EditIcon } from '@chakra-ui/icons'
 import { useAuth } from '@/src/commons/hooks/useAuth'
 import { useMutation } from '@apollo/client'
+import { useForm } from 'react-hook-form'
+import { useRouter } from 'next/router'
 import {
   TMutation,
   TMutationUpdateUserArgs,
   TMutationUploadFileArgs,
 } from '@/src/commons/types/generated/types'
 import { UPDATE_USER } from './AccountEdit.queries'
-import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { UPLOAD_FILE } from '../../ui/fileUpload/quries'
-import { useRouter } from 'next/router'
 import { produce } from 'immer'
-
-const SNS_ACCOUNT_LINKS: ItemLinkType[] = [
-  {
-    id: '',
-    link: '',
-  },
-  {
-    id: '',
-    link: '',
-  },
-  {
-    id: '',
-    link: '',
-  },
-]
-
-const SnsLinkCount = {
-  MAX: 3,
-  MIN: 1,
-}
 
 export default function AccountEdit() {
   function EditableControls() {
-    const { isEditing, getSubmitButtonProps, getCancelButtonProps, getEditButtonProps } =
-      useEditableControls()
+    const { isEditing, getSubmitButtonProps, getEditButtonProps } = useEditableControls()
 
     return isEditing ? (
       <Flex justifyContent="center" align="center">
@@ -62,10 +39,6 @@ export default function AccountEdit() {
           icon={<CheckIcon />}
           {...(getSubmitButtonProps() as IconButtonProps)}
         />
-        {/* <IconButton
-          icon={<CloseIcon />}
-          {...(getCancelButtonProps() as IconButtonProps)}
-        /> */}
       </Flex>
     ) : (
       <Flex justifyContent="center" align="center">
@@ -81,18 +54,33 @@ export default function AccountEdit() {
   }
   const router = useRouter()
   const toast = useToast()
-  // const {register, handleSubmit}
+
   const [updateUser] = useMutation<
     Pick<TMutation, 'updateUser'>,
     TMutationUpdateUserArgs
   >(UPDATE_USER)
   const { myUserInfo } = useAuth()
-  const { register, handleSubmit, setValue, trigger } = useForm<AccountEditInputForm>({
+  const { register, handleSubmit } = useForm<AccountEditInputForm>({
     resolver: yupResolver(AccountEditSchema),
     mode: 'onSubmit',
   })
 
   const [myJob, setMyJob] = useState('')
+  const [isEdited, setIsEdited] = useState(false)
+
+  const onChangeInputEdited = useCallback(() => {
+    setIsEdited(true)
+  }, [])
+  const onChangeInputNotEdited = useCallback(
+    (event: ChangeEvent<HTMLInputElement>, defaultData: any) => {
+      const { value: InputData } = event.target
+
+      if (defaultData === InputData) {
+        setIsEdited(false)
+      }
+    },
+    [],
+  )
 
   const onChangeFileUrl = useCallback((fileUrl: string, index: number) => {
     console.log(fileUrl)
@@ -111,34 +99,8 @@ export default function AccountEdit() {
         draft[0] = file
       }),
     )
+    onChangeInputEdited()
   }, [])
-
-  // sns 계정 추가하기
-  const nextId = useRef(SnsLinkCount.MIN)
-  const [snsLinks, setSnsLinks] = useState<ItemLinkType[]>(SNS_ACCOUNT_LINKS)
-
-  const addSnsLink = () => {
-    if (SnsLinkCount.MAX <= snsLinks.length) {
-      return
-    }
-
-    nextId.current += 1
-    // setSnsLinks(prev => [...prev, { id: nextId.current, link: '' }])
-  }
-
-  const deleteSnsLink = (id: number) => () => {
-    // if(SnsLinkCount.MIN = snsLinks.length){
-    //   return
-    // }
-    // setSnsLinks(links => links.filter((link => link.id !== id))
-  }
-
-  const onChangeLink = (event: ChangeEvent<HTMLInputElement>) => {
-    const { id, value } = event.target
-    // setSnsLinks(links =>
-    //   links.map(link => (link.id === Number(id) ? { ...link, link: value } : link)),
-    // )
-  }
 
   // 프로필 이미지 버튼
   const fileUploadRef = useRef<HTMLInputElement>(null)
@@ -148,30 +110,45 @@ export default function AccountEdit() {
     fileUploadRef.current?.click()
   }
 
-  // const onChangeMyJob = (myJob: string) => {
-  const onChangeMyJob = () => {
-    setValue('jobGroup', myJob)
-
-    void trigger('jobGroup')
+  const onChangeKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    // 엔터 쳐도 onBlur 속성 실행시킴
+    if (event.key === 'Enter') {
+      event.preventDefault() // onSubmit 막음
+      event.currentTarget.blur()
+    }
   }
 
   const onClickSubmit = async (data: AccountEditInputForm) => {
     //TODO: Editable로 이동 예정, Toast로 보여줄 예정
+    if (data.nickName.length < 1) {
+      toast({
+        title: '에러',
+        description: '닉네임은 최소 1자 이상 입력해야 합니다.',
+        status: 'error',
+        duration: 2000,
+        position: 'top',
+      })
+      return
+    }
     if (data.nickName.length > 20) {
       toast({
         title: '에러',
         description: '닉네임은 최대 20자까지 입력 가능합니다.',
         status: 'error',
+        duration: 2000,
         position: 'top',
       })
+      return
     }
     if (data.intro.length > 30) {
       toast({
         title: '에러',
         description: '한 줄 소개는 최대 30자까지 입력 가능합니다.',
         status: 'error',
+        duration: 2000,
         position: 'top',
       })
+      return
     }
 
     let fileBeforeUpload = pictureFile
@@ -204,17 +181,16 @@ export default function AccountEdit() {
 
           const currentMyJob = myUserInfo?.jobGroup
           const updateUserMyJob = myJob
-
           if (currentMyJob !== updateUserMyJob) {
             updateUserInput.jobGroup = updateUserMyJob
           }
 
           const currentUserNickName = myUserInfo?.nickName
           const updateUserNickName = data.nickName
-
           if (currentUserNickName !== updateUserNickName) {
             updateUserInput.nickName = updateUserNickName
           }
+
           return updateUser({
             variables: { updateUserInput },
           })
@@ -226,34 +202,30 @@ export default function AccountEdit() {
           title: '에러',
           description: error.message,
           status: 'error',
+          duration: 2000,
           position: 'top',
         })
       }
       return
     }
   }
-
   return (
     <AccountEditUI
       myUserInfo={myUserInfo}
       fileUploadRef={fileUploadRef}
-      nextId={nextId}
-      snsLinks={snsLinks}
-      SnsLinkCount={SnsLinkCount}
       EditableControls={EditableControls}
       onChangeFileUrl={onChangeFileUrl}
       onChangeFile={onChangeFile}
-      addSnsLink={addSnsLink}
-      deleteSnsLink={deleteSnsLink}
-      onChangeLink={onChangeLink}
       onClickUploadButton={onClickUploadButton}
       onClickSubmit={onClickSubmit}
-      // useForm={useFormReturn}
       register={register}
       handleSubmit={handleSubmit}
       myJob={myJob}
       setMyJob={setMyJob}
-      // onChangeMyJob={onChangeMyJob}
+      isEdited={isEdited}
+      onChangeInputEdited={onChangeInputEdited}
+      onChangeInputNotEdited={onChangeInputNotEdited}
+      onChangeKeyDown={onChangeKeyDown}
     />
   )
 }

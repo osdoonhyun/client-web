@@ -1,3 +1,4 @@
+import { ChangeEvent } from 'react'
 import * as yup from 'yup'
 
 export type errMsg = {
@@ -54,6 +55,8 @@ export type MyJob = {
   setMyJob: (myJob: string) => void
   // onChange?: (myJob: string) => void
   onChange?: (myJob: string) => void
+  onChangeInputEdited: () => void
+  onChangeInputNotEdited: (event: ChangeEvent<HTMLInputElement>, defaultData: any) => void
 }
 
 const ErrorLog = {

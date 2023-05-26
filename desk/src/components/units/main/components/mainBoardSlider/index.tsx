@@ -30,7 +30,7 @@ export default function MainBoardSlider({
   const [currentSlide, setCurrentSlide] = useState(0)
   const router = useRouter()
 
-  const [isMobile] = useMediaQuery('(max-width: 768px)')
+  const [isMobile] = useMediaQuery('(max-width: 992px)')
 
   const onClickBoardDetail = (boardId: string) => {
     router.push(`/boards/${boardId}`)
@@ -61,7 +61,7 @@ export default function MainBoardSlider({
         position="absolute"
         zIndex={2}
         top="30%"
-        left="2"
+        left="5px"
         onClick={onClickPrev}
         color="#f8f8f8c8"
         display={arrowVisible ? 'block' : 'none'}>
@@ -72,7 +72,7 @@ export default function MainBoardSlider({
 
   const NextArrow = (props: CustomArrowProps) => {
     const { onClick, className } = props
-    const arrowRightPosition = isMobile ? '-8px' : '0'
+    const arrowRightPosition = isMobile ? '-8px' : '4px'
 
     return (
       <IconButton
@@ -166,7 +166,7 @@ export default function MainBoardSlider({
                   margin: '0 auto',
                   whiteSpace: 'normal',
                 }}>
-                {titles[index] ?? ''}
+                <Box noOfLines={2}>{titles[index] ?? ''}</Box>
               </Center>
               <Center
                 w="100%"
@@ -194,7 +194,7 @@ export default function MainBoardSlider({
   return (
     <>
       <Box position="relative" w="full" h="360px" overflow="hidden" mb="1">
-        <Box width={{ base: '100%', md: '80%', lg: '1090px' }} mx="auto">
+        <Box width={{ base: '100%', md: '100%', lg: '1090px' }} mx="auto">
           {isMobile ? (
             <Flex
               flexDirection="row"

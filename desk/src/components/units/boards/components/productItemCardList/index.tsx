@@ -22,7 +22,7 @@ export default function ProductItemCardList(props: ProductItemCardProps) {
         pt={'10px'}>
         {props.title}
       </Text>
-      <SimpleGrid columns={{ lg: 3, sm: 2 }} spacing={'10px'}>
+      <SimpleGrid columns={{ base: 2, md: 3 }} spacing={'10px'}>
         {props.products.map((product, index) => (
           <Box
             key={index}
@@ -45,8 +45,10 @@ export default function ProductItemCardList(props: ProductItemCardProps) {
                     <Text
                       noOfLines={2}
                       fontSize={'18px'}
-                      fontWeight={'800'}
-                      height={'54px'}>
+                      fontWeight={'700'}
+                      height={'54px'}
+                      textAlign="center"
+                      color={useColorModeValue('dGray.dark', 'dGray.light')}>
                       {product.name}
                     </Text>
                     <Text

@@ -82,6 +82,7 @@ export default function SearchBoardsUI(props: SearchBoardsUIProps) {
         )}
         {isMobile && (
           <Button
+            size={'sm'}
             borderColor="dGray.medium"
             color="dGray.medium"
             variant="outline"
