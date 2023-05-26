@@ -1,7 +1,7 @@
 import * as yup from 'yup'
 import { UseFormReturn } from 'react-hook-form'
 import { TUser } from '@/src/commons/types/generated/types'
-import { ChangeEvent } from 'react'
+import { ChangeEvent, Dispatch, SetStateAction } from 'react'
 
 //sns 계정 추가 타입
 export type ItemLinkType = {
@@ -20,7 +20,7 @@ export type AccountEditUIProps = {
   register: UseFormReturn<AccountEditInputForm, any>['register']
   handleSubmit: UseFormReturn<AccountEditInputForm, any>['handleSubmit']
   myJob: string
-  setMyJob: (myJob: string) => void
+  setMyJob: Dispatch<SetStateAction<string>>
   isEdited: boolean
   onChangeInputEdited: () => void
   onChangeInputNotEdited: (event: ChangeEvent<HTMLInputElement>, defaultData: any) => void

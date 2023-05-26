@@ -23,7 +23,7 @@ export default function MyJobSelect(props: MyJob) {
     props.setMyJob(shortName)
     setTextColor('')
     if (shortName !== props.myJob) {
-      props.onChangeInputEdited()
+      // props.onChangeInputEdited
     }
   }
 
