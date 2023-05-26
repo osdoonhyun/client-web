@@ -1,4 +1,12 @@
-import { Tabs, TabList, Tab, Icon, SimpleGrid } from '@chakra-ui/react'
+import {
+  Tabs,
+  TabList,
+  Tab,
+  Icon,
+  SimpleGrid,
+  Center,
+  useColorModeValue,
+} from '@chakra-ui/react'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useQuery } from '@apollo/client'
 import { NavigationTabsProps } from './Tabs.types'
@@ -14,25 +22,34 @@ import { TBoard, TPicture, TProduct, TQuery } from '@/src/commons/types/generate
 import { MdFavoriteBorder } from 'react-icons/md'
 import { BsColumnsGap } from 'react-icons/bs'
 import { AiOutlineLaptop } from 'react-icons/ai'
+import { useAuth } from '@/src/commons/hooks/useAuth'
+import { useRouter } from 'next/router'
 
-const TabID = {
-  USER_POSTS: 0,
-  USER_PRODUCT_POSTS: 1,
-  USER_LIKED_POSTS: 2,
+const TabID: Record<number, string> = {
+  0: 'UserPosts',
+  1: 'UserProducts',
+  2: 'UserLikedPosts',
 }
+
 const MY_PAGE_TAB = [BsColumnsGap, AiOutlineLaptop, MdFavoriteBorder]
 const OTHERS_PAGE_TAB = [BsColumnsGap, AiOutlineLaptop]
 
 export default function NavigationTabs(props: NavigationTabsProps) {
+  const { isLoggedIn, myUserInfo } = useAuth()
   const [userData, setUserData] = useState<TBoard[] | TProduct[]>([])
 
-  const [showUserPosts, setShowUserPosts] = useState(true)
-  const [showUserProductPosts, setShowUserProductPosts] = useState(false)
-  const [showLikedPosts, setShowLikedPosts] = useState(false)
+  const router = useRouter()
+
+  const [activeTab, setActiveTab] = useState<string>('UserPosts')
 
   const { data: userBoards, refetch: refetchUserBoards } = useQuery<
     Pick<TQuery, 'fetchUserBoards'>
-  >(FETCH_USER_BOARDS, { variables: { userid: props.userid as string } })
+  >(FETCH_USER_BOARDS, {
+    variables: {
+      userid: isLoggedIn ? myUserInfo?.id || '' : '',
+      searchid: props.userid as string,
+    },
+  })
 
   const { data: userLikedBoards, refetch: refetchUserLikedBoards } = useQuery<
     Pick<TQuery, 'fetchBoardsUserLiked'>
@@ -45,61 +62,52 @@ export default function NavigationTabs(props: NavigationTabsProps) {
     },
   )
 
-  const handleShowUserPosts = () => {
-    setShowUserPosts(true)
-    setShowUserProductPosts(false)
-    setShowLikedPosts(false)
-    refetchUserBoards()
-  }
-
-  const handleShowLikedPosts = () => {
-    setShowUserPosts(false)
-    setShowUserProductPosts(false)
-    setShowLikedPosts(true)
-    refetchUserLikedBoards()
-  }
-
-  const handleShowUserProductPosts = () => {
-    setShowUserPosts(false)
-    setShowUserProductPosts(true)
-    setShowLikedPosts(false)
-  }
-
-  const onClickTab = useCallback(
-    (id: number) => {
-      if (id === TabID.USER_POSTS) {
-        handleShowUserPosts()
-      } else if (id === TabID.USER_PRODUCT_POSTS) {
-        handleShowUserProductPosts()
-      } else if (id === TabID.USER_LIKED_POSTS) {
-        handleShowLikedPosts()
-      }
-    },
-    [showUserPosts, showUserProductPosts, showLikedPosts],
-  )
-
   useEffect(() => {
-    if (showUserPosts) {
-      setUserData(userBoards?.fetchUserBoards ?? [])
-    } else if (showLikedPosts) {
-      setUserData(userLikedBoards?.fetchBoardsUserLiked ?? [])
-    } else if (showUserProductPosts) {
-      setUserData(userProducts?.fetchUserProducts ?? [])
+    const fetchData = () => {
+      switch (activeTab) {
+        case 'UserPosts':
+          setUserData(userBoards?.fetchUserBoards ?? [])
+          refetchUserBoards()
+          break
+        case 'UserProducts':
+          setUserData(userProducts?.fetchUserProducts ?? [])
+          break
+        case 'UserLikedPosts':
+          setUserData(userLikedBoards?.fetchBoardsUserLiked ?? [])
+          refetchUserLikedBoards()
+          break
+        default:
+          setUserData(userBoards?.fetchUserBoards ?? [])
+      }
     }
-  }, [
-    showUserPosts,
-    showLikedPosts,
-    showUserProductPosts,
-    userBoards,
-    userLikedBoards,
-    userProducts,
-  ])
+
+    fetchData()
+  }, [userBoards, userLikedBoards, activeTab])
+
+  const onClickTab = (index: number) => {
+    setActiveTab(TabID[index])
+  }
+
+  const onClickProductItem = (boardId: string) => {
+    router.push(`boards/${boardId}`)
+  }
+
+  const emptyPostMessage = (activeTab: string) => {
+    switch (activeTab) {
+      case 'UserPosts':
+        return '아직 등록된 게시물이 없습니다.'
+      case 'UserProducts':
+        return '아직 등록된 장비가 없습니다.'
+      case 'UserLikedPosts':
+        return "아직 '좋아요'한 게시물이 없습니다."
+    }
+  }
 
   const TABS = props.isMyPage ? MY_PAGE_TAB : OTHERS_PAGE_TAB
 
   return (
     <>
-      <Tabs mt="30px">
+      <Tabs mt={{ base: '20px', md: '30px' }}>
         <TabList color="dGray.medium">
           {TABS.map((icon, index) => (
             <Tab
@@ -109,7 +117,7 @@ export default function NavigationTabs(props: NavigationTabsProps) {
               h="28px"
               py="25px"
               _selected={{ color: 'dPrimary', borderBottomColor: 'dPrimary' }}
-              fontSize="22px"
+              fontSize={{ base: '18px', lg: '22px' }}
               fontWeight="700">
               <Icon as={icon} mr={1} />
             </Tab>
@@ -118,30 +126,45 @@ export default function NavigationTabs(props: NavigationTabsProps) {
       </Tabs>
 
       <InfiniteScroller loadMore={() => console.log('무한스크롤')} hasMore={true}>
-        <SimpleGrid mt="33px" columns={3} spacing="30px">
-          {/* TODO:  TYPE item : TBoard | TProduct | undefined */}
-          {userData?.map((item: any, index: number) => (
-            <React.Fragment key={index}>
-              {showUserProductPosts ? (
-                <ProductItem
-                  index={index}
-                  productId={item.id}
-                  imageUrl={item.picture}
-                  productName={item.name}
-                />
-              ) : (
-                <BoardItem
-                  index={index}
-                  boardId={item?.id}
-                  imageUrl={
-                    item?.pictures?.find((picture: TPicture) => picture.isMain)?.url ?? ''
-                  }
-                  like={item?.like}
-                />
-              )}
-            </React.Fragment>
-          ))}
-        </SimpleGrid>
+        {userData.length > 0 ? (
+          <SimpleGrid
+            mt={{ base: '22px', md: '33px' }}
+            columns={{ base: 2, md: 3 }}
+            spacing={{ base: '15px', md: '25px' }}>
+            {/* TODO:  TYPE item : TBoard | TProduct | undefined */}
+            {userData?.map((item: any, index: number) => (
+              <React.Fragment key={index}>
+                {activeTab === 'UserProducts' ? (
+                  <ProductItem
+                    index={index}
+                    productId={item.id}
+                    boardId={item.board?.id}
+                    imageUrl={item.picture}
+                    productName={item.name}
+                    onClickProductItem={onClickProductItem}
+                  />
+                ) : (
+                  <BoardItem
+                    index={index}
+                    boardId={item?.id}
+                    imageUrl={
+                      item?.pictures?.find((picture: TPicture) => picture.isMain)?.url ??
+                      ''
+                    }
+                    like={item?.like}
+                  />
+                )}
+              </React.Fragment>
+            ))}
+          </SimpleGrid>
+        ) : (
+          <Center
+            mt={'160px'}
+            fontSize={{ base: 'sm', md: 'md' }}
+            color={useColorModeValue('dGray.dark', 'dGray.light')}>
+            {emptyPostMessage(activeTab)}
+          </Center>
+        )}
       </InfiniteScroller>
     </>
   )

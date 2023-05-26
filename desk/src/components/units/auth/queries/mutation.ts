@@ -58,10 +58,10 @@ export const FETCH_LOGIN_USER = gql`
   query {
     fetchLoginUser {
       id
-      email
+      picture
       nickName
       intro
-      picture
+      email
       jobGroup
       provider
       followingsCount

@@ -4,17 +4,15 @@ import {
   Box,
   Button,
   Flex,
-  Link,
   Text,
-  Icon,
   useColorModeValue,
 } from '@chakra-ui/react'
 import { GoPencil } from 'react-icons/go'
-import { BsLink45Deg } from 'react-icons/bs'
 import { UserUIProps } from './User.types'
 import NavigationTab from './components/tabs'
 import FollowModal from './components/followModal'
-import { TSnsAccount } from '@/src/commons/types/generated/types'
+import SnsAccount from './components/snsAccount'
+import { JOB_LIST } from '@/src/commons/utils/util'
 
 export default function UserUI(props: UserUIProps) {
   return (
@@ -28,15 +26,22 @@ export default function UserUI(props: UserUIProps) {
         '-ms-overflow-style': 'none',
         'scrollbar-width': 'none',
       }}>
-      <Box mx="auto" maxW="900px" w="810px">
+      <Box mx="auto" maxW="810px" minW="484px" px="10px">
         <Flex mt="100px" justify="space-between">
           <Flex direction="column" pos="relative">
             <Flex ml="15px" justify="space-between" align="center">
-              <Text fontSize="24px" fontWeight="700" alignContent="center">
+              <Text
+                fontSize={{ base: 'lg', md: '24px' }}
+                fontWeight="700"
+                alignContent="center">
                 책상주인 : {props.userData.user.nickName}
                 <Badge
-                  bg="dPrimary"
+                  bg={
+                    JOB_LIST.find(item => item.shortName === props.userData.user.jobGroup)
+                      ?.bg
+                  }
                   color="#fff"
+                  fontSize={{ base: '9px', md: 'xs' }}
                   px="6px"
                   py="3px"
                   mx="3"
@@ -46,7 +51,7 @@ export default function UserUI(props: UserUIProps) {
                 </Badge>
               </Text>
             </Flex>
-            <Flex ml="50px" mt="25px" gap="25px">
+            <Flex ml={{ base: '40px', md: '50px' }} mt="25px" gap="25px">
               <FollowModal
                 type="followee"
                 userData={props.userData}
@@ -62,57 +67,27 @@ export default function UserUI(props: UserUIProps) {
                 followingsData={props.followingsData}
               />
             </Flex>
-            <Flex direction="column" mt="26px" ml="50px">
-              <Text mb="23px" fontSize="16px" alignItems="center" fontWeight="600">
+            <Flex direction="column" mt="26px" ml={{ base: '40px', md: '50px' }}>
+              <Text
+                mb="23px"
+                // fontSize="16px"
+                fontSize={{ base: 'sm', md: 'md', lg: '16px' }}
+                alignItems="center"
+                fontWeight="600">
                 {props.userData.user.intro}
               </Text>
-
-              {props.userData.user.snsAccounts?.map(
-                (snsAccount: TSnsAccount) =>
-                  snsAccount.sns && (
-                    <Link
-                      key={snsAccount.id}
-                      href={snsAccount.sns}
-                      isExternal
-                      color={useColorModeValue('#1e5d97', '#c1daf2')}
-                      fontWeight="600">
-                      <Flex alignItems="center" justifyContent="flex-start">
-                        <Icon as={BsLink45Deg} mr={1} />
-                        <Text>{snsAccount.sns}</Text>
-                      </Flex>
-                    </Link>
-                  ),
-              )}
-
-              {/* <Link
-                href="https://www.example.com"
-                isExternal
-                color={useColorModeValue('#1e5d97', '#c1daf2')}
-                fontWeight="600">
-                <Flex
-                  flexDirection={'column'}
-                  alignItems="center"
-                  justifyContent="flex-start">
-                  <Flex>
-                    <Icon as={BsLink45Deg} mr={1} />
-                    <Text>sns 링크로 이동하기</Text>
-                  </Flex>
-                  <Text>sns 링크로 이동하기</Text>
-                  <Text>sns 링크로 이동하기</Text>
-                </Flex>
-              </Link> */}
+              <SnsAccount snsAccounts={props.userData?.user.snsAccounts || []} />
             </Flex>
           </Flex>
           <Flex mr="34px" direction="column" justify="center" align="center">
             <Avatar
               borderRadius="full"
               objectFit="cover"
-              background="dGray.medium"
-              boxSize="170px"
+              boxSize={{ base: '140px', md: '170px' }}
               name={props.userData.user.nickName}
               src={props.userData.user.picture ?? 'https://bit.ly/broken-link'}
             />
-            {props.isMyPage ? ( // 나의 페이지면 프로필 수정하기 버튼 / 아니면 팔로우 버튼
+            {props.isMyPage ? (
               <Button
                 alignItems="center"
                 textAlign="center"
@@ -124,23 +99,22 @@ export default function UserUI(props: UserUIProps) {
                 )}
                 variant="outline"
                 my="25px"
-                w="140px"
-                h="32px"
-                fontSize="16px"
+                w={{ base: '110px', md: '140px' }}
+                h={{ base: '22px', md: '28px' }}
+                fontSize={{ base: '12px', md: '16px' }}
                 fontWeight="600"
                 onClick={props.onClickMoveToAccountEdit}>
                 <span style={{ padding: '0 2px' }}>
                   <GoPencil color="dPrimary" />
                 </span>
-                {/* 자신의 페이지일 경우만 보이도록 */}
                 프로필 수정하기
               </Button>
             ) : (
               <Button
                 mt="28px"
-                w="126px"
-                h="48px"
-                fontSize="18px"
+                w={{ base: '108px', md: '126px' }}
+                h={{ base: '40px', md: '48px' }}
+                fontSize={{ base: '16px', md: '18px' }}
                 color={
                   props.isFollowing
                     ? 'dGray.medium'
@@ -160,8 +134,6 @@ export default function UserUI(props: UserUIProps) {
             )}
           </Flex>
         </Flex>
-        {/* 게시글, 팔로우, 팔로워 분리 예정 */}
-        {/* TODO:props drilling 최적화 예정 */}
         <NavigationTab isMyPage={props.isMyPage} userid={props.userData.user.id} />
       </Box>
     </Box>

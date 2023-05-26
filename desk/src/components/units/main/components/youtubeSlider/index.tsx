@@ -36,7 +36,7 @@ export default function YoutubeSlider({
         position="absolute"
         zIndex={2}
         top="35%"
-        left="2"
+        left="10px"
         onClick={onClickPrev}
         color="#f8f8f8c8">
         <IoIosArrowDropleftCircle size="50px" />
@@ -55,7 +55,7 @@ export default function YoutubeSlider({
         position="absolute"
         zIndex={2}
         top="35%"
-        right="0"
+        right="5px"
         onClick={onClickNext}
         color="#f8f8f8c8">
         <IoIosArrowDroprightCircle size="50px" />
@@ -83,36 +83,27 @@ export default function YoutubeSlider({
         <Box
           key={youtube.videoUrl}
           m="2"
+          h="340px"
+          maxW="335px"
           flexShrink="0"
           cursor="pointer"
-          h="320px"
           onClick={() => onClickSelectedVideo(youtube.videoUrl)}>
           <YoutubeImageStyle src={youtube.thumbnailUrl} alt={youtube.videoUrl} />
           <Flex
-            pl="3px"
-            width="332px"
+            mt={1}
+            pl={1}
             justifyContent="center"
-            textAlign="center"
             fontSize="mb"
             fontWeight="700"
             color={useColorModeValue('dGray.dark', 'dGray.light')}>
-            <Box noOfLines={1}>
-              {youtube.title.substring(0, 40)}
-              {youtube.title.length > 40 ? '...' : ''}
-            </Box>
+            <Box noOfLines={2}>{youtube.title}</Box>
           </Flex>
           <Flex
-            justifyContent="center"
-            alignItems="center"
-            pr="5px"
-            color={useColorModeValue('#8e9193', 'dGray.light')}
-            fontWeight="500"></Flex>
-          <Flex
-            justifyContent="end"
+            pl={1}
+            mt="5px"
+            justifyContent="start"
             fontSize="10pt"
             fontWeight="500"
-            mr="22px"
-            mt="5px"
             color={useColorModeValue('dGray.dark', 'dGray.light')}>
             조회수: {formatNumber(youtube.views)}
           </Flex>

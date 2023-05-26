@@ -7,7 +7,7 @@ import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 
 export default function AllProductsUI(props: AllProductsUIProps) {
-  const [isMobile] = useMediaQuery('(max-width: 768px)')
+  const [isMobile] = useMediaQuery('(max-width: 992px)')
 
   const settings = {
     dots: false,
@@ -16,7 +16,6 @@ export default function AllProductsUI(props: AllProductsUIProps) {
     slidesToScroll: 4,
     autoplay: true,
     autoplaySpeed: 5000,
-    // pauseOnHover: true,
   }
 
   return (
@@ -27,12 +26,11 @@ export default function AllProductsUI(props: AllProductsUIProps) {
         moreButtonLink="/allProductsMore"
       />
       <Center>
-        <Box maxWidth="1100px">
+        <Box width={{ base: '100%', md: '100%', lg: '1090px' }}>
           {isMobile ? (
             <Flex
               direction="row"
               overflowX="auto"
-              w="410px"
               sx={{
                 '&::-webkit-scrollbar': {
                   display: 'none',

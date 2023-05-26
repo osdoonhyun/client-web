@@ -33,7 +33,7 @@ export default function DetailBoardImages(props: DetailBoardImagesProps) {
   }
 
   return (
-    <Box pos="relative" cursor="pointer">
+    <Box pos="relative">
       <Carousel imageURLs={props.imageURLs} />
       <HStack pos={'absolute'} zIndex={'1'} bottom={'25px'} right={'20px'}>
         {isSelectedLike ? (

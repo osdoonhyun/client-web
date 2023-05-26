@@ -1,4 +1,4 @@
-import { Box, Center, HStack, Text, useColorModeValue } from '@chakra-ui/react'
+import { Box, Center, HStack, Text, chakra, useColorModeValue } from '@chakra-ui/react'
 import { FaQuoteLeft, FaQuoteRight } from 'react-icons/fa'
 import CountStateWithLike from '../components/countStateWithLike'
 import DetailBoardImages from '../components/detailBoardImages'
@@ -7,6 +7,9 @@ import ProductItemCardList from '../components/productItemCardList'
 import ProfileHeader from '../components/profileHeader'
 import TitleWithDescription from '../components/titleWithDescription'
 import { BoardDetailUIProps } from './Detail.types'
+
+const QuoteLeft = chakra(FaQuoteLeft)
+const QuoteRight = chakra(FaQuoteRight)
 
 export default function BoardDetailUI(props: BoardDetailUIProps) {
   return (
@@ -33,23 +36,34 @@ export default function BoardDetailUI(props: BoardDetailUIProps) {
         />
       </Box>
       <Center pt={'60px'} pb={'16px'}>
-        <HStack>
-          <FaQuoteLeft size={12} color={useColorModeValue('#232323B3', '#BABABA')} />
+        <HStack justify={'space-between'} spacing={5} px={2}>
+          <QuoteLeft
+            minW={'18px'}
+            minH={'18px'}
+            color={useColorModeValue('#232323B3', '#BABABA')}
+          />
           <Text
+            pt={'10px'}
+            fontWeight={700}
             fontSize={{ base: 'xl', md: '2xl', lg: '3xl' }}
-            fontWeight={800}
-            color={useColorModeValue('dGray.dark', 'dGray.medium')}
-            pt={'10px'}>
+            color={useColorModeValue('dGray.dark', 'dGray.medium')}>
             {props.boardData.title}
           </Text>
-          <FaQuoteRight size={12} color={useColorModeValue('#232323B3', '#BABABA')} />
+          <QuoteRight
+            minW={'18px'}
+            minH={'18px'}
+            color={useColorModeValue('#232323B3', '#BABABA')}
+          />
         </HStack>
       </Center>
       <Box pt={'20px'}>
         <TitleWithDescription title="" description={props.boardData.description} />
       </Box>
       <Box pt={'60px'}>
-        <ProductItemCardList title="사용중인 장비" products={props.boardData.products} />
+        <ProductItemCardList
+          title="📌 사용 중인 장비"
+          products={props.boardData.products}
+        />
       </Box>
       {props.boardData.recommend && (
         <Box pt={'60px'}>
