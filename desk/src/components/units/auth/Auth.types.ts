@@ -1,4 +1,4 @@
-import { ChangeEvent } from 'react'
+import { ChangeEvent, Dispatch, SetStateAction } from 'react'
 import * as yup from 'yup'
 
 export type errMsg = {
@@ -52,11 +52,14 @@ export type AuthFormProps = {
 
 export type MyJob = {
   myJob: string
-  setMyJob: (myJob: string) => void
+  setMyJob: Dispatch<SetStateAction<string>>
   // onChange?: (myJob: string) => void
   onChange?: (myJob: string) => void
-  onChangeInputEdited: () => void
-  onChangeInputNotEdited: (event: ChangeEvent<HTMLInputElement>, defaultData: any) => void
+  onChangeInputEdited?: () => void
+  onChangeInputNotEdited?: (
+    event: ChangeEvent<HTMLInputElement>,
+    defaultData: any,
+  ) => void
 }
 
 const ErrorLog = {
