@@ -68,7 +68,11 @@ export default function SignoutModalButton() {
               mr={3}
               color={useColorModeValue('#fff', '#1A202C')}
               bg={'dGray.medium'}
-              _hover={{ bg: useColorModeValue('dGray.dark', 'dGray.light') }}
+              _hover={{
+                bg: isChecked
+                  ? useColorModeValue('dGray.dark', 'dGray.light')
+                  : undefined,
+              }}
               isDisabled={!isChecked}
               onClick={onClickSignOutButton}>
               회원 탈퇴
