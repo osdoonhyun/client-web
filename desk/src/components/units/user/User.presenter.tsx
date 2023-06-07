@@ -80,8 +80,9 @@ export default function UserUI(props: UserUIProps) {
             />
             {props.isMyPage ? (
               <Button
+                display="flex"
                 alignItems="center"
-                textAlign="center"
+                justifyContent="center"
                 color="dPrimary"
                 borderColor="dPrimary"
                 _hover={useColorModeValue(
@@ -95,10 +96,12 @@ export default function UserUI(props: UserUIProps) {
                 fontSize={{ base: '11px', md: '16px' }}
                 fontWeight="600"
                 onClick={props.onClickMoveToAccountEdit}>
-                <span style={{ padding: '0 2px' }}>
-                  <GoPencil color="dPrimary" />
-                </span>
-                프로필 수정하기
+                <Box display="flex" textAlign="center">
+                  <span style={{ padding: '0 2px' }}>
+                    <GoPencil color="dPrimary" />
+                  </span>
+                  프로필 수정하기
+                </Box>
               </Button>
             ) : (
               <Button

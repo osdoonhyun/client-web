@@ -15,6 +15,7 @@ export default function MyJobSelect(props: MyJob) {
   useEffect(() => {
     if (defaultValue) {
       props.setMyJob(selectedMyJob?.shortName || '')
+      setTextColor('#1A202C')
     }
   }, [])
 
