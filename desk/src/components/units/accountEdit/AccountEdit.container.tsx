@@ -27,6 +27,7 @@ import { UPDATE_USER } from './AccountEdit.queries'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { UPLOAD_FILE } from '../../ui/fileUpload/quries'
 import { produce } from 'immer'
+import { FETCH_LOGIN_USER } from '../auth/queries/mutation'
 
 export default function AccountEdit() {
   function EditableControls() {
@@ -54,15 +55,27 @@ export default function AccountEdit() {
   }
   const router = useRouter()
   const toast = useToast()
+  const { myUserInfo, fetchUserInfo, myToken } = useAuth()
 
   const [updateUser] = useMutation<
     Pick<TMutation, 'updateUser'>,
     TMutationUpdateUserArgs
-  >(UPDATE_USER)
-  const { myUserInfo } = useAuth()
+  >(UPDATE_USER, {
+    onCompleted: () => {
+      fetchUserInfo()
+    },
+  })
+
   const { register, handleSubmit } = useForm<AccountEditInputForm>({
     resolver: yupResolver(AccountEditSchema),
     mode: 'onSubmit',
+    defaultValues: {
+      snsAccounts: myUserInfo?.snsAccounts
+        ?.map(account => ({
+          sns: account.sns || '',
+        }))
+        .sort(account => (account.sns ? -1 : 1)),
+    },
   })
 
   const [myJob, setMyJob] = useState('')
@@ -172,7 +185,7 @@ export default function AccountEdit() {
         .then(() => {
           const updateUserInput: UpdateUserInput = {
             intro: data.intro,
-            snsAccount: data.snsAccounts.map(sns => sns.link) ?? [],
+            snsAccount: data.snsAccounts.map(sns => sns.sns) ?? [],
           }
 
           if (fileAfterUpload[0]) {
@@ -193,6 +206,16 @@ export default function AccountEdit() {
 
           return updateUser({
             variables: { updateUserInput },
+            refetchQueries: [
+              {
+                query: FETCH_LOGIN_USER,
+                context: {
+                  headers: {
+                    Authorization: `Bearer ${myToken}`,
+                  },
+                },
+              },
+            ],
           })
         })
       router.back()
@@ -209,6 +232,7 @@ export default function AccountEdit() {
       return
     }
   }
+
   return (
     <AccountEditUI
       myUserInfo={myUserInfo}
