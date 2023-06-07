@@ -6,10 +6,11 @@ import { ChangeEvent, Dispatch, SetStateAction } from 'react'
 //sns 계정 추가 타입
 export type ItemLinkType = {
   id: string
-  link: string
+  sns: string
 }
 
 export type AccountEditUIProps = {
+  isLoading: boolean
   myUserInfo: TUser | null
   fileUploadRef: React.RefObject<HTMLInputElement>
   EditableControls: React.FC // type: JSX.Element | null

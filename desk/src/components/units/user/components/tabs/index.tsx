@@ -130,7 +130,7 @@ export default function NavigationTabs(props: NavigationTabsProps) {
           <SimpleGrid
             mt={{ base: '22px', md: '33px' }}
             columns={{ base: 2, md: 3 }}
-            spacing={{ base: '15px', md: '25px' }}>
+            spacing={{ base: '10px', md: '25px' }}>
             {/* TODO:  TYPE item : TBoard | TProduct | undefined */}
             {userData?.map((item: any, index: number) => (
               <React.Fragment key={index}>

@@ -12,7 +12,7 @@ import { UserUIProps } from './User.types'
 import NavigationTab from './components/tabs'
 import FollowModal from './components/followModal'
 import SnsAccount from './components/snsAccount'
-import { JOB_LIST } from '@/src/commons/utils/util'
+import UserBadge from '../../ui/userBadge'
 
 export default function UserUI(props: UserUIProps) {
   return (
@@ -26,30 +26,16 @@ export default function UserUI(props: UserUIProps) {
         '-ms-overflow-style': 'none',
         'scrollbar-width': 'none',
       }}>
-      <Box mx="auto" maxW="810px" minW="484px" px="10px">
+      <Box mx="auto" maxW="810px" minW="434px" px="10px">
         <Flex mt="100px" justify="space-between">
           <Flex direction="column" pos="relative">
             <Flex ml="15px" justify="space-between" align="center">
               <Text
-                fontSize={{ base: 'lg', md: '24px' }}
+                fontSize={{ base: 'md', md: '2xl' }}
                 fontWeight="700"
                 alignContent="center">
                 책상주인 : {props.userData.user.nickName}
-                <Badge
-                  bg={
-                    JOB_LIST.find(item => item.shortName === props.userData.user.jobGroup)
-                      ?.bg
-                  }
-                  color="white"
-                  px="6px"
-                  py="3px"
-                  mx="3"
-                  borderRadius={'4px'}
-                  fontSize={{ base: '9px', md: 'xs' }}
-                  textTransform="uppercase"
-                  alignItems="center">
-                  {props.userData.user.jobGroup}
-                </Badge>
+                <UserBadge job={props.userData.user.jobGroup} />
               </Text>
             </Flex>
             <Flex ml={{ base: '40px', md: '50px' }} mt="25px" gap="25px">
@@ -79,18 +65,23 @@ export default function UserUI(props: UserUIProps) {
               <SnsAccount snsAccounts={props.userData?.user.snsAccounts || []} />
             </Flex>
           </Flex>
-          <Flex mr="34px" direction="column" justify="center" align="center">
+          <Flex
+            mr={{ base: '15px', md: '34px' }}
+            direction="column"
+            justify="center"
+            align="center">
             <Avatar
               borderRadius="full"
               objectFit="cover"
-              boxSize={{ base: '140px', md: '170px' }}
+              boxSize={{ base: '115px', md: '170px' }}
               name={props.userData.user.nickName}
               src={props.userData.user.picture ?? 'https://bit.ly/broken-link'}
             />
             {props.isMyPage ? (
               <Button
+                display="flex"
                 alignItems="center"
-                textAlign="center"
+                justifyContent="center"
                 color="dPrimary"
                 borderColor="dPrimary"
                 _hover={useColorModeValue(
@@ -99,15 +90,17 @@ export default function UserUI(props: UserUIProps) {
                 )}
                 variant="outline"
                 my="25px"
-                w={{ base: '110px', md: '140px' }}
-                h={{ base: '22px', md: '28px' }}
-                fontSize={{ base: '12px', md: '16px' }}
+                w={{ base: '100px', md: '140px' }}
+                h={{ base: '20px', md: '28px' }}
+                fontSize={{ base: '11px', md: '16px' }}
                 fontWeight="600"
                 onClick={props.onClickMoveToAccountEdit}>
-                <span style={{ padding: '0 2px' }}>
-                  <GoPencil color="dPrimary" />
-                </span>
-                프로필 수정하기
+                <Box display="flex" textAlign="center">
+                  <span style={{ padding: '0 2px' }}>
+                    <GoPencil color="dPrimary" />
+                  </span>
+                  프로필 수정하기
+                </Box>
               </Button>
             ) : (
               <Button

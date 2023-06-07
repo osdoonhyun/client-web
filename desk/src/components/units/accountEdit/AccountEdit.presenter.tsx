@@ -15,7 +15,8 @@ import MyJobSelect from '../auth/signup/components/MyJobSelect'
 import SnsAccountEdit from './components/snsAccountEdit'
 import FileUpload from '@/src/components/ui/fileUpload'
 import SignoutModalButton from '@/src/components/units/accountEdit/components/signoutModalButton'
-import { JOB_LIST } from '@/src/commons/utils/util'
+import UserBadge from '../../ui/userBadge'
+import CustomSpinner from '../../ui/customSpinner'
 
 export default function AccountEditUI(props: AccountEditUIProps) {
   return (
@@ -52,23 +53,7 @@ export default function AccountEditUI(props: AccountEditUIProps) {
                 <Text mb="30px" fontSize={{ base: '22px', lg: '26px' }} fontWeight="700">
                   책상 주인
                 </Text>
-                <Badge
-                  bg={
-                    JOB_LIST.find(
-                      item =>
-                        item.shortName === (props.myJob || props.myUserInfo?.jobGroup),
-                    )?.bg
-                  }
-                  color="white"
-                  px="6px"
-                  py="3px"
-                  mx="3"
-                  borderRadius={'4px'}
-                  defaultValue={props.myUserInfo?.jobGroup}
-                  textTransform="uppercase"
-                  alignItems="center">
-                  {props.myJob || props.myUserInfo?.jobGroup}
-                </Badge>
+                <UserBadge job={props.myJob || props.myUserInfo?.jobGroup} />
               </Center>
             </Box>
             <Box w="60%" ml="55px" mb="10px">
@@ -206,7 +191,7 @@ export default function AccountEditUI(props: AccountEditUIProps) {
             }
             _hover={props.isEdited ? { bg: 'dPrimaryHover.dark' } : { bg: 'gray.300' }}
             type="submit">
-            수정 완료
+            {props.isLoading ? <CustomSpinner /> : '수정 완료'}
           </Button>
         </Center>
       </form>
