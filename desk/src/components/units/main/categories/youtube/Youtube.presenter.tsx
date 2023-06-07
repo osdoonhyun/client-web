@@ -17,20 +17,33 @@ import ReactPlayer from 'react-player'
 import YoutubeSlider from '../../components/youtubeSlider'
 import YoutubeImageStyle from '../../components/youtubeImageStyle'
 import { formatNumber } from '@/src/commons/utils/util'
+import { BsYoutube } from 'react-icons/bs'
 
 export default function YoutubeUI(props: YoutubeUIProps) {
-  const categoryTitle = '유튜브'
   const [isMobile] = useMediaQuery('(max-width: 992px)')
+  const categoryTitle = '유튜브'
 
   return (
     <>
-      <CategoryHeader categoryTitle={categoryTitle} moreButtonHidden={false} />
+      <CategoryHeader
+        categoryTitle={
+          <Flex
+            alignItems={'center'}
+            ml={{ base: '1', md: '0' }}
+            mb={{ base: '-1', md: '1' }}>
+            <Box color="red.400">
+              <BsYoutube />
+            </Box>
+            <Box ml={2}>{categoryTitle}</Box>
+          </Flex>
+        }
+        moreButtonHidden={false}
+      />
       {isMobile ? (
         <Center>
           <Flex
             mx="2"
-            pl="2px"
-            pr="2px"
+            pr="20px"
             overflowX="auto"
             sx={{
               '&::-webkit-scrollbar': {

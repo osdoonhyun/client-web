@@ -57,7 +57,6 @@ export default function UserUI(props: UserUIProps) {
             <Flex direction="column" mt="26px" ml={{ base: '40px', md: '50px' }}>
               <Text
                 mb="23px"
-                // fontSize="16px"
                 fontSize={{ base: 'sm', md: 'md', lg: '16px' }}
                 alignItems="center"
                 fontWeight="600">

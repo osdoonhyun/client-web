@@ -12,7 +12,7 @@ export default function AllProductsUI(props: AllProductsUIProps) {
   const settings = {
     dots: false,
     infinite: true,
-    slidesToShow: 4.1,
+    slidesToShow: 4.15,
     slidesToScroll: 4,
     autoplay: true,
     autoplaySpeed: 5000,
@@ -25,7 +25,7 @@ export default function AllProductsUI(props: AllProductsUIProps) {
         moreButtonHidden={true}
         moreButtonLink="/allProductsMore"
       />
-      <Center>
+      <Center mx="10px">
         <Box width={{ base: '100%', md: '100%', lg: '1090px' }}>
           {isMobile ? (
             <Flex
@@ -51,7 +51,7 @@ export default function AllProductsUI(props: AllProductsUIProps) {
               {props.allProducts.map((product, index) => (
                 <Box
                   key={index}
-                  p="0px 10px"
+                  p="0px 35px"
                   textAlign="center"
                   cursor="pointer"
                   onClick={() =>

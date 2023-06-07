@@ -36,7 +36,7 @@ export default function YoutubeSlider({
         position="absolute"
         zIndex={2}
         top="35%"
-        left="10px"
+        left="11px"
         onClick={onClickPrev}
         color="#f8f8f8c8">
         <IoIosArrowDropleftCircle size="50px" />

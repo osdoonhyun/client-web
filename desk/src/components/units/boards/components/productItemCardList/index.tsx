@@ -16,10 +16,10 @@ export default function ProductItemCardList(props: ProductItemCardProps) {
   return (
     <VStack align={'stretch'}>
       <Text
-        fontSize={{ base: 'lg', lg: 'xl' }}
+        pt={'10px'}
         fontWeight={800}
-        color={useColorModeValue('dGray.dark', 'dGray.light')}
-        pt={'10px'}>
+        fontSize={{ base: 'lg', lg: 'xl' }}
+        color={useColorModeValue('dGray.dark', 'dGray.light')}>
         {props.title}
       </Text>
       <SimpleGrid columns={{ base: 2, md: 3 }} spacing={'10px'}>
@@ -44,10 +44,9 @@ export default function ProductItemCardList(props: ProductItemCardProps) {
                   <Stack mt="6" spacing="3">
                     <Text
                       noOfLines={2}
-                      fontSize={'18px'}
-                      fontWeight={'700'}
-                      height={'54px'}
                       textAlign="center"
+                      fontWeight={'700'}
+                      fontSize={{ base: 'md', lg: 'lg' }}
                       color={useColorModeValue('dGray.dark', 'dGray.light')}>
                       {product.name}
                     </Text>
