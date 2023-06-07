@@ -23,7 +23,7 @@ import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { DELETE_BOARD } from '../../detail/Detail.queries'
 import { ProfileHeaderProps } from './types'
-import { JOB_LIST } from '@/src/components/ui/userBadge'
+import { JOB_LIST } from '@/src/commons/utils/util'
 
 export default function ProfileHeader(props: ProfileHeaderProps) {
   const router = useRouter()
