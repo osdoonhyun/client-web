@@ -6,7 +6,7 @@ import { BsLink45Deg } from 'react-icons/bs'
 
 const SNS_ACCOUNT_LINKS: ItemLinkType[] = Array.from({ length: 3 }, () => ({
   id: '',
-  link: '',
+  sns: '',
 }))
 
 export default function SnsAccountEdit(props: SnsAccountEditProps) {
@@ -23,7 +23,7 @@ export default function SnsAccountEdit(props: SnsAccountEditProps) {
         if (snsAccount.sns !== '') {
           updatedLinks.push({
             id: snsAccount.id,
-            link: snsAccount.sns,
+            sns: snsAccount.sns,
           })
         }
 
@@ -33,12 +33,12 @@ export default function SnsAccountEdit(props: SnsAccountEditProps) {
       }
 
       while (updatedLinks.length < 3) {
-        updatedLinks.push({ id: '', link: '' })
+        updatedLinks.push({ id: '', sns: '' })
       }
 
       setSnsLinks(updatedLinks)
     }
-  }, [props.snsAccounts])
+  }, [])
 
   return (
     <>
@@ -57,15 +57,14 @@ export default function SnsAccountEdit(props: SnsAccountEditProps) {
                     id={link.id || `${index}`}
                     color="#718096"
                     fontSize={{ base: '16px', lg: '18px' }}
-                    {...props.register(`snsAccounts.${index}.link`)}
-                    defaultValue={link.link || ''}
+                    {...props.register(`snsAccounts.${index}.sns`)}
                     variant="unstyled"
                     // onChange={props.onChangeInputEdited}
                     // onChange={() => {
                     //   props.onChangeInputEdited()
                     //   props.register(`snsAccounts.${index}.link`)
                     // }}
-                    onBlur={e => props.onChangeInputNotEdited(e, link.link)}
+                    onBlur={e => props.onChangeInputNotEdited(e, link.sns)}
                     onKeyDown={props.onChangeKeyDown}
                     placeholder="SNS 계정 추가"
                     focusBorderColor="dPrimary"

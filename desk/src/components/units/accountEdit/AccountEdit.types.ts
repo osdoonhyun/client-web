@@ -6,7 +6,7 @@ import { ChangeEvent } from 'react'
 //sns 계정 추가 타입
 export type ItemLinkType = {
   id: string
-  link: string
+  sns: string
 }
 
 export type AccountEditUIProps = {
