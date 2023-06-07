@@ -16,6 +16,7 @@ import SnsAccountEdit from './components/snsAccountEdit'
 import FileUpload from '@/src/components/ui/fileUpload'
 import SignoutModalButton from '@/src/components/units/accountEdit/components/signoutModalButton'
 import UserBadge from '../../ui/userBadge'
+import CustomSpinner from '../../ui/customSpinner'
 
 export default function AccountEditUI(props: AccountEditUIProps) {
   return (
@@ -190,7 +191,7 @@ export default function AccountEditUI(props: AccountEditUIProps) {
             }
             _hover={props.isEdited ? { bg: 'dPrimaryHover.dark' } : { bg: 'gray.300' }}
             type="submit">
-            수정 완료
+            {props.isLoading ? <CustomSpinner /> : '수정 완료'}
           </Button>
         </Center>
       </form>

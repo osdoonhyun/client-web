@@ -80,6 +80,7 @@ export default function AccountEdit() {
 
   const [myJob, setMyJob] = useState('')
   const [isEdited, setIsEdited] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   const onChangeInputEdited = useCallback(() => {
     setIsEdited(true)
@@ -170,6 +171,8 @@ export default function AccountEdit() {
     let fileAfterUpload: string[] = []
 
     try {
+      setIsLoading(true)
+
       await uploadFile({
         variables: {
           files: fileBeforeUpload,
@@ -219,6 +222,7 @@ export default function AccountEdit() {
           })
         })
       router.back()
+      setIsLoading(false)
     } catch (error) {
       if (error instanceof Error) {
         toast({
@@ -229,12 +233,16 @@ export default function AccountEdit() {
           position: 'top',
         })
       }
+
+      setIsLoading(false)
+
       return
     }
   }
 
   return (
     <AccountEditUI
+      isLoading={isLoading}
       myUserInfo={myUserInfo}
       fileUploadRef={fileUploadRef}
       EditableControls={EditableControls}

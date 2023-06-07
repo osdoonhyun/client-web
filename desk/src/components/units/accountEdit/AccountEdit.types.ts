@@ -10,6 +10,7 @@ export type ItemLinkType = {
 }
 
 export type AccountEditUIProps = {
+  isLoading: boolean
   myUserInfo: TUser | null
   fileUploadRef: React.RefObject<HTMLInputElement>
   EditableControls: React.FC // type: JSX.Element | null
