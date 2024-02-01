@@ -1,3 +1,6 @@
+## Dechive 서버는 비용 문제로 2023.09.23일 이후로 비활성화하였습니다. 
+<br>
+
 # ⌨️ [Dechive](https://client-web-dechive.vercel.app/) 
  최근 재택근무자가 늘어나면서, 홈오피스, 데스크테리어에 관한 수요가 증가하고 있습니다. “어떤 장비를 어떻게 세팅해야 할까?” 책상 앞에서 시간을 많이 보내는 사람들이라면 누구나 한 번쯤 해보았을 고민입니다. 
  <br/>
@@ -39,11 +42,22 @@ Dechive는 Desk와 Archive를 결합한 용어로, 사용자들이 자신만의 
 <br>
 
 
-## 🧱 아키택처
+## 🏛️ 아키택처
 <p align="center" style="color:gray">
 <img src="https://cdn.discordapp.com/attachments/1103877631629344821/1104685967098519565/drawio_2.png" width="500"/>
 </p>
 </br>
+
+<br/>
+
+## 💻 프로토타입
+<img width="800" alt="login-image" src="https://github.com/osdoonhyun/selQ-client/assets/87527736/169cfde3-30d1-48db-808c-43507d9cba12">
+<img width="800" alt="main-image" src="https://github.com/osdoonhyun/selQ-client/assets/87527736/47370355-f584-4403-9ea6-243638943391">
+<img width="800" alt="posting" src="https://github.com/osdoonhyun/selQ-client/assets/87527736/8cca9d8e-e884-49c4-af3b-6ddde5a2d57a">
+<img width="800" alt="posting-detail" src="https://github.com/osdoonhyun/selQ-client/assets/87527736/e768005a-19cc-4d73-b547-9b057f012f70">
+<img width="800" alt="profile-image" src="https://github.com/osdoonhyun/selQ-client/assets/87527736/92761234-d7ae-44e7-b272-f1ce0062501a">
+<img width="800" alt="my-page" src="https://github.com/osdoonhyun/selQ-client/assets/87527736/ed33194f-0d59-45fe-9fea-c00b42601910">
+
 
 <br/>
 
@@ -62,14 +76,36 @@ Dechive는 Desk와 Archive를 결합한 용어로, 사용자들이 자신만의 
 
 <br/>
 
+
+## 🪜 브랜치 관리 전략
+Git Flow를 사용하여 브랜치를 관리합니다.<br>
+JIRA 티켓을 생성합니다. Develop 브랜치에서 Feature 브랜치를 생성합니다.<br>
+모든 브랜치는 Pull Request에 리뷰를 진행한 후 merge를 진행합니다.<br>
+
+
+
+- main : 배포시 사용합니다. 아직 배포단계에 이르지 않아 Master 브랜치에 내용이 없습니다.<br>
+- develop : 완전히 개발이 끝난 부분에 대해서만 Merge를 진행합니다.<br>
+- feature : 기능 개발을 진행할 때 사용합니다.<br>
+- release : 배포를 준비할 때 사용합니다.<br>
+- hotfix : 배포를 진행한 후 발생한 버그를 수정해야 할 때 사용합니다.<br>
+<br><br>
+<b>브랜치 관리 전략 참고 문헌</b><br>
+- [우아한 형제들 기술 블로그](http://woowabros.github.io/experience/2017/10/30/baemin-mobile-git-branch-strategy.html)
+
+<br/>
+
+<br/>
+
+
 ## ✍ 커밋 메세지 규칙
 
-- Feat : 새로운 기능 추가
-- Fix : 버그 수정
-- Style : 코드 양식 변경
-- Refactor : 코드 리팩토링
-- Test : 테스트 코드 수정
-- Docs : 문서 수정
+- feat : 새로운 기능 추가
+- fix : 버그 수정
+- style : 코드 양식 변경
+- refactor : 코드 리팩토링
+- test : 테스트 코드 수정
+- docs : 문서 수정
 
 <br/>
 
